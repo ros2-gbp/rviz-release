@@ -1,0 +1,12 @@
+Source: ros-dashing-rviz-default-plugins
+Section: misc
+Priority: optional
+Maintainer: William Woodall <william@osrfoundation.org>
+Build-Depends: debhelper (>= 9.0.0), qtbase5-dev, ros-dashing-ament-cmake, ros-dashing-ament-cmake-cppcheck, ros-dashing-ament-cmake-cpplint, ros-dashing-ament-cmake-gmock, ros-dashing-ament-cmake-gtest, ros-dashing-ament-cmake-lint-cmake, ros-dashing-ament-cmake-uncrustify, ros-dashing-ament-index-cpp, ros-dashing-geometry-msgs, ros-dashing-laser-geometry, ros-dashing-map-msgs, ros-dashing-nav-msgs, ros-dashing-pluginlib, ros-dashing-rclcpp, ros-dashing-resource-retriever, ros-dashing-rviz-common, ros-dashing-rviz-rendering, ros-dashing-rviz-rendering-tests, ros-dashing-rviz-visual-testing-framework, ros-dashing-tinyxml-vendor, ros-dashing-urdf, ros-dashing-visualization-msgs, ros-dashing-ros-workspace
+Homepage: https://github.com/ros2/rviz/blob/ros2/README.md
+Standards-Version: 3.9.2
+
+Package: ros-dashing-rviz-default-plugins
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libqt5core5a, libqt5gui5, libqt5opengl5, libqt5widgets5, ros-dashing-geometry-msgs, ros-dashing-laser-geometry, ros-dashing-map-msgs, ros-dashing-nav-msgs, ros-dashing-pluginlib, ros-dashing-rclcpp, ros-dashing-resource-retriever, ros-dashing-rviz-common, ros-dashing-rviz-rendering, ros-dashing-tinyxml-vendor, ros-dashing-urdf, ros-dashing-visualization-msgs, ros-dashing-ros-workspace
+Description: Several default plugins for rviz to cover the basic functionality.
