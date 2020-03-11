@@ -73,7 +73,7 @@ GridCellsDisplay::GridCellsDisplay()
 
 void GridCellsDisplay::onInitialize()
 {
-  MFDClass::onInitialize();
+  RTDClass::onInitialize();
 
   setupCloud();
   updateAlpha();

@@ -30,21 +30,34 @@
 
 #include "rviz_default_plugins/displays/map/map_display.hpp"
 
-#include <algorithm>
 #include <memory>
 #include <string>
 #include <vector>
 
+#ifndef _WIN32
+# pragma GCC diagnostic push
+# pragma GCC diagnostic ignored "-Wunused-parameter"
+# pragma GCC diagnostic ignored "-Wpedantic"
+#endif
+
+#include <OgreManualObject.h>
+#include <OgreMaterialManager.h>
 #include <OgreSceneManager.h>
 #include <OgreSceneNode.h>
 #include <OgreTextureManager.h>
 #include <OgreTechnique.h>
 #include <OgreSharedPtr.h>
 
+#ifndef _WIN32
+# pragma GCC diagnostic pop
+#endif
+
 #include "rclcpp/time.hpp"
 
+#include "rviz_rendering/custom_parameter_indices.hpp"
 #include "rviz_rendering/material_manager.hpp"
 #include "rviz_rendering/objects/grid.hpp"
+#include "rviz_common/frame_manager_iface.hpp"
 #include "rviz_common/logging.hpp"
 #include "rviz_common/msg_conversions.hpp"
 #include "rviz_common/properties/enum_property.hpp"
@@ -65,27 +78,9 @@ namespace displays
 {
 
 MapDisplay::MapDisplay()
-: loaded_(false),
-  resolution_(0.0f),
-  width_(0),
-  height_(0),
-  update_profile_(rclcpp::QoS(5)),
-  update_messages_received_(0)
+: loaded_(false), resolution_(0.0f), width_(0), height_(0), update_messages_received_(0)
 {
   connect(this, SIGNAL(mapUpdated()), this, SLOT(showMap()));
-
-  update_topic_property_ = new rviz_common::properties::RosTopicProperty(
-    "Update Topic", "",
-    "", "Topic where updates to this map display are received. "
-    "Currently, this topic is read-only and will automatically be determined by the map topic. "
-    "If the map is received on 'map_topic', the display assumes to receive updates on "
-    "'map_topic_updates'.", this);
-  // Set the property to read only for now. Since it is not connected to any slot,
-  // we don't want to update it.
-  update_topic_property_->setReadOnly(true);
-
-  update_profile_property_ = new rviz_common::properties::QosProfileProperty(
-    update_topic_property_, update_profile_);
 
   alpha_property_ = new rviz_common::properties::FloatProperty("Alpha", 0.7f,
       "Amount of transparency to apply to the map.",
@@ -166,15 +161,7 @@ MapDisplay::MapDisplay(rviz_common::DisplayContext * context)
 
 void MapDisplay::onInitialize()
 {
-  MFDClass::onInitialize();
-  rviz_ros_node_ = context_->getRosNodeAbstraction();
-  update_topic_property_->initialize(rviz_ros_node_);
-
-  update_profile_property_->initialize(
-    [this](rclcpp::QoS profile) {
-      this->update_profile_ = profile;
-      updateMapUpdateTopic();
-    });
+  RosTopicDisplay::onInitialize();
   // Order of palette textures here must match option indices for color_scheme_property_ above.
   palette_textures_.push_back(makePaletteTexture(makeMapPalette()));
   color_scheme_transparency_.push_back(false);
@@ -182,12 +169,6 @@ void MapDisplay::onInitialize()
   color_scheme_transparency_.push_back(true);
   palette_textures_.push_back(makePaletteTexture(makeRawPalette()));
   color_scheme_transparency_.push_back(true);
-}
-
-void MapDisplay::updateTopic()
-{
-  update_topic_property_->setValue(topic_property_->getTopic() + "_updates");
-  MFDClass::updateTopic();
 }
 
 void MapDisplay::subscribe()
@@ -203,18 +184,16 @@ void MapDisplay::subscribe()
     return;
   }
 
-  MFDClass::subscribe();
+  RTDClass::subscribe();
 
-  subscribeToUpdateTopic();
-}
-
-void MapDisplay::subscribeToUpdateTopic()
-{
   try {
-    update_subscription_ =
-      rviz_ros_node_.lock()->get_raw_node()->
+    // TODO(wjwwood): update this class to use rclcpp::QoS.
+    auto qos = rclcpp::QoS(rclcpp::QoSInitialization::from_rmw(qos_profile));
+    qos.get_rmw_qos_profile() = qos_profile;
+    update_subscription_ = rviz_ros_node_.lock()->get_raw_node()->
       template create_subscription<map_msgs::msg::OccupancyGridUpdate>(
-      update_topic_property_->getTopicStd(), update_profile_,
+      topic_property_->getTopicStd() + "_updates",
+      qos,
       [this](const map_msgs::msg::OccupancyGridUpdate::ConstSharedPtr message) {
         incomingUpdate(message);
       });
@@ -228,12 +207,7 @@ void MapDisplay::subscribeToUpdateTopic()
 
 void MapDisplay::unsubscribe()
 {
-  MFDClass::unsubscribe();
-  unsubscribeToUpdateTopic();
-}
-
-void MapDisplay::unsubscribeToUpdateTopic()
-{
+  RTDClass::unsubscribe();
   update_subscription_.reset();
 }
 
@@ -298,6 +272,7 @@ void MapDisplay::processMessage(nav_msgs::msg::OccupancyGrid::ConstSharedPtr msg
   Q_EMIT mapUpdated();
 }
 
+// TODO(wjwwood): Use again once map_msgs are ported
 void MapDisplay::incomingUpdate(const map_msgs::msg::OccupancyGridUpdate::ConstSharedPtr update)
 {
   // Only update the map if we have gotten a full one first.
@@ -535,7 +510,6 @@ void MapDisplay::updateSwatches() const
     tex_unit->setTextureName(swatch->getTextureName());
     tex_unit->setTextureFiltering(Ogre::TFO_NONE);
     swatch->setVisible(true);
-    swatch->resetOldTexture();
   }
 }
 
@@ -551,7 +525,7 @@ void MapDisplay::updatePalette()
     } else {
       palette_tex_unit = pass->createTextureUnitState();
     }
-    palette_tex_unit->setTexture(palette_textures_[palette_index]);
+    palette_tex_unit->setTextureName(palette_textures_[palette_index]->getName());
     palette_tex_unit->setTextureFiltering(Ogre::TFO_NONE);
   }
 
@@ -582,10 +556,10 @@ void MapDisplay::transformMap()
     scene_node_->setVisible(false);
   } else {
     setTransformOk();
-
-    scene_node_->setPosition(position);
-    scene_node_->setOrientation(orientation);
   }
+
+  scene_node_->setPosition(position);
+  scene_node_->setOrientation(orientation);
 }
 
 void MapDisplay::fixedFrameChanged()
@@ -595,7 +569,7 @@ void MapDisplay::fixedFrameChanged()
 
 void MapDisplay::reset()
 {
-  MFDClass::reset();
+  RosTopicDisplay::reset();
   update_messages_received_ = 0;
   clear();
 }
@@ -610,16 +584,8 @@ void MapDisplay::update(float wall_dt, float ros_dt)
 
 void MapDisplay::onEnable()
 {
-  MFDClass::onEnable();
+  RosTopicDisplay::onEnable();
   setStatus(rviz_common::properties::StatusProperty::Warn, "Message", "No map received");
-}
-
-void MapDisplay::updateMapUpdateTopic()
-{
-  unsubscribeToUpdateTopic();
-  reset();
-  subscribeToUpdateTopic();
-  context_->queueRender();
 }
 
 }  // namespace displays

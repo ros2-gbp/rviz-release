@@ -33,10 +33,25 @@
 #include <string>
 #include <utility>
 
+#ifndef _WIN32
+# pragma GCC diagnostic push
+# pragma GCC diagnostic ignored "-Wunused-parameter"
+# pragma GCC diagnostic ignored "-Wpedantic"
+#else
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#endif
+
 #include <OgrePlane.h>
 #include <OgreRay.h>
 #include <OgreSceneNode.h>
 #include <OgreViewport.h>
+
+#ifndef _WIN32
+# pragma GCC diagnostic pop
+#else
+# pragma warning(pop)
+#endif
 
 #include "rviz_rendering/geometry.hpp"
 #include "rviz_rendering/objects/arrow.hpp"
@@ -160,15 +175,17 @@ geometry_msgs::msg::Quaternion PoseTool::orientationAroundZAxis(double angle)
   return orientation;
 }
 
-void PoseTool::logPose(
-  std::string designation, geometry_msgs::msg::Point position,
-  geometry_msgs::msg::Quaternion orientation, double angle, std::string frame)
+void
+PoseTool::logPose(
+  geometry_msgs::msg::Point position,
+  geometry_msgs::msg::Quaternion orientation,
+  double angle,
+  std::string frame)
 {
-  RVIZ_COMMON_LOG_INFO_STREAM(
-    "Setting " << designation << " pose: Frame:" << frame << ", Position(" << position.x << ", " <<
-      position.y << ", " << position.z << "), Orientation(" << orientation.x << ", " <<
-      orientation.y << ", " << orientation.z << ", " << orientation.w <<
-      ") = Angle: " << angle);
+  RVIZ_COMMON_LOG_INFO_STREAM("Setting goal: Frame:" << frame << ", Position(" <<
+    position.x << ", " << position.y << ", " << position.z << "), Orientation(" <<
+    orientation.x << ", " << orientation.y << ", " << orientation.z << ", " << orientation.w <<
+    ") = Angle: " << angle);
 }
 
 }  // namespace tools

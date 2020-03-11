@@ -34,7 +34,16 @@
 #include <string>
 #include <utility>
 
+#ifdef __clang__
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wkeyword-macro"
+#endif
+
 #include <OgreVector3.h>
+
+#ifdef __clang__
+# pragma clang diagnostic pop
+#endif
 
 #include <QCursor>  // NOLINT cpplint cannot handle include order here
 
@@ -75,7 +84,6 @@ protected:
   geometry_msgs::msg::Quaternion orientationAroundZAxis(double angle);
 
   void logPose(
-    std::string designation,
     geometry_msgs::msg::Point position,
     geometry_msgs::msg::Quaternion orientation,
     double angle,

@@ -43,8 +43,7 @@
 // TODO(Martin-Idel-SI): Add again when available
 // #include <rviz/message_filter_display.h>
 
-#include "rviz_common/message_filter_display.hpp"
-
+#include "rviz_common/ros_topic_display.hpp"
 #include "rviz_default_plugins/visibility_control.hpp"
 
 namespace Ogre
@@ -75,7 +74,7 @@ namespace displays
 {
 
 class RVIZ_DEFAULT_PLUGINS_PUBLIC PointStampedDisplay
-  : public rviz_common::MessageFilterDisplay<geometry_msgs::msg::PointStamped>
+  : public rviz_common::RosTopicDisplay<geometry_msgs::msg::PointStamped>
 {
   Q_OBJECT
 
@@ -90,9 +89,6 @@ public:
   void processMessage(geometry_msgs::msg::PointStamped::ConstSharedPtr msg) override;
 
 protected:
-  /** @brief Do initialization. Overridden from MessageFilterDisplay. */
-  void onInitialize() override;
-
   void reset() override;
 
 private Q_SLOTS:

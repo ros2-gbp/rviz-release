@@ -99,7 +99,7 @@ PoseDisplay::PoseDisplay()
 
 void PoseDisplay::onInitialize()
 {
-  MFDClass::onInitialize();
+  RTDClass::onInitialize();
 
   arrow_ = std::make_unique<rviz_rendering::Arrow>(scene_manager_, scene_node_,
       shaft_length_property_->getFloat(),
@@ -120,7 +120,7 @@ PoseDisplay::~PoseDisplay() = default;
 
 void PoseDisplay::onEnable()
 {
-  MFDClass::onEnable();
+  RTDClass::onEnable();
   updateShapeVisibility();
   setupSelectionHandler();
 }
@@ -135,7 +135,7 @@ void PoseDisplay::setupSelectionHandler()
 
 void PoseDisplay::onDisable()
 {
-  MFDClass::onDisable();
+  RTDClass::onDisable();
   coll_handler_.reset();
 }
 
@@ -227,7 +227,7 @@ void PoseDisplay::processMessage(geometry_msgs::msg::PoseStamped::ConstSharedPtr
 
 void PoseDisplay::reset()
 {
-  MFDClass::reset();
+  RTDClass::reset();
   pose_valid_ = false;
   updateShapeVisibility();
 }

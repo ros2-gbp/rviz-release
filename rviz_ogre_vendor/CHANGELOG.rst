@@ -2,31 +2,24 @@
 Changelog for package rviz_ogre_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-7.0.4 (2020-01-17)
+6.1.6 (2020-03-11)
 ------------------
 
-7.0.3 (2019-11-13)
+6.1.5 (2019-12-10)
 ------------------
-* Skip freetype2 dependencies (`#405 <https://github.com/ros2/rviz/issues/405>`_)
-* Contributors: Sean Yen
+* Skip freetype2 dependencies (`#405 <https://github.com/ros2/rviz/issues/405>`_) (`#489 <https://github.com/ros2/rviz/issues/489>`_)
+* Contributors: Jacob Perron, Sean Yen
 
-7.0.2 (2019-10-23)
+6.1.4 (2019-09-06)
 ------------------
-* Switch back to patch instead of git apply (`#470 <https://github.com/ros2/rviz/issues/470>`_)
-* Remove OGRE_BUILD_COMPONENT_SAMPLES cmake arg.
-* Contributors: Chris Lalancette
 
-7.0.1 (2019-10-04)
+6.1.3 (2019-07-31)
 ------------------
-* Fix the rviz_ogre_vendor packaging.
-* Contributors: Chris Lalancette
+* Mojave compatibility (`#414 <https://github.com/ros2/rviz/issues/414>`_) (`#433 <https://github.com/ros2/rviz/issues/433>`_)
+* Contributors: Karsten Knese
 
-7.0.0 (2019-09-27)
+6.1.2 (2019-06-12)
 ------------------
-* Add .dsv file beside custom environment hook (`#449 <https://github.com/ros2/rviz/issues/449>`_)
-* Upgrade from Ogre 1.10 to Ogre 1.12.1 (`#394 <https://github.com/ros2/rviz/issues/394>`_)
-* Mojave compatibility (`#414 <https://github.com/ros2/rviz/issues/414>`_)
-* Contributors: Dirk Thomas, Karsten Knese, Martin Idel
 
 6.1.1 (2019-05-29)
 ------------------

@@ -23,7 +23,7 @@ else()
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  add_compile_options(-Wall -Wextra -Wpedantic)
+  add_compile_options(-Wall -Wextra -Wpedantic -Werror)
   # TODO(wjwwood): try to remove this -- currently needed to pass on CI
   include(CheckCXXCompilerFlag)
   check_cxx_compiler_flag(-Wno-gnu-zero-variadic-macro-arguments HAS_W_FLAG)
@@ -54,7 +54,6 @@ find_package(tinyxml_vendor REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 find_package(tf2_ros REQUIRED)
-find_package(message_filters REQUIRED)
 find_package(urdf REQUIRED)
 find_package(yaml_cpp_vendor REQUIRED)
 
@@ -114,13 +113,13 @@ set(rviz_common_headers_to_moc
   include/rviz_common/properties/property_tree_delegate.hpp
   include/rviz_common/properties/property_tree_model.hpp
   include/rviz_common/properties/property_tree_with_help.hpp
-  include/rviz_common/properties/qos_profile_property.hpp
   include/rviz_common/properties/ros_topic_property.hpp
   include/rviz_common/properties/status_list.hpp
   include/rviz_common/properties/status_property.hpp
   include/rviz_common/properties/string_property.hpp
   include/rviz_common/properties/tf_frame_property.hpp
   include/rviz_common/properties/vector_property.hpp
+  include/rviz_common/properties/queue_size_property.hpp
   include/rviz_common/render_panel.hpp
   src/rviz_common/scaled_image_widget.hpp
   src/rviz_common/screenshot_dialog.hpp
@@ -130,6 +129,7 @@ set(rviz_common_headers_to_moc
   src/rviz_common/splash_screen.hpp
   # src/rviz_common/time_panel.hpp
   src/rviz_common/transformation/identity_frame_transformer.hpp
+  include/rviz_common/transformation/structs.hpp
   include/rviz_common/tool.hpp
   src/rviz_common/tool_manager.hpp
   src/rviz_common/tool_properties_panel.hpp
@@ -144,7 +144,6 @@ set(rviz_common_headers_to_moc
   include/rviz_common/window_manager_interface.hpp
   include/rviz_common/validate_floats.hpp
   include/rviz_common/ros_topic_display.hpp
-  include/rviz_common/message_filter_display.hpp
 )
 
 set(rviz_common_source_files
@@ -196,13 +195,13 @@ set(rviz_common_source_files
   src/rviz_common/properties/property.cpp
   src/rviz_common/properties/ros_topic_property.cpp
   src/rviz_common/properties/quaternion_property.cpp
-  src/rviz_common/properties/qos_profile_property.cpp
   src/rviz_common/properties/splitter_handle.cpp
   src/rviz_common/properties/status_list.cpp
   src/rviz_common/properties/status_property.cpp
   src/rviz_common/properties/string_property.cpp
   src/rviz_common/properties/tf_frame_property.cpp
   src/rviz_common/properties/vector_property.cpp
+  src/rviz_common/properties/queue_size_property.cpp
   src/rviz_common/render_panel.cpp
   src/rviz_common/ros_integration/ros_client_abstraction.cpp
   src/rviz_common/ros_integration/ros_node_abstraction.cpp
@@ -217,6 +216,8 @@ set(rviz_common_source_files
   src/rviz_common/splash_screen.cpp
   # src/rviz_common/time_panel.cpp
   src/rviz_common/transformation/identity_frame_transformer.cpp
+  src/rviz_common/transformation/structs.cpp
+  src/rviz_common/transformation/ros_helpers/ros_conversion_helpers.cpp
   src/rviz_common/tool_manager.cpp
   src/rviz_common/tool_properties_panel.cpp
   src/rviz_common/tool.cpp
@@ -267,7 +268,6 @@ ament_target_dependencies(rviz_common
   tf2
   tf2_geometry_msgs
   tf2_ros
-  message_filters
   urdf
   yaml_cpp_vendor
 )
@@ -383,11 +383,6 @@ if(BUILD_TESTING)
     target_link_libraries(rviz_common_property_test rviz_common)
   endif()
 
-  ament_add_gmock(qos_profile_property_test test/properties/qos_profile_property_test.cpp)
-  if(TARGET qos_profile_property_test)
-    target_link_libraries(qos_profile_property_test rviz_common)
-  endif()
-
   ament_add_gmock(rviz_common_visualizer_app_test test/visualizer_app_test.cpp)
   if(TARGET rviz_common_visualizer_app_test)
     target_link_libraries(rviz_common_visualizer_app_test rviz_common)
@@ -405,6 +400,13 @@ if(BUILD_TESTING)
   )
   if(TARGET identity_transformer_test)
     target_link_libraries(identity_transformer_test rviz_common)
+  endif()
+
+  ament_add_gmock(ros_conversion_helpers_test
+    test/transformation/ros_conversion_helpers_test.cpp
+  )
+  if(TARGET ros_conversion_helpers_test)
+    target_link_libraries(ros_conversion_helpers_test rviz_common)
   endif()
 
   ament_add_gmock(selection_manager_test

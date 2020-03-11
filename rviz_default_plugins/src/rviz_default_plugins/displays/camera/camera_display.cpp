@@ -57,6 +57,7 @@
 #include "rviz_common/properties/float_property.hpp"
 #include "rviz_common/properties/int_property.hpp"
 #include "rviz_common/properties/ros_topic_property.hpp"
+#include "rviz_common/properties/queue_size_property.hpp"
 #include "rviz_common/render_panel.hpp"
 #include "rviz_common/uniform_string_stream.hpp"
 #include "rviz_common/validate_floats.hpp"
@@ -91,7 +92,8 @@ bool validateFloats(const sensor_msgs::msg::CameraInfo & msg)
 }
 
 CameraDisplay::CameraDisplay()
-: texture_(std::make_unique<ROSImageTexture>()),
+: queue_size_property_(std::make_unique<rviz_common::QueueSizeProperty>(this, 10)),
+  texture_(std::make_unique<ROSImageTexture>()),
   new_caminfo_(false),
   caminfo_ok_(false),
   force_render_(false)
@@ -130,7 +132,7 @@ CameraDisplay::~CameraDisplay()
 
 void CameraDisplay::onInitialize()
 {
-  MFDClass::onInitialize();
+  RTDClass::onInitialize();
 
   setupSceneNodes();
   setupRenderPanel();
@@ -265,7 +267,7 @@ void CameraDisplay::onDisable()
 
 void CameraDisplay::subscribe()
 {
-  MFDClass::subscribe();
+  RTDClass::subscribe();
 
   if ((!isEnabled()) || (topic_property_->getTopicStd().empty())) {
     return;
@@ -277,11 +279,21 @@ void CameraDisplay::subscribe()
 void CameraDisplay::createCameraInfoSubscription()
 {
   try {
+    // TODO(wjwwood): update this class to use rclcpp::QoS.
+    auto qos = rclcpp::QoS(rclcpp::QoSInitialization::from_rmw(qos_profile));
+    qos.get_rmw_qos_profile() = qos_profile;
     // TODO(anhosi,wjwwood): replace with abstraction for subscriptions one available
+
+    // The camera_info topic should be at the same level as the image topic
+    // TODO(anyone) Store this in a member variable
+    auto camera_info_topic = topic_property_->getTopicStd();
+    camera_info_topic =
+      camera_info_topic.substr(0, camera_info_topic.rfind("/") + 1) + "camera_info";
+
     caminfo_sub_ = rviz_ros_node_.lock()->get_raw_node()->
       template create_subscription<sensor_msgs::msg::CameraInfo>(
       topic_property_->getTopicStd() + "/camera_info",
-      qos_profile,
+      qos,
       [this](sensor_msgs::msg::CameraInfo::ConstSharedPtr msg) {
         std::unique_lock<std::mutex> lock(caminfo_mutex_);
         current_caminfo_ = msg;
@@ -295,7 +307,7 @@ void CameraDisplay::createCameraInfoSubscription()
 
 void CameraDisplay::unsubscribe()
 {
-  MFDClass::unsubscribe();
+  RTDClass::unsubscribe();
   caminfo_sub_.reset();
 }
 
@@ -325,8 +337,12 @@ void CameraDisplay::clear()
   new_caminfo_ = false;
   current_caminfo_.reset();
 
+  auto camera_info_topic = topic_property_->getTopicStd();
+  camera_info_topic =
+    camera_info_topic.substr(0, camera_info_topic.rfind("/") + 1) + "camera_info";
+
   setStatus(StatusLevel::Warn, CAM_INFO_STATUS,
-    "No CameraInfo received on [" + topic_property_->getTopic() + "/camera_info" + "]. "
+    "No CameraInfo received on [" + QString::fromStdString(camera_info_topic) + "]. "
     "Topic may not exist.");
 
   rviz_rendering::RenderWindowOgreAdapter::getOgreCamera(
@@ -363,8 +379,12 @@ bool CameraDisplay::updateCamera()
   }
 
   if (!info) {
+    auto camera_info_topic = topic_property_->getTopicStd();
+    camera_info_topic =
+      camera_info_topic.substr(0, camera_info_topic.rfind("/") + 1) + "camera_info";
+
     setStatus(StatusLevel::Warn, CAM_INFO_STATUS,
-      "Expecting Camera Info on topic [" + topic_property_->getTopic() + "/camera_info" + "]. "
+      "Expecting Camera Info on topic [" + QString::fromStdString(camera_info_topic) + "]. "
       "No CameraInfo received. Topic may not exist.");
     return false;
   }
@@ -551,7 +571,7 @@ void CameraDisplay::processMessage(sensor_msgs::msg::Image::ConstSharedPtr msg)
 
 void CameraDisplay::reset()
 {
-  MFDClass::reset();
+  RTDClass::reset();
   clear();
 }
 

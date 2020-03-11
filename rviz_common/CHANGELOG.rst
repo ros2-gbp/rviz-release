@@ -2,38 +2,26 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-7.0.4 (2020-01-17)
+6.1.6 (2020-03-11)
+------------------
+* Remove uncessary call to render scene. (`#515 <https://github.com/ros2/rviz/issues/515>`_)
+* Contributors: Jacob Perron
+
+6.1.5 (2019-12-10)
 ------------------
 
-7.0.3 (2019-11-13)
+6.1.4 (2019-09-06)
 ------------------
 
-7.0.2 (2019-10-23)
+6.1.3 (2019-07-31)
 ------------------
+* Fixed deprecation warnings with new Qt (`#435 <https://github.com/ros2/rviz/issues/435>`_) (`#436 <https://github.com/ros2/rviz/issues/436>`_)
+* Contributors: William Woodall
 
-7.0.1 (2019-10-04)
+6.1.2 (2019-06-12)
 ------------------
-
-7.0.0 (2019-09-27)
-------------------
-* Introduce QoS property (`#409 <https://github.com/ros2/rviz/issues/409>`_)
-  A container of properties related to QoS settings. Replaces queue size and unreliable properties.
-* Migrate InteractiveMarkerDisplay (`#457 <https://github.com/ros2/rviz/issues/457>`_)
-* Rename 2d Nav Goal to 2d Goal Pose (`#455 <https://github.com/ros2/rviz/issues/455>`_)
-    * Rename nav pose tool to goal pose tool
-    * Rename topic for goal pose tool from "move_base_simple/goal" to "goal_pose"
-* Do not select interactive markers when mousing over them (`#451 <https://github.com/ros2/rviz/issues/451>`_)
-* Migrate Interaction Tool (`#423 <https://github.com/ros2/rviz/issues/423>`_)
-* Upgrade from Ogre 1.10 to Ogre 1.12.1 (`#394 <https://github.com/ros2/rviz/issues/394>`_)
-* Re-enable use of tf message filter (`#375 <https://github.com/ros2/rviz/issues/375>`_)
-* Static analysis cleanup for rviz_common (`#431 <https://github.com/ros2/rviz/issues/431>`_)
-* Fix deprecation warnings with new Qt (`#435 <https://github.com/ros2/rviz/issues/435>`_)
-* FrameTransformer implements tf2::BufferCoreInterface and tf2_ros::AsyncBufferInterface (`#422 <https://github.com/ros2/rviz/issues/422>`_)
-* Use geometry_msgs types instead of custom types (`#426 <https://github.com/ros2/rviz/issues/426>`_)
-* Remove -Werror from defualt compiler options (`#420 <https://github.com/ros2/rviz/issues/420>`_)
-* Use node to create clock used to stamp publications (`#407 <https://github.com/ros2/rviz/issues/407>`_)
-* Remove blank lines that latest uncrustify doesn't like (`#411 <https://github.com/ros2/rviz/issues/411>`_)
-* Contributors: Emerson Knapp, Hunter L. Allen, Jacob Perron, Martin Idel, Scott K Logan, Shivesh Khaitan, Steven Macenski, William Woodall
+* Changed the clock used to stamp publications, using one attached to a node instead so ``use_sim_time`` will work. (`#407 <https://github.com/ros2/rviz/issues/407>`_)
+* Contributors: Scott K Logan
 
 6.1.1 (2019-05-29)
 ------------------

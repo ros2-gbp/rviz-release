@@ -37,7 +37,8 @@
 
 #include "sensor_msgs/msg/point_cloud.hpp"
 
-#include "rviz_common/message_filter_display.hpp"
+#include "rviz_common/ros_topic_display.hpp"
+#include "rviz_common/properties/queue_size_property.hpp"
 
 #include "rviz_default_plugins/displays/pointcloud/point_cloud_common.hpp"
 #include "rviz_default_plugins/visibility_control.hpp"
@@ -57,6 +58,7 @@ namespace rviz_default_plugins
 namespace displays
 {
 
+// TODO(greimela) This display originally extended the MessageFilterDisplay. Revisit when available
 /**
  * \class PointCloudDisplay
  * \brief Displays a point cloud of type sensor_msgs::PointCloud
@@ -66,7 +68,7 @@ namespace displays
  * all being 8 bits.
  */
 class RVIZ_DEFAULT_PLUGINS_PUBLIC PointCloudDisplay : public
-  rviz_common::MessageFilterDisplay<sensor_msgs::msg::PointCloud>
+  rviz_common::RosTopicDisplay<sensor_msgs::msg::PointCloud>
 {
 public:
   PointCloudDisplay();
@@ -78,11 +80,13 @@ public:
   void onDisable() override;
 
 protected:
-  /** @brief Do initialization. Overridden from MessageFilterDisplay. */
+  /** @brief Do initialization. Overridden from RosTopicDisplay. */
   void onInitialize() override;
 
-  /** @brief Process a single message.  Overridden from MessageFilterDisplay. */
+  /** @brief Process a single message.  Overridden from RosTopicDisplay. */
   void processMessage(sensor_msgs::msg::PointCloud::ConstSharedPtr cloud) override;
+
+  std::unique_ptr<rviz_common::QueueSizeProperty> queue_size_property_;
 
   std::unique_ptr<PointCloudCommon> point_cloud_common_;
 };

@@ -48,6 +48,7 @@ namespace Ogre
 class SceneManager;
 class Entity;
 class SceneNode;
+class Vector3;
 class Quaternion;
 class Any;
 class RibbonTrail;

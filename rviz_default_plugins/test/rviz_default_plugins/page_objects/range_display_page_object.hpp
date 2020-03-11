@@ -38,6 +38,8 @@ public:
   RangeDisplayPageObject();
 
   void setTopic(QString topic);
+  void setUnreliable(bool unreliable);
+  void setQueueSize(int queue_size);
   void setColor(int red, int green, int blue);
   void setAlpha(float alpha);
   void setBufferLength(int buffer_length);

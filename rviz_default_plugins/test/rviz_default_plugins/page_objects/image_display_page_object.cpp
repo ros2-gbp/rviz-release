@@ -54,3 +54,13 @@ void ImageDisplayPageObject::setTopic(QString topic)
   setComboBox("Topic", topic);
   waitForFirstMessage();
 }
+
+void ImageDisplayPageObject::setUnreliable(bool unreliable)
+{
+  setBool("Unreliable", unreliable);
+}
+
+void ImageDisplayPageObject::setQueueSize(int queue_size)
+{
+  setInt("Queue Size", queue_size);
+}

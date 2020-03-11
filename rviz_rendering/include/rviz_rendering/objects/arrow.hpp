@@ -28,8 +28,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <OgreVector3.h>
-
 #include "object.hpp"
 #include "rviz_rendering/visibility_control.hpp"
 
@@ -40,6 +38,7 @@ namespace Ogre
 {
 class SceneManager;
 class SceneNode;
+class Vector3;
 class Quaternion;
 class ColourValue;
 class Any;

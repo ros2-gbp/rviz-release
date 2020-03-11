@@ -42,6 +42,11 @@ void PoseDisplayPageObject::setTopic(QString topic)
   waitForFirstMessage();
 }
 
+void PoseDisplayPageObject::setUnreliable(bool unreliable)
+{
+  setBool("Unreliable", unreliable);
+}
+
 void PoseDisplayPageObject::setShape(QString shape)
 {
   setComboBox("Shape", shape);

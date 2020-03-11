@@ -31,18 +31,38 @@
 #ifndef RVIZ_RENDERING__OGRE_RENDER_WINDOW_IMPL_HPP_
 #define RVIZ_RENDERING__OGRE_RENDER_WINDOW_IMPL_HPP_
 
-#include <functional>
-#include <vector>
+#include "render_system.hpp"
+
+#ifndef _WIN32
+# pragma GCC diagnostic push
+# pragma GCC diagnostic ignored "-Wunused-parameter"
+# pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+# ifdef __clang__
+#  pragma clang diagnostic ignored "-Wkeyword-macro"
+#  pragma clang diagnostic ignored "-Wextra-semi"
+# else
+#  pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
+#  pragma GCC diagnostic ignored "-Wpedantic"
+# endif
+#endif
 
 #include <OgreRenderTargetListener.h>
 #include <OgreRenderWindow.h>
 #include <OgreSceneManager.h>
 
-#include <QEvent>  // NOLINT: cpplint cannot handle include order here
-#include <QObject>  // NOLINT: cpplint cannot handle include order here
-#include <QWindow>  // NOLINT: cpplint cannot handle include order here
+// #include <OgreColourValue.h>
+// #include <OgreRenderTargetListener.h>
 
-#include "render_system.hpp"
+#include <QEvent>
+#include <QObject>
+#include <QWindow>
+
+#include <functional>
+#include <vector>
+
+#ifndef _WIN32
+# pragma GCC diagnostic pop
+#endif
 
 namespace Ogre
 {

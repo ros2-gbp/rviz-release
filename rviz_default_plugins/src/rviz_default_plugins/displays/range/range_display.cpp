@@ -37,6 +37,7 @@
 #include "rviz_common/properties/float_property.hpp"
 #include "rviz_common/properties/int_property.hpp"
 #include "rviz_common/properties/parse_color.hpp"
+#include "rviz_common/properties/queue_size_property.hpp"
 
 
 namespace rviz_default_plugins
@@ -54,6 +55,7 @@ RangeDisplay::RangeDisplay(rviz_common::DisplayContext * display_context)
 }
 
 RangeDisplay::RangeDisplay()
+: queue_size_property_(std::make_unique<rviz_common::QueueSizeProperty>(this, 100))
 {
   color_property_ = new rviz_common::properties::ColorProperty(
     "Color", Qt::white,
@@ -74,7 +76,7 @@ RangeDisplay::RangeDisplay()
 
 void RangeDisplay::onInitialize()
 {
-  MFDClass::onInitialize();
+  RTDClass::onInitialize();
   updateBufferLength();
   updateColorAndAlpha();
 }
@@ -83,7 +85,7 @@ RangeDisplay::~RangeDisplay() = default;
 
 void RangeDisplay::reset()
 {
-  MFDClass::reset();
+  RTDClass::reset();
   updateBufferLength();
 }
 

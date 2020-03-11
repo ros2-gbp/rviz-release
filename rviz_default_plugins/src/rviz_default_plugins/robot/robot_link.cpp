@@ -35,7 +35,17 @@
 #include <string>
 #include <vector>
 
+#ifdef _WIN32
+# pragma warning(push)
+# pragma warning(disable:4996)
+#endif
+
 #include <OgreEntity.h>
+
+#ifdef _WIN32
+# pragma warning(pop)
+#endif
+
 #include <OgreMaterial.h>
 #include <OgreMaterialManager.h>
 #include <OgreRibbonTrail.h>
@@ -496,12 +506,14 @@ void RobotLink::updateTrail()
 
 void RobotLink::setRenderQueueGroup(Ogre::uint8 group)
 {
-  for (auto child_node : visual_node_->getChildren()) {
-    auto child = dynamic_cast<Ogre::SceneNode *>(child_node);
+  Ogre::SceneNode::ChildNodeIterator child_it = visual_node_->getChildIterator();
+  while (child_it.hasMoreElements()) {
+    auto child = dynamic_cast<Ogre::SceneNode *>(child_it.getNext());
     if (child) {
-      auto attached_objects = child->getAttachedObjects();
-      for (const auto & object : attached_objects) {
-        object->setRenderQueueGroup(group);
+      Ogre::SceneNode::ObjectIterator object_it = child->getAttachedObjectIterator();
+      while (object_it.hasMoreElements()) {
+        Ogre::MovableObject * obj = object_it.getNext();
+        obj->setRenderQueueGroup(group);
       }
     }
   }

@@ -41,11 +41,12 @@
 # include <OgreRenderTargetListener.h>
 # include <OgreSharedPtr.h>
 
-# include "rviz_common/message_filter_display.hpp"
+# include "rviz_common/ros_topic_display.hpp"
 # include "rviz_common/render_panel.hpp"
 # include "rviz_common/properties/bool_property.hpp"
 # include "rviz_common/properties/float_property.hpp"
 # include "rviz_common/properties/int_property.hpp"
+# include "rviz_common/properties/queue_size_property.hpp"
 
 # include "rviz_default_plugins/displays/image/ros_image_texture_iface.hpp"
 # include "rviz_default_plugins/visibility_control.hpp"
@@ -68,7 +69,7 @@ namespace displays
  *
  */
 class RVIZ_DEFAULT_PLUGINS_PUBLIC ImageDisplay : public
-  rviz_common::MessageFilterDisplay<sensor_msgs::msg::Image>
+  rviz_common::RosTopicDisplay<sensor_msgs::msg::Image>
 {
   Q_OBJECT
 
@@ -98,6 +99,8 @@ private:
   void setupRenderPanel();
 
   void clear();
+
+  std::unique_ptr<rviz_common::QueueSizeProperty> queue_size_property_;
 
   std::unique_ptr<Ogre::Rectangle2D> screen_rect_;
   Ogre::MaterialPtr material_;

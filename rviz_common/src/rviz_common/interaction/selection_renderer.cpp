@@ -247,23 +247,10 @@ Dimensions SelectionRenderer::getRenderDimensions(
 void SelectionRenderer::renderToTexture(
   Ogre::RenderTexture * render_texture, Ogre::Viewport * window_viewport)
 {
+  (void)window_viewport;
   // update & force ogre to render the scene
   Ogre::MaterialManager::getSingleton().addListener(this);
-
   render_texture->update();
-
-  // For some reason we need to pretend to render the main window in
-  // order to get the picking render to show up in the pixelbox below.
-  // If we don't do this, it will show up there the *next* time we
-  // pick something, but not this time.  This object as a
-  // render queue listener tells the scene manager to skip every
-  // render step, so nothing actually gets drawn.
-  //
-  // TODO(unknown): find out what part of _renderScene() actually makes this work.
-  scene_manager_->addRenderQueueListener(this);
-  scene_manager_->_renderScene(window_viewport->getCamera(), window_viewport, false);
-  scene_manager_->removeRenderQueueListener(this);
-
   Ogre::MaterialManager::getSingleton().removeListener(this);
 }
 
@@ -279,7 +266,7 @@ void SelectionRenderer::blitToMemory(
   auto size = Ogre::PixelUtil::getMemorySize(viewport_w, viewport_h, 1, format);
   auto data = new uint8_t[size];
 
-  delete[] static_cast<uint8_t *>(dst_box.data);
+  delete[] reinterpret_cast<uint8_t *>(dst_box.data);
   dst_box = Ogre::PixelBox(viewport_w, viewport_h, 1, format, data);
 
   pixel_buffer->blitToMemory(dst_box, dst_box);
