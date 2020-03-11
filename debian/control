@@ -1,0 +1,12 @@
+Source: ros-dashing-rviz-visual-testing-framework
+Section: misc
+Priority: optional
+Maintainer: William Woodall <william@openrobotics.org>
+Build-Depends: debhelper (>= 9.0.0), qtbase5-dev, ros-dashing-ament-cmake, ros-dashing-ament-cmake-cppcheck, ros-dashing-ament-cmake-cpplint, ros-dashing-ament-cmake-gmock, ros-dashing-ament-cmake-gtest, ros-dashing-ament-cmake-lint-cmake, ros-dashing-ament-cmake-uncrustify, ros-dashing-rviz-common, ros-dashing-ros-workspace
+Homepage: http://ros.org/wiki/rviz2
+Standards-Version: 3.9.2
+
+Package: ros-dashing-rviz-visual-testing-framework
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-dashing-ament-cmake-gtest, ros-dashing-rviz-common, ros-dashing-ros-workspace
+Description: 3D testing framework for RViz.
