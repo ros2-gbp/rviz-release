@@ -1,0 +1,12 @@
+Source: ros-dashing-rviz2
+Section: misc
+Priority: optional
+Maintainer: Scott K Logan <scott@openrobotics.org>
+Build-Depends: debhelper (>= 9.0.0), qtbase5-dev, ros-dashing-ament-cmake, ros-dashing-ament-cmake-cppcheck, ros-dashing-ament-cmake-cpplint, ros-dashing-ament-cmake-lint-cmake, ros-dashing-ament-cmake-uncrustify, ros-dashing-geometry-msgs, ros-dashing-rclcpp, ros-dashing-rviz-common, ros-dashing-rviz-ogre-vendor, ros-dashing-sensor-msgs, ros-dashing-ros-workspace
+Homepage: https://github.com/ros2/rviz/blob/ros2/README.md
+Standards-Version: 3.9.2
+
+Package: ros-dashing-rviz2
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-dashing-rviz-common, ros-dashing-rviz-default-plugins, ros-dashing-rviz-ogre-vendor, ros-dashing-ros-workspace
+Description: 3D visualization tool for ROS.
