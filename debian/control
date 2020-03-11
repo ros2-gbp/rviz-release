@@ -1,0 +1,12 @@
+Source: ros-dashing-rviz-rendering-tests
+Section: misc
+Priority: optional
+Maintainer: William Woodall <william@osrfoundation.org>
+Build-Depends: debhelper (>= 9.0.0), qtbase5-dev, ros-dashing-ament-cmake, ros-dashing-ament-cmake-cppcheck, ros-dashing-ament-cmake-cpplint, ros-dashing-ament-cmake-gmock, ros-dashing-ament-cmake-gtest, ros-dashing-ament-cmake-lint-cmake, ros-dashing-ament-cmake-uncrustify, ros-dashing-ament-index-cpp, ros-dashing-resource-retriever, ros-dashing-rviz-rendering, ros-dashing-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-dashing-rviz-rendering-tests
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-dashing-resource-retriever, ros-dashing-rviz-rendering, ros-dashing-ros-workspace
+Description: Example plugin for RViz - documents and tests RViz plugin development
