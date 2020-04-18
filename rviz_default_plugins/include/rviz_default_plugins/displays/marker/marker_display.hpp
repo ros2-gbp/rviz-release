@@ -36,8 +36,7 @@
 #include "visualization_msgs/msg/marker.hpp"
 #include "visualization_msgs/msg/marker_array.hpp"
 
-#include "rviz_common/properties/queue_size_property.hpp"
-#include "rviz_common/ros_topic_display.hpp"
+#include "rviz_common/message_filter_display.hpp"
 
 #include "rviz_default_plugins/displays/marker/marker_common.hpp"
 #include "rviz_default_plugins/visibility_control.hpp"
@@ -55,7 +54,7 @@ namespace displays
  * See the Marker message for more information.
  */
 class RVIZ_DEFAULT_PLUGINS_PUBLIC MarkerDisplay
-  : public rviz_common::RosTopicDisplay<visualization_msgs::msg::Marker>
+  : public rviz_common::MessageFilterDisplay<visualization_msgs::msg::Marker>
 {
 public:
   MarkerDisplay();
@@ -79,7 +78,6 @@ private:
   rclcpp::Subscription<visualization_msgs::msg::MarkerArray>::SharedPtr array_sub_;
 
   std::unique_ptr<MarkerCommon> marker_common_;
-  std::unique_ptr<rviz_common::QueueSizeProperty> queue_size_property_;
 };
 
 }  // namespace displays

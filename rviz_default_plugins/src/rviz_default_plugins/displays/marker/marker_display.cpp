@@ -32,23 +32,20 @@
 
 #include <memory>
 
-#include "rviz_common/properties/queue_size_property.hpp"
-
 namespace rviz_default_plugins
 {
 namespace displays
 {
 
 MarkerDisplay::MarkerDisplay()
-: rviz_common::RosTopicDisplay<visualization_msgs::msg::Marker>(),
-  marker_common_(std::make_unique<MarkerCommon>(this)),
-  queue_size_property_(std::make_unique<rviz_common::QueueSizeProperty>(this, 10)) {}
+: rviz_common::MessageFilterDisplay<visualization_msgs::msg::Marker>(),
+  marker_common_(std::make_unique<MarkerCommon>(this))
+{}
 
 void MarkerDisplay::onInitialize()
 {
-  RTDClass::onInitialize();
+  MFDClass::onInitialize();
   marker_common_->initialize(context_, scene_node_);
-
   topic_property_->setDescription(
     "visualization_msgs::msg::Marker topic to subscribe to. <topic>_array will also"
     " automatically be subscribed with type visualization_msgs::msg::MarkerArray.");
@@ -62,7 +59,7 @@ void MarkerDisplay::load(const rviz_common::Config & config)
 
 void MarkerDisplay::subscribe()
 {
-  RTDClass::subscribe();
+  MFDClass::subscribe();
 
   if ((!isEnabled()) || (topic_property_->getTopicStd().empty())) {
     return;
@@ -74,14 +71,11 @@ void MarkerDisplay::subscribe()
 void MarkerDisplay::createMarkerArraySubscription()
 {
   try {
-    // TODO(wjwwood): update this class to use rclcpp::QoS.
-    auto qos = rclcpp::QoS(rclcpp::QoSInitialization::from_rmw(qos_profile));
-    qos.get_rmw_qos_profile() = qos_profile;
     // TODO(anhosi,wjwwood): replace with abstraction for subscriptions one available
     array_sub_ = rviz_ros_node_.lock()->get_raw_node()->
       template create_subscription<visualization_msgs::msg::MarkerArray>(
       topic_property_->getTopicStd() + "_array",
-      qos,
+      qos_profile,
       [this](visualization_msgs::msg::MarkerArray::ConstSharedPtr msg) {
         marker_common_->addMessage(msg);
       });
@@ -93,7 +87,7 @@ void MarkerDisplay::createMarkerArraySubscription()
 
 void MarkerDisplay::unsubscribe()
 {
-  RTDClass::unsubscribe();
+  MFDClass::unsubscribe();
   array_sub_.reset();
 }
 
@@ -110,7 +104,7 @@ void MarkerDisplay::update(float wall_dt, float ros_dt)
 
 void MarkerDisplay::reset()
 {
-  RTDClass::reset();
+  MFDClass::reset();
   marker_common_->clearMarkers();
 }
 

@@ -32,24 +32,9 @@
 #include <memory>
 #include <vector>
 
-#ifndef _WIN32
-# pragma GCC diagnostic push
-# pragma GCC diagnostic ignored "-Wunused-parameter"
-# pragma GCC diagnostic ignored "-Wpedantic"
-#else
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#endif
-
 #include <OgreEntity.h>
 #include <OgreManualObject.h>
 #include <OgreRoot.h>
-
-#ifndef _WIN32
-# pragma GCC diagnostic pop
-#else
-# pragma warning(pop)
-#endif
 
 #include "rviz_common/properties/enum_property.hpp"
 
@@ -200,7 +185,7 @@ TEST_F(
   OdometryDisplayFixture, processMessage_handles_arrow_and_axes_visibility_according_to_message) {
   mockValidTransform();
   auto odometry_message = createOdometryMessage();
-  auto shape_property = static_cast<rviz_common::properties::EnumProperty *>(display_->childAt(5));
+  auto shape_property = static_cast<rviz_common::properties::EnumProperty *>(display_->childAt(4));
   ASSERT_THAT(shape_property->getNameStd(), StrEq("Shape"));
 
   display_->processMessage(odometry_message);

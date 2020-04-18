@@ -3,6 +3,17 @@
   <!-- Displays plugins -->
 
   <class
+    name="rviz_default_plugins/Axes"
+    type="rviz_default_plugins::displays::AxesDisplay"
+    base_class_type="rviz_common::Display"
+  >
+    <description>
+      Displays an axis at the Target Frame's origin.
+      &lt;a href="http://www.ros.org/wiki/rviz/DisplayTypes/Axes"&gt;More Information&lt;/a&gt;.
+    </description>
+  </class>
+
+  <class
     name="rviz_default_plugins/Camera"
     type="rviz_default_plugins::displays::CameraDisplay"
     base_class_type="rviz_common::Display"
@@ -66,6 +77,17 @@
       The Image display creates a new rendering window with an image.
     </description>
     <message_type>sensor_msgs/msg/Image</message_type>
+  </class>
+
+  <class
+    name="rviz_default_plugins/InteractiveMarkers"
+    type="rviz_default_plugins::displays::InteractiveMarkerDisplay"
+    base_class_type="rviz_common::Display"
+  >
+    <description>
+      Connect to an interactive marker server, allowing you to interact with the provided 3D objects. &lt;a href="http://www.ros.org/wiki/rviz/DisplayTypes/InteractiveMarker"&gt;More Information&lt;/a&gt;.
+    </description>
+    <message_type>visualization_msgs/msg/InteractiveMarkerUpdate</message_type>
   </class>
 
   <class
@@ -253,6 +275,17 @@
     <message_type>geometry_msgs/msg/PointStamped</message_type>
   </class>
 
+  <class
+    name="rviz_default_plugins/Wrench"
+    type="rviz_default_plugins::displays::WrenchDisplay"
+    base_class_type="rviz_common::Display"
+  >
+    <description>
+      Displays from geometry_msgs/WrenchStamped message
+    </description>
+    <message_type>geometry_msgs/msg/WrenchStamped</message_type>
+  </class>
+
   <!-- Tool plugins -->
 
   <class
@@ -323,6 +356,17 @@
   >
     <description>
       Publish an initial pose for the robot.  After one use, reverts to default tool.
+    </description>
+  </class>
+
+  <class
+    name="rviz_default_plugins/Interact"
+    type="rviz_default_plugins::tools::InteractionTool"
+    base_class_type="rviz_common::Tool"
+  >
+    <description>
+      Interact with interactive markers. Mouse actions not on
+      interactive markers fall back to moving the camera.
     </description>
   </class>
 
