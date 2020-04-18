@@ -1,0 +1,12 @@
+Source: ros-eloquent-rviz-rendering
+Section: misc
+Priority: optional
+Maintainer: William Woodall <william@osrfoundation.org>
+Build-Depends: debhelper (>= 9.0.0), libeigen3-dev, qtbase5-dev, ros-eloquent-ament-cmake, ros-eloquent-ament-cmake-cppcheck, ros-eloquent-ament-cmake-cpplint, ros-eloquent-ament-cmake-gmock, ros-eloquent-ament-cmake-gtest, ros-eloquent-ament-cmake-lint-cmake, ros-eloquent-ament-cmake-uncrustify, ros-eloquent-ament-index-cpp, ros-eloquent-eigen3-cmake-module, ros-eloquent-resource-retriever, ros-eloquent-rviz-assimp-vendor, ros-eloquent-rviz-ogre-vendor, ros-eloquent-ros-workspace
+Homepage: https://github.com/ros2/rviz/blob/ros2/README.md
+Standards-Version: 3.9.2
+
+Package: ros-eloquent-rviz-rendering
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libeigen3-dev, libqt5core5a, libqt5gui5, libqt5opengl5, libqt5widgets5, qtbase5-dev, ros-eloquent-ament-index-cpp, ros-eloquent-eigen3-cmake-module, ros-eloquent-resource-retriever, ros-eloquent-rviz-assimp-vendor, ros-eloquent-rviz-ogre-vendor, ros-eloquent-ros-workspace
+Description: Library which provides the 3D rendering functionality in rviz.
