@@ -1,0 +1,12 @@
+Source: ros-eloquent-rviz-common
+Section: misc
+Priority: optional
+Maintainer: William Woodall <william@osrfoundation.org>
+Build-Depends: debhelper (>= 9.0.0), qtbase5-dev, ros-eloquent-ament-cmake, ros-eloquent-ament-cmake-cppcheck, ros-eloquent-ament-cmake-cpplint, ros-eloquent-ament-cmake-gmock, ros-eloquent-ament-cmake-gtest, ros-eloquent-ament-cmake-lint-cmake, ros-eloquent-ament-cmake-uncrustify, ros-eloquent-geometry-msgs, ros-eloquent-message-filters, ros-eloquent-pluginlib, ros-eloquent-rclcpp, ros-eloquent-resource-retriever, ros-eloquent-rviz-assimp-vendor, ros-eloquent-rviz-ogre-vendor, ros-eloquent-rviz-rendering, ros-eloquent-sensor-msgs, ros-eloquent-std-msgs, ros-eloquent-tf2, ros-eloquent-tf2-geometry-msgs, ros-eloquent-tf2-ros, ros-eloquent-tinyxml-vendor, ros-eloquent-urdf, ros-eloquent-yaml-cpp-vendor, ros-eloquent-ros-workspace
+Homepage: https://github.com/ros2/rviz/blob/ros2/README.md
+Standards-Version: 3.9.2
+
+Package: ros-eloquent-rviz-common
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libqt5core5a, libqt5gui5, libqt5opengl5, libqt5widgets5, qtbase5-dev, ros-eloquent-geometry-msgs, ros-eloquent-message-filters, ros-eloquent-pluginlib, ros-eloquent-rclcpp, ros-eloquent-resource-retriever, ros-eloquent-rviz-assimp-vendor, ros-eloquent-rviz-ogre-vendor, ros-eloquent-rviz-rendering, ros-eloquent-sensor-msgs, ros-eloquent-std-msgs, ros-eloquent-tf2, ros-eloquent-tf2-geometry-msgs, ros-eloquent-tf2-ros, ros-eloquent-tinyxml-vendor, ros-eloquent-urdf, ros-eloquent-yaml-cpp-vendor, ros-eloquent-ros-workspace
+Description: Common rviz API, used by rviz plugins and applications.
