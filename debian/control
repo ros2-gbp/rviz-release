@@ -1,0 +1,12 @@
+Source: ros-eloquent-rviz-default-plugins
+Section: misc
+Priority: optional
+Maintainer: William Woodall <william@osrfoundation.org>
+Build-Depends: debhelper (>= 9.0.0), qtbase5-dev, ros-eloquent-ament-cmake, ros-eloquent-ament-cmake-cppcheck, ros-eloquent-ament-cmake-cpplint, ros-eloquent-ament-cmake-gmock, ros-eloquent-ament-cmake-gtest, ros-eloquent-ament-cmake-lint-cmake, ros-eloquent-ament-cmake-uncrustify, ros-eloquent-ament-index-cpp, ros-eloquent-geometry-msgs, ros-eloquent-interactive-markers, ros-eloquent-laser-geometry, ros-eloquent-map-msgs, ros-eloquent-nav-msgs, ros-eloquent-pluginlib, ros-eloquent-rclcpp, ros-eloquent-resource-retriever, ros-eloquent-rviz-common, ros-eloquent-rviz-rendering, ros-eloquent-rviz-rendering-tests, ros-eloquent-rviz-visual-testing-framework, ros-eloquent-tf2, ros-eloquent-tf2-geometry-msgs, ros-eloquent-tf2-ros, ros-eloquent-tinyxml-vendor, ros-eloquent-urdf, ros-eloquent-visualization-msgs, ros-eloquent-ros-workspace
+Homepage: https://github.com/ros2/rviz/blob/ros2/README.md
+Standards-Version: 3.9.2
+
+Package: ros-eloquent-rviz-default-plugins
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libqt5core5a, libqt5gui5, libqt5opengl5, libqt5widgets5, ros-eloquent-geometry-msgs, ros-eloquent-interactive-markers, ros-eloquent-laser-geometry, ros-eloquent-map-msgs, ros-eloquent-nav-msgs, ros-eloquent-pluginlib, ros-eloquent-rclcpp, ros-eloquent-resource-retriever, ros-eloquent-rviz-common, ros-eloquent-rviz-rendering, ros-eloquent-tf2, ros-eloquent-tf2-geometry-msgs, ros-eloquent-tf2-ros, ros-eloquent-tinyxml-vendor, ros-eloquent-urdf, ros-eloquent-visualization-msgs, ros-eloquent-ros-workspace
+Description: Several default plugins for rviz to cover the basic functionality.
