@@ -1,0 +1,13 @@
+Source: ros-eloquent-rviz-assimp-vendor
+Section: misc
+Priority: optional
+Maintainer: William Woodall <william@osrfoundation.org>
+Build-Depends: debhelper (>= 9.0.0), libassimp-dev, ros-eloquent-ament-cmake, ros-eloquent-ros-workspace
+Homepage: http://assimp.sourceforge.net/index.html
+Standards-Version: 3.9.2
+
+Package: ros-eloquent-rviz-assimp-vendor
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libassimp-dev, ros-eloquent-ros-workspace
+Description: Wrapper around assimp, providing nothing but a dependency on assimp, on some systems.
+ On others, it provides a fixed CMake module or even an ExternalProject build of assimp.
