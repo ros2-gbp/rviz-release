@@ -249,6 +249,7 @@ target_include_directories(rviz_common
 )
 
 target_link_libraries(rviz_common
+  PUBLIC
   rviz_ogre_vendor::OgreMain
   rviz_ogre_vendor::OgreOverlay
   ${pluginlib_LIBRARIES}
@@ -258,6 +259,7 @@ target_link_libraries(rviz_common
 )
 
 ament_target_dependencies(rviz_common
+  PUBLIC
   geometry_msgs
   rclcpp
   resource_retriever
@@ -277,7 +279,7 @@ target_compile_definitions(rviz_common PUBLIC "PLUGINLIB__DISABLE_BOOST_FUNCTION
 # which is appropriate when building the dll but not consuming it.
 target_compile_definitions(rviz_common PRIVATE "RVIZ_COMMON_BUILDING_LIBRARY")
 
-ament_export_interfaces(rviz_common)
+ament_export_targets(rviz_common)
 ament_export_dependencies(
   rviz_rendering
   geometry_msgs
@@ -288,6 +290,7 @@ ament_export_dependencies(
   tf2
   tf2_geometry_msgs
   tf2_ros
+  urdf
   yaml_cpp_vendor
 )
 ament_export_include_directories(include)
@@ -312,17 +315,17 @@ install(FILES default.rviz
 )
 
 install(
-  DIRECTORY "${CMAKE_SOURCE_DIR}/icons"
+  DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/icons"
   DESTINATION "share/${PROJECT_NAME}"
 )
 
 install(
-  DIRECTORY "${CMAKE_SOURCE_DIR}/images"
+  DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/images"
   DESTINATION "share/${PROJECT_NAME}"
 )
 
 install(
-  DIRECTORY "${CMAKE_SOURCE_DIR}/help"
+  DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/help"
   DESTINATION "share/${PROJECT_NAME}"
 )
 

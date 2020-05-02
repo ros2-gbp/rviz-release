@@ -104,6 +104,7 @@ add_library(rviz_rendering SHARED
 )
 
 target_link_libraries(rviz_rendering
+  PUBLIC
   rviz_ogre_vendor::OgreMain
   rviz_ogre_vendor::OgreOverlay
   Qt5::Widgets
@@ -122,8 +123,9 @@ target_include_directories(rviz_rendering
 # which is appropriate when building the dll but not consuming it.
 target_compile_definitions(rviz_rendering PRIVATE "RVIZ_RENDERING_BUILDING_LIBRARY")
 
-ament_export_interfaces(rviz_rendering)
+ament_export_targets(rviz_rendering)
 ament_target_dependencies(rviz_rendering
+  PUBLIC
   rviz_assimp_vendor
 )
 ament_export_dependencies(
@@ -156,7 +158,7 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/src/cmake/register_rviz_ogre_media_exports_h
 install(DIRECTORY src/cmake
   DESTINATION share/${PROJECT_NAME})
 
-install(DIRECTORY "${CMAKE_SOURCE_DIR}/ogre_media"
+install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/ogre_media"
   DESTINATION "share/${PROJECT_NAME}"
   USE_SOURCE_PERMISSIONS)
 
