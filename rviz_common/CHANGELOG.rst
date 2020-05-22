@@ -2,6 +2,12 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+8.0.2 (2020-05-21)
+------------------
+* Changed to use modern cmake style with pluginlib (`#542 <https://github.com/ros2/rviz/issues/542>`_)
+* Removed automoc completely. (`#545 <https://github.com/ros2/rviz/issues/545>`_)
+* Contributors: Chris Lalancette, Karsten Knese
+
 8.0.1 (2020-05-07)
 ------------------
 
