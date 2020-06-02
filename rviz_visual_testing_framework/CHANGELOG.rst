@@ -2,6 +2,9 @@
 Changelog for package rviz_visual_testing_framework
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+8.0.3 (2020-06-02)
+------------------
+
 8.0.2 (2020-05-21)
 ------------------
 * Removed automoc completely. (`#545 <https://github.com/ros2/rviz/issues/545>`_)
