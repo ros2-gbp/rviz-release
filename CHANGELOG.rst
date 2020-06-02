@@ -2,6 +2,11 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+8.0.3 (2020-06-02)
+------------------
+* Fixed deprecated Qt usage. (`#555 <https://github.com/ros2/rviz/issues/555>`_)
+* Contributors: Jacob Perron
+
 8.0.2 (2020-05-21)
 ------------------
 * Changed to use modern cmake style with pluginlib (`#542 <https://github.com/ros2/rviz/issues/542>`_)
