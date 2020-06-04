@@ -2,6 +2,11 @@
 Changelog for package rviz_rendering
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+8.1.1 (2020-06-03)
+------------------
+* avoid absolute OGRE path in exported targets (`#558 <https://github.com/ros2/rviz/issues/558>`_)
+* Contributors: Dirk Thomas
+
 8.1.0 (2020-06-03)
 ------------------
 * Added missing virtual destructors (`#553 <https://github.com/ros2/rviz/issues/553>`_)
