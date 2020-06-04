@@ -2,6 +2,9 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+8.1.0 (2020-06-03)
+------------------
+
 8.0.3 (2020-06-02)
 ------------------
 * Fixed deprecated Qt usage. (`#555 <https://github.com/ros2/rviz/issues/555>`_)
