@@ -2,6 +2,11 @@
 Changelog for package rviz_default_plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+8.1.0 (2020-06-03)
+------------------
+* Added missing virtual destructors (`#553 <https://github.com/ros2/rviz/issues/553>`_)
+* Contributors: Ivan Santiago Paunovic
+
 8.0.3 (2020-06-02)
 ------------------
 * Fixed deprecated Qt usage. (`#555 <https://github.com/ros2/rviz/issues/555>`_)
