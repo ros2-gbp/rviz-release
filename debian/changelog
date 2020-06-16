@@ -1,0 +1,594 @@
+ros-rolling-rviz-rendering (8.1.1-2focal) focal; urgency=high
+
+  * avoid absolute OGRE path in exported targets (#558 <https://github.com/ros2/rviz/issues/558>)
+  * Contributors: Dirk Thomas
+
+ -- William Woodall <william@osrfoundation.org>  Wed, 03 Jun 2020 04:00:00 -0000
+
+ros-rolling-rviz-rendering (8.1.0-2focal) focal; urgency=high
+
+  * Added missing virtual destructors (#553 <https://github.com/ros2/rviz/issues/553>)
+  * Contributors: Ivan Santiago Paunovic
+
+ -- William Woodall <william@osrfoundation.org>  Wed, 03 Jun 2020 04:00:00 -0000
+
+ros-rolling-rviz-rendering (8.0.3-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Tue, 02 Jun 2020 04:00:00 -0000
+
+ros-rolling-rviz-rendering (8.0.2-2focal) focal; urgency=high
+
+  * Removed automoc completely. (#545 <https://github.com/ros2/rviz/issues/545>)
+  * Added workaround for Eigen build bug (#546 <https://github.com/ros2/rviz/issues/546>)
+  * Contributors: Chris Lalancette
+
+ -- William Woodall <william@osrfoundation.org>  Thu, 21 May 2020 04:00:00 -0000
+
+ros-rolling-rviz-rendering (8.0.1-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Thu, 07 May 2020 04:00:00 -0000
+
+ros-rolling-rviz-rendering (8.0.0-2focal) focal; urgency=high
+
+  * Note from wjwwood: I've chosen bump the major version this time, even though the API was not broken strictly speaking, partly because of some potentially disruptive build system changes and partially in preparation for ROS Foxy, to allow for new minor/patch versions in the previous ROS release Eloquent.
+  * Removed duplicate include dirs and link libraries. (#533 <https://github.com/ros2/rviz/issues/533>)
+  * Changed to use ``ament_export_targets()``. (#525 <https://github.com/ros2/rviz/issues/525>)
+  * Made some code style changes. (#504 <https://github.com/ros2/rviz/issues/504>)
+  * Migrated the pose with covariance display. (#471 <https://github.com/ros2/rviz/issues/471>)
+  * Fixed the build when included as a sub-project. (#475 <https://github.com/ros2/rviz/issues/475>)
+  * Contributors: Dan Rose, Dirk Thomas, Martin Idel
+
+ -- William Woodall <william@osrfoundation.org>  Fri, 01 May 2020 04:00:00 -0000
+
+ros-rolling-rviz-rendering (7.0.3-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Wed, 13 Nov 2019 05:00:00 -0000
+
+ros-rolling-rviz-rendering (7.0.2-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Wed, 23 Oct 2019 04:00:00 -0000
+
+ros-rolling-rviz-rendering (7.0.1-2focal) focal; urgency=high
+
+  * Migrate Axes Display (#429 <https://github.com/ros2/rviz/issues/429>)
+  * Contributors: Martin Idel
+
+ -- William Woodall <william@osrfoundation.org>  Fri, 04 Oct 2019 04:00:00 -0000
+
+ros-rolling-rviz-rendering (7.0.0-2focal) focal; urgency=high
+
+  * Fix map after upgrade (#459 <https://github.com/ros2/rviz/issues/459>)
+  * Use eigen3_cmake_module (#441 <https://github.com/ros2/rviz/issues/441>)
+  * Upgrade from Ogre 1.10 to Ogre 1.12.1 (#394 <https://github.com/ros2/rviz/issues/394>)
+  * Remove -Werror from defualt compiler options (#420 <https://github.com/ros2/rviz/issues/420>)
+  * Migrate Wrench Display (#396 <https://github.com/ros2/rviz/issues/396>)
+  * Fix STL loader (#410 <https://github.com/ros2/rviz/issues/410>)
+  * Contributors: Hunter L. Allen, Martin Idel, Shane Loretz
+
+ -- William Woodall <william@osrfoundation.org>  Fri, 27 Sep 2019 04:00:00 -0000
+
+ros-rolling-rviz-rendering (6.1.1-2focal) focal; urgency=high
+
+  * Fixed the installation destination of OGRE media resources which contain a ``dirname`` (#404 <https://github.com/ros2/rviz/issues/404>)
+  * Contributors: Dirk Thomas
+
+ -- William Woodall <william@osrfoundation.org>  Wed, 29 May 2019 04:00:00 -0000
+
+ros-rolling-rviz-rendering (6.1.0-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Mon, 20 May 2019 04:00:00 -0000
+
+ros-rolling-rviz-rendering (6.0.0-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Wed, 08 May 2019 04:00:00 -0000
+
+ros-rolling-rviz-rendering (5.1.0-2focal) focal; urgency=high
+
+  * Handle FindEigen3 module's differing definitions (#370 <https://github.com/ros2/rviz/issues/370>)
+  * Contributors: Scott K Logan
+
+ -- William Woodall <william@osrfoundation.org>  Mon, 14 Jan 2019 05:00:00 -0000
+
+ros-rolling-rviz-rendering (5.0.0-2focal) focal; urgency=high
+
+  * Export libraries to trigger hooks. (#358 <https://github.com/ros2/rviz/issues/358>)
+  * Added virtual destructors for WindowManagerInterface and ViewportProjectionFinder (#356 <https://github.com/ros2/rviz/issues/356>)
+  * Increased visual testing stability (#344 <https://github.com/ros2/rviz/issues/344>)
+  * Cleanup dependencies for rviz_rendering_tests (#326 <https://github.com/ros2/rviz/issues/326>)
+  * Changed to always build all tests and skip execution if not supported (#342 <https://github.com/ros2/rviz/issues/342>)
+  * Changed to support uncrustify 0.67 (#333 <https://github.com/ros2/rviz/issues/333>)
+    * fix closing block and tamplete indentation to comply with uncrustify 0.67
+    * add space between reference and variable name
+    * space before opening bracket
+    * fix indend of inherited class
+    * fix indent of code blocks
+    * no space around -> operator
+    * restore original spacing
+  * Contributors: Andreas Greimel, Kartik Mohta, Mikael Arguedas, Steven! Ragnarök, William Woodall
+
+ -- William Woodall <william@osrfoundation.org>  Tue, 04 Dec 2018 05:00:00 -0000
+
+ros-rolling-rviz-rendering (4.0.1-2focal) focal; urgency=high
+
+  * move find_package or test dependencies to test block (#331 <https://github.com/ros2/rviz/issues/331>)
+  * Contributors: William Woodall
+
+ -- William Woodall <william@osrfoundation.org>  Thu, 28 Jun 2018 04:00:00 -0000
+
+ros-rolling-rviz-rendering (4.0.0-2focal) focal; urgency=high
+
+  * Fixed the dependecy name for ``eigen``. (#324 <https://github.com/ros2/rviz/issues/324>)
+  * Fixed bugs causing rviz to crash on macOS. (#319 <https://github.com/ros2/rviz/issues/319>)
+    * Fix Ogre assertion failure on Mac on resizing an Image or Camera display render window.
+    * Fix segfault on Mac when resizing window after a Camera or Image Display was removed.
+  * Introduced visual testing framework for rviz. (#209 <https://github.com/ros2/rviz/issues/209>)
+  * Restored the use of icons throughout rviz. (#235 <https://github.com/ros2/rviz/issues/235>)
+  * Migrated the Path display. (#236 <https://github.com/ros2/rviz/issues/236>)
+  * Migrated the marker display. (#229 <https://github.com/ros2/rviz/issues/229>)
+  * Migrated RobotModel display. (#210 <https://github.com/ros2/rviz/issues/210>)
+  * Changed to allow Ogre to delete its own render windows. (#195 <https://github.com/ros2/rviz/issues/195>)
+  * Fixed compilation errors and runtime issues on Windows. (#175 <https://github.com/ros2/rviz/issues/175>)
+  * Fixed a memory leak. (#173 <https://github.com/ros2/rviz/issues/173>)
+    * Signed-off-by: Chris Ye <mailto:chris.ye@intel.com>
+  * Refactored the Grid display. (#165 <https://github.com/ros2/rviz/issues/165>)
+  * Remove now obsolete function. (#163 <https://github.com/ros2/rviz/issues/163>)
+    * It was made obsolete by pr #136 <https://github.com/ros2/rviz/issues/136> which removed the memcopy.
+  * Contributors: Alessandro Bottero, Andreas Greimel, Andreas Holzner, Dirk Thomas, Martin Idel, Mikael Arguedas, Steven! Ragnarök, William Woodall
+
+ -- William Woodall <william@osrfoundation.org>  Wed, 27 Jun 2018 04:00:00 -0000
+
+ros-rolling-rviz-rendering (3.0.0-2focal) focal; urgency=high
+
+  * Numerous changes to support Windows.
+  * Disabled anti-aliasing on Windows. (#199 <https://github.com/ros2/rviz/issues/199>)
+    * This fixes rendering issues on Windows when opening two or more render windows.
+  * Contributors: William Woodall
+
+ -- William Woodall <william@osrfoundation.org>  Wed, 07 Feb 2018 05:00:00 -0000
+
+ros-rolling-rviz-rendering (2.0.0-2focal) focal; urgency=high
+
+  * First version for ROS 2.
+  * Contributors: Andreas Greimel, Andreas Holzner, Hunter Allen, Johannes Jeising, Martin Idel, Steven! Ragnarok, William Woodall
+
+ -- William Woodall <william@osrfoundation.org>  Fri, 08 Dec 2017 05:00:00 -0000
+
+ros-rolling-rviz-rendering (1.12.11-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Wed, 02 Aug 2017 04:00:00 -0000
+
+ros-rolling-rviz-rendering (1.12.10-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Mon, 05 Jun 2017 21:37:00 -0000
+
+ros-rolling-rviz-rendering (1.12.9-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Mon, 05 Jun 2017 18:23:00 -0000
+
+ros-rolling-rviz-rendering (1.12.8-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Sun, 07 May 2017 04:00:00 -0000
+
+ros-rolling-rviz-rendering (1.12.7-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Fri, 05 May 2017 04:00:00 -0000
+
+ros-rolling-rviz-rendering (1.12.6-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Tue, 02 May 2017 04:00:00 -0000
+
+ros-rolling-rviz-rendering (1.12.5-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Mon, 01 May 2017 04:00:00 -0000
+
+ros-rolling-rviz-rendering (1.12.4-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Thu, 27 Oct 2016 04:00:00 -0000
+
+ros-rolling-rviz-rendering (1.12.3-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Wed, 19 Oct 2016 04:00:00 -0000
+
+ros-rolling-rviz-rendering (1.12.2-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Tue, 18 Oct 2016 04:00:00 -0000
+
+ros-rolling-rviz-rendering (1.12.1-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Wed, 20 Apr 2016 04:00:00 -0000
+
+ros-rolling-rviz-rendering (1.12.0-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Mon, 11 Apr 2016 04:00:00 -0000
+
+ros-rolling-rviz-rendering (1.11.14-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Sun, 03 Apr 2016 04:00:00 -0000
+
+ros-rolling-rviz-rendering (1.11.13-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Wed, 23 Mar 2016 04:00:00 -0000
+
+ros-rolling-rviz-rendering (1.11.12-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Tue, 22 Mar 2016 23:58:00 -0000
+
+ros-rolling-rviz-rendering (1.11.11-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Tue, 22 Mar 2016 22:16:00 -0000
+
+ros-rolling-rviz-rendering (1.11.10-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Tue, 13 Oct 2015 04:00:00 -0000
+
+ros-rolling-rviz-rendering (1.11.9-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Mon, 21 Sep 2015 04:00:00 -0000
+
+ros-rolling-rviz-rendering (1.11.8-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Wed, 05 Aug 2015 04:00:00 -0000
+
+ros-rolling-rviz-rendering (1.11.7-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Mon, 02 Mar 2015 05:00:00 -0000
+
+ros-rolling-rviz-rendering (1.11.6-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Fri, 13 Feb 2015 05:00:00 -0000
+
+ros-rolling-rviz-rendering (1.11.5-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Wed, 11 Feb 2015 05:00:00 -0000
+
+ros-rolling-rviz-rendering (1.11.4-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Thu, 30 Oct 2014 04:00:00 -0000
+
+ros-rolling-rviz-rendering (1.11.3-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Thu, 26 Jun 2014 04:00:00 -0000
+
+ros-rolling-rviz-rendering (1.11.2-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Tue, 13 May 2014 04:00:00 -0000
+
+ros-rolling-rviz-rendering (1.11.1-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Thu, 01 May 2014 04:00:00 -0000
+
+ros-rolling-rviz-rendering (1.11.0-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Wed, 05 Mar 2014 02:40:00 -0000
+
+ros-rolling-rviz-rendering (1.10.14-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Wed, 05 Mar 2014 02:35:00 -0000
+
+ros-rolling-rviz-rendering (1.10.13-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Wed, 26 Feb 2014 05:00:00 -0000
+
+ros-rolling-rviz-rendering (1.10.12-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Tue, 25 Feb 2014 05:00:00 -0000
+
+ros-rolling-rviz-rendering (1.10.11-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Sun, 26 Jan 2014 05:00:00 -0000
+
+ros-rolling-rviz-rendering (1.10.10-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Sun, 22 Dec 2013 05:00:00 -0000
+
+ros-rolling-rviz-rendering (1.10.9-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Tue, 15 Oct 2013 04:00:00 -0000
+
+ros-rolling-rviz-rendering (1.10.7-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Mon, 16 Sep 2013 04:00:00 -0000
+
+ros-rolling-rviz-rendering (1.10.6-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Tue, 03 Sep 2013 04:00:00 -0000
+
+ros-rolling-rviz-rendering (1.10.5-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Wed, 28 Aug 2013 07:50:00 -0000
+
+ros-rolling-rviz-rendering (1.10.4-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Wed, 28 Aug 2013 07:13:00 -0000
+
+ros-rolling-rviz-rendering (1.10.3-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Wed, 14 Aug 2013 04:00:00 -0000
+
+ros-rolling-rviz-rendering (1.10.2-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Fri, 26 Jul 2013 04:00:00 -0000
+
+ros-rolling-rviz-rendering (1.10.1-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Tue, 16 Jul 2013 04:00:00 -0000
+
+ros-rolling-rviz-rendering (1.10.0-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Thu, 27 Jun 2013 04:00:00 -0000
+
+ros-rolling-rviz-rendering (1.9.30-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Thu, 30 May 2013 04:00:00 -0000
+
+ros-rolling-rviz-rendering (1.9.29-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Mon, 15 Apr 2013 04:00:00 -0000
+
+ros-rolling-rviz-rendering (1.9.27-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Fri, 15 Mar 2013 17:23:00 -0000
+
+ros-rolling-rviz-rendering (1.9.26-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Fri, 15 Mar 2013 14:38:00 -0000
+
+ros-rolling-rviz-rendering (1.9.25-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Thu, 07 Mar 2013 05:00:00 -0000
+
+ros-rolling-rviz-rendering (1.9.24-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Sat, 16 Feb 2013 05:00:00 -0000
+
+ros-rolling-rviz-rendering (1.9.23-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Wed, 13 Feb 2013 05:00:00 -0000
+
+ros-rolling-rviz-rendering (1.9.22-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Tue, 12 Feb 2013 21:30:00 -0000
+
+ros-rolling-rviz-rendering (1.9.21-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Tue, 12 Feb 2013 19:00:00 -0000
+
+ros-rolling-rviz-rendering (1.9.20-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Mon, 21 Jan 2013 05:00:00 -0000
+
+ros-rolling-rviz-rendering (1.9.19-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Sun, 13 Jan 2013 05:00:00 -0000
+
+ros-rolling-rviz-rendering (1.9.18-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Tue, 18 Dec 2012 05:00:00 -0000
+
+ros-rolling-rviz-rendering (1.9.17-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Fri, 14 Dec 2012 05:00:00 -0000
+
+ros-rolling-rviz-rendering (1.9.16-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Wed, 14 Nov 2012 20:49:00 -0000
+
+ros-rolling-rviz-rendering (1.9.15-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Tue, 13 Nov 2012 05:00:00 -0000
+
+ros-rolling-rviz-rendering (1.9.14-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Wed, 14 Nov 2012 07:20:00 -0000
+
+ros-rolling-rviz-rendering (1.9.13-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Wed, 14 Nov 2012 05:58:00 -0000
+
+ros-rolling-rviz-rendering (1.9.12-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Tue, 06 Nov 2012 05:00:00 -0000
+
+ros-rolling-rviz-rendering (1.9.11-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Fri, 02 Nov 2012 04:00:00 -0000
+
+ros-rolling-rviz-rendering (1.9.10-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Thu, 01 Nov 2012 15:10:00 -0000
+
+ros-rolling-rviz-rendering (1.9.9-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Thu, 01 Nov 2012 15:01:00 -0000
+
+ros-rolling-rviz-rendering (1.9.8-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Thu, 01 Nov 2012 14:52:00 -0000
+
+ros-rolling-rviz-rendering (1.9.7-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Thu, 01 Nov 2012 14:40:00 -0000
+
+ros-rolling-rviz-rendering (1.9.6-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Wed, 31 Oct 2012 04:00:00 -0000
+
+ros-rolling-rviz-rendering (1.9.5-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Fri, 19 Oct 2012 04:00:00 -0000
+
+ros-rolling-rviz-rendering (1.9.4-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Mon, 15 Oct 2012 19:00:00 -0000
+
+ros-rolling-rviz-rendering (1.9.3-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Mon, 15 Oct 2012 14:41:00 -0000
+
+ros-rolling-rviz-rendering (1.9.2-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Fri, 12 Oct 2012 17:38:00 -0000
+
+ros-rolling-rviz-rendering (1.9.1-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Fri, 12 Oct 2012 15:57:00 -0000
+
+ros-rolling-rviz-rendering (1.9.0-2focal) focal; urgency=high
+
+
+
+ -- William Woodall <william@osrfoundation.org>  Wed, 10 Oct 2012 04:00:00 -0000
+
+
