@@ -61,8 +61,7 @@ void PointsMarker::onNewMessage(
 {
   (void) old_message;
 
-  assert(
-    new_message->type == visualization_msgs::msg::Marker::POINTS ||
+  assert(new_message->type == visualization_msgs::msg::Marker::POINTS ||
     new_message->type == visualization_msgs::msg::Marker::CUBE_LIST ||
     new_message->type == visualization_msgs::msg::Marker::SPHERE_LIST);
 

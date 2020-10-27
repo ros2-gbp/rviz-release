@@ -73,8 +73,7 @@ void FailedViewController::onActivate()
   if (context_->getWindowManager() ) {
     parent = context_->getWindowManager()->getParentWindow();
   }
-  QMessageBox::critical(
-    parent, "ViewController '" + getName() + "'unavailable.",
+  QMessageBox::critical(parent, "ViewController '" + getName() + "'unavailable.",
     getDescription() );
 }
 

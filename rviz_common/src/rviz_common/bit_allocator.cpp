@@ -28,7 +28,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "rviz_common/bit_allocator.hpp"
+#include "include/rviz_common/bit_allocator.hpp"
 
 namespace rviz_common
 {

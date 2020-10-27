@@ -8,7 +8,7 @@ if(NOT CMAKE_CXX_STANDARD)
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  add_compile_options(-Wall -Wextra -Wpedantic -Wnon-virtual-dtor -Woverloaded-virtual)
+  add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
 # Tests currently only run on OS X @ OSRF jenkins
@@ -29,6 +29,10 @@ endif()
 find_package(ament_cmake REQUIRED)
 
 if(BUILD_TESTING)
+  # Qt5 boilerplate options from http://doc.qt.io/qt-5/cmake-manual.html
+  set(CMAKE_INCLUDE_CURRENT_DIR ON)
+  set(CMAKE_AUTOMOC ON)
+
   # do find_package(rviz_ogre_vendor) first to make sure the custom OGRE is found
   find_package(rviz_ogre_vendor REQUIRED)
   find_package(Qt5 REQUIRED COMPONENTS Widgets)
@@ -43,7 +47,7 @@ if(BUILD_TESTING)
     "ogre_media_resources/meshes"
   )
 
-  install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/ogre_media_resources/test_meshes"
+  install(DIRECTORY "${CMAKE_SOURCE_DIR}/ogre_media_resources/test_meshes"
     DESTINATION "share/rviz_rendering_tests"
     USE_SOURCE_PERMISSIONS)
 
@@ -63,7 +67,6 @@ if(BUILD_TESTING)
 
   ament_add_gmock(mesh_loader_test_target
     test/mesh_loader_test.cpp
-    test/ogre_testing_environment.cpp
     ${SKIP_DISPLAY_TESTS})
   if(TARGET mesh_loader_test_target)
     target_link_libraries(mesh_loader_test_target

@@ -101,18 +101,16 @@ void PoseDisplay::onInitialize()
 {
   MFDClass::onInitialize();
 
-  arrow_ = std::make_unique<rviz_rendering::Arrow>(
-    scene_manager_, scene_node_,
-    shaft_length_property_->getFloat(),
-    shaft_radius_property_->getFloat(),
-    head_length_property_->getFloat(),
-    head_radius_property_->getFloat());
+  arrow_ = std::make_unique<rviz_rendering::Arrow>(scene_manager_, scene_node_,
+      shaft_length_property_->getFloat(),
+      shaft_radius_property_->getFloat(),
+      head_length_property_->getFloat(),
+      head_radius_property_->getFloat());
   arrow_->setDirection(Ogre::Vector3::UNIT_X);
 
-  axes_ = std::make_unique<rviz_rendering::Axes>(
-    scene_manager_, scene_node_,
-    axes_length_property_->getFloat(),
-    axes_radius_property_->getFloat());
+  axes_ = std::make_unique<rviz_rendering::Axes>(scene_manager_, scene_node_,
+      axes_length_property_->getFloat(),
+      axes_radius_property_->getFloat());
 
   updateShapeChoice();
   updateColorAndAlpha();
@@ -153,8 +151,7 @@ void PoseDisplay::updateColorAndAlpha()
 
 void PoseDisplay::updateArrowGeometry()
 {
-  arrow_->set(
-    shaft_length_property_->getFloat(),
+  arrow_->set(shaft_length_property_->getFloat(),
     shaft_radius_property_->getFloat(),
     head_length_property_->getFloat(),
     head_radius_property_->getFloat());
@@ -163,8 +160,7 @@ void PoseDisplay::updateArrowGeometry()
 
 void PoseDisplay::updateAxisGeometry()
 {
-  axes_->set(
-    axes_length_property_->getFloat(),
+  axes_->set(axes_length_property_->getFloat(),
     axes_radius_property_->getFloat());
   context_->queueRender();
 }
@@ -203,17 +199,15 @@ void PoseDisplay::updateShapeVisibility()
 void PoseDisplay::processMessage(geometry_msgs::msg::PoseStamped::ConstSharedPtr message)
 {
   if (!rviz_common::validateFloats(*message)) {
-    setStatus(
-      rviz_common::properties::StatusProperty::Error, "Topic",
+    setStatus(rviz_common::properties::StatusProperty::Error, "Topic",
       "Message contained invalid floating point values (nans or infs)");
     return;
   }
 
   Ogre::Vector3 position;
   Ogre::Quaternion orientation;
-  if (
-    !context_->getFrameManager()->transform(
-      message->header, message->pose, position, orientation))
+  if (!context_->getFrameManager()->transform(message->header, message->pose, position,
+    orientation))
   {
     setMissingTransformToFixedFrame(message->header.frame_id);
     return;

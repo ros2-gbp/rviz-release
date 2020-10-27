@@ -84,8 +84,7 @@ TEST_F(SelectionToolTestFixture, processMouseEvent_replaces_selection_on_mouse_r
   selection_tool_->processMouseEvent(click_event);
 
   auto release_event = generateMouseReleaseEvent(100, 200);
-  EXPECT_CALL(
-    *selection_manager_, select(
+  EXPECT_CALL(*selection_manager_, select(
       _,
       click_event.x, click_event.y,
       release_event.x, release_event.y,
@@ -98,8 +97,7 @@ TEST_F(SelectionToolTestFixture, processMouseEvent_adds_to_selection_when_holdin
   selection_tool_->processMouseEvent(click_event);
 
   auto release_event = generateMouseReleaseEvent(100, 200, Qt::ShiftModifier);
-  EXPECT_CALL(
-    *selection_manager_, select(
+  EXPECT_CALL(*selection_manager_, select(
       _,
       click_event.x, click_event.y,
       release_event.x, release_event.y,
@@ -112,8 +110,7 @@ TEST_F(SelectionToolTestFixture, processMouseEvent_removes_from_selection_when_h
   selection_tool_->processMouseEvent(click_event);
 
   auto release_event = generateMouseReleaseEvent(100, 200, Qt::ControlModifier);
-  EXPECT_CALL(
-    *selection_manager_, select(
+  EXPECT_CALL(*selection_manager_, select(
       _,
       click_event.x, click_event.y,
       release_event.x, release_event.y,

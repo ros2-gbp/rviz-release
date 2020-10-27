@@ -274,10 +274,8 @@ public:
     Display * display) override
   {
     filter->registerCallback(boost::bind(&FrameManager::messageCallback<M>, this, _1, display));
-    filter->registerFailureCallback(
-      boost::bind(
-        &FrameManager::failureCallback<M>, this, _1, _2,
-        display));
+    filter->registerFailureCallback(boost::bind(&FrameManager::failureCallback<M>, this, _1, _2,
+      display));
   }
 #endif
 

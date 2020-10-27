@@ -42,8 +42,9 @@
 
 #include "rviz_default_plugins/displays/pose_array/pose_array_display.hpp"
 
-#include "../../scene_graph_introspection.hpp"
+#include "test/rviz_rendering/scene_graph_introspection.hpp"
 #include "../display_test_fixture.hpp"
+#include "../../scene_graph_introspection_helper.hpp"
 
 using namespace ::testing;  // NOLINT
 
@@ -122,8 +123,7 @@ TEST_F(PoseArrayDisplayFixture, at_startup_only_flat_arrows_propertie_are_visibl
   EXPECT_FALSE(arrow_2d_length_property_->getHidden());
 }
 
-TEST_F(
-  PoseArrayDisplayFixture,
+TEST_F(PoseArrayDisplayFixture,
   processMessage_corrctly_manages_property_visibility_from_arrow2d_to_arrow3d) {
   mockValidTransform();
   auto msg = createMessageWithOnePose();
@@ -142,8 +142,7 @@ TEST_F(
   EXPECT_TRUE(arrow_2d_length_property_->getHidden());
 }
 
-TEST_F(
-  PoseArrayDisplayFixture,
+TEST_F(PoseArrayDisplayFixture,
   processMessage_corrctly_manages_property_visibility_from_arrow2d_to_axes) {
   mockValidTransform();
   auto msg = createMessageWithOnePose();
@@ -168,10 +167,10 @@ TEST_F(PoseArrayDisplayFixture, setTransform_with_invalid_message_returns_early)
   msg->poses[0].position.x = nan("NaN");
   display_->processMessage(msg);
 
-  auto arrows_3d = rviz_default_plugins::findAllArrows(scene_manager_->getRootSceneNode());
-  auto axes = rviz_default_plugins::findAllAxes(scene_manager_->getRootSceneNode());
+  auto arrows_3d = rviz_rendering::findAllArrows(scene_manager_->getRootSceneNode());
+  auto axes = rviz_rendering::findAllAxes(scene_manager_->getRootSceneNode());
   auto manual_object =
-    rviz_default_plugins::findOneManualObject(scene_manager_->getRootSceneNode());
+    rviz_rendering::findOneManualObject(scene_manager_->getRootSceneNode());
 
   // the default position and orientation of the scene node are (0, 0, 0) and (1, 0, 0, 0)
   EXPECT_THAT(display_->getSceneNode()->getPosition(), Vector3Eq(Ogre::Vector3(0, 0, 0)));
@@ -188,10 +187,9 @@ TEST_F(PoseArrayDisplayFixture, setTransform_with_invalid_transform_returns_earl
   auto msg = createMessageWithOnePose();
   display_->processMessage(msg);
 
-  auto arrows_3d = rviz_default_plugins::findAllArrows(scene_manager_->getRootSceneNode());
-  auto axes = rviz_default_plugins::findAllAxes(scene_manager_->getRootSceneNode());
-  auto manual_object = rviz_default_plugins::findOneManualObject(
-    scene_manager_->getRootSceneNode());
+  auto arrows_3d = rviz_rendering::findAllArrows(scene_manager_->getRootSceneNode());
+  auto axes = rviz_rendering::findAllAxes(scene_manager_->getRootSceneNode());
+  auto manual_object = rviz_rendering::findOneManualObject(scene_manager_->getRootSceneNode());
 
   // the default position and orientation of the scene node are (0, 0, 0) and (1, 0, 0, 0)
   EXPECT_THAT(display_->getSceneNode()->getPosition(), Vector3Eq(Ogre::Vector3(0, 0, 0)));
@@ -217,8 +215,7 @@ TEST_F(PoseArrayDisplayFixture, processMessage_sets_manualObject_correctly) {
   auto msg = createMessageWithOnePose();
   display_->processMessage(msg);
 
-  auto manual_object = rviz_default_plugins::findOneManualObject(
-    scene_manager_->getRootSceneNode());
+  auto manual_object = rviz_rendering::findOneManualObject(scene_manager_->getRootSceneNode());
   auto manual_objectbounding_radius = 4.17732;
   EXPECT_THAT(manual_object->getBoundingRadius(), FloatEq(manual_objectbounding_radius));
   EXPECT_THAT(
@@ -232,7 +229,7 @@ TEST_F(PoseArrayDisplayFixture, processMessage_sets_arrows3d_correctly) {
   display_->setShape("Arrow (3D)");
   display_->processMessage(msg);
 
-  auto arrows = rviz_default_plugins::findAllArrows(scene_manager_->getRootSceneNode());
+  auto arrows = rviz_rendering::findAllArrows(scene_manager_->getRootSceneNode());
 
   // The orientation is first manipulated by the display and then in setOrientation() in arrow.cpp
   auto expected_orientation =
@@ -254,7 +251,7 @@ TEST_F(PoseArrayDisplayFixture, processMessage_sets_axes_correctly) {
   display_->setShape("Axes");
   display_->processMessage(msg);
 
-  auto frames = rviz_default_plugins::findAllAxes(scene_manager_->getRootSceneNode());
+  auto frames = rviz_rendering::findAllAxes(scene_manager_->getRootSceneNode());
 
   auto expected_orientation = Ogre::Quaternion(0, 1, 0, 1);
   expected_orientation.normalise();
@@ -271,18 +268,17 @@ TEST_F(PoseArrayDisplayFixture, processMessage_updates_the_display_correctly_aft
   display_->setShape("Arrow (3D)");
   display_->processMessage(msg);
 
-  auto arrows = rviz_default_plugins::findAllArrows(scene_manager_->getRootSceneNode());
-  auto frames = rviz_default_plugins::findAllAxes(scene_manager_->getRootSceneNode());
-  auto manual_object = rviz_default_plugins::findOneManualObject(
-    scene_manager_->getRootSceneNode());
+  auto arrows = rviz_rendering::findAllArrows(scene_manager_->getRootSceneNode());
+  auto frames = rviz_rendering::findAllAxes(scene_manager_->getRootSceneNode());
+  auto manual_object = rviz_rendering::findOneManualObject(scene_manager_->getRootSceneNode());
   EXPECT_THAT(arrows, SizeIs(1));
   EXPECT_THAT(manual_object->getBoundingRadius(), FloatEq(0));
   EXPECT_THAT(frames, SizeIs(0));
 
   display_->setShape("Axes");
   display_->processMessage(msg);
-  auto post_update_arrows = rviz_default_plugins::findAllArrows(scene_manager_->getRootSceneNode());
-  auto post_update_frames = rviz_default_plugins::findAllAxes(scene_manager_->getRootSceneNode());
+  auto post_update_arrows = rviz_rendering::findAllArrows(scene_manager_->getRootSceneNode());
+  auto post_update_frames = rviz_rendering::findAllAxes(scene_manager_->getRootSceneNode());
   EXPECT_THAT(post_update_frames, SizeIs(1));
   EXPECT_THAT(manual_object->getBoundingRadius(), FloatEq(0));
   EXPECT_THAT(post_update_arrows, SizeIs(0));

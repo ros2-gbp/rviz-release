@@ -84,8 +84,7 @@ int main(int argc, char ** argv)
     }
     msg.header.stamp = node->now();
 
-    printf(
-      "publishing at %d hz, %s, %d x %d points.\n",
+    printf("publishing at %d hz, %s, %d x %d points.\n",
       rate, (moving ? "moving" : "static"), width, length);
 
     pub->publish(msg);

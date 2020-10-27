@@ -33,8 +33,6 @@
 
 #include <array>
 #include <memory>
-#include <sstream>  // needed for Eigen until https://gitlab.com/libeigen/eigen/-/merge_requests/65
-#include <vector>
 
 #include <Eigen/Dense>  // NOLINT: cpplint cannot handle correct include here
 
@@ -153,34 +151,6 @@ public:
   RVIZ_RENDERING_PUBLIC
   void setOrientation(const Ogre::Quaternion & orientation);
 
-  /**
-   * \brief Sets visibility of this covariance
-   *
-   * Convenience method that sets visibility of both position and orientation parts.
-   */
-  RVIZ_RENDERING_PUBLIC
-  virtual void setVisible(bool visible);
-
-  /**
-   * \brief Get the root scene node of the position part of this covariance
-   * @return the root scene node of the position part of this covariance
-   */
-  RVIZ_RENDERING_PUBLIC
-  Ogre::SceneNode * getPositionSceneNode() {return position_scale_node_;}
-
-  /**
-   * \brief Get the root scene node of the orientation part of this covariance
-   * @return the root scene node of the orientation part of this covariance
-   */
-  RVIZ_RENDERING_PUBLIC
-  Ogre::SceneNode * getOrientationSceneNode() {return orientation_root_node_;}
-
-  RVIZ_RENDERING_PUBLIC
-  Ogre::AxisAlignedBox getPositionBoundingBox();
-
-  RVIZ_RENDERING_PUBLIC
-  std::vector<Ogre::AxisAlignedBox> getOrientationBoundingBoxes();
-
 private:
   /**
    * \brief Set the position and orientation scales for this covariance
@@ -203,10 +173,29 @@ private:
   void setOrientationColorToRGB(float alpha);
 
   /**
+   * \brief Get the root scene node of the position part of this covariance
+   * @return the root scene node of the position part of this covariance
+   */
+  Ogre::SceneNode * getPositionSceneNode() {return position_scale_node_;}
+
+  /**
+   * \brief Get the root scene node of the orientation part of this covariance
+   * @return the root scene node of the orientation part of this covariance
+   */
+  Ogre::SceneNode * getOrientationSceneNode() {return orientation_root_node_;}
+
+  /**
    * \brief Get the shape used to display position covariance
    * @return the shape used to display position covariance
    */
   std::shared_ptr<rviz_rendering::Shape> getPositionShape() {return position_shape_;}
+
+  /**
+   * \brief Sets visibility of this covariance
+   *
+   * Convenience method that sets visibility of both position and orientation parts.
+   */
+  virtual void setVisible(bool visible);
 
   /**
    * \brief Sets visibility of the position part of this covariance

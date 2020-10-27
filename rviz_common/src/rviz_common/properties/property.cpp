@@ -202,8 +202,7 @@ Property * Property::subProp(const QString & sub_name)
   for (Property * prop = this; prop != NULL; prop = prop->getParent() ) {
     ancestry = "\"" + prop->getName() + "\"->" + ancestry;
   }
-  printf(
-    "ERROR: Undefined property %s \"%s\" accessed.\n", qPrintable(ancestry),
+  printf("ERROR: Undefined property %s \"%s\" accessed.\n", qPrintable(ancestry),
     qPrintable(sub_name));
   return failprop_;
 }
@@ -251,7 +250,7 @@ void Property::setParent(Property * new_parent)
 
 QVariant Property::getViewData(int column, int role) const
 {
-  if (role == Qt::ForegroundRole &&
+  if (role == Qt::TextColorRole &&
     ( parent_ && parent_->getDisableChildren() ) )
   {
 #if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
@@ -460,8 +459,7 @@ void Property::loadValue(const Config & config)
       case QVariant::String: setValue(config.getValue().toString() ); break;
       case QVariant::Bool: setValue(config.getValue().toBool() ); break;
       default:
-        printf(
-          "Property::loadValue() TODO: error handling - unexpected QVariant type %d.\n",
+        printf("Property::loadValue() TODO: error handling - unexpected QVariant type %d.\n",
           static_cast<int>(value_.type() ));
         break;
     }

@@ -27,14 +27,19 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef RVIZ_DEFAULT_PLUGINS__OGRE_TESTING_ENVIRONMENT_HPP_
-#define RVIZ_DEFAULT_PLUGINS__OGRE_TESTING_ENVIRONMENT_HPP_
+#ifndef RVIZ_RENDERING__OGRE_TESTING_ENVIRONMENT_HPP_
+#define RVIZ_RENDERING__OGRE_TESTING_ENVIRONMENT_HPP_
 
+#include <string>
+
+#include <OgreLogManager.h>
 #include <OgreRenderWindow.h>
 
-namespace rviz_default_plugins
+#include "rviz_rendering/visibility_control.hpp"
+
+namespace rviz_rendering
 {
-class OgreTestingEnvironment
+class RVIZ_RENDERING_PUBLIC OgreTestingEnvironment
 {
 public:
   /**
@@ -43,13 +48,21 @@ public:
    * @param: bool debug, if true, all logging of Ogre is send to std::out, if false no logging
    * occurs. Since the logging pollutes the test output, it defaults to false
    */
-  void setUpOgreTestEnvironment(bool debug = false);
+  void setUpOgreTestEnvironment(bool debug = false)
+  {
+    if (!debug) {
+      const std::string & name = "";
+      auto lm = new Ogre::LogManager();
+      lm->createLog(name, false, debug, true);
+    }
+    setUpRenderSystem();
+  }
 
   void setUpRenderSystem();
 
   Ogre::RenderWindow * createOgreRenderWindow();
 };
 
-}  // namespace rviz_default_plugins
+}  // namespace rviz_rendering
 
-#endif  // RVIZ_DEFAULT_PLUGINS__OGRE_TESTING_ENVIRONMENT_HPP_
+#endif  // RVIZ_RENDERING__OGRE_TESTING_ENVIRONMENT_HPP_

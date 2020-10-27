@@ -8,7 +8,7 @@ if(NOT CMAKE_CXX_STANDARD)
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  add_compile_options(-Wall -Wextra -Wpedantic -Wnon-virtual-dtor -Woverloaded-virtual)
+  add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
 # Tests currently only run on OS X @ OSRF jenkins
@@ -27,6 +27,10 @@ else()
 endif()
 
 find_package(ament_cmake REQUIRED)
+
+# Qt5 boilerplate options from http://doc.qt.io/qt-5/cmake-manual.html
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOMOC ON)
 
 # do find_package(rviz_ogre_vendor) first to make sure the custom OGRE is found
 find_package(rviz_ogre_vendor REQUIRED)
@@ -61,11 +65,13 @@ if(Qt5_FOUND AND WIN32 AND TARGET Qt5::qmake AND NOT TARGET Qt5::windeployqt)
   endif()
 endif()
 
-# These need to be added in the add_library() call
-qt5_wrap_cpp(rviz_rendering_moc_files include/rviz_rendering/render_window.hpp)
+# These need to be added in the add_library() call so AUTOMOC detects them.
+set(headers_with_q_object
+  include/rviz_rendering/render_window.hpp
+)
 
 add_library(rviz_rendering SHARED
-  ${rviz_rendering_moc_files}
+  ${headers_with_q_object}
   src/rviz_rendering/apply_visibility_bits.cpp
   src/rviz_rendering/geometry.cpp
   src/rviz_rendering/viewport_projection_finder.cpp
@@ -93,10 +99,11 @@ add_library(rviz_rendering SHARED
   src/rviz_rendering/objects/point_cloud_renderable.cpp
   src/rviz_rendering/objects/shape.cpp
   src/rviz_rendering/objects/wrench_visual.cpp
+  test/rviz_rendering/ogre_testing_environment.cpp
+  test/rviz_rendering/scene_graph_introspection.cpp
 )
 
 target_link_libraries(rviz_rendering
-  PUBLIC
   rviz_ogre_vendor::OgreMain
   rviz_ogre_vendor::OgreOverlay
   Qt5::Widgets
@@ -108,15 +115,15 @@ target_include_directories(rviz_rendering
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
+    ${OGRE_INCLUDE_DIRS}
     ${Eigen3_INCLUDE_DIRS}
 )
 # Causes the visibility macros to use dllexport rather than dllimport,
 # which is appropriate when building the dll but not consuming it.
 target_compile_definitions(rviz_rendering PRIVATE "RVIZ_RENDERING_BUILDING_LIBRARY")
 
-ament_export_targets(rviz_rendering)
+ament_export_interfaces(rviz_rendering)
 ament_target_dependencies(rviz_rendering
-  PUBLIC
   rviz_assimp_vendor
 )
 ament_export_dependencies(
@@ -149,7 +156,7 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/src/cmake/register_rviz_ogre_media_exports_h
 install(DIRECTORY src/cmake
   DESTINATION share/${PROJECT_NAME})
 
-install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/ogre_media"
+install(DIRECTORY "${CMAKE_SOURCE_DIR}/ogre_media"
   DESTINATION "share/${PROJECT_NAME}"
   USE_SOURCE_PERMISSIONS)
 
@@ -167,16 +174,6 @@ if(BUILD_TESTING)
   find_package(ament_cmake_gmock REQUIRED)
   find_package(ament_cmake_gtest REQUIRED)
 
-  add_library(rviz_rendering_test_utils
-    test/rviz_rendering/ogre_testing_environment.cpp
-    test/rviz_rendering/scene_graph_introspection.cpp
-  )
-  target_link_libraries(rviz_rendering_test_utils
-    PUBLIC
-    rviz_ogre_vendor::OgreMain
-    rviz_rendering
-  )
-
   ament_add_gmock(string_helper_test test/rviz_rendering/string_helper_test.cpp)
   if(TARGET string_helper_test)
     target_link_libraries(string_helper_test rviz_rendering)
@@ -189,7 +186,6 @@ if(BUILD_TESTING)
     target_link_libraries(point_cloud_test_target
       rviz_ogre_vendor::OgreMain
       rviz_rendering
-      rviz_rendering_test_utils
       Qt5::Widgets  # explicitly do this for include directories (not necessary for external use)
     )
   endif()
@@ -201,7 +197,6 @@ if(BUILD_TESTING)
     target_link_libraries(point_cloud_renderable_test_target
       rviz_ogre_vendor::OgreMain
       rviz_rendering
-      rviz_rendering_test_utils
       Qt5::Widgets  # explicitly do this for include directories (not necessary for external use)
     )
   endif()
@@ -213,7 +208,6 @@ if(BUILD_TESTING)
     target_link_libraries(billboard_line_test_target
       rviz_ogre_vendor::OgreMain
       rviz_rendering
-      rviz_rendering_test_utils
       Qt5::Widgets  # explicitly do this for include directories (not necessary for external use)
     )
   endif()
@@ -225,7 +219,6 @@ if(BUILD_TESTING)
     target_link_libraries(covariance_visual_test_target
       rviz_ogre_vendor::OgreMain
       rviz_rendering
-      rviz_rendering_test_utils
       Qt5::Widgets  # explicitly do this for include directories (not necessary for external use)
     )
   endif()
@@ -237,7 +230,6 @@ if(BUILD_TESTING)
     target_link_libraries(grid_test_target
       rviz_ogre_vendor::OgreMain
       rviz_rendering
-      rviz_rendering_test_utils
       Qt5::Widgets  # explicitly do this for include directories (not necessary for external use)
     )
   endif()
@@ -250,7 +242,6 @@ if(BUILD_TESTING)
       rviz_ogre_vendor::OgreMain
       rviz_ogre_vendor::OgreOverlay
       rviz_rendering
-      rviz_rendering_test_utils
       Qt5::Widgets
     )
   endif()
@@ -262,7 +253,6 @@ if(BUILD_TESTING)
     target_link_libraries(line_test_target
       rviz_ogre_vendor::OgreMain
       rviz_rendering
-      rviz_rendering_test_utils
       Qt5::Widgets  # explicitly do this for include directories (not necessary for external use)
     )
   endif()
@@ -274,7 +264,6 @@ if(BUILD_TESTING)
     target_link_libraries(wrench_visual_test_target
       rviz_ogre_vendor::OgreMain
       rviz_rendering
-      rviz_rendering_test_utils
       Qt5::Widgets  # explicitly do this for include directories (not necessary for external use)
     )
   endif()

@@ -2,70 +2,31 @@
 Changelog for package rviz_default_plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-8.2.0 (2020-06-23)
+7.0.6 (2020-10-27)
 ------------------
-* Changed to not install test header files in rviz_rendering. (`#564 <https://github.com/ros2/rviz/issues/564>`_)
-* Changed to use a dedicated TransformListener thread. (`#551 <https://github.com/ros2/rviz/issues/551>`_)
-* Suppressed warnings when building with older Qt versions. (`#562 <https://github.com/ros2/rviz/issues/562>`_)
-* Restored compatibility with older Qt versions (`#561 <https://github.com/ros2/rviz/issues/561>`_)
-* Contributors: Chris Lalancette, Dirk Thomas, ymd-stella
-
-8.1.1 (2020-06-03)
-------------------
-* avoid absolute OGRE path in exported targets (`#558 <https://github.com/ros2/rviz/issues/558>`_)
-* Contributors: Dirk Thomas
-
-8.1.0 (2020-06-03)
-------------------
-* Added missing virtual destructors (`#553 <https://github.com/ros2/rviz/issues/553>`_)
-* Contributors: Ivan Santiago Paunovic
-
-8.0.3 (2020-06-02)
-------------------
-* Fixed deprecated Qt usage. (`#555 <https://github.com/ros2/rviz/issues/555>`_)
-* Contributors: Jacob Perron
-
-8.0.2 (2020-05-21)
-------------------
-* Removed rviz_default_plugins dependency on TinyXML (`#531 <https://github.com/ros2/rviz/issues/531>`_)
-  This clears the way for urdf to switch to TinyXML2
-  Note that internally, urdf was converting the passed XML to a string and reparsing it in the implementation of ``urdf::model::initXml``
-* Contributors: Dan Rose
-
-8.0.1 (2020-05-07)
-------------------
-* Added dependency on ogre to fix building on the buildfarm (`#544 <https://github.com/ros2/rviz/issues/544>`_)
-* Refactored test fixtures to reduce memory usage while compiling (`#540 <https://github.com/ros2/rviz/pull/540>`_)
-* Contributors: Chris Lalancette
-
-8.0.0 (2020-05-01)
-------------------
-* Note from wjwwood: I've chosen bump the major version this time, even though the API was not broken strictly speaking, partly because of some potentially disruptive build system changes and partially in preparation for ROS Foxy, to allow for new minor/patch versions in the previous ROS release Eloquent.
-* Removed duplicate include dirs and link libraries. (`#533 <https://github.com/ros2/rviz/issues/533>`_)
-* Updated includes to use non-entry point headers from detail subdir. (`#526 <https://github.com/ros2/rviz/issues/526>`_)
-* Changed to use ``ament_export_targets()``. (`#525 <https://github.com/ros2/rviz/issues/525>`_)
-* Changed to use the clock from the node in tools. (`#519 <https://github.com/ros2/rviz/issues/519>`_)
-* Changed to allow the MapDisplay "Update Topic" to be changed. (`#517 <https://github.com/ros2/rviz/issues/517>`_)
-  The major reason for this is so that the "Update Topic"
-  (and more importantly the QoS profile) is saved when clicking
-  "Save Config" in RViz2.  The more minor reason is that a user
-  *might* want to use a different topic for this.  We still
-  auto-populate this field with <topic_name>_updates by default,
-  but the user can now override it.
-* Made some code style changes. (`#504 <https://github.com/ros2/rviz/issues/504>`_)
-* Fixed camera info for camera display. (`#419 <https://github.com/ros2/rviz/issues/419>`_)
-* Fixed wrong resource group for robot links. (`#495 <https://github.com/ros2/rviz/issues/495>`_)
-* Changed default goal to ``goal_pose`` and not just in default rviz. (`#491 <https://github.com/ros2/rviz/issues/491>`_)
-* Fixed a bug by setting the clock type if Marker ``frame_locked`` is true. (`#482 <https://github.com/ros2/rviz/issues/482>`_)
+* Update maintainer list (`#618 <https://github.com/ros2/rviz/issues/618>`_)
+* Set clock type if Marker frame_locked is true (`#482 <https://github.com/ros2/rviz/issues/482>`_) (`#580 <https://github.com/ros2/rviz/issues/580>`_)
   Fixes `#479 <https://github.com/ros2/rviz/issues/479>`_
-* Fixed the map display for moving TF frame. (`#483 <https://github.com/ros2/rviz/issues/483>`_)
+* Use dedicated TransformListener thread (`#551 <https://github.com/ros2/rviz/issues/551>`_) (`#581 <https://github.com/ros2/rviz/issues/581>`_)
+* Do not use assume every RenderPanel has a ViewController. (`#613 <https://github.com/ros2/rviz/issues/613>`_) (`#614 <https://github.com/ros2/rviz/issues/614>`_)
+  Get the Viewport from its RenderWindow instead.
+  Ensures interactive markers work (and do not make rviz crash)
+  when interaction goes through a camera feed and not the main
+  window.
+* Fix map display for moving TF frame (`#483 <https://github.com/ros2/rviz/issues/483>`_) (`#579 <https://github.com/ros2/rviz/issues/579>`_)
   Instead of the current time, use Time(0) to get the latest available transform as a fallback.
   This is the same logic that is applied in RViz from ROS 1.
   Resolves `#332 <https://github.com/ros2/rviz/issues/332>`_
-* Migrated pose with covariance display. (`#471 <https://github.com/ros2/rviz/issues/471>`_)
-* Fixed build when included as a sub-project. (`#475 <https://github.com/ros2/rviz/issues/475>`_)
-* Added icon copyrights + PoseWithCovariance icon. (`#430 <https://github.com/ros2/rviz/issues/430>`_)
-* Contributors: Chris Lalancette, Dan Rose, Dirk Thomas, Jacob Perron, Martin Idel, Michel Hidalgo, Steven Macenski, chapulina
+* Contributors: Jacob Perron, Michael Jeronimo, Michel Hidalgo, ymd-stella
+
+7.0.5 (2020-04-17)
+------------------
+* Allow the MapDisplay "Update Topic" to be changed. (`#517 <https://github.com/ros2/rviz/issues/517>`_) (`#518 <https://github.com/ros2/rviz/issues/518>`_)
+* Fix camera info for camera display (`#419 <https://github.com/ros2/rviz/issues/419>`_) (`#500 <https://github.com/ros2/rviz/issues/500>`_)
+* Contributors: Alejandro Hernández Cordero, Chris Lalancette
+
+7.0.4 (2020-01-17)
+------------------
 
 7.0.3 (2019-11-13)
 ------------------

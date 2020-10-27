@@ -2,33 +2,16 @@
 Changelog for package rviz_assimp_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-8.2.0 (2020-06-23)
+7.0.6 (2020-10-27)
 ------------------
-* Updated a hack to avoid CMake warning with assimp 5.0.1 and older, applying it cross platforms (`#565 <https://github.com/ros2/rviz/issues/565>`_)
-* Contributors: Dirk Thomas
+* Update maintainer list (`#618 <https://github.com/ros2/rviz/issues/618>`_)
+* Contributors: Michael Jeronimo
 
-8.1.1 (2020-06-03)
-------------------
-
-8.1.0 (2020-06-03)
+7.0.5 (2020-04-17)
 ------------------
 
-8.0.3 (2020-06-02)
+7.0.4 (2020-01-17)
 ------------------
-
-8.0.2 (2020-05-21)
-------------------
-
-8.0.1 (2020-05-07)
-------------------
-* Make rviz_assimp_vendor hack specific to Ubuntu Focal. (`#536 <https://github.com/ros2/rviz/issues/536>`_)
-* Contributors: Chris Lalancette
-
-8.0.0 (2020-05-01)
-------------------
-* Note from wjwwood: I've chosen bump the major version this time, even though the API was not broken strictly speaking, partly because of some potentially disruptive build system changes and partially in preparation for ROS Foxy, to allow for new minor/patch versions in the previous ROS release Eloquent.
-* Suppressed an upstream cmake warning in assimp. (`#534 <https://github.com/ros2/rviz/issues/534>`_)
-* Contributors: William Woodall
 
 7.0.3 (2019-11-13)
 ------------------

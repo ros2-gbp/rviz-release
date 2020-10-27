@@ -2,46 +2,18 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-8.2.0 (2020-06-23)
+7.0.6 (2020-10-27)
 ------------------
-* Changed to not install test header files in rviz_rendering. (`#564 <https://github.com/ros2/rviz/issues/564>`_)
-* Fixed alphabetical include order (`#563 <https://github.com/ros2/rviz/issues/563>`_)
-* Changed to avoid trying to moc generate ``env_config.hpp`` file. (`#550 <https://github.com/ros2/rviz/issues/550>`_)
-* Contributors: Chris Lalancette, Karsten Knese
+* Update maintainer list (`#618 <https://github.com/ros2/rviz/issues/618>`_)
+* Contributors: Michael Jeronimo
 
-8.1.1 (2020-06-03)
+7.0.5 (2020-04-17)
 ------------------
-
-8.1.0 (2020-06-03)
-------------------
-
-8.0.3 (2020-06-02)
-------------------
-* Fixed deprecated Qt usage. (`#555 <https://github.com/ros2/rviz/issues/555>`_)
+* Remove unnecessary call to render scene (`#490 <https://github.com/ros2/rviz/issues/490>`_) (`#514 <https://github.com/ros2/rviz/issues/514>`_)
 * Contributors: Jacob Perron
 
-8.0.2 (2020-05-21)
+7.0.4 (2020-01-17)
 ------------------
-* Changed to use modern cmake style with pluginlib (`#542 <https://github.com/ros2/rviz/issues/542>`_)
-* Removed automoc completely. (`#545 <https://github.com/ros2/rviz/issues/545>`_)
-* Contributors: Chris Lalancette, Karsten Knese
-
-8.0.1 (2020-05-07)
-------------------
-
-8.0.0 (2020-05-01)
-------------------
-* Note from wjwwood: I've chosen bump the major version this time, even though the API was not broken strictly speaking, partly because of some potentially disruptive build system changes and partially in preparation for ROS Foxy, to allow for new minor/patch versions in the previous ROS release Eloquent.
-* Removed duplicate include dirs and link libraries. (`#533 <https://github.com/ros2/rviz/issues/533>`_)
-* Added missing export of urdf. (`#529 <https://github.com/ros2/rviz/issues/529>`_)
-* Made changes to avoid newly deprecated functions in rclcpp. (`#528 <https://github.com/ros2/rviz/issues/528>`_)
-* Changed to use ``ament_export_targets()``. (`#525 <https://github.com/ros2/rviz/issues/525>`_)
-* Updated deprecated enums in rviz_common. (`#510 <https://github.com/ros2/rviz/issues/510>`_)
-* Solved a compiler warning in Ubuntu Focal. (`#503 <https://github.com/ros2/rviz/issues/503>`_)
-* Removed an uncessary call to render scene. (`#490 <https://github.com/ros2/rviz/issues/490>`_)
-* Made some code style changes. (`#504 <https://github.com/ros2/rviz/issues/504>`_)
-* Fixed a bug encountered when included as a sub-project. (`#475 <https://github.com/ros2/rviz/issues/475>`_)
-* Contributors: Dan Rose, Dirk Thomas, Ivan Santiago Paunovic, Jacob Perron, William Woodall, brawner
 
 7.0.3 (2019-11-13)
 ------------------

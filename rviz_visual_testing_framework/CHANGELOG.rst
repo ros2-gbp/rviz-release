@@ -2,35 +2,18 @@
 Changelog for package rviz_visual_testing_framework
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-8.2.0 (2020-06-23)
+7.0.6 (2020-10-27)
+------------------
+* Update maintainer list (`#618 <https://github.com/ros2/rviz/issues/618>`_)
+* Contributors: Michael Jeronimo
+
+7.0.5 (2020-04-17)
 ------------------
 
-8.1.1 (2020-06-03)
+7.0.4 (2020-01-17)
 ------------------
-
-8.1.0 (2020-06-03)
-------------------
-* Added missing virtual destructors (`#553 <https://github.com/ros2/rviz/issues/553>`_)
-* Contributors: Ivan Santiago Paunovic
-
-8.0.3 (2020-06-02)
-------------------
-
-8.0.2 (2020-05-21)
-------------------
-* Removed automoc completely. (`#545 <https://github.com/ros2/rviz/issues/545>`_)
-* Contributors: Chris Lalancette
-
-8.0.1 (2020-05-07)
-------------------
-
-8.0.0 (2020-05-01)
-------------------
-* Note from wjwwood: I've chosen bump the major version this time, even though the API was not broken strictly speaking, partly because of some potentially disruptive build system changes and partially in preparation for ROS Foxy, to allow for new minor/patch versions in the previous ROS release Eloquent.
-* Changed to use ``ament_export_targets()``. (`#525 <https://github.com/ros2/rviz/issues/525>`_)
-* Made some code style changes. (`#504 <https://github.com/ros2/rviz/issues/504>`_)
-* Changed to install RViz configs for visual tests. (`#487 <https://github.com/ros2/rviz/issues/487>`_) (`#498 <https://github.com/ros2/rviz/issues/498>`_)
-* Contributors: Alejandro Hernández Cordero, Dirk Thomas
+* Installed RViz configs for visual tests (`#487 <https://github.com/ros2/rviz/issues/487>`_)
+* Contributors: Alejandro Hernández Cordero
 
 7.0.3 (2019-11-13)
 ------------------

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.5)
 
 project(rviz_ogre_vendor)
 
@@ -150,7 +150,6 @@ macro(build_ogre)
     list(APPEND extra_cmake_args "-DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}")
   endif()
 
-  find_package(Patch REQUIRED)
   include(ExternalProject)
   ExternalProject_Add(ogre-v1.12.1
     URL https://github.com/OGRECave/ogre/archive/v1.12.1.zip
@@ -178,7 +177,7 @@ macro(build_ogre)
       ${extra_cmake_args}
       -Wno-dev
     PATCH_COMMAND
-      ${Patch_EXECUTABLE} -p1 -N < ${CMAKE_CURRENT_SOURCE_DIR}/pragma-patch.diff
+      ${CMAKE_COMMAND} -E chdir <SOURCE_DIR> patch${CMAKE_EXECUTABLE_SUFFIX} -p1 -N < ${CMAKE_CURRENT_SOURCE_DIR}/pragma-patch.diff
     COMMAND
       ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/FindFreetype.cmake ${CMAKE_CURRENT_BINARY_DIR}/ogre-v1.12.1-prefix/src/ogre-v1.12.1/CMake/Packages/FindFreetype.cmake
   )

@@ -29,8 +29,10 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef RVIZ_RENDERING__SCENE_GRAPH_INTROSPECTION_HPP_
-#define RVIZ_RENDERING__SCENE_GRAPH_INTROSPECTION_HPP_
+#ifndef RVIZ_DEFAULT_PLUGINS__SCENE_GRAPH_INTROSPECTION_HELPER_HPP_
+#define RVIZ_DEFAULT_PLUGINS__SCENE_GRAPH_INTROSPECTION_HELPER_HPP_
+
+#include <gmock/gmock.h>
 
 #include <functional>
 #include <vector>
@@ -45,57 +47,37 @@
 #include "rviz_rendering/objects/point_cloud.hpp"
 #include "rviz_rendering/objects/movable_text.hpp"
 
-namespace rviz_rendering
-{
-std::vector<Ogre::SceneNode *> findAllArrows(Ogre::SceneNode * scene_node);
-
-std::vector<Ogre::SceneNode *> findAllAxes(Ogre::SceneNode * scene_node);
-
-std::vector<Ogre::Entity *> findAllEntitiesByMeshName(
-  Ogre::SceneNode * scene_node, const Ogre::String & resource_name);
-Ogre::Entity * findEntityByMeshName(
-  Ogre::SceneNode * scene_node, const Ogre::String & resource_name);
-
-std::vector<Ogre::Entity *> findAllSpheres(Ogre::SceneNode * scene_node);
-std::vector<Ogre::Entity *> findAllCones(Ogre::SceneNode * scene_node);
-std::vector<Ogre::Entity *> findAllCylinders(Ogre::SceneNode * scene_node);
-
-std::vector<rviz_rendering::PointCloud *> findAllPointClouds(Ogre::SceneNode * scene_node);
-
-Ogre::BillboardChain * findOneBillboardChain(Ogre::SceneNode * scene_node);
-
-template<typename OgreType>
-void findAllObjectsAttached(
-  Ogre::SceneNode * scene_node, const Ogre::String & type, std::vector<OgreType *> & objects)
-{
-  auto attached_objects = scene_node->getAttachedObjects();
-  for (const auto & object : attached_objects) {
-    if (object->getMovableType() == type) {
-      auto entity = dynamic_cast<OgreType *>(object);
-      if (entity) {
-        objects.push_back(entity);
-      }
-    }
-  }
+MATCHER_P(Vector3Eq, expected, "") {
+  return Ogre::Math::Abs(expected.x - arg.x) < 0.0001f &&
+         Ogre::Math::Abs(expected.y - arg.y) < 0.0001f &&
+         Ogre::Math::Abs(expected.z - arg.z) < 0.0001f;
 }
 
-template<typename OgreType>
-std::vector<OgreType *> findAllOgreObjectByType(Ogre::SceneNode * scene_node, Ogre::String type)
-{
-  std::vector<OgreType *> objects_vector;
-  findAllObjectsAttached(scene_node, type, objects_vector);
-  for (auto child_node : scene_node->getChildren()) {
-    auto child_scene_node = dynamic_cast<Ogre::SceneNode *>(child_node);
-    if (child_scene_node != nullptr) {
-      auto child_objects_vector = findAllOgreObjectByType<OgreType>(child_scene_node, type);
-      objects_vector.insert(
-        objects_vector.cend(), child_objects_vector.begin(), child_objects_vector.end());
-    }
-  }
-
-  return objects_vector;
+MATCHER_P(QuaternionEq, expected, "") {
+  return Ogre::Math::Abs(expected.x - arg.x) < 0.0001f &&
+         Ogre::Math::Abs(expected.y - arg.y) < 0.0001f &&
+         Ogre::Math::Abs(expected.z - arg.z) < 0.0001f &&
+         Ogre::Math::Abs(expected.w - arg.w) < 0.0001f;
 }
 
-}  // namespace rviz_rendering
+MATCHER_P(ColourValueEq, expected, "") {
+  return Ogre::Math::Abs(expected.r - arg.r) < 0.0001f &&
+         Ogre::Math::Abs(expected.g - arg.g) < 0.0001f &&
+         Ogre::Math::Abs(expected.b - arg.b) < 0.0001f &&
+         Ogre::Math::Abs(expected.a - arg.a) < 0.0001f;
+}
 
-#endif  // RVIZ_RENDERING__SCENE_GRAPH_INTROSPECTION_HPP_
+namespace rviz_default_plugins
+{
+bool arrowIsVisible(Ogre::SceneNode * scene_node);
+
+bool axesAreVisible(Ogre::SceneNode * scene_node);
+
+void assertArrowWithTransform(
+  Ogre::SceneManager * scene_manager,
+  Ogre::Vector3 position,
+  Ogre::Vector3 scale,
+  Ogre::Quaternion orientation);
+}  // namespace rviz_default_plugins
+
+#endif  // RVIZ_DEFAULT_PLUGINS__SCENE_GRAPH_INTROSPECTION_HELPER_HPP_
