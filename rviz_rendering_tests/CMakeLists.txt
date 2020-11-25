@@ -8,7 +8,7 @@ if(NOT CMAKE_CXX_STANDARD)
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  add_compile_options(-Wall -Wextra -Wpedantic)
+  add_compile_options(-Wall -Wextra -Wpedantic -Werror)
 endif()
 
 # Tests currently only run on OS X @ OSRF jenkins
@@ -74,6 +74,8 @@ if(BUILD_TESTING)
       rviz_rendering::rviz_rendering
       resource_retriever::resource_retriever
     )
+    ament_target_dependencies(mesh_loader_test_target
+      rviz_assimp_vendor)
   endif()
 
   ament_add_gtest(test_rviz_rendering_tests

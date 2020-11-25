@@ -2,37 +2,32 @@
 Changelog for package rviz_rendering
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-7.0.6 (2020-10-27)
+6.1.7 (2020-11-24)
 ------------------
-* Update maintainer list (`#618 <https://github.com/ros2/rviz/issues/618>`_)
+* Update maintainers. (`#617 <https://github.com/ros2/rviz/issues/617>`_)
 * Contributors: Michael Jeronimo
 
-7.0.5 (2020-04-17)
+6.1.6 (2020-03-11)
 ------------------
 
-7.0.4 (2020-01-17)
+6.1.5 (2019-12-10)
 ------------------
 
-7.0.3 (2019-11-13)
+6.1.4 (2019-09-06)
+------------------
+* Updated to use new ``eigen3_cmake_module``. (`#441 <https://github.com/ros2/rviz/issues/441>`_) (`#452 <https://github.com/ros2/rviz/issues/452>`_)
+* Contributors: Shane Loretz
+
+6.1.3 (2019-07-31)
 ------------------
 
-7.0.2 (2019-10-23)
+6.1.2 (2019-06-12)
 ------------------
-
-7.0.1 (2019-10-04)
-------------------
-* Migrate Axes Display (`#429 <https://github.com/ros2/rviz/issues/429>`_)
+* Fixed a bug in the STL loader where an STL would be loaded twice and produce an error. (`#410 <https://github.com/ros2/rviz/issues/410>`_)
+  * Also fixed a warning about a missing material, by adding BaseWhiteNoLighting to the ``rviz_rendering`` resource group.
+  * Previous to Ogre 1.11, materials would be searched in all groups With 1.11, this is no longer true.
+  * In RViz, we try to put materials in our own resource group, but we need the Ogre fallback material.
 * Contributors: Martin Idel
-
-7.0.0 (2019-09-27)
-------------------
-* Fix map after upgrade (`#459 <https://github.com/ros2/rviz/issues/459>`_)
-* Use eigen3_cmake_module (`#441 <https://github.com/ros2/rviz/issues/441>`_)
-* Upgrade from Ogre 1.10 to Ogre 1.12.1 (`#394 <https://github.com/ros2/rviz/issues/394>`_)
-* Remove -Werror from defualt compiler options (`#420 <https://github.com/ros2/rviz/issues/420>`_)
-* Migrate Wrench Display (`#396 <https://github.com/ros2/rviz/issues/396>`_)
-* Fix STL loader (`#410 <https://github.com/ros2/rviz/issues/410>`_)
-* Contributors: Hunter L. Allen, Martin Idel, Shane Loretz
 
 6.1.1 (2019-05-29)
 ------------------

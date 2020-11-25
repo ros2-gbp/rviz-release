@@ -33,7 +33,17 @@
 #include <cstdint>
 #include <string>
 
+#ifdef _WIN32
+# pragma warning(push)
+# pragma warning(disable:4996)
+#endif
+
 #include <OgreEntity.h>
+
+#ifdef _WIN32
+# pragma warning(pop)
+#endif
+
 #include <OgreMaterialManager.h>
 #include <OgreQuaternion.h>
 #include <OgreSceneManager.h>
@@ -121,8 +131,8 @@ Shape::Shape(Type type, Ogre::SceneManager * scene_manager, Ogre::SceneNode * pa
 
 Shape::~Shape()
 {
-  scene_manager_->destroySceneNode(scene_node_);
-  scene_manager_->destroySceneNode(offset_node_);
+  scene_manager_->destroySceneNode(scene_node_->getName() );
+  scene_manager_->destroySceneNode(offset_node_->getName() );
 
   if (entity_) {
     scene_manager_->destroyEntity(entity_);

@@ -35,7 +35,6 @@
 #include <vector>
 
 #include "tf2_ros/buffer.h"
-#include "tf2_ros/create_timer_ros.h"
 #include "tf2_ros/transform_listener.h"
 #include "tf2_geometry_msgs/tf2_geometry_msgs.h"
 
@@ -70,40 +69,12 @@ public:
     const tf2::TimePoint & time);
 
   RVIZ_DEFAULT_PLUGINS_PUBLIC
-  geometry_msgs::msg::TransformStamped
-  lookupTransform(
-    const std::string & target_frame,
-    const tf2::TimePoint & target_time,
-    const std::string & source_frame,
-    const tf2::TimePoint & source_time,
-    const std::string & fixed_frame);
-
-  RVIZ_DEFAULT_PLUGINS_PUBLIC
   bool
   canTransform(
-    const std::string & target_frame,
-    const std::string & source_frame,
+    const std::string & fixed_frame,
+    const std::string & frame,
     tf2::TimePoint time,
     std::string & error);
-
-  RVIZ_DEFAULT_PLUGINS_PUBLIC
-  bool
-  canTransform(
-    const std::string & target_frame,
-    const tf2::TimePoint & target_time,
-    const std::string & source_frame,
-    const tf2::TimePoint & source_time,
-    const std::string & fixed_frame,
-    std::string & error);
-
-  RVIZ_DEFAULT_PLUGINS_PUBLIC
-  tf2_ros::TransformStampedFuture
-  waitForTransform(
-    const std::string & target_frame,
-    const std::string & source_frame,
-    const tf2::TimePoint & time,
-    const tf2::Duration & timeout,
-    tf2_ros::TransformReadyCallback callback);
 
   RVIZ_DEFAULT_PLUGINS_PUBLIC
   std::vector<std::string>
@@ -130,10 +101,7 @@ public:
 
   RVIZ_DEFAULT_PLUGINS_PUBLIC
   void
-  initializeBuffer(
-    rclcpp::Clock::SharedPtr clock,
-    rclcpp::Node::SharedPtr node,
-    bool using_dedicated_thread);
+  initializeBuffer(rclcpp::Clock::SharedPtr clock, bool using_dedicated_thread);
 
 private:
   std::shared_ptr<tf2_ros::Buffer> buffer_;

@@ -39,6 +39,11 @@ void OdometryDisplayPageObject::setTopic(QString topic)
   waitForFirstMessage();
 }
 
+void OdometryDisplayPageObject::setUnreliable(bool unreliable)
+{
+  setBool("Unreliable", unreliable);
+}
+
 void OdometryDisplayPageObject::setPositionTolerance(float position_tolerance)
 {
   setFloat("Position Tolerance", position_tolerance);

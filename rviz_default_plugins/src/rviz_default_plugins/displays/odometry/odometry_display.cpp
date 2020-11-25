@@ -134,13 +134,13 @@ OdometryDisplay::~OdometryDisplay() = default;
 
 void OdometryDisplay::onInitialize()
 {
-  MFDClass::onInitialize();
+  RTDClass::onInitialize();
   updateShapeChoice();
 }
 
 void OdometryDisplay::onEnable()
 {
-  MFDClass::onEnable();
+  RTDClass::onEnable();
   updateShapeVisibility();
 }
 
@@ -392,7 +392,7 @@ void OdometryDisplay::update(float wall_dt, float ros_dt)
 
 void OdometryDisplay::reset()
 {
-  MFDClass::reset();
+  RTDClass::reset();
   clear();
 }
 

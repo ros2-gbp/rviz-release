@@ -30,7 +30,17 @@
 
 #include "rviz_common/interaction/selection_handler.hpp"
 
-#include <OgreEntity.h>
+#ifdef _WIN32
+# pragma warning(push)
+# pragma warning(disable : 4996)
+#endif
+
+#include <OgreEntity.h>  // NOLINT
+
+#ifdef _WIN32
+# pragma warning(pop)
+#endif
+
 #include <OgreManualObject.h>
 #include <OgreMaterialManager.h>
 #include <OgreSceneManager.h>
@@ -111,16 +121,16 @@ void SelectionHandler::addTrackedObjects(Ogre::SceneNode * node)
     return;
   }
   // Loop over all objects attached to this node.
-  auto objects = node->getAttachedObjects();
-  for (const auto & object : objects) {
-    addTrackedObject(object);
+  auto obj_it = node->getAttachedObjectIterator();
+  while (obj_it.hasMoreElements() ) {
+    auto obj = obj_it.getNext();
+    addTrackedObject(obj);
   }
   // Loop over and recurse into all child nodes.
-  for (auto child_node : node->getChildren()) {
-    auto child = dynamic_cast<Ogre::SceneNode *>(child_node);
-    if (child != nullptr) {
-      addTrackedObjects(child);
-    }
+  auto child_it = node->getChildIterator();
+  while (child_it.hasMoreElements() ) {
+    auto child = dynamic_cast<Ogre::SceneNode *>( child_it.getNext() );
+    addTrackedObjects(child);
   }
 }
 
@@ -242,7 +252,7 @@ void SelectionHandler::destroyBox(const Handles & handles)
     auto box = handle_to_box_iterator->second.box;
 
     node->detachAllObjects();
-    node->getParentSceneNode()->removeAndDestroyChild(node);
+    node->getParentSceneNode()->removeAndDestroyChild(node->getName());
 
     delete box;
     box = nullptr;

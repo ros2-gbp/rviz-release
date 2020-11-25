@@ -33,7 +33,17 @@
 #include <cstdlib>
 #include <functional>
 
+#ifdef _WIN32
+# pragma warning(push)
+# pragma warning(disable:4996)
+#endif
+
 #include <OgreEntity.h>
+
+#ifdef _WIN32
+# pragma warning(pop)
+#endif
+
 #include <OgreCamera.h>
 #include <OgreGpuProgramManager.h>
 #include <OgreMaterialManager.h>
@@ -44,6 +54,7 @@
 #include <OgreTechnique.h>
 #include <OgreTextureManager.h>
 #include <OgreViewport.h>
+#include <OgreWindowEventUtilities.h>
 
 #include "rviz_rendering/orthographic.hpp"
 #include "./render_system.hpp"
@@ -112,11 +123,7 @@ RenderWindowImpl::render()
   // Theoretically you can have one function that does this check but from my
   // experience it seems better to keep things separate and keep the render
   // function as simple as possible.
-
-  // At this point, Ogre::WindowEventUtilities::messagePump() was called previously.
-  // This function would process native platform messages for each render window. However, this
-  // should be done by Qt for us. If the behavior is different, consider reimplementing the
-  // method using Qt onboard features.
+  Ogre::WindowEventUtilities::messagePump();
   if (ogre_render_window_->isClosed()) {
     RVIZ_RENDERING_LOG_ERROR("in RenderSystemImpl::render() - ogre window is closed");
     return;

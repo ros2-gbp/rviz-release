@@ -303,6 +303,7 @@ public:
   rclcpp::Clock::SharedPtr getClock() override;
 
 Q_SIGNALS:
+
   /// Emitted before updating all Displays.
   void preUpdate();
 

@@ -78,7 +78,7 @@ BillboardLine::~BillboardLine()
     scene_manager_->destroyBillboardChain(chain);
   }
 
-  scene_manager_->destroySceneNode(scene_node_);
+  scene_manager_->destroySceneNode(scene_node_->getName() );
 
   Ogre::MaterialManager::getSingleton().remove(material_);
 }

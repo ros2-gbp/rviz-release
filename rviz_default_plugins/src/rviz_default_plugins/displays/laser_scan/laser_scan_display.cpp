@@ -35,6 +35,7 @@
 #include "tf2_ros/buffer.h"
 
 #include "rviz_common/properties/int_property.hpp"
+#include "rviz_common/properties/queue_size_property.hpp"
 #include "rviz_common/transformation/transformation_manager.hpp"
 #include "rviz_common/validate_floats.hpp"
 #include "rviz_default_plugins/displays/pointcloud/point_cloud_common.hpp"
@@ -47,8 +48,8 @@ namespace displays
 
 LaserScanDisplay::LaserScanDisplay()
 : point_cloud_common_(std::make_unique<rviz_default_plugins::PointCloudCommon>(this)),
+  queue_size_property_(std::make_unique<rviz_common::QueueSizeProperty>(this, 10)),
   projector_(std::make_unique<laser_geometry::LaserProjection>()),
-  filter_tolerance_(0, 0),
   transformer_guard_(
     std::make_unique<rviz_default_plugins::transformation::TransformerGuard<
       rviz_default_plugins::transformation::TFFrameTransformer>>(this, "TF"))
@@ -56,20 +57,22 @@ LaserScanDisplay::LaserScanDisplay()
 
 void LaserScanDisplay::onInitialize()
 {
-  MFDClass::onInitialize();
+  RTDClass::onInitialize();
   point_cloud_common_->initialize(context_, scene_node_);
   transformer_guard_->initialize(context_);
 }
 
 void LaserScanDisplay::processMessage(sensor_msgs::msg::LaserScan::ConstSharedPtr scan)
 {
+  // TODO(Martin-Idel-SI): Reenable once tf_filter is ported or delete if necessary
 //  Compute tolerance necessary for this scan
-  rclcpp::Duration tolerance(static_cast<int32_t>(static_cast<rcl_duration_value_t>(
-      scan->time_increment * scan->ranges.size())), 0);
-  if (tolerance > filter_tolerance_) {
-    filter_tolerance_ = tolerance;
-    tf_filter_->setTolerance(filter_tolerance_);
-  }
+//  ros::Duration tolerance(scan->time_increment * scan->ranges.size());
+//  if (tolerance > filter_tolerance_)
+//  {
+//    filter_tolerance_ = tolerance;
+//    tf_filter_->setTolerance(filter_tolerance_);
+//  }
+
   auto cloud = std::make_shared<sensor_msgs::msg::PointCloud2>();
   auto tf_wrapper = std::dynamic_pointer_cast<transformation::TFWrapper>(
     context_->getFrameManager()->getConnector().lock());
@@ -103,13 +106,13 @@ void LaserScanDisplay::update(float wall_dt, float ros_dt)
 
 void LaserScanDisplay::reset()
 {
-  MFDClass::reset();
+  RTDClass::reset();
   point_cloud_common_->reset();
 }
 
 void LaserScanDisplay::onDisable()
 {
-  MFDClass::onDisable();
+  RosTopicDisplay::onDisable();
   point_cloud_common_->onDisable();
 }
 

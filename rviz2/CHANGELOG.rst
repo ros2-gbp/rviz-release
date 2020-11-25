@@ -2,32 +2,25 @@
 Changelog for package rviz2
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-7.0.6 (2020-10-27)
+6.1.7 (2020-11-24)
 ------------------
-* Update maintainer list (`#618 <https://github.com/ros2/rviz/issues/618>`_)
+* Update maintainers. (`#617 <https://github.com/ros2/rviz/issues/617>`_)
 * Contributors: Michael Jeronimo
 
-7.0.5 (2020-04-17)
+6.1.6 (2020-03-11)
 ------------------
 
-7.0.4 (2020-01-17)
+6.1.5 (2019-12-10)
 ------------------
 
-7.0.3 (2019-11-13)
+6.1.4 (2019-09-06)
 ------------------
 
-7.0.2 (2019-10-23)
-------------------
-* Remove ROS arguments before passing to QApplication (`#474 <https://github.com/ros2/rviz/issues/474>`_)
-* Contributors: Jacob Perron
-
-7.0.1 (2019-10-04)
+6.1.3 (2019-07-31)
 ------------------
 
-7.0.0 (2019-09-27)
+6.1.2 (2019-06-12)
 ------------------
-* Remove -Werror from defualt compiler options (`#420 <https://github.com/ros2/rviz/issues/420>`_)
-* Contributors: Hunter L. Allen
 
 6.1.1 (2019-05-29)
 ------------------
