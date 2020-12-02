@@ -33,8 +33,11 @@
 
 #include <string>
 
+#include "rclcpp/qos.hpp"
+
 #include "rviz_common/display_context.hpp"
 #include "rviz_common/properties/string_property.hpp"
+#include "rviz_common/properties/qos_profile_property.hpp"
 #include "rviz_common/logging.hpp"
 
 namespace rviz_default_plugins
@@ -43,12 +46,16 @@ namespace tools
 {
 
 InitialPoseTool::InitialPoseTool()
+: qos_profile_(5)
 {
   shortcut_key_ = 'p';
 
   topic_property_ = new rviz_common::properties::StringProperty("Topic", "initialpose",
       "The topic on which to publish initial pose estimates.",
       getPropertyContainer(), SLOT(updateTopic()), this);
+
+  qos_profile_property_ = new rviz_common::properties::QosProfileProperty(
+    topic_property_, qos_profile_);
 }
 
 InitialPoseTool::~InitialPoseTool() = default;
@@ -56,6 +63,8 @@ InitialPoseTool::~InitialPoseTool() = default;
 void InitialPoseTool::onInitialize()
 {
   PoseTool::onInitialize();
+  qos_profile_property_->initialize(
+    [this](rclcpp::QoS profile) {this->qos_profile_ = profile;});
   setName("2D Pose Estimate");
   updateTopic();
 }
@@ -65,7 +74,7 @@ void InitialPoseTool::updateTopic()
   // TODO(anhosi, wjwwood): replace with abstraction for publishers once available
   publisher_ = context_->getRosNodeAbstraction().lock()->get_raw_node()->
     template create_publisher<geometry_msgs::msg::PoseWithCovarianceStamped>(
-    topic_property_->getStdString(), 10);
+    topic_property_->getStdString(), qos_profile_);
 }
 
 void InitialPoseTool::onPoseSet(double x, double y, double theta)
@@ -86,7 +95,7 @@ void InitialPoseTool::onPoseSet(double x, double y, double theta)
   pose.pose.covariance[6 * 1 + 1] = 0.5 * 0.5;
   pose.pose.covariance[6 * 5 + 5] = M_PI / 12.0 * M_PI / 12.0;
 
-  logPose(pose.pose.pose.position, pose.pose.pose.orientation, theta, fixed_frame);
+  logPose("estimate", pose.pose.pose.position, pose.pose.pose.orientation, theta, fixed_frame);
 
   publisher_->publish(pose);
 }

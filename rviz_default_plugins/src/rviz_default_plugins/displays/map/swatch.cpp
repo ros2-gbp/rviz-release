@@ -34,24 +34,14 @@
 #include <string>
 #include <vector>
 
-#ifndef _WIN32
-# pragma GCC diagnostic push
-# pragma GCC diagnostic ignored "-Wunused-parameter"
-# pragma GCC diagnostic ignored "-Wpedantic"
-#endif
-
 #include <OgreManualObject.h>
 #include <OgreMaterialManager.h>
 #include <OgreRenderable.h>
 #include <OgreSceneManager.h>
 #include <OgreSceneNode.h>
-#include <OgreTextureManager.h>
-#include <OgreTechnique.h>
 #include <OgreSharedPtr.h>
-
-#ifndef _WIN32
-# pragma GCC diagnostic pop
-#endif
+#include <OgreTechnique.h>
+#include <OgreTextureManager.h>
 
 #include "rviz_rendering/custom_parameter_indices.hpp"
 
@@ -151,6 +141,7 @@ void Swatch::updateData(const nav_msgs::msg::OccupancyGrid & map)
   Ogre::DataStreamPtr pixel_stream(new Ogre::MemoryDataStream(pixels.data(), pixels_size));
 
   resetTexture(pixel_stream);
+  resetOldTexture();
 }
 
 void Swatch::setVisible(bool visible)
@@ -160,11 +151,11 @@ void Swatch::setVisible(bool visible)
   }
 }
 
-void Swatch::resetTexture()
+void Swatch::resetOldTexture()
 {
-  if (texture_) {
-    Ogre::TextureManager::getSingleton().remove(texture_);
-    texture_.reset();
+  if (old_texture_) {
+    Ogre::TextureManager::getSingleton().remove(old_texture_);
+    old_texture_.reset();
   }
 }
 
@@ -200,10 +191,7 @@ std::string Swatch::getTextureName()
 
 void Swatch::resetTexture(Ogre::DataStreamPtr & pixel_stream)
 {
-  if (texture_) {
-    Ogre::TextureManager::getSingleton().remove(texture_);
-    texture_.reset();
-  }
+  old_texture_ = texture_;
 
   texture_ = Ogre::TextureManager::getSingleton().loadRawData(
     "MapTexture" + std::to_string(texture_count_++),

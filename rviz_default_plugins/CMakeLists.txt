@@ -8,7 +8,7 @@ if(NOT CMAKE_CXX_STANDARD)
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  add_compile_options(-Wall -Wextra -Wpedantic -Werror)
+  add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
 # Tests currently only run on OS X @ OSRF jenkins
@@ -59,12 +59,16 @@ find_package(rviz_ogre_vendor REQUIRED)
 find_package(Qt5 REQUIRED COMPONENTS Widgets Test)
 
 find_package(geometry_msgs REQUIRED)
+find_package(interactive_markers REQUIRED)
 find_package(laser_geometry REQUIRED)
 find_package(map_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(resource_retriever REQUIRED)
+find_package(tf2 REQUIRED)
+find_package(tf2_geometry_msgs REQUIRED)
+find_package(tf2_ros REQUIRED)
 find_package(tinyxml_vendor REQUIRED)
 find_package(TinyXML REQUIRED)  # provided by tinyxml_vendor
 find_package(urdf REQUIRED)
@@ -72,6 +76,7 @@ find_package(visualization_msgs REQUIRED)
 
 # These need to be added in the add_library() call so AUTOMOC detects them.
 set(rviz_default_plugins_headers_to_moc
+  include/rviz_default_plugins/displays/axes/axes_display.hpp
   include/rviz_default_plugins/displays/camera/camera_display.hpp
   include/rviz_default_plugins/displays/fluid_pressure/fluid_pressure_display.hpp
   include/rviz_default_plugins/displays/grid/grid_display.hpp
@@ -85,6 +90,11 @@ set(rviz_default_plugins_headers_to_moc
   include/rviz_default_plugins/displays/marker_array/marker_array_display.hpp
   include/rviz_default_plugins/displays/odometry/odometry_display.hpp
   include/rviz_default_plugins/transformation/transformer_guard.hpp
+  include/rviz_default_plugins/displays/interactive_markers/integer_action.hpp
+  include/rviz_default_plugins/displays/interactive_markers/interactive_marker.hpp
+  include/rviz_default_plugins/displays/interactive_markers/interactive_marker_control.hpp
+  include/rviz_default_plugins/displays/interactive_markers/interactive_marker_display.hpp
+  include/rviz_default_plugins/displays/interactive_markers/interactive_marker_namespace_property.hpp
   include/rviz_default_plugins/displays/path/path_display.hpp
   include/rviz_default_plugins/displays/point/point_stamped_display.hpp
   include/rviz_default_plugins/displays/pointcloud/point_cloud_common.hpp
@@ -108,12 +118,14 @@ set(rviz_default_plugins_headers_to_moc
   include/rviz_default_plugins/displays/temperature/temperature_display.hpp
   include/rviz_default_plugins/displays/tf/frame_info.hpp
   include/rviz_default_plugins/displays/tf/tf_display.hpp
+  include/rviz_default_plugins/displays/wrench/wrench_display.hpp
   include/rviz_default_plugins/robot/robot.hpp
   include/rviz_default_plugins/robot/robot_joint.hpp
   include/rviz_default_plugins/robot/robot_link.hpp
   include/rviz_default_plugins/robot/robot_element_base_class.hpp
   include/rviz_default_plugins/tools/measure/measure_tool.hpp
-  include/rviz_default_plugins/tools/nav_goal/goal_tool.hpp
+  include/rviz_default_plugins/tools/goal_pose/goal_tool.hpp
+  include/rviz_default_plugins/tools/interaction/interaction_tool.hpp
   include/rviz_default_plugins/tools/pose/pose_tool.hpp
   include/rviz_default_plugins/tools/pose_estimate/initial_pose_tool.hpp
   include/rviz_default_plugins/tools/point/point_tool.hpp
@@ -125,6 +137,7 @@ set(rviz_default_plugins_headers_to_moc
 )
 
 set(rviz_default_plugins_source_files
+  src/rviz_default_plugins/displays/axes/axes_display.cpp
   src/rviz_default_plugins/displays/camera/camera_display.cpp
   src/rviz_default_plugins/displays/grid/grid_display.cpp
   src/rviz_default_plugins/displays/grid_cells/grid_cells_display.cpp
@@ -132,6 +145,11 @@ set(rviz_default_plugins_source_files
   src/rviz_default_plugins/displays/illuminance/illuminance_display.cpp
   src/rviz_default_plugins/displays/image/image_display.cpp
   src/rviz_default_plugins/displays/image/ros_image_texture.cpp
+  src/rviz_default_plugins/displays/interactive_markers/integer_action.cpp
+  src/rviz_default_plugins/displays/interactive_markers/interactive_marker_control.cpp
+  src/rviz_default_plugins/displays/interactive_markers/interactive_marker.cpp
+  src/rviz_default_plugins/displays/interactive_markers/interactive_marker_display.cpp
+  src/rviz_default_plugins/displays/interactive_markers/interactive_marker_namespace_property.cpp
   src/rviz_default_plugins/displays/laser_scan/laser_scan_display.cpp
   src/rviz_default_plugins/displays/map/map_display.cpp
   src/rviz_default_plugins/displays/map/palette_builder.cpp
@@ -178,15 +196,17 @@ set(rviz_default_plugins_source_files
   src/rviz_default_plugins/displays/tf/frame_info.cpp
   src/rviz_default_plugins/displays/tf/frame_selection_handler.cpp
   src/rviz_default_plugins/displays/tf/tf_display.cpp
+  src/rviz_default_plugins/displays/wrench/wrench_display.cpp
   src/rviz_default_plugins/robot/robot.cpp
   src/rviz_default_plugins/robot/robot_joint.cpp
   src/rviz_default_plugins/robot/robot_link.cpp
   src/rviz_default_plugins/robot/robot_element_base_class.cpp
   src/rviz_default_plugins/robot/tf_link_updater.cpp
+  src/rviz_default_plugins/tools/interaction/interaction_tool.cpp
   src/rviz_default_plugins/tools/measure/measure_tool.cpp
   src/rviz_default_plugins/tools/focus/focus_tool.cpp
   src/rviz_default_plugins/tools/move/move_tool.cpp
-  src/rviz_default_plugins/tools/nav_goal/goal_tool.cpp
+  src/rviz_default_plugins/tools/goal_pose/goal_tool.cpp
   src/rviz_default_plugins/tools/pose/pose_tool.cpp
   src/rviz_default_plugins/tools/pose_estimate/initial_pose_tool.cpp
   src/rviz_default_plugins/tools/point/point_tool.cpp
@@ -238,11 +258,15 @@ pluginlib_export_plugin_description_file(rviz_common plugins_description.xml)
 
 ament_target_dependencies(rviz_default_plugins
   geometry_msgs
+  interactive_markers
   laser_geometry
   nav_msgs
   map_msgs
   rclcpp
   resource_retriever
+  tf2
+  tf2_geometry_msgs
+  tf2_ros
   urdf
   visualization_msgs
 )
@@ -253,10 +277,14 @@ ament_export_dependencies(
   Qt5
   rviz_common
   geometry_msgs
+  interactive_markers
   laser_geometry
   map_msgs
   nav_msgs
   rclcpp
+  tf2
+  tf2_geometry_msgs
+  tf2_ros
   urdf
   visualization_msgs
 )
@@ -606,6 +634,20 @@ if(BUILD_TESTING)
     target_link_libraries(transformer_guard_test ${TEST_LINK_LIBRARIES})
   endif()
 
+  ament_add_gtest(axes_display_visual_test
+    test/rviz_default_plugins/displays/axes/axes_display_visual_test.cpp
+    test/rviz_default_plugins/page_objects/axes_display_page_object.cpp
+    ${SKIP_VISUAL_TESTS}
+    TIMEOUT 180)
+  if(TARGET axes_display_visual_test)
+    target_include_directories(axes_display_visual_test PUBLIC
+      ${TEST_INCLUDE_DIRS}
+      ${rviz_visual_testing_framework_INCLUDE_DIRS})
+    target_link_libraries(axes_display_visual_test
+      ${TEST_LINK_LIBRARIES}
+      rviz_visual_testing_framework::rviz_visual_testing_framework)
+  endif()
+
   ament_add_gtest(camera_display_visual_test
     test/rviz_default_plugins/displays/camera/camera_display_visual_test.cpp
     test/rviz_default_plugins/publishers/camera_info_publisher.hpp
@@ -697,6 +739,15 @@ if(BUILD_TESTING)
     target_link_libraries(image_display_visual_test
       ${TEST_LINK_LIBRARIES}
       rviz_visual_testing_framework::rviz_visual_testing_framework)
+  endif()
+
+  ament_add_gtest(interactive_marker_namespace_property_test
+    test/rviz_default_plugins/displays/interactive_markers/interactive_marker_namespace_property_test.cpp)
+  if(TARGET interactive_marker_namespace_property_test)
+    target_include_directories(interactive_marker_namespace_property_test PUBLIC
+      ${TEST_INCLUDE_DIRS})
+    target_link_libraries(interactive_marker_namespace_property_test
+      ${TEST_LINK_LIBRARIES})
   endif()
 
   ament_add_gtest(laser_scan_display_visual_test
@@ -939,6 +990,20 @@ if(BUILD_TESTING)
       ${TEST_INCLUDE_DIRS}
       ${rviz_visual_testing_framework_INCLUDE_DIRS})
     target_link_libraries(tf_display_visual_test
+      ${TEST_LINK_LIBRARIES}
+      rviz_visual_testing_framework::rviz_visual_testing_framework)
+  endif()
+
+  ament_add_gtest(wrench_display_visual_test
+    test/rviz_default_plugins/displays/wrench/wrench_stamped_display_visual_test.cpp
+    test/rviz_default_plugins/page_objects/wrench_display_page_object.cpp
+    ${SKIP_VISUAL_TESTS}
+    TIMEOUT 180)
+  if(TARGET wrench_display_visual_test)
+    target_include_directories(wrench_display_visual_test PUBLIC
+      ${TEST_INCLUDE_DIRS}
+      ${rviz_visual_testing_framework_INCLUDE_DIRS})
+    target_link_libraries(wrench_display_visual_test
       ${TEST_LINK_LIBRARIES}
       rviz_visual_testing_framework::rviz_visual_testing_framework)
   endif()

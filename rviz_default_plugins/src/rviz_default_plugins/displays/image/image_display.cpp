@@ -67,8 +67,7 @@ ImageDisplay::ImageDisplay()
 : ImageDisplay(std::make_unique<ROSImageTexture>()) {}
 
 ImageDisplay::ImageDisplay(std::unique_ptr<ROSImageTextureIface> texture)
-: queue_size_property_(std::make_unique<rviz_common::QueueSizeProperty>(this, 10)),
-  texture_(std::move(texture))
+: texture_(std::move(texture))
 {
   normalize_property_ = new rviz_common::properties::BoolProperty(
     "Normalize Range",
@@ -103,7 +102,7 @@ ImageDisplay::ImageDisplay(std::unique_ptr<ROSImageTextureIface> texture)
 
 void ImageDisplay::onInitialize()
 {
-  RTDClass::onInitialize();
+  MFDClass::onInitialize();
 
   updateNormalizeOptions();
   setupScreenRectangle();
@@ -120,12 +119,12 @@ ImageDisplay::~ImageDisplay() = default;
 
 void ImageDisplay::onEnable()
 {
-  RTDClass::subscribe();
+  MFDClass::subscribe();
 }
 
 void ImageDisplay::onDisable()
 {
-  RTDClass::unsubscribe();
+  MFDClass::unsubscribe();
   clear();
 }
 
@@ -188,7 +187,7 @@ void ImageDisplay::update(float wall_dt, float ros_dt)
 
 void ImageDisplay::reset()
 {
-  RTDClass::reset();
+  MFDClass::reset();
   clear();
 }
 

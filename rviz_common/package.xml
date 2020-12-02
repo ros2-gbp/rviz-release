@@ -1,6 +1,6 @@
 <package format="2">
   <name>rviz_common</name>
-  <version>6.1.7</version>
+  <version>7.0.7</version>
   <description>
     Common rviz API, used by rviz plugins and applications.
   </description>
@@ -39,6 +39,7 @@
   <depend>tf2</depend>
   <depend>tf2_geometry_msgs</depend>
   <depend>tf2_ros</depend>
+  <depend>message_filters</depend>
   <depend>tinyxml_vendor</depend>
   <depend>urdf</depend>
   <depend>yaml_cpp_vendor</depend>

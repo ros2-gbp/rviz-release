@@ -39,8 +39,7 @@
 
 #include "rviz_common/display_context.hpp"
 #include "rviz_common/frame_manager_iface.hpp"
-#include "rviz_common/ros_topic_display.hpp"
-#include "rviz_common/properties/queue_size_property.hpp"
+#include "rviz_common/message_filter_display.hpp"
 #include "rviz_common/validate_floats.hpp"
 #include "rviz_default_plugins/displays/pointcloud/point_cloud_common.hpp"
 #include "rviz_default_plugins/visibility_control.hpp"
@@ -63,12 +62,11 @@ namespace displays
 
 template<typename MessageType>
 class RVIZ_DEFAULT_PLUGINS_PUBLIC PointCloudScalarDisplay
-  : public rviz_common::RosTopicDisplay<MessageType>
+  : public rviz_common::MessageFilterDisplay<MessageType>
 {
 public:
   PointCloudScalarDisplay()
-  : queue_size_property_(std::make_unique<rviz_common::QueueSizeProperty>(this, 10)),
-    point_cloud_common_(std::make_shared<PointCloudCommon>(this))
+  : point_cloud_common_(std::make_shared<PointCloudCommon>(this))
   {}
 
   ~PointCloudScalarDisplay() override = default;
@@ -100,13 +98,12 @@ protected:
   virtual void setInitialValues() = 0;
   virtual void hideUnneededProperties() = 0;
 
-  std::unique_ptr<rviz_common::QueueSizeProperty> queue_size_property_;
   std::shared_ptr<rviz_default_plugins::PointCloudCommon> point_cloud_common_;
 
 private:
   void onInitialize() override
   {
-    rviz_common::RosTopicDisplay<MessageType>::onInitialize();
+    rviz_common::MessageFilterDisplay<MessageType>::onInitialize();
     point_cloud_common_->initialize(
       this->context_, this->scene_node_);
     setInitialValues();
@@ -120,18 +117,18 @@ private:
 
   void onEnable() override
   {
-    rviz_common::RosTopicDisplay<MessageType>::onEnable();
+    rviz_common::MessageFilterDisplay<MessageType>::onEnable();
   }
 
   void onDisable() override
   {
-    rviz_common::RosTopicDisplay<MessageType>::onDisable();
+    rviz_common::MessageFilterDisplay<MessageType>::onDisable();
     point_cloud_common_->onDisable();
   }
 
   void reset() override
   {
-    rviz_common::RosTopicDisplay<MessageType>::reset();
+    rviz_common::MessageFilterDisplay<MessageType>::reset();
     point_cloud_common_->reset();
   }
 
