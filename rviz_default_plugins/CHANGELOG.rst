@@ -2,6 +2,9 @@
 Changelog for package rviz_default_plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+7.0.7 (2020-12-02)
+------------------
+
 7.0.6 (2020-10-27)
 ------------------
 * Update maintainer list (`#618 <https://github.com/ros2/rviz/issues/618>`_)
