@@ -33,7 +33,7 @@
 #include <memory>
 #include <string>
 
-#include "src/rviz_common/transformation/identity_frame_transformer.hpp"
+#include "../../src/rviz_common/transformation/identity_frame_transformer.hpp"
 #include "transformation_test_helpers.hpp"
 
 using namespace testing;  // NOLINT
@@ -89,7 +89,8 @@ TEST_F(IdentityTransformerFixture, canTransform_returns_true) {
   EXPECT_THAT(error, Eq(""));
 
   error = "";
-  EXPECT_TRUE(transformer_->canTransform(
+  EXPECT_TRUE(
+    transformer_->canTransform(
       "any_target",
       tf2::TimePointZero,
       "any_source",

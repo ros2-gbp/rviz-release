@@ -135,7 +135,7 @@ void XYOrbitViewController::lookAt(const Ogre::Vector3 & point)
 
 void XYOrbitViewController::setShiftOrbitStatus()
 {
-  setStatus("<b>Left-Click:</b> Move X/Y.  <b>Right-Click:</b>: Zoom.");
+  setStatus("<b>Left-Click:</b> Move X/Y.  <b>Right-Click:</b> Zoom.");
 }
 
 void XYOrbitViewController::moveFocalPoint(
@@ -204,5 +204,6 @@ void XYOrbitViewController::handleWheelEvent(
 }  // namespace rviz_default_plugins
 
 #include <pluginlib/class_list_macros.hpp>  // NOLINT
-PLUGINLIB_EXPORT_CLASS(rviz_default_plugins::view_controllers::XYOrbitViewController,
+PLUGINLIB_EXPORT_CLASS(
+  rviz_default_plugins::view_controllers::XYOrbitViewController,
   rviz_common::ViewController)

@@ -2,22 +2,53 @@
 Changelog for package rviz_rendering
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-7.0.7 (2020-12-02)
+8.3.0 (2020-12-08)
 ------------------
-* Prevent rviz_rendering::AssimpLoader from loading materials twice. (`#622 <https://github.com/ros2/rviz/issues/622>`_) (`#630 <https://github.com/ros2/rviz/issues/630>`_)
-  Retrieve material if it already exists. Assumes resource path uniqueness.
-* Contributors: Michel Hidalgo
+* Prevent rviz_rendering::AssimpLoader from loading materials twice. (`#622 <https://github.com/ros2/rviz/issues/622>`_)
+* Support loading meshes other than .mesh and .stl with package URIs (`#610 <https://github.com/ros2/rviz/issues/610>`_)
+* Add linters and use ament_lint_auto (`#608 <https://github.com/ros2/rviz/issues/608>`_)
+* Update maintainers (`#607 <https://github.com/ros2/rviz/issues/607>`_)
+* Switch to nullptr everywhere. (`#592 <https://github.com/ros2/rviz/issues/592>`_)
+* Use retriever.hpp (`#589 <https://github.com/ros2/rviz/issues/589>`_)
+* Avoid hidding base class getRenderOperation in PointCloudRenderable (`#586 <https://github.com/ros2/rviz/issues/586>`_)
+* Contributors: Chris Lalancette, Ivan Santiago Paunovic, Jacob Perron, Michel Hidalgo, Shane Loretz
 
-7.0.6 (2020-10-27)
+8.2.0 (2020-06-23)
 ------------------
-* Update maintainer list (`#618 <https://github.com/ros2/rviz/issues/618>`_)
-* Contributors: Michael Jeronimo
+* Changed to not install test header files in rviz_rendering. (`#564 <https://github.com/ros2/rviz/issues/564>`_)
+* Contributors: Chris Lalancette
 
-7.0.5 (2020-04-17)
+8.1.1 (2020-06-03)
+------------------
+* avoid absolute OGRE path in exported targets (`#558 <https://github.com/ros2/rviz/issues/558>`_)
+* Contributors: Dirk Thomas
+
+8.1.0 (2020-06-03)
+------------------
+* Added missing virtual destructors (`#553 <https://github.com/ros2/rviz/issues/553>`_)
+* Contributors: Ivan Santiago Paunovic
+
+8.0.3 (2020-06-02)
 ------------------
 
-7.0.4 (2020-01-17)
+8.0.2 (2020-05-21)
 ------------------
+* Removed automoc completely. (`#545 <https://github.com/ros2/rviz/issues/545>`_)
+* Added workaround for Eigen build bug (`#546 <https://github.com/ros2/rviz/issues/546>`_)
+* Contributors: Chris Lalancette
+
+8.0.1 (2020-05-07)
+------------------
+
+8.0.0 (2020-05-01)
+------------------
+* Note from wjwwood: I've chosen bump the major version this time, even though the API was not broken strictly speaking, partly because of some potentially disruptive build system changes and partially in preparation for ROS Foxy, to allow for new minor/patch versions in the previous ROS release Eloquent.
+* Removed duplicate include dirs and link libraries. (`#533 <https://github.com/ros2/rviz/issues/533>`_)
+* Changed to use ``ament_export_targets()``. (`#525 <https://github.com/ros2/rviz/issues/525>`_)
+* Made some code style changes. (`#504 <https://github.com/ros2/rviz/issues/504>`_)
+* Migrated the pose with covariance display. (`#471 <https://github.com/ros2/rviz/issues/471>`_)
+* Fixed the build when included as a sub-project. (`#475 <https://github.com/ros2/rviz/issues/475>`_)
+* Contributors: Dan Rose, Dirk Thomas, Martin Idel
 
 7.0.3 (2019-11-13)
 ------------------

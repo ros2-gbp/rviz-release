@@ -48,7 +48,7 @@ namespace rviz_common
 
 ViewsPanel::ViewsPanel(QWidget * parent)
 : Panel(parent),
-  view_man_(NULL)
+  view_man_(nullptr)
 {
   camera_type_selector_ = new QComboBox;
   properties_view_ = new properties::PropertyTreeWidget();
@@ -82,9 +82,11 @@ ViewsPanel::ViewsPanel(QWidget * parent)
   connect(remove_button, SIGNAL(clicked()), this, SLOT(onDeleteClicked()));
   connect(rename_button, SIGNAL(clicked()), this, SLOT(renameSelected()));
   connect(zero_button, SIGNAL(clicked()), this, SLOT(onZeroClicked()));
-  connect(properties_view_, SIGNAL(clicked(const QModelIndex&)), this,
+  connect(
+    properties_view_, SIGNAL(clicked(const QModelIndex&)), this,
     SLOT(setCurrentViewFromIndex(const QModelIndex&)));
-  connect(properties_view_, SIGNAL(activated(const QModelIndex&)), this,
+  connect(
+    properties_view_, SIGNAL(activated(const QModelIndex&)), this,
     SLOT(setCurrentViewFromIndex(const QModelIndex&)));
 }
 
@@ -97,7 +99,8 @@ void ViewsPanel::setViewManager(ViewManager * view_man)
 {
   if (view_man_) {
     disconnect(save_button_, SIGNAL(clicked()), view_man_, SLOT(copyCurrentToList()));
-    disconnect(camera_type_selector_, SIGNAL(activated(int)), this,
+    disconnect(
+      camera_type_selector_, SIGNAL(activated(int)), this,
       SLOT(onTypeSelectorChanged(int)));
     disconnect(view_man_, SIGNAL(currentChanged()), this, SLOT(onCurrentChanged()));
   }
@@ -117,7 +120,7 @@ void ViewsPanel::setViewManager(ViewManager * view_man)
     connect(camera_type_selector_, SIGNAL(activated(int)), this, SLOT(onTypeSelectorChanged(int)));
     connect(view_man_, SIGNAL(currentChanged()), this, SLOT(onCurrentChanged()));
   } else {
-    properties_view_->setModel(NULL);
+    properties_view_->setModel(nullptr);
   }
   onCurrentChanged();
 }
@@ -172,8 +175,8 @@ void ViewsPanel::renameSelected()
     }
 
     QString old_name = view->getName();
-    QString new_name = QInputDialog::getText(this, "Rename View", "New Name?", QLineEdit::Normal,
-        old_name);
+    QString new_name = QInputDialog::getText(
+      this, "Rename View", "New Name?", QLineEdit::Normal, old_name);
 
     if (new_name.isEmpty() || new_name == old_name) {
       return;

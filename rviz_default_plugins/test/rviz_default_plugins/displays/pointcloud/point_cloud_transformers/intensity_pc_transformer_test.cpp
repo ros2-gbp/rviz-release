@@ -33,7 +33,7 @@
 
 #include <QList>  // NOLINT: cpplint is unable to handle the include order here
 
-#include "test/rviz_default_plugins/pointcloud_messages.hpp"
+#include "../../../pointcloud_messages.hpp"
 
 #include "rviz_default_plugins/displays/pointcloud/transformers/intensity_pc_transformer.hpp"
 
@@ -62,7 +62,8 @@ TEST(IntensityPCTransformer, transform_returns_points_colored_depending_on_the_i
   ASSERT_THAT(points_out[2].color, Eq(Ogre::ColourValue(1, 0, 1)));  // 1
 }
 
-TEST(IntensityPCTransformer,
+TEST(
+  IntensityPCTransformer,
   transform_interpolates_between_min_and_max_color_if_use_rainbow_is_diabled) {
   PointWithIntensity p1 = {0, 0, 0, 0};
   PointWithIntensity p2 = {0, 0, 0, 1};
@@ -94,7 +95,8 @@ TEST(IntensityPCTransformer,
   ASSERT_THAT(points_out[2].color, Eq(Ogre::ColourValue(1, 0, 0)));  // 1
 }
 
-TEST(IntensityPCTransformer,
+TEST(
+  IntensityPCTransformer,
   transform_uses_default_min_max_intensity_if_autocompute_bounds_is_disabled) {
   PointWithIntensity p1 = {0, 0, 0, 0};
   PointWithIntensity p2 = {0, 0, 0, 1024};

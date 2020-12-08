@@ -1,3 +1,4 @@
+# lint_cmake: -readability/wonkycase
 cmake_minimum_required(VERSION 3.5)
 
 project(rviz_assimp_vendor)
@@ -52,6 +53,12 @@ macro(build_assimp)
   )
 endmacro()
 
+# Override ON so that the following CMake logic in assimp 5.0.1 and older
+# doesn't result in a CMake warning: if(ON)
+#   https://github.com/ros2/rviz/issues/524
+#   https://bugs.launchpad.net/ubuntu/+source/assimp/+bug/1869405
+set(ON 1)
+
 find_package(assimp QUIET)
 
 if(NOT assimp_FOUND OR "${assimp_VERSION}" VERSION_LESS 4.1.0)
@@ -71,6 +78,11 @@ if(NOT assimp_FOUND OR "${assimp_VERSION}" VERSION_LESS 4.1.0)
     set(ENV_VAR_VALUE "opt/rviz_assimp_vendor/lib")
   endif()
   ament_environment_hooks(env_hook/rviz_assimp_vendor_library_path.dsv.in)
+endif()
+
+if(BUILD_TESTING)
+  find_package(ament_lint_auto REQUIRED)
+  ament_lint_auto_find_test_dependencies()
 endif()
 
 ament_package(

@@ -44,8 +44,7 @@
 #include "../../../../src/rviz_default_plugins/displays/pointcloud/point_cloud_common.hpp"
 #include "../../../../src/rviz_default_plugins/displays/pointcloud/point_cloud2_display.hpp"
 
-#include "test/rviz_rendering/scene_graph_introspection.hpp"
-#include "../../scene_graph_introspection_helper.hpp"
+#include "../../scene_graph_introspection.hpp"
 #include "../display_test_fixture.hpp"
 #include "./message_creators.hpp"
 
@@ -138,7 +137,7 @@ TEST_F(PointCloudSelectionHandlerFixture, onSelect_selects_only_points_actually_
   rviz_common::interaction::V_AABB aabbs = cloud_info->selection_handler_->getAABBs(picked_object);
 
   EXPECT_THAT(aabbs, SizeIs(2));
-  auto found_objects = rviz_rendering::findAllOgreObjectByType<Ogre::SimpleRenderable>(
+  auto found_objects = rviz_default_plugins::findAllOgreObjectByType<Ogre::SimpleRenderable>(
     scene_manager_->getRootSceneNode(), "SimpleRenderable");
   EXPECT_THAT(
     found_objects,
@@ -148,7 +147,8 @@ TEST_F(PointCloudSelectionHandlerFixture, onSelect_selects_only_points_actually_
     ContainsWireBoxWithBoundingBox(Ogre::AxisAlignedBox(0.5f, -1.5f, 0.5f, 1.5f, -0.5f, 1.5f)));
 }
 
-TEST_F(PointCloudSelectionHandlerFixture,
+TEST_F(
+  PointCloudSelectionHandlerFixture,
   onDeselect_destroys_wired_bounding_boxes_for_unpicked_objects)
 {
   std::vector<rviz_default_plugins::Point> message_points =
@@ -170,14 +170,15 @@ TEST_F(PointCloudSelectionHandlerFixture,
   rviz_common::interaction::V_AABB aabbs = cloud_info->selection_handler_->getAABBs(picked_object);
 
   EXPECT_THAT(aabbs, SizeIs(1));
-  auto found_objects = rviz_rendering::findAllOgreObjectByType<Ogre::SimpleRenderable>(
+  auto found_objects = rviz_default_plugins::findAllOgreObjectByType<Ogre::SimpleRenderable>(
     scene_manager_->getRootSceneNode(), "SimpleRenderable");
   EXPECT_THAT(
     found_objects,
     ContainsWireBoxWithBoundingBox(Ogre::AxisAlignedBox(0.5f, -1.5f, 0.5f, 1.5f, -0.5f, 1.5f)));
 }
 
-TEST_F(PointCloudSelectionHandlerFixture,
+TEST_F(
+  PointCloudSelectionHandlerFixture,
   createProperties_creates_tree_of_properties_without_color_for_simple_clouds)
 {
   std::vector<rviz_default_plugins::Point> message_points =
@@ -199,17 +200,20 @@ TEST_F(PointCloudSelectionHandlerFixture,
   auto first_point_property = parent->childAt(0);
   ASSERT_THAT(first_point_property, HasNumberOfSubproperties(1));
   EXPECT_THAT(first_point_property->getNameStd(), StartsWith("Point 0 [cloud"));
-  EXPECT_THAT(first_point_property->childAt(0),
+  EXPECT_THAT(
+    first_point_property->childAt(0),
     HasPositionPropertyWithPosition(Ogre::Vector3(1, 1, 1)));
 
   auto second_point_property = parent->childAt(1);
   ASSERT_THAT(second_point_property, HasNumberOfSubproperties(1));
   EXPECT_THAT(second_point_property->getNameStd(), StartsWith("Point 3 [cloud"));
-  EXPECT_THAT(second_point_property->childAt(0),
+  EXPECT_THAT(
+    second_point_property->childAt(0),
     HasPositionPropertyWithPosition(Ogre::Vector3(1, -1, 1)));
 }
 
-TEST_F(PointCloudSelectionHandlerFixture,
+TEST_F(
+  PointCloudSelectionHandlerFixture,
   createProperties_creates_tree_of_properties_with_color_for_clouds_with_rgb)
 {
   std::vector<rviz_default_plugins::ColoredPoint> message_points =
@@ -234,7 +238,8 @@ TEST_F(PointCloudSelectionHandlerFixture,
   EXPECT_THAT(parent->childAt(1), HasColorProperty("1; 1; 1", 0.0f));
 }
 
-TEST_F(PointCloudSelectionHandlerFixture,
+TEST_F(
+  PointCloudSelectionHandlerFixture,
   createProperties_creates_tree_of_properties_with_intensity_for_clouds_with_intensity)
 {
   std::vector<rviz_default_plugins::PointWithIntensity> message_points =

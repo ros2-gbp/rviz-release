@@ -62,7 +62,7 @@ public:
 Config::Node::Node()
 : type_(Empty)
 {
-  data_.map = NULL;
+  data_.map = nullptr;
 }
 
 Config::Node::~Node()
@@ -79,7 +79,7 @@ void Config::Node::deleteData()
     default:
       break;
   }
-  data_.map = NULL;
+  data_.map = nullptr;
 }
 
 void Config::Node::setType(Config::Type new_type)
@@ -118,6 +118,13 @@ Config::Config(QVariant value)
 Config::Config(NodePtr node)
 : node_(node)
 {}
+
+Config &
+Config::operator=(const Config & source)
+{
+  node_ = source.node_;
+  return *this;
+}
 
 void Config::copy(const Config & source)  // NOLINT linter wants #include <algorithm>
 {
@@ -191,7 +198,7 @@ Config Config::mapMakeChild(const QString & key)
 
 Config Config::mapGetChild(const QString & key) const
 {
-  if (node_.get() == NULL || node_->type_ != Map) {
+  if (node_ == nullptr || node_->type_ != Map) {
     return invalidConfig();
   }
   Node::ChildMap::const_iterator iter = node_->data_.map->find(key);
@@ -229,8 +236,8 @@ bool Config::mapGetInt(const QString & key, int * value_out) const
 bool Config::mapGetFloat(const QString & key, float * value_out) const
 {
   QVariant v;
-  if (mapGetValue(key,
-    &v) &&
+  if (
+    mapGetValue(key, &v) &&
     (static_cast<int>(v.type()) == static_cast<int>(QMetaType::Float) ||
     v.type() == QVariant::Double ||
     v.type() == QVariant::String))
@@ -275,14 +282,14 @@ bool Config::mapGetString(const QString & key, QString * value_out) const
 
 void Config::makeValid()
 {
-  if (node_.get() == NULL) {
+  if (node_ == nullptr) {
     node_.reset(new Node());
   }
 }
 
 bool Config::isValid() const
 {
-  return node_.get() != NULL;
+  return node_ != nullptr;
 }
 
 void Config::setValue(const QVariant & value)
@@ -326,7 +333,7 @@ Config::MapIterator Config::mapIterator() const
   // Create a new (invalid) iterator.
   Config::MapIterator iter;
 
-  if (node_.get() == NULL || node_->type_ != Map) {
+  if (node_ == nullptr || node_->type_ != Map) {
     // Force the node to be invalid, since this node does not have a map.
     iter.node_.reset();
   } else {
@@ -343,7 +350,7 @@ Config::MapIterator::MapIterator()
 
 void Config::MapIterator::advance()
 {
-  if (node_.get() == NULL || node_->type_ != Config::Map) {
+  if (node_ == nullptr || node_->type_ != Config::Map) {
     iterator_valid_ = false;
     return;
   }
@@ -357,7 +364,7 @@ void Config::MapIterator::advance()
 
 bool Config::MapIterator::isValid()
 {
-  if (node_.get() == NULL || node_->type_ != Config::Map) {
+  if (node_ == nullptr || node_->type_ != Config::Map) {
     iterator_valid_ = false;
     return false;
   }
@@ -370,7 +377,7 @@ bool Config::MapIterator::isValid()
 
 void Config::MapIterator::start()
 {
-  if (node_.get() == NULL || node_->type_ != Config::Map) {
+  if (node_ == nullptr || node_->type_ != Config::Map) {
     iterator_valid_ = false;
     return;
   }
@@ -380,7 +387,7 @@ void Config::MapIterator::start()
 
 QString Config::MapIterator::currentKey()
 {
-  if (node_.get() == NULL || node_->type_ != Config::Map || !iterator_valid_) {
+  if (node_ == nullptr || node_->type_ != Config::Map || !iterator_valid_) {
     iterator_valid_ = false;
     return QString();
   }
@@ -389,7 +396,7 @@ QString Config::MapIterator::currentKey()
 
 Config Config::MapIterator::currentChild()
 {
-  if (node_.get() == NULL || node_->type_ != Config::Map || !iterator_valid_) {
+  if (node_ == nullptr || node_->type_ != Config::Map || !iterator_valid_) {
     iterator_valid_ = false;
     return Config();
   }

@@ -2,21 +2,66 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-7.0.7 (2020-12-02)
+8.3.0 (2020-12-08)
+------------------
+* Fix for mousewheel to zoom in/out (`#623 <https://github.com/ros2/rviz/issues/623>`_)
+* Ensure rviz_common::MessageFilterDisplay processes messages in the main thread (`#620 <https://github.com/ros2/rviz/issues/620>`_)
+* Fix render window disppearing after saving image (`#611 <https://github.com/ros2/rviz/issues/611>`_)
+* Add linters and use ament_lint_auto (`#608 <https://github.com/ros2/rviz/issues/608>`_)
+* Update maintainers (`#607 <https://github.com/ros2/rviz/issues/607>`_)
+* TimePanel port (`#599 <https://github.com/ros2/rviz/issues/599>`_)
+* Upgrade to tinyxml2 for rviz (`#418 <https://github.com/ros2/rviz/issues/418>`_)
+* Fix segfault on changing filter size for non-existent topic (`#597 <https://github.com/ros2/rviz/issues/597>`_)
+* improve color support for themes (`#590 <https://github.com/ros2/rviz/issues/590>`_)
+* Fix topic IntProperty number ranges (`#596 <https://github.com/ros2/rviz/issues/596>`_)
+* Switch to nullptr everywhere. (`#592 <https://github.com/ros2/rviz/issues/592>`_)
+* Expose MessageFilterDisplay's queue size (`#593 <https://github.com/ros2/rviz/issues/593>`_)
+* Filter topics in drop down menu (`#591 <https://github.com/ros2/rviz/issues/591>`_)
+* rviz_common: Remove variadic macro warning check (`#421 <https://github.com/ros2/rviz/issues/421>`_)
+* Use retriever.hpp (`#589 <https://github.com/ros2/rviz/issues/589>`_)
+* Fix the order of destructors (`#572 <https://github.com/ros2/rviz/issues/572>`_)
+* Contributors: Audrow Nash, Chen Lihui, Chris Lalancette, Jacob Perron, Martin Idel, Michael Ferguson, Michael Jeronimo, Michel Hidalgo, Nico Neumann, Rich Mattes, Shane Loretz, spiralray
+
+8.2.0 (2020-06-23)
+------------------
+* Changed to not install test header files in rviz_rendering. (`#564 <https://github.com/ros2/rviz/issues/564>`_)
+* Fixed alphabetical include order (`#563 <https://github.com/ros2/rviz/issues/563>`_)
+* Changed to avoid trying to moc generate ``env_config.hpp`` file. (`#550 <https://github.com/ros2/rviz/issues/550>`_)
+* Contributors: Chris Lalancette, Karsten Knese
+
+8.1.1 (2020-06-03)
 ------------------
 
-7.0.6 (2020-10-27)
+8.1.0 (2020-06-03)
 ------------------
-* Update maintainer list (`#618 <https://github.com/ros2/rviz/issues/618>`_)
-* Contributors: Michael Jeronimo
 
-7.0.5 (2020-04-17)
+8.0.3 (2020-06-02)
 ------------------
-* Remove unnecessary call to render scene (`#490 <https://github.com/ros2/rviz/issues/490>`_) (`#514 <https://github.com/ros2/rviz/issues/514>`_)
+* Fixed deprecated Qt usage. (`#555 <https://github.com/ros2/rviz/issues/555>`_)
 * Contributors: Jacob Perron
 
-7.0.4 (2020-01-17)
+8.0.2 (2020-05-21)
 ------------------
+* Changed to use modern cmake style with pluginlib (`#542 <https://github.com/ros2/rviz/issues/542>`_)
+* Removed automoc completely. (`#545 <https://github.com/ros2/rviz/issues/545>`_)
+* Contributors: Chris Lalancette, Karsten Knese
+
+8.0.1 (2020-05-07)
+------------------
+
+8.0.0 (2020-05-01)
+------------------
+* Note from wjwwood: I've chosen bump the major version this time, even though the API was not broken strictly speaking, partly because of some potentially disruptive build system changes and partially in preparation for ROS Foxy, to allow for new minor/patch versions in the previous ROS release Eloquent.
+* Removed duplicate include dirs and link libraries. (`#533 <https://github.com/ros2/rviz/issues/533>`_)
+* Added missing export of urdf. (`#529 <https://github.com/ros2/rviz/issues/529>`_)
+* Made changes to avoid newly deprecated functions in rclcpp. (`#528 <https://github.com/ros2/rviz/issues/528>`_)
+* Changed to use ``ament_export_targets()``. (`#525 <https://github.com/ros2/rviz/issues/525>`_)
+* Updated deprecated enums in rviz_common. (`#510 <https://github.com/ros2/rviz/issues/510>`_)
+* Solved a compiler warning in Ubuntu Focal. (`#503 <https://github.com/ros2/rviz/issues/503>`_)
+* Removed an uncessary call to render scene. (`#490 <https://github.com/ros2/rviz/issues/490>`_)
+* Made some code style changes. (`#504 <https://github.com/ros2/rviz/issues/504>`_)
+* Fixed a bug encountered when included as a sub-project. (`#475 <https://github.com/ros2/rviz/issues/475>`_)
+* Contributors: Dan Rose, Dirk Thomas, Ivan Santiago Paunovic, Jacob Perron, William Woodall, brawner
 
 7.0.3 (2019-11-13)
 ------------------
