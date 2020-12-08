@@ -228,10 +228,10 @@ Ogre::MeshPtr AssimpLoader::meshFromAssimpScene(const std::string & name, const 
   return mesh;
 }
 
-const aiScene * AssimpLoader::getScene(const std::string & resource_path)
+const aiScene * AssimpLoader::getScene(void * buffer, size_t size)
 {
-  return importer_->ReadFile(
-    resource_path,
+  return importer_->ReadFileFromMemory(
+    buffer, size,
     aiProcess_SortByPType | aiProcess_GenNormals | aiProcess_Triangulate |
     aiProcess_GenUVCoords | aiProcess_FlipUVs);
 }
@@ -255,8 +255,9 @@ std::vector<Ogre::MaterialPtr> AssimpLoader::loadMaterials(
   for (uint32_t i = 0; i < scene->mNumMaterials; i++) {
     std::string material_name;
     material_name = resource_path + "Material" + std::to_string(i);
-    Ogre::MaterialPtr mat = Ogre::MaterialManager::getSingleton().create(
+    auto result = Ogre::MaterialManager::getSingleton().createOrRetrieve(
       material_name, ROS_PACKAGE_NAME, true);
+    Ogre::MaterialPtr mat = std::static_pointer_cast<Ogre::Material>(result.first);
     material_table_out.push_back(mat);
 
     aiMaterial * ai_material = scene->mMaterials[i];
