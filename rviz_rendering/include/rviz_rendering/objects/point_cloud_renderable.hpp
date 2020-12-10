@@ -73,11 +73,15 @@ public:
   RVIZ_RENDERING_PUBLIC
   virtual ~PointCloudRenderable();
 
+#ifndef _WIN32
+# pragma GCC diagnostic push
+# pragma GCC diagnostic ignored "-Woverloaded-virtual"
+#endif
   RVIZ_RENDERING_PUBLIC
   Ogre::RenderOperation * getRenderOperation() {return &mRenderOp;}
-
-  // Avoid hidding parent class overload.
-  using Ogre::SimpleRenderable::getRenderOperation;
+#ifndef _WIN32
+# pragma GCC diagnostic pop
+#endif
 
   RVIZ_RENDERING_PUBLIC
   Ogre::HardwareVertexBufferSharedPtr getBuffer();

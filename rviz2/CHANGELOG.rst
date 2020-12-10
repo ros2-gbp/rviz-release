@@ -2,12 +2,11 @@
 Changelog for package rviz2
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-8.3.0 (2020-12-08)
+8.2.1 (2020-12-09)
 ------------------
-* Add linters and use ament_lint_auto (`#608 <https://github.com/ros2/rviz/issues/608>`_)
-* Update maintainers (`#607 <https://github.com/ros2/rviz/issues/607>`_)
-* Move and update documentation for ROS 2 (`#600 <https://github.com/ros2/rviz/issues/600>`_)
-* Contributors: Chris Lalancette, Jacob Perron
+* Update maintainer list (`#619 <https://github.com/ros2/rviz/issues/619>`_)
+* changelogs
+* Contributors: Michael Jeronimo, William Woodall
 
 8.2.0 (2020-06-23)
 ------------------

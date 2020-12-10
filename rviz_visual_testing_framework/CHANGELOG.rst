@@ -2,12 +2,11 @@
 Changelog for package rviz_visual_testing_framework
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-8.3.0 (2020-12-08)
+8.2.1 (2020-12-09)
 ------------------
-* use rcutils_get_env. (`#609 <https://github.com/ros2/rviz/issues/609>`_)
-* Add linters and use ament_lint_auto (`#608 <https://github.com/ros2/rviz/issues/608>`_)
-* Update maintainers (`#607 <https://github.com/ros2/rviz/issues/607>`_)
-* Contributors: Jacob Perron, tomoya
+* Update maintainer list (`#619 <https://github.com/ros2/rviz/issues/619>`_)
+* changelogs
+* Contributors: Michael Jeronimo, William Woodall
 
 8.2.0 (2020-06-23)
 ------------------

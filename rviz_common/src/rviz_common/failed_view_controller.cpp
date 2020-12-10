@@ -69,7 +69,7 @@ void FailedViewController::save(Config config) const
 
 void FailedViewController::onActivate()
 {
-  QWidget * parent = nullptr;
+  QWidget * parent = NULL;
   if (context_->getWindowManager() ) {
     parent = context_->getWindowManager()->getParentWindow();
   }

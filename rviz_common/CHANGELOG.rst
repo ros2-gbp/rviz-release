@@ -2,25 +2,20 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-8.3.0 (2020-12-08)
+8.2.1 (2020-12-09)
 ------------------
-* Fix for mousewheel to zoom in/out (`#623 <https://github.com/ros2/rviz/issues/623>`_)
-* Ensure rviz_common::MessageFilterDisplay processes messages in the main thread (`#620 <https://github.com/ros2/rviz/issues/620>`_)
-* Fix render window disppearing after saving image (`#611 <https://github.com/ros2/rviz/issues/611>`_)
-* Add linters and use ament_lint_auto (`#608 <https://github.com/ros2/rviz/issues/608>`_)
-* Update maintainers (`#607 <https://github.com/ros2/rviz/issues/607>`_)
-* TimePanel port (`#599 <https://github.com/ros2/rviz/issues/599>`_)
-* Upgrade to tinyxml2 for rviz (`#418 <https://github.com/ros2/rviz/issues/418>`_)
-* Fix segfault on changing filter size for non-existent topic (`#597 <https://github.com/ros2/rviz/issues/597>`_)
-* improve color support for themes (`#590 <https://github.com/ros2/rviz/issues/590>`_)
-* Fix topic IntProperty number ranges (`#596 <https://github.com/ros2/rviz/issues/596>`_)
-* Switch to nullptr everywhere. (`#592 <https://github.com/ros2/rviz/issues/592>`_)
-* Expose MessageFilterDisplay's queue size (`#593 <https://github.com/ros2/rviz/issues/593>`_)
-* Filter topics in drop down menu (`#591 <https://github.com/ros2/rviz/issues/591>`_)
-* rviz_common: Remove variadic macro warning check (`#421 <https://github.com/ros2/rviz/issues/421>`_)
-* Use retriever.hpp (`#589 <https://github.com/ros2/rviz/issues/589>`_)
-* Fix the order of destructors (`#572 <https://github.com/ros2/rviz/issues/572>`_)
-* Contributors: Audrow Nash, Chen Lihui, Chris Lalancette, Jacob Perron, Martin Idel, Michael Ferguson, Michael Jeronimo, Michel Hidalgo, Nico Neumann, Rich Mattes, Shane Loretz, spiralray
+* Fix for mousewheel to zoom in/out (`#623 <https://github.com/ros2/rviz/issues/623>`_) (`#626 <https://github.com/ros2/rviz/issues/626>`_)
+* Update maintainer list (`#619 <https://github.com/ros2/rviz/issues/619>`_)
+* [foxy-backport] fast forward of ros2 (default) to foxy (`#570 <https://github.com/ros2/rviz/issues/570>`_)
+  * restore compatibility with older Qt versions (`#561 <https://github.com/ros2/rviz/issues/561>`_)
+  * Suppress warnings when building with older Qt versions. (`#562 <https://github.com/ros2/rviz/issues/562>`_)
+  * Don't try to moc generate env_config.hpp file. (`#550 <https://github.com/ros2/rviz/issues/550>`_)
+  This removes one more warning from rviz_common builds.
+  * rewrite hack to avoid CMake warning with assimp 5.0.1 and older, apply cross platform (`#565 <https://github.com/ros2/rviz/issues/565>`_)
+  * Use dedicated TransformListener thread (`#551 <https://github.com/ros2/rviz/issues/551>`_)
+  * restore alphabetical include order (`#563 <https://github.com/ros2/rviz/issues/563>`_)
+  * Don't install test header files in rviz_rendering. (`#564 <https://github.com/ros2/rviz/issues/564>`_)
+* Contributors: Jacob Perron, Michael Jeronimo, William Woodall, Chen Lihui, Dirk Thomas, Chris Lalancette, ymd-stella, Karsten Knese
 
 8.2.0 (2020-06-23)
 ------------------
