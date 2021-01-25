@@ -2,6 +2,9 @@
 Changelog for package rviz_visual_testing_framework
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+8.3.1 (2021-01-25)
+------------------
+
 8.3.0 (2020-12-08)
 ------------------
 * use rcutils_get_env. (`#609 <https://github.com/ros2/rviz/issues/609>`_)
