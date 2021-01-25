@@ -2,22 +2,25 @@
 Changelog for package rviz_default_plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-8.2.1 (2020-12-09)
+8.3.1 (2021-01-25)
 ------------------
-* Fix for mousewheel to zoom in/out (`#623 <https://github.com/ros2/rviz/issues/623>`_) (`#626 <https://github.com/ros2/rviz/issues/626>`_)
-* Update maintainer list (`#619 <https://github.com/ros2/rviz/issues/619>`_)
-* Do not use assume every RenderPanel has a ViewController. (`#613 <https://github.com/ros2/rviz/issues/613>`_) (`#615 <https://github.com/ros2/rviz/issues/615>`_)
-* [foxy-backport] fast forward of ros2 (default) to foxy (`#570 <https://github.com/ros2/rviz/issues/570>`_)
-  * restore compatibility with older Qt versions (`#561 <https://github.com/ros2/rviz/issues/561>`_)
-  * Suppress warnings when building with older Qt versions. (`#562 <https://github.com/ros2/rviz/issues/562>`_)
-  * Don't try to moc generate env_config.hpp file. (`#550 <https://github.com/ros2/rviz/issues/550>`_)
-  This removes one more warning from rviz_common builds.
-  * rewrite hack to avoid CMake warning with assimp 5.0.1 and older, apply cross platform (`#565 <https://github.com/ros2/rviz/issues/565>`_)
-  * Use dedicated TransformListener thread (`#551 <https://github.com/ros2/rviz/issues/551>`_)
-  * restore alphabetical include order (`#563 <https://github.com/ros2/rviz/issues/563>`_)
-  * Don't install test header files in rviz_rendering. (`#564 <https://github.com/ros2/rviz/issues/564>`_)
-* Contributors: Jacob Perron, Michael Jeronimo, Michel Hidalgo, William Woodall, Chen Lihui, Dirk Thomas, Chris Lalancette, ymd-stella
-  Karsten Knese
+* Fix possible nullptr access in robot_joint.cpp. (`#636 <https://github.com/ros2/rviz/issues/636>`_)
+* Contributors: Chris Lalancette
+
+8.3.0 (2020-12-08)
+------------------
+* Fix for mousewheel to zoom in/out (`#623 <https://github.com/ros2/rviz/issues/623>`_)
+* Make the types explicit in quaternion_helper.hpp. (`#625 <https://github.com/ros2/rviz/issues/625>`_)
+* Update status message by removing colon or adjust colon position (`#624 <https://github.com/ros2/rviz/issues/624>`_)
+* Do not use assume every RenderPanel has a ViewController. (`#613 <https://github.com/ros2/rviz/issues/613>`_)
+* Add linters and use ament_lint_auto (`#608 <https://github.com/ros2/rviz/issues/608>`_)
+* Update maintainers (`#607 <https://github.com/ros2/rviz/issues/607>`_)
+* TimePanel port (`#599 <https://github.com/ros2/rviz/issues/599>`_)
+* Upgrade to tinyxml2 for rviz (`#418 <https://github.com/ros2/rviz/issues/418>`_)
+* Use retriever.hpp (`#589 <https://github.com/ros2/rviz/issues/589>`_)
+* Added covariance settings to set pose estimate (`#569 <https://github.com/ros2/rviz/issues/569>`_)
+* use reference in range loops to avoid copy (`#577 <https://github.com/ros2/rviz/issues/577>`_)
+* Contributors: Chen Lihui, Chris Lalancette, Dirk Thomas, Jacob Perron, Martin Idel, Matthijs den Toom, Michel Hidalgo, Nico Neumann, Shane Loretz
 
 8.2.0 (2020-06-23)
 ------------------

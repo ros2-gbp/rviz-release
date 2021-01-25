@@ -2,19 +2,14 @@
 Changelog for package rviz_assimp_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-8.2.1 (2020-12-09)
+8.3.1 (2021-01-25)
 ------------------
-* Update maintainer list (`#619 <https://github.com/ros2/rviz/issues/619>`_)
-* [foxy-backport] fast forward of ros2 (default) to foxy (`#570 <https://github.com/ros2/rviz/issues/570>`_)
-  * restore compatibility with older Qt versions (`#561 <https://github.com/ros2/rviz/issues/561>`_)
-  * Suppress warnings when building with older Qt versions. (`#562 <https://github.com/ros2/rviz/issues/562>`_)
-  * Don't try to moc generate env_config.hpp file. (`#550 <https://github.com/ros2/rviz/issues/550>`_)
-  This removes one more warning from rviz_common builds.
-  * rewrite hack to avoid CMake warning with assimp 5.0.1 and older, apply cross platform (`#565 <https://github.com/ros2/rviz/issues/565>`_)
-  * Use dedicated TransformListener thread (`#551 <https://github.com/ros2/rviz/issues/551>`_)
-  * restore alphabetical include order (`#563 <https://github.com/ros2/rviz/issues/563>`_)
-  * Don't install test header files in rviz_rendering. (`#564 <https://github.com/ros2/rviz/issues/564>`_)
-* Contributors: Michael Jeronimo, William Woodall, Dirk Thomas, Chris Lalancette, ymd-stella, Karsten Knese
+
+8.3.0 (2020-12-08)
+------------------
+* Add linters and use ament_lint_auto (`#608 <https://github.com/ros2/rviz/issues/608>`_)
+* Update maintainers (`#607 <https://github.com/ros2/rviz/issues/607>`_)
+* Contributors: Jacob Perron
 
 8.2.0 (2020-06-23)
 ------------------
