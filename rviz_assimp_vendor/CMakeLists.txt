@@ -3,6 +3,10 @@ cmake_minimum_required(VERSION 3.5)
 
 project(rviz_assimp_vendor)
 
+option(FORCE_BUILD_VENDOR_PKG
+  "Build assimp from source, even if system-installed package is available"
+  OFF)
+
 find_package(ament_cmake REQUIRED)
 
 set(PACKAGE_VERSION "1.0.0")
@@ -50,6 +54,7 @@ macro(build_assimp)
       ${CMAKE_CURRENT_BINARY_DIR}/assimp_install/
     DESTINATION
       ${CMAKE_INSTALL_PREFIX}/opt/rviz_assimp_vendor
+    USE_SOURCE_PERMISSIONS
   )
 endmacro()
 
@@ -61,7 +66,7 @@ set(ON 1)
 
 find_package(assimp QUIET)
 
-if(NOT assimp_FOUND OR "${assimp_VERSION}" VERSION_LESS 4.1.0)
+if(FORCE_BUILD_VENDOR_PKG OR NOT assimp_FOUND OR "${assimp_VERSION}" VERSION_LESS 4.1.0)
   build_assimp()
 
   if(WIN32)
