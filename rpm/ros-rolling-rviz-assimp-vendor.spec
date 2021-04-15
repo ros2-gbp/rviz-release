@@ -14,7 +14,9 @@ License:        Apache License 2.0
 URL:            http://assimp.sourceforge.net/index.html
 Source0:        %{name}-%{version}.tar.gz
 
+Requires:       assimp-devel
 Requires:       ros-rolling-ros-workspace
+BuildRequires:  assimp-devel
 BuildRequires:  ros-rolling-ament-cmake
 BuildRequires:  ros-rolling-ament-cmake-lint-cmake
 BuildRequires:  ros-rolling-ament-cmake-xmllint
