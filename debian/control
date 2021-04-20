@@ -1,0 +1,12 @@
+Source: ros-galactic-rviz-visual-testing-framework
+Section: misc
+Priority: optional
+Maintainer: Jacob Perron <jacob@openrobotics.org>
+Build-Depends: debhelper (>= 9.0.0), qtbase5-dev, ros-galactic-ament-cmake, ros-galactic-ament-cmake-cppcheck, ros-galactic-ament-cmake-cpplint, ros-galactic-ament-cmake-gmock, ros-galactic-ament-cmake-gtest, ros-galactic-ament-cmake-lint-cmake, ros-galactic-ament-cmake-uncrustify, ros-galactic-ament-cmake-xmllint, ros-galactic-ament-lint-auto, ros-galactic-rcutils, ros-galactic-rviz-common, ros-galactic-ros-workspace
+Homepage: http://ros.org/wiki/rviz2
+Standards-Version: 3.9.2
+
+Package: ros-galactic-rviz-visual-testing-framework
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-galactic-ament-cmake-gtest, ros-galactic-rcutils, ros-galactic-rviz-common, ros-galactic-ros-workspace
+Description: 3D testing framework for RViz.
