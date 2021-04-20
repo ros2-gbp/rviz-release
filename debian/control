@@ -1,0 +1,12 @@
+Source: ros-galactic-rviz-rendering-tests
+Section: misc
+Priority: optional
+Maintainer: Jacob Perron <jacob@openrobotics.org>
+Build-Depends: debhelper (>= 9.0.0), qtbase5-dev, ros-galactic-ament-cmake, ros-galactic-ament-cmake-cppcheck, ros-galactic-ament-cmake-cpplint, ros-galactic-ament-cmake-gmock, ros-galactic-ament-cmake-gtest, ros-galactic-ament-cmake-lint-cmake, ros-galactic-ament-cmake-uncrustify, ros-galactic-ament-cmake-xmllint, ros-galactic-ament-index-cpp, ros-galactic-ament-lint-auto, ros-galactic-resource-retriever, ros-galactic-rviz-rendering, ros-galactic-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-galactic-rviz-rendering-tests
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-galactic-resource-retriever, ros-galactic-rviz-rendering, ros-galactic-ros-workspace
+Description: Example plugin for RViz - documents and tests RViz plugin development
