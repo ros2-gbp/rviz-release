@@ -1,0 +1,12 @@
+Source: ros-galactic-rviz-default-plugins
+Section: misc
+Priority: optional
+Maintainer: Jacob Perron <jacob@openrobotics.org>
+Build-Depends: debhelper (>= 9.0.0), qtbase5-dev, ros-galactic-ament-cmake, ros-galactic-ament-cmake-cppcheck, ros-galactic-ament-cmake-cpplint, ros-galactic-ament-cmake-gmock, ros-galactic-ament-cmake-gtest, ros-galactic-ament-cmake-lint-cmake, ros-galactic-ament-cmake-uncrustify, ros-galactic-ament-cmake-xmllint, ros-galactic-ament-index-cpp, ros-galactic-ament-lint-auto, ros-galactic-geometry-msgs, ros-galactic-interactive-markers, ros-galactic-laser-geometry, ros-galactic-map-msgs, ros-galactic-nav-msgs, ros-galactic-pluginlib, ros-galactic-rclcpp, ros-galactic-resource-retriever, ros-galactic-rviz-common, ros-galactic-rviz-ogre-vendor, ros-galactic-rviz-rendering, ros-galactic-rviz-rendering-tests, ros-galactic-rviz-visual-testing-framework, ros-galactic-tf2, ros-galactic-tf2-geometry-msgs, ros-galactic-tf2-ros, ros-galactic-urdf, ros-galactic-visualization-msgs, ros-galactic-ros-workspace
+Homepage: https://github.com/ros2/rviz/blob/ros2/README.md
+Standards-Version: 3.9.2
+
+Package: ros-galactic-rviz-default-plugins
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libqt5core5a, libqt5gui5, libqt5opengl5, libqt5widgets5, ros-galactic-geometry-msgs, ros-galactic-interactive-markers, ros-galactic-laser-geometry, ros-galactic-map-msgs, ros-galactic-nav-msgs, ros-galactic-pluginlib, ros-galactic-rclcpp, ros-galactic-resource-retriever, ros-galactic-rviz-common, ros-galactic-rviz-ogre-vendor, ros-galactic-rviz-rendering, ros-galactic-tf2, ros-galactic-tf2-geometry-msgs, ros-galactic-tf2-ros, ros-galactic-urdf, ros-galactic-visualization-msgs, ros-galactic-ros-workspace
+Description: Several default plugins for rviz to cover the basic functionality.
