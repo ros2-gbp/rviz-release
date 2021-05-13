@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017, Bosch Software Innovations GmbH.
+ * Copyright (c) 2020, TNG Technology Consulting GmbH.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -10,8 +10,8 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Willow Garage, Inc. nor the names of its
- *       contributors may be used to endorse or promote products derived from
+ *     * Neither the name of the copyright holder nor the names of its contributors
+ *       may be used to endorse or promote products derived from
  *       this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -27,35 +27,37 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "ogre_testing_environment.hpp"
-
 #include <string>
 
-#include <OgreLogManager.h>
+#include "rviz_default_plugins/displays/image/get_transport_from_topic.hpp"
 
-#include "rviz_rendering/render_system.hpp"
-
-namespace rviz_rendering
+namespace rviz_default_plugins
+{
+namespace displays
 {
 
-void OgreTestingEnvironment::setUpOgreTestEnvironment(bool debug)
+bool isRawTransport(const std::string & topic)
 {
-  if (!debug) {
-    const std::string & name = "";
-    auto lm = new Ogre::LogManager();
-    lm->createLog(name, false, debug, true);
+  std::string last_subtopic = topic.substr(topic.find_last_of('/') + 1);
+  return last_subtopic != "compressed" && last_subtopic != "compressedDepth" &&
+         last_subtopic != "theora";
+}
+
+std::string getTransportFromTopic(const std::string & topic)
+{
+  if (isRawTransport(topic)) {
+    return "raw";
   }
-  setUpRenderSystem();
+  return topic.substr(topic.find_last_of('/') + 1);
 }
 
-void OgreTestingEnvironment::setUpRenderSystem()
+std::string getBaseTopicFromTopic(const std::string & topic)
 {
-  RenderSystem::get();
+  if (isRawTransport(topic)) {
+    return topic;
+  }
+  return topic.substr(0, topic.find_last_of('/'));
 }
 
-int OgreTestingEnvironment::getGlslVersion() const
-{
-  return RenderSystem::get()->getGlslVersion();
-}
-
-}  // end namespace rviz_rendering
+}  //  end namespace displays
+}  //  end namespace rviz_default_plugins
