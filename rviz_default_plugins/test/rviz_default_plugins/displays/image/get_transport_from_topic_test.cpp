@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017, Bosch Software Innovations GmbH.
+ * Copyright (c) 2020, TNG Technology Consulting GmbH.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -10,8 +10,8 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Willow Garage, Inc. nor the names of its
- *       contributors may be used to endorse or promote products derived from
+ *     * Neither the name of the copyright holder nor the names of its contributors
+ *       may be used to endorse or promote products derived from
  *       this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -27,35 +27,32 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "ogre_testing_environment.hpp"
-
+#include <gmock/gmock.h>
 #include <string>
 
-#include <OgreLogManager.h>
+#include "rviz_default_plugins/displays/image/get_transport_from_topic.hpp"
 
-#include "rviz_rendering/render_system.hpp"
+using namespace rviz_default_plugins::displays;  //  NOLINT
 
-namespace rviz_rendering
+TEST(getTransportFromTopicTest, get_transport_from_topic_finds_right_transport)
 {
-
-void OgreTestingEnvironment::setUpOgreTestEnvironment(bool debug)
-{
-  if (!debug) {
-    const std::string & name = "";
-    auto lm = new Ogre::LogManager();
-    lm->createLog(name, false, debug, true);
-  }
-  setUpRenderSystem();
+  EXPECT_EQ(getTransportFromTopic("/image/compressed"), "compressed");
+  EXPECT_EQ(getTransportFromTopic("/image_transport"), "raw");
+  EXPECT_EQ(getTransportFromTopic("/image_compressed"), "raw");
+  EXPECT_EQ(getTransportFromTopic("/image_transport/camera/compressedDepth"), "compressedDepth");
+  EXPECT_EQ(getTransportFromTopic("/topic_name/publisher_name/compressed_and_theora"), "raw");
 }
 
-void OgreTestingEnvironment::setUpRenderSystem()
+TEST(getBaseTopicFromTopicTest, get_transport_from_topic_finds_right_topic)
 {
-  RenderSystem::get();
+  EXPECT_EQ(getBaseTopicFromTopic("/image/compressed"), "/image");
+  EXPECT_EQ(getBaseTopicFromTopic("/image_transport"), "/image_transport");
+  EXPECT_EQ(getBaseTopicFromTopic("/image_compressed"), "/image_compressed");
+  EXPECT_EQ(
+    getBaseTopicFromTopic(
+      "/image_transport/camera/compressedDepth"), "/image_transport/camera");
+  EXPECT_EQ(
+    getBaseTopicFromTopic(
+      "/topic_name/publisher_name/compressed_and_theora"),
+    "/topic_name/publisher_name/compressed_and_theora");
 }
-
-int OgreTestingEnvironment::getGlslVersion() const
-{
-  return RenderSystem::get()->getGlslVersion();
-}
-
-}  // end namespace rviz_rendering
