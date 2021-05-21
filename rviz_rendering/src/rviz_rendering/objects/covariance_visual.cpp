@@ -34,9 +34,7 @@
 #include <memory>
 #include <sstream>
 #include <tuple>
-#include <vector>
 
-#include <OgreEntity.h>
 #include <OgreSceneManager.h>
 #include <OgreSceneNode.h>
 
@@ -125,14 +123,12 @@ diagonalizeCovariance(
     eigenvectors = eigensolver.eigenvectors();
 
     if (eigenvalues.minCoeff() < 0) {
-      RVIZ_RENDERING_LOG_WARNING(
-        "Negative eigenvalue found for position. Is the "
+      RVIZ_RENDERING_LOG_WARNING("Negative eigenvalue found for position. Is the "
         "covariance matrix correct (positive semidefinite)?");
       covariance_valid = false;
     }
   } else {
-    RVIZ_RENDERING_LOG_WARNING(
-      "failed to compute eigen vectors/values for position. Is the "
+    RVIZ_RENDERING_LOG_WARNING("failed to compute eigen vectors/values for position. Is the "
       "covariance matrix correct?");
     covariance_valid = false;
   }
@@ -200,11 +196,9 @@ computeShapeScaleAndOrientation2D(const Eigen::Matrix2d & covariance, Plane plan
   Ogre::Quaternion orientation;
   switch (plane) {
     case Plane::YZ_PLANE:
-      orientation.FromRotationMatrix(
-        Ogre::Matrix3(
-          1, 0, 0,
-          0, eigenvectors[0][0], eigenvectors[0][1],
-          0, eigenvectors[1][0], eigenvectors[1][1]));
+      orientation.FromRotationMatrix(Ogre::Matrix3(1, 0, 0,
+        0, eigenvectors[0][0], eigenvectors[0][1],
+        0, eigenvectors[1][0], eigenvectors[1][1]));
 
       scale.x = 0;
       scale.y = 2.f * std::sqrt(eigenvalues[0]);
@@ -212,11 +206,9 @@ computeShapeScaleAndOrientation2D(const Eigen::Matrix2d & covariance, Plane plan
       break;
 
     case Plane::XZ_PLANE:
-      orientation.FromRotationMatrix(
-        Ogre::Matrix3(
-          eigenvectors[0][0], 0, eigenvectors[0][1],
-          0, 1, 0,
-          eigenvectors[1][0], 0, eigenvectors[1][1]));
+      orientation.FromRotationMatrix(Ogre::Matrix3(eigenvectors[0][0], 0, eigenvectors[0][1],
+        0, 1, 0,
+        eigenvectors[1][0], 0, eigenvectors[1][1]));
 
       scale.x = 2.f * std::sqrt(eigenvalues[0]);
       scale.y = 0;
@@ -224,11 +216,9 @@ computeShapeScaleAndOrientation2D(const Eigen::Matrix2d & covariance, Plane plan
       break;
 
     case Plane::XY_PLANE:
-      orientation.FromRotationMatrix(
-        Ogre::Matrix3(
-          eigenvectors[0][0], eigenvectors[0][1], 0,
-          eigenvectors[1][0], eigenvectors[1][1], 0,
-          0, 0, 1));
+      orientation.FromRotationMatrix(Ogre::Matrix3(eigenvectors[0][0], eigenvectors[0][1], 0,
+        eigenvectors[1][0], eigenvectors[1][1], 0,
+        0, 0, 1));
 
       scale.x = 2.f * std::sqrt(eigenvalues[0]);
       scale.y = 2.f * std::sqrt(eigenvalues[1]);
@@ -336,15 +326,15 @@ CovarianceVisual::CovarianceVisual(
 
 CovarianceVisual::~CovarianceVisual()
 {
-  scene_manager_->destroySceneNode(position_node_);
+  scene_manager_->destroySceneNode(position_node_->getName() );
 
   for (auto orientation_offset_node : orientation_offset_nodes_) {
-    scene_manager_->destroySceneNode(orientation_offset_node);
+    scene_manager_->destroySceneNode(orientation_offset_node->getName() );
   }
 
-  scene_manager_->destroySceneNode(position_scale_node_);
-  scene_manager_->destroySceneNode(fixed_orientation_node_);
-  scene_manager_->destroySceneNode(root_node_);
+  scene_manager_->destroySceneNode(position_scale_node_->getName() );
+  scene_manager_->destroySceneNode(fixed_orientation_node_->getName() );
+  scene_manager_->destroySceneNode(root_node_->getName() );
 }
 
 void CovarianceVisual::updateUserData(CovarianceUserData user_data)
@@ -617,24 +607,10 @@ void CovarianceVisual::setRotatingFrame(bool is_local_rotation)
   local_rotation_ = is_local_rotation;
 
   if (local_rotation_) {
-    root_node_->addChild(fixed_orientation_node_->removeChild(orientation_root_node_));
+    root_node_->addChild(fixed_orientation_node_->removeChild(orientation_root_node_->getName()));
   } else {
-    fixed_orientation_node_->addChild(root_node_->removeChild(orientation_root_node_));
+    fixed_orientation_node_->addChild(root_node_->removeChild(orientation_root_node_->getName()));
   }
-}
-
-Ogre::AxisAlignedBox CovarianceVisual::getPositionBoundingBox()
-{
-  return position_shape_->getEntity()->getWorldBoundingBox();
-}
-
-std::vector<Ogre::AxisAlignedBox> CovarianceVisual::getOrientationBoundingBoxes()
-{
-  std::vector<Ogre::AxisAlignedBox> aabbs;
-  aabbs.push_back(orientation_shapes_[kRoll]->getEntity()->getWorldBoundingBox());
-  aabbs.push_back(orientation_shapes_[kPitch]->getEntity()->getWorldBoundingBox());
-  aabbs.push_back(orientation_shapes_[kYaw]->getEntity()->getWorldBoundingBox());
-  return aabbs;
 }
 
 }  // namespace rviz_rendering

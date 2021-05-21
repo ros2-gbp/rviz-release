@@ -30,7 +30,16 @@
 
 #include "rviz_default_plugins/displays/pose/pose_display_selection_handler.hpp"
 
+#ifdef _WIN32
+# pragma warning(push)
+# pragma warning(disable:4996)
+#endif
+
 #include <OgreEntity.h>
+
+#ifdef _WIN32
+# pragma warning(pop)
+#endif
 
 #include "rviz_rendering/objects/axes.hpp"
 #include "rviz_rendering/objects/arrow.hpp"
@@ -97,11 +106,11 @@ rviz_common::interaction::V_AABB PoseDisplaySelectionHandler::getAABBs(
         display_->arrow_->getShaft()->getEntity()->getWorldBoundingBox(derive_world_bounding_box));
     } else {
       aabbs.push_back(
-        display_->axes_->getXShape().getEntity()->getWorldBoundingBox(derive_world_bounding_box));
+        display_->axes_->getXShape()->getEntity()->getWorldBoundingBox(derive_world_bounding_box));
       aabbs.push_back(
-        display_->axes_->getYShape().getEntity()->getWorldBoundingBox(derive_world_bounding_box));
+        display_->axes_->getYShape()->getEntity()->getWorldBoundingBox(derive_world_bounding_box));
       aabbs.push_back(
-        display_->axes_->getZShape().getEntity()->getWorldBoundingBox(derive_world_bounding_box));
+        display_->axes_->getZShape()->getEntity()->getWorldBoundingBox(derive_world_bounding_box));
     }
   }
   return aabbs;

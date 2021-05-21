@@ -28,7 +28,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "rviz_common/visualization_manager.hpp"
+#include "visualization_manager.hpp"
 
 #include <algorithm>
 #include <chrono>
@@ -37,6 +37,11 @@
 #include <mutex>
 #include <string>
 #include <vector>
+
+#ifndef _WIN32
+# pragma GCC diagnostic push
+# pragma GCC diagnostic ignored "-Wunused-parameter"
+#endif
 
 #include <OgreCamera.h>
 #include <OgreLight.h>
@@ -49,10 +54,14 @@
 #include <OgreSharedPtr.h>
 #include <OgreViewport.h>
 
-#include <QApplication>  // NOLINT: cpplint cannot handle include order here
-#include <QCursor>  // NOLINT: cpplint cannot handle include order here
-#include <QTimer>  // NOLINT: cpplint cannot handle include order here
-#include <QWindow>  // NOLINT: cpplint cannot handle include order here
+#include <QApplication>
+#include <QCursor>
+#include <QTimer>
+#include <QWindow>
+
+#ifndef _WIN32
+# pragma GCC diagnostic pop
+#endif
 
 // #include "tf/transform_listener.h"
 #include "rclcpp/clock.hpp"
@@ -201,21 +210,18 @@ VisualizationManager::VisualizationManager(
   ip->setIcon(loadPixmap("package://rviz_common/icons/options.png"));
   global_options_ = ip;
 
-  fixed_frame_property_ = new TfFrameProperty(
-    "Fixed Frame", "base_link",
-    "Frame into which all data is transformed before being displayed.",
-    global_options_, frame_manager_, false,
-    SLOT(updateFixedFrame()), this);
+  fixed_frame_property_ = new TfFrameProperty("Fixed Frame", "base_link",
+      "Frame into which all data is transformed before being displayed.",
+      global_options_, frame_manager_, false,
+      SLOT(updateFixedFrame()), this);
 
-  background_color_property_ = new ColorProperty(
-    "Background Color", QColor(48, 48, 48),
-    "Background color for the 3D view.",
-    global_options_, SLOT(updateBackgroundColor()), this);
+  background_color_property_ = new ColorProperty("Background Color", QColor(48, 48, 48),
+      "Background color for the 3D view.",
+      global_options_, SLOT(updateBackgroundColor()), this);
 
-  fps_property_ = new IntProperty(
-    "Frame Rate", 30,
-    "RViz will try to render this many frames per second.",
-    global_options_, SLOT(updateFps()), this);
+  fps_property_ = new IntProperty("Frame Rate", 30,
+      "RViz will try to render this many frames per second.",
+      global_options_, SLOT(updateFps()), this);
 
   root_display_group_->initialize(this);   // only initialize() a Display
                                            // after its sub-properties are created.
@@ -236,8 +242,8 @@ VisualizationManager::VisualizationManager(
   executor_->add_node(rviz_ros_node_.lock()->get_raw_node());
 // TODO(wjwwood): redo with executors?
 #if 0
-  private_->threaded_queue_threads_.create_thread(
-    std::bind(&VisualizationManager::threadedQueueThreadFunc, this));
+  private_->threaded_queue_threads_.create_thread(std::bind(&VisualizationManager::
+    threadedQueueThreadFunc, this));
 #endif
 
   display_factory_ = new DisplayFactory();
@@ -375,11 +381,11 @@ BitAllocator * VisualizationManager::visibilityBits()
 
 void VisualizationManager::onUpdate()
 {
-  const auto wall_now = std::chrono::system_clock::now();
-  const auto wall_diff = wall_now - last_update_wall_time_;
-  const uint64_t wall_dt = std::chrono::duration_cast<std::chrono::nanoseconds>(wall_diff).count();
-  const auto ros_now = clock_->now();
-  const uint64_t ros_dt = ros_now.nanoseconds() - last_update_ros_time_.nanoseconds();
+  auto wall_now = std::chrono::system_clock::now();
+  auto wall_diff = wall_now - last_update_wall_time_;
+  uint64_t wall_dt = std::chrono::duration_cast<std::chrono::nanoseconds>(wall_diff).count();
+  auto ros_now = clock_->now();
+  uint64_t ros_dt = ros_now.nanoseconds() - last_update_ros_time_.nanoseconds();
   last_update_ros_time_ = ros_now;
   last_update_wall_time_ = wall_now;
 
@@ -395,9 +401,7 @@ void VisualizationManager::onUpdate()
 
   root_display_group_->update(wall_dt, ros_dt);
 
-  if (nullptr != view_manager_) {
-    view_manager_->update(wall_dt, ros_dt);
-  }
+  view_manager_->update(wall_dt, ros_dt);
 
   time_update_timer_ += wall_dt;
 
@@ -431,7 +435,8 @@ void VisualizationManager::onUpdate()
   }
 
   frame_count_++;
-  if (render_requested_ || wall_diff > std::chrono::milliseconds(10)) {
+
+  if (render_requested_ || wall_dt > 0.01) {
     render_requested_ = 0;
     std::lock_guard<std::mutex> lock(private_->render_mutex_);
     ogre_root_->renderOneFrame();
@@ -463,12 +468,12 @@ void VisualizationManager::updateFrames()
       // fixed_prop->setToWarn();
       std::stringstream ss;
       ss << "No tf data.  Actual error: " << error;
-      global_status_->setStatus(
-        StatusProperty::Warn, "Fixed Frame", QString::fromStdString(ss.str()));
+      global_status_->setStatus(StatusProperty::Warn, "Fixed Frame", QString::fromStdString(
+          ss.str()));
     } else {
       // fixed_prop->setToError();
-      global_status_->setStatus(
-        StatusProperty::Error, "Fixed Frame", QString::fromStdString(error));
+      global_status_->setStatus(StatusProperty::Error, "Fixed Frame",
+        QString::fromStdString(error));
     }
   } else {
     // fixed_prop->setToOK();
@@ -606,7 +611,10 @@ double VisualizationManager::getWallClockElapsed()
 
 double VisualizationManager::getROSTimeElapsed()
 {
-  return static_cast<double>(ros_time_elapsed_) / 1e9;
+  // TODO(wjwwood): why does this function return now - begin, whereas the getWallClockElapsed
+  //                returns a pre-calculated elapsed value?
+  //                figure out how this function is being used and make these consistent
+  return (frame_manager_->getTime() - ros_time_begin_).nanoseconds() / 1e9;
 }
 
 void VisualizationManager::updateBackgroundColor()

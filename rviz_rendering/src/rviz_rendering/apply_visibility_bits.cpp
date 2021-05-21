@@ -44,14 +44,16 @@ void applyVisibilityBits(uint32_t bits, Ogre::SceneNode * node)
     return;
   }
   // Loop over all objects attached to this node.
-  auto objects = node->getAttachedObjects();
-  for (const auto & object : objects) {
-    object->setVisibilityFlags(bits);
+  Ogre::SceneNode::ObjectIterator obj_it = node->getAttachedObjectIterator();
+  while (obj_it.hasMoreElements() ) {
+    Ogre::MovableObject * obj = obj_it.getNext();
+    obj->setVisibilityFlags(bits);
   }
   // Loop over and recurse into all child nodes.
-  for (auto child : node->getChildren()) {
-    auto child_scene_node = dynamic_cast<Ogre::SceneNode *>(child);
-    applyVisibilityBits(bits, child_scene_node);
+  Ogre::SceneNode::ChildNodeIterator child_it = node->getChildIterator();
+  while (child_it.hasMoreElements() ) {
+    Ogre::SceneNode * child = dynamic_cast<Ogre::SceneNode *>( child_it.getNext() );
+    applyVisibilityBits(bits, child);
   }
 }
 

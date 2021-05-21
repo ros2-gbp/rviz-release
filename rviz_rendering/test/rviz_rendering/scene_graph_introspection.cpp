@@ -34,7 +34,14 @@
 #include <string>
 #include <vector>
 
+#ifdef _WIN32
+#pragma warning(push)
+#pragma warning(disable : 4996)
 #include <OgreEntity.h>
+#pragma warning(pop)
+#else
+#include <OgreEntity.h>
+#endif
 #include <OgreMesh.h>
 #include <OgreManualObject.h>
 
@@ -42,10 +49,20 @@
 #include "rviz_rendering/objects/point_cloud.hpp"
 #include "rviz_rendering/objects/shape.hpp"
 
-#include "scene_graph_introspection.hpp"
+#include "test/rviz_rendering/scene_graph_introspection.hpp"
 
 namespace rviz_rendering
 {
+
+bool arrowIsVisible(Ogre::SceneNode * scene_node)
+{
+  auto arrow_head = findEntityByMeshName(
+    scene_node, "rviz_cone.mesh");
+  auto arrow_shaft = findEntityByMeshName(
+    scene_node, "rviz_cylinder.mesh");
+
+  return arrow_head->isVisible() && arrow_shaft->isVisible();
+}
 
 std::vector<Ogre::Entity *> findAllEntitiesByMeshName(
   Ogre::SceneNode * scene_node, const Ogre::String & resource_name)
@@ -91,6 +108,24 @@ Ogre::BillboardChain * findOneBillboardChain(Ogre::SceneNode * scene_node)
   return objects.empty() ? nullptr : objects[0];
 }
 
+rviz_rendering::MovableText * findOneMovableText(Ogre::SceneNode * scene_node)
+{
+  auto objects = findAllOgreObjectByType<rviz_rendering::MovableText>(scene_node, "MovableText");
+  return objects.empty() ? nullptr : objects[0];
+}
+
+Ogre::ManualObject * findOneManualObject(Ogre::SceneNode * scene_node)
+{
+  auto objects = findAllOgreObjectByType<Ogre::ManualObject>(scene_node, "ManualObject");
+  return objects.empty() ? nullptr : objects[0];
+}
+
+rviz_rendering::PointCloud * findOnePointCloud(Ogre::SceneNode * scene_node)
+{
+  auto point_clouds = findAllPointClouds(scene_node);
+  return point_clouds.empty() ? nullptr : point_clouds[0];
+}
+
 std::vector<rviz_rendering::PointCloud *> findAllPointClouds(Ogre::SceneNode * scene_node)
 {
   return findAllOgreObjectByType<rviz_rendering::PointCloud>(scene_node, "PointCloud");
@@ -120,6 +155,12 @@ std::vector<Ogre::SceneNode *> findAllArrows(Ogre::SceneNode * scene_node)
   return arrows;
 }
 
+Ogre::SceneNode * findOneArrow(Ogre::SceneNode * scene_node)
+{
+  auto arrows = findAllArrows(scene_node);
+  return arrows.empty() ? nullptr : arrows[0];
+}
+
 std::vector<Ogre::SceneNode *> findAllAxes(Ogre::SceneNode * scene_node)
 {
   std::vector<Ogre::SceneNode *> axes;
@@ -131,8 +172,8 @@ std::vector<Ogre::SceneNode *> findAllAxes(Ogre::SceneNode * scene_node)
         ->getParentSceneNode()  // SceneNode from cylinder_entity
         ->getParentSceneNode();  // SceneNode from axes
       if (axes_scene_node) {
-        auto local_cylinder_entities = findAllEntitiesByMeshName(
-          axes_scene_node, "rviz_cylinder.mesh");
+        auto local_cylinder_entities = findAllEntitiesByMeshName(axes_scene_node,
+            "rviz_cylinder.mesh");
         if (local_cylinder_entities.size() == 3 &&
           std::find(axes.begin(), axes.end(), axes_scene_node) == axes.end())
         {
@@ -142,6 +183,30 @@ std::vector<Ogre::SceneNode *> findAllAxes(Ogre::SceneNode * scene_node)
     }
   }
   return axes;
+}
+
+Ogre::SceneNode * findOneAxes(Ogre::SceneNode * scene_node)
+{
+  auto axes = findAllAxes(scene_node);
+  return axes.empty() ? nullptr : axes[0];
+}
+
+std::vector<Ogre::Vector3> getPositionsFromNodes(const std::vector<Ogre::SceneNode *> & nodes)
+{
+  std::vector<Ogre::Vector3> positions(nodes.size(), Ogre::Vector3::ZERO);
+  std::transform(nodes.cbegin(), nodes.cend(), positions.begin(), [](auto node) {
+      return node->getPosition();
+    });
+  return positions;
+}
+
+std::vector<Ogre::Quaternion> getOrientationsFromNodes(const std::vector<Ogre::SceneNode *> & nodes)
+{
+  std::vector<Ogre::Quaternion> orientations(nodes.size(), Ogre::Quaternion::IDENTITY);
+  std::transform(nodes.cbegin(), nodes.cend(), orientations.begin(), [](auto node) {
+      return node->getOrientation();
+    });
+  return orientations;
 }
 
 }  // namespace rviz_rendering

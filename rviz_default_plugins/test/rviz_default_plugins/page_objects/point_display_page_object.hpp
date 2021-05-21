@@ -39,6 +39,7 @@ public:
   PointDisplayPageObject();
 
   void setTopic(QString topic);
+  void setUnreliable(bool unreliable);
   void setColor(int red, int green, int blue);
   void setRadius(float radius);
   void setAlpha(float alpha);

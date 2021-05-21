@@ -30,12 +30,21 @@
 
 #include "rviz_default_plugins/view_controllers/fps/fps_view_controller.hpp"
 
+#ifndef _WIN32
+# pragma GCC diagnostic push
+# pragma GCC diagnostic ignored "-Wunused-parameter"
+# pragma GCC diagnostic ignored "-Wpedantic"
+#endif
 #include <OgreCamera.h>
 #include <OgreQuaternion.h>
 #include <OgreSceneNode.h>
 #include <OgreSceneManager.h>
 #include <OgreVector3.h>
 #include <OgreViewport.h>
+
+#ifndef _WIN32
+# pragma GCC diagnostic pop
+#endif
 
 #include "rviz_rendering/geometry.hpp"
 #include "rviz_rendering/objects/shape.hpp"
@@ -118,13 +127,13 @@ void FPSViewController::handleMouseEvent(rviz_common::ViewportMouseEvent & event
 void FPSViewController::setCursorStatus(rviz_common::ViewportMouseEvent & event)
 {
   if (event.shift()) {
-    setStatus("<b>Left-Click:</b> Move X/Y.  <b>Right-Click:</b> Move Z.");
+    setStatus("<b>Left-Click:</b> Move X/Y.  <b>Right-Click:</b>: Move Z.");
   } else {
     setStatus(
       "<b>Left-Click:</b> Rotate.  "
       "<b>Middle-Click:</b> Move X/Y.  "
-      "<b>Right-Click:</b> Zoom.  "
-      "<b>Shift:</b> More options.");
+      "<b>Right-Click:</b>: Zoom.  "
+      "<b>Shift</b>: More options.");
   }
 }
 

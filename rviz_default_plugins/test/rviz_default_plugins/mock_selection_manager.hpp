@@ -54,7 +54,6 @@ public:
   MOCK_METHOD5(highlight, void(rviz_rendering::RenderWindow *, int, int, int, int));
   MOCK_METHOD0(removeHighlight, void());
   MOCK_METHOD6(select, void(rviz_rendering::RenderWindow *, int, int, int, int, SelectType));
-  MOCK_METHOD6(pick, void(rviz_rendering::RenderWindow *, int, int, int, int, M_Picked &));
 
   MOCK_METHOD0(update, void());
   MOCK_CONST_METHOD0(getSelection, const M_Picked & ());
@@ -63,9 +62,6 @@ public:
   MOCK_METHOD1(setTextureSize, void(unsigned int));
 
   MOCK_METHOD4(get3DPoint, bool(Ogre::Viewport *, int, int, Ogre::Vector3 &));
-  MOCK_METHOD7(
-    get3DPatch, bool(Ogre::Viewport *, int, int, unsigned, unsigned,
-    bool, std::vector<Ogre::Vector3>&));
   MOCK_METHOD0(getPropertyModel, rviz_common::properties::PropertyTreeModel *());
 };
 

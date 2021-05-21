@@ -34,7 +34,14 @@
 #include <memory>
 #include <string>
 
+#ifdef _WIN32
+#pragma warning(push)
+#pragma warning(disable : 4996)
 #include <OgreEntity.h>
+#pragma warning(pop)
+#else
+#include <OgreEntity.h>
+#endif
 #include <OgreSimpleRenderable.h>
 
 #include "visualization_msgs/msg/marker.hpp"
@@ -42,7 +49,8 @@
 
 #include "rviz_default_plugins/displays/marker/markers/text_view_facing_marker.hpp"
 
-#include "../../../scene_graph_introspection.hpp"
+#include "test/rviz_rendering/scene_graph_introspection.hpp"
+#include "../../../scene_graph_introspection_helper.hpp"
 #include "markers_test_fixture.hpp"
 #include "../marker_messages.hpp"
 
@@ -54,7 +62,7 @@ TEST_F(MarkersTestFixture, setMessage_sets_object_invisible_when_transform_fails
 
   marker_->setMessage(createDefaultMessage(visualization_msgs::msg::Marker::TEXT_VIEW_FACING));
 
-  auto movable_text = rviz_default_plugins::findOneMovableText(scene_manager_->getRootSceneNode());
+  auto movable_text = rviz_rendering::findOneMovableText(scene_manager_->getRootSceneNode());
   ASSERT_TRUE(movable_text);
 
   EXPECT_FALSE(movable_text->isVisible());
@@ -68,7 +76,7 @@ TEST_F(MarkersTestFixture, setMessage_sets_correct_caption_for_valid_message) {
   message.text = "Message to display";
   marker_->setMessage(message);
 
-  auto movable_text = rviz_default_plugins::findOneMovableText(scene_manager_->getRootSceneNode());
+  auto movable_text = rviz_rendering::findOneMovableText(scene_manager_->getRootSceneNode());
   ASSERT_TRUE(movable_text);
   EXPECT_TRUE(movable_text->isVisible());
   EXPECT_THAT(movable_text->getCaption(), StrEq(message.text));
@@ -82,7 +90,7 @@ TEST_F(MarkersTestFixture, setMessage_sets_correct_transformation_for_valid_mess
   message.text = "Message to display";
   marker_->setMessage(message);
 
-  auto movable_text = rviz_default_plugins::findOneMovableText(scene_manager_->getRootSceneNode());
+  auto movable_text = rviz_rendering::findOneMovableText(scene_manager_->getRootSceneNode());
   ASSERT_TRUE(movable_text);
   EXPECT_THAT(movable_text->getParentSceneNode()->getPosition(), Vector3Eq(Ogre::Vector3(0, 1, 0)));
   EXPECT_THAT(movable_text->getCharacterHeight(), Eq(message.scale.z));

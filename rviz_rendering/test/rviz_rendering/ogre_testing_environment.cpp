@@ -27,35 +27,23 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "ogre_testing_environment.hpp"
+#include "test/rviz_rendering/ogre_testing_environment.hpp"
 
-#include <string>
-
-#include <OgreLogManager.h>
-
-#include "rviz_rendering/render_system.hpp"
+#include "rviz_rendering/render_window.hpp"
+#include "src/rviz_rendering/render_system.hpp"
 
 namespace rviz_rendering
 {
-
-void OgreTestingEnvironment::setUpOgreTestEnvironment(bool debug)
-{
-  if (!debug) {
-    const std::string & name = "";
-    auto lm = new Ogre::LogManager();
-    lm->createLog(name, false, debug, true);
-  }
-  setUpRenderSystem();
-}
 
 void OgreTestingEnvironment::setUpRenderSystem()
 {
   RenderSystem::get();
 }
 
-int OgreTestingEnvironment::getGlslVersion() const
+Ogre::RenderWindow * OgreTestingEnvironment::createOgreRenderWindow()
 {
-  return RenderSystem::get()->getGlslVersion();
+  auto test = new rviz_rendering::RenderWindow();
+  return RenderSystem::get()->makeRenderWindow(test->winId(), 10, 10, 1.0);
 }
 
 }  // end namespace rviz_rendering

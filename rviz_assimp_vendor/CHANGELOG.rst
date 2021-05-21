@@ -2,68 +2,28 @@
 Changelog for package rviz_assimp_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-8.6.0 (2021-05-13)
+6.1.8 (2021-05-21)
 ------------------
 
-8.5.0 (2021-04-06)
+6.1.7 (2020-11-24)
+------------------
+* Update maintainers. (`#617 <https://github.com/ros2/rviz/issues/617>`_)
+* Contributors: Michael Jeronimo
+
+6.1.6 (2020-03-11)
 ------------------
 
-8.4.0 (2021-03-18)
-------------------
-* Always preserve source permissions in vendor packages (`#647 <https://github.com/ros2/rviz/issues/647>`_)
-* Add an override flag to force vendored build (`#642 <https://github.com/ros2/rviz/issues/642>`_)
-* Contributors: Scott K Logan
-
-8.3.1 (2021-01-25)
+6.1.5 (2019-12-10)
 ------------------
 
-8.3.0 (2020-12-08)
-------------------
-* Add linters and use ament_lint_auto (`#608 <https://github.com/ros2/rviz/issues/608>`_)
-* Update maintainers (`#607 <https://github.com/ros2/rviz/issues/607>`_)
-* Contributors: Jacob Perron
-
-8.2.0 (2020-06-23)
-------------------
-* Updated a hack to avoid CMake warning with assimp 5.0.1 and older, applying it cross platforms (`#565 <https://github.com/ros2/rviz/issues/565>`_)
-* Contributors: Dirk Thomas
-
-8.1.1 (2020-06-03)
+6.1.4 (2019-09-06)
 ------------------
 
-8.1.0 (2020-06-03)
+6.1.3 (2019-07-31)
 ------------------
 
-8.0.3 (2020-06-02)
+6.1.2 (2019-06-12)
 ------------------
-
-8.0.2 (2020-05-21)
-------------------
-
-8.0.1 (2020-05-07)
-------------------
-* Make rviz_assimp_vendor hack specific to Ubuntu Focal. (`#536 <https://github.com/ros2/rviz/issues/536>`_)
-* Contributors: Chris Lalancette
-
-8.0.0 (2020-05-01)
-------------------
-* Note from wjwwood: I've chosen bump the major version this time, even though the API was not broken strictly speaking, partly because of some potentially disruptive build system changes and partially in preparation for ROS Foxy, to allow for new minor/patch versions in the previous ROS release Eloquent.
-* Suppressed an upstream cmake warning in assimp. (`#534 <https://github.com/ros2/rviz/issues/534>`_)
-* Contributors: William Woodall
-
-7.0.3 (2019-11-13)
-------------------
-
-7.0.2 (2019-10-23)
-------------------
-
-7.0.1 (2019-10-04)
-------------------
-
-7.0.0 (2019-09-27)
-------------------
-* Add .dsv file beside custom environment hook (`#466 <https://github.com/ros2/rviz/issues/466>`_)
-* Contributors: Dirk Thomas
 
 6.1.1 (2019-05-29)
 ------------------

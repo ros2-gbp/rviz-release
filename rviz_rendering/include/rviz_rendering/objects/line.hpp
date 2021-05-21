@@ -33,7 +33,6 @@
 #include <OgreSceneNode.h>
 #include <OgreMaterial.h>
 #include <OgreSharedPtr.h>
-#include <OgreVector3.h>
 
 #include "rviz_rendering/objects/object.hpp"
 #include "rviz_rendering/visibility_control.hpp"
@@ -42,6 +41,7 @@ namespace Ogre
 {
 class SceneManager;
 class SceneNode;
+class Vector3;
 class Quaternion;
 class Any;
 class ColourValue;

@@ -37,7 +37,7 @@
 
 void DisplayTestFixture::SetUpTestCase()
 {
-  testing_environment_ = std::make_shared<rviz_default_plugins::OgreTestingEnvironment>();
+  testing_environment_ = std::make_shared<rviz_rendering::OgreTestingEnvironment>();
   testing_environment_->setUpOgreTestEnvironment();
 
   scene_manager_ = Ogre::Root::getSingletonPtr()->createSceneManager();
@@ -85,9 +85,7 @@ void DisplayTestFixture::mockValidTransform(Ogre::Vector3 position, Ogre::Quater
   EXPECT_CALL(
     *frame_manager_,
     transform(::testing::_, ::testing::_, ::testing::_, ::testing::_, ::testing::_))  // NOLINT
-  .WillRepeatedly(
-    // NOLINT
-    ::testing::DoAll(
+  .WillRepeatedly(::testing::DoAll(      // NOLINT
       ::testing::SetArgReferee<3>(position),
       ::testing::SetArgReferee<4>(orientation),
       ::testing::Return(true)
@@ -96,9 +94,7 @@ void DisplayTestFixture::mockValidTransform(Ogre::Vector3 position, Ogre::Quater
   EXPECT_CALL(
     *frame_manager_,
     getTransform(::testing::_, ::testing::_, ::testing::_, ::testing::_))
-  .WillRepeatedly(
-    // NOLINT
-    ::testing::DoAll(
+  .WillRepeatedly(::testing::DoAll(      // NOLINT
       ::testing::SetArgReferee<2>(position),
       ::testing::SetArgReferee<3>(orientation),
       ::testing::Return(true)
@@ -106,5 +102,5 @@ void DisplayTestFixture::mockValidTransform(Ogre::Vector3 position, Ogre::Quater
 }
 
 Ogre::SceneManager * DisplayTestFixture::scene_manager_ = nullptr;
-std::shared_ptr<rviz_default_plugins::OgreTestingEnvironment>
+std::shared_ptr<rviz_rendering::OgreTestingEnvironment>
 DisplayTestFixture::testing_environment_ = nullptr;

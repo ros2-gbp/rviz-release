@@ -35,7 +35,6 @@
 
 #include "geometry_msgs/msg/pose_with_covariance_stamped.hpp"
 #include "rclcpp/node.hpp"
-#include "rclcpp/qos.hpp"
 
 #include "rviz_default_plugins/tools/pose/pose_tool.hpp"
 #include "rviz_default_plugins/visibility_control.hpp"
@@ -45,9 +44,7 @@ namespace rviz_common
 class DisplayContext;
 namespace properties
 {
-class FloatProperty;
 class StringProperty;
-class QosProfileProperty;
 }  // namespace properties
 }  // namespace rviz_common
 
@@ -74,15 +71,8 @@ private Q_SLOTS:
 
 private:
   rclcpp::Publisher<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr publisher_;
-  rclcpp::Clock::SharedPtr clock_;
 
   rviz_common::properties::StringProperty * topic_property_;
-  rviz_common::properties::QosProfileProperty * qos_profile_property_;
-  rviz_common::properties::FloatProperty * covariance_x_property_;
-  rviz_common::properties::FloatProperty * covariance_y_property_;
-  rviz_common::properties::FloatProperty * covariance_yaw_property_;
-
-  rclcpp::QoS qos_profile_;
 };
 
 }  // namespace tools

@@ -35,7 +35,17 @@
 #include <string>
 #include <vector>
 
+#ifdef _WIN32
+# pragma warning(push)
+# pragma warning(disable:4996)
+#endif
+
 #include <OgreEntity.h>
+
+#ifdef _WIN32
+# pragma warning(pop)
+#endif
+
 #include <OgreMaterial.h>
 #include <OgreMaterialManager.h>
 #include <OgreRibbonTrail.h>
@@ -48,7 +58,7 @@
 
 #include <QFileInfo>  // NOLINT cpplint cannot handle include order here
 
-#include "resource_retriever/retriever.hpp"
+#include "resource_retriever/retriever.h"
 
 #include "rviz_default_plugins/robot/robot_joint.hpp"
 #include "rviz_default_plugins/robot/robot.hpp"
@@ -67,8 +77,6 @@
 #include "rviz_common/properties/quaternion_property.hpp"
 #include "rviz_common/properties/vector_property.hpp"
 #include "rviz_common/interaction/selection_manager.hpp"
-
-#define RVIZ_RESOURCE_GROUP "rviz_rendering"
 
 using rviz_rendering::Axes;
 using rviz_rendering::Shape;
@@ -123,15 +131,15 @@ void RobotLinkSelectionHandler::createProperties(
   rviz_common::properties::Property * parent_property)
 {
   (void) obj;
-  Property * group = new Property(
-    "Link " + QString::fromStdString(link_->getName()), QVariant(), "", parent_property);
+  Property * group = new Property("Link " + QString::fromStdString(link_->getName()),
+      QVariant(), "", parent_property);
   properties_.push_back(group);
 
   position_property_ = new VectorProperty("Position", Ogre::Vector3::ZERO, "", group);
   position_property_->setReadOnly(true);
 
-  orientation_property_ = new QuaternionProperty(
-    "Orientation", Ogre::Quaternion::IDENTITY, "", group);
+  orientation_property_ = new QuaternionProperty("Orientation", Ogre::Quaternion::IDENTITY, "",
+      group);
   orientation_property_->setReadOnly(true);
 
   group->expand();
@@ -218,8 +226,7 @@ RobotLink::RobotLink(
   createDescription(link);
 
   if (!hasGeometry()) {
-    robot_element_property_->setIcon(
-      rviz_common::loadPixmap(
+    robot_element_property_->setIcon(rviz_common::loadPixmap(
         "package://rviz_default_plugins/icons/classes/RobotLinkNoGeom.png"));
     alpha_property_->hide();
     robot_element_property_->setValue(QVariant());
@@ -230,37 +237,31 @@ void RobotLink::setProperties(const urdf::LinkConstSharedPtr & link)
 {
   robot_element_property_ = new Property(
     link->name.c_str(), true, "", nullptr, SLOT(updateVisibility()), this);
-  robot_element_property_->setIcon(
-    rviz_common::loadPixmap(
+  robot_element_property_->setIcon(rviz_common::loadPixmap(
       "package://rviz_default_plugins/icons/classes/RobotLink.png"));
 
   details_ = new Property("Details", QVariant(), "", nullptr);
 
-  alpha_property_ = new FloatProperty(
-    "Alpha", 1,
-    "Amount of transparency to apply to this link.",
-    robot_element_property_, SLOT(updateAlpha()), this);
+  alpha_property_ = new FloatProperty("Alpha", 1,
+      "Amount of transparency to apply to this link.",
+      robot_element_property_, SLOT(updateAlpha()), this);
 
-  trail_property_ = new Property(
-    "Show Trail", false,
-    "Enable/disable a 2 meter \"ribbon\" which follows this link.",
-    robot_element_property_, SLOT(updateTrail()), this);
+  trail_property_ = new Property("Show Trail", false,
+      "Enable/disable a 2 meter \"ribbon\" which follows this link.",
+      robot_element_property_, SLOT(updateTrail()), this);
 
-  axes_property_ = new Property(
-    "Show Axes", false,
-    "Enable/disable showing the axes of this link.",
-    robot_element_property_, SLOT(updateAxes()), this);
+  axes_property_ = new Property("Show Axes", false,
+      "Enable/disable showing the axes of this link.",
+      robot_element_property_, SLOT(updateAxes()), this);
 
-  position_property_ = new VectorProperty(
-    "Position", Ogre::Vector3::ZERO,
-    "Position of this link, in the current Fixed Frame.  (Not editable)",
-    robot_element_property_);
+  position_property_ = new VectorProperty("Position", Ogre::Vector3::ZERO,
+      "Position of this link, in the current Fixed Frame.  (Not editable)",
+      robot_element_property_);
   position_property_->setReadOnly(true);
 
-  orientation_property_ = new QuaternionProperty(
-    "Orientation", Ogre::Quaternion::IDENTITY,
-    "Orientation of this link, in the current Fixed Frame.  (Not editable)",
-    robot_element_property_);
+  orientation_property_ = new QuaternionProperty("Orientation", Ogre::Quaternion::IDENTITY,
+      "Orientation of this link, in the current Fixed Frame.  (Not editable)",
+      robot_element_property_);
   orientation_property_->setReadOnly(true);
 
   robot_element_property_->collapse();
@@ -505,12 +506,14 @@ void RobotLink::updateTrail()
 
 void RobotLink::setRenderQueueGroup(Ogre::uint8 group)
 {
-  for (auto child_node : visual_node_->getChildren()) {
-    auto child = dynamic_cast<Ogre::SceneNode *>(child_node);
+  Ogre::SceneNode::ChildNodeIterator child_it = visual_node_->getChildIterator();
+  while (child_it.hasMoreElements()) {
+    auto child = dynamic_cast<Ogre::SceneNode *>(child_it.getNext());
     if (child) {
-      auto attached_objects = child->getAttachedObjects();
-      for (const auto & object : attached_objects) {
-        object->setRenderQueueGroup(group);
+      Ogre::SceneNode::ObjectIterator object_it = child->getAttachedObjectIterator();
+      while (object_it.hasMoreElements()) {
+        Ogre::MovableObject * obj = object_it.getNext();
+        obj->setRenderQueueGroup(group);
       }
     }
   }
@@ -726,7 +729,7 @@ void RobotLink::loadMaterialFromTexture(
   Ogre::MaterialPtr & material_for_link, const urdf::VisualSharedPtr & visual) const
 {
   std::string filename = visual->material->texture_filename;
-  if (!Ogre::TextureManager::getSingleton().resourceExists(filename, RVIZ_RESOURCE_GROUP)) {
+  if (!Ogre::TextureManager::getSingleton().resourceExists(filename, "rviz_common")) {
     resource_retriever::Retriever retriever;
     resource_retriever::MemoryResource res;
     try {
@@ -747,9 +750,8 @@ void RobotLink::loadMaterialFromTexture(
 
       try {
         image.load(stream, extension);
-        Ogre::TextureManager::getSingleton().loadImage(
-          filename,
-          RVIZ_RESOURCE_GROUP,
+        Ogre::TextureManager::getSingleton().loadImage(filename,
+          Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
           image);
       } catch (Ogre::Exception & e) {
         RVIZ_COMMON_LOG_ERROR_STREAM("Could not load texture [" << filename << "]: " << e.what());

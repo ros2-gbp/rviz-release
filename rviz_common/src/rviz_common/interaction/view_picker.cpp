@@ -43,7 +43,6 @@
 #include <OgreSceneNode.h>
 #include <OgreTextureManager.h>
 #include <OgreViewport.h>
-#include <OgreVector3.h>
 
 #include "rviz_common/logging.hpp"
 
@@ -72,7 +71,7 @@ ViewPicker::ViewPicker(DisplayContext * context)
 
 ViewPicker::~ViewPicker()
 {
-  delete[] static_cast<uint8_t *>(depth_pixel_box_.data);
+  delete[] reinterpret_cast<uint8_t *>(depth_pixel_box_.data);
 }
 
 void ViewPicker::initialize()
@@ -168,17 +167,12 @@ void ViewPicker::getPatchDepthImage(
       depth_render_texture_, Dimensions(depth_texture_width_, depth_texture_height_), "Depth"),
     depth_pixel_box_);
 
-  auto data_ptr = static_cast<uint8_t *>(depth_pixel_box_.data);
-
-  // Assert that depth_pixel_box_ represents each depth pixel using 3 elements of type uint8_t,
-  // and that the series of pixels in depth_pixel_box_.data is a contiguous array of sets of 3.
-  // This ensures that the distance value at each pixel is composed using the correct indices.
-  assert(Ogre::PF_R8G8B8 == depth_pixel_box_.format);
+  auto data_ptr = reinterpret_cast<uint8_t *>(depth_pixel_box_.data);
 
   for (uint32_t pixel = 0; pixel < num_pixels; ++pixel) {
-    uint8_t a = data_ptr[3 * pixel];
-    uint8_t b = data_ptr[3 * pixel + 1];
-    uint8_t c = data_ptr[3 * pixel + 2];
+    uint8_t a = data_ptr[4 * pixel];
+    uint8_t b = data_ptr[4 * pixel + 1];
+    uint8_t c = data_ptr[4 * pixel + 2];
 
     int int_depth = (c << 16) | (b << 8) | a;
     float normalized_depth = (static_cast<float>(int_depth)) / static_cast<float>(0xffffff);
@@ -232,12 +226,11 @@ void ViewPicker::setDepthTextureSize(unsigned width, unsigned height)
     }
 
     depth_render_texture_ =
-      Ogre::TextureManager::getSingleton().createManual(
-      tex_name,
-      Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-      Ogre::TEX_TYPE_2D, depth_texture_width_, depth_texture_height_, 0,
-      Ogre::PF_R8G8B8,
-      Ogre::TU_RENDERTARGET);
+      Ogre::TextureManager::getSingleton().createManual(tex_name,
+        Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+        Ogre::TEX_TYPE_2D, depth_texture_width_, depth_texture_height_, 0,
+        Ogre::PF_R8G8B8,
+        Ogre::TU_RENDERTARGET);
 
     depth_render_texture_->getBuffer()->getRenderTarget()->setAutoUpdated(false);
   }

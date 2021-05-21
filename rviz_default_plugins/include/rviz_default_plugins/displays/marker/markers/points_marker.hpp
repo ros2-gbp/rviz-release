@@ -31,8 +31,6 @@
 #ifndef RVIZ_DEFAULT_PLUGINS__DISPLAYS__MARKER__MARKERS__POINTS_MARKER_HPP_
 #define RVIZ_DEFAULT_PLUGINS__DISPLAYS__MARKER__MARKERS__POINTS_MARKER_HPP_
 
-#include <memory>
-
 #include "rviz_rendering/objects/point_cloud.hpp"
 
 #include "rviz_default_plugins/displays/marker/markers/marker_base.hpp"
@@ -53,8 +51,6 @@ namespace markers
 class RVIZ_DEFAULT_PLUGINS_PUBLIC PointsMarker : public MarkerBase
 {
 public:
-  using SharedPtr = std::shared_ptr<PointsMarker>;
-
   PointsMarker(
     MarkerCommon * owner, rviz_common::DisplayContext * context, Ogre::SceneNode * parent_node);
 

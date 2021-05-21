@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "rviz_rendering/render_system.hpp"
+#include "render_system.hpp"
 
 #include <map>
 #include <memory>
@@ -173,8 +173,9 @@ RenderSystem::setupDummyWindowId()
 
   XVisualInfo * visual = glXChooseVisual(display, screen, attribList);
 
-  dummy_window_id_ = XCreateSimpleWindow(
-    display, RootWindow(display, screen), 0, 0, 1, 1, 0, 0, 0);
+  dummy_window_id_ = XCreateSimpleWindow(display,
+      RootWindow(display, screen),
+      0, 0, 1, 1, 0, 0, 0);
 
   GLXContext context = glXCreateContext(display, visual, nullptr, 1);
 
@@ -191,7 +192,6 @@ RenderSystem::loadOgrePlugins()
 #else
   ogre_root_->loadPlugin(plugin_prefix + "RenderSystem_GL");
 #endif
-  ogre_root_->loadPlugin(plugin_prefix + "Codec_STBI");
 // #if __APPLE__
 // #else
 // ogre_root_->loadPlugin(plugin_prefix + "RenderSystem_GL3Plus");
@@ -335,12 +335,14 @@ RenderSystem::setupResources()
   // Unfortunately, Ogre doesn't have a notion of glsl versions so we can't go
   // the 'official' way of defining multiple schemes per material and let Ogre
   // decide which one to use.
-  if (getGlslVersion() >= 150) {
-    Ogre::ResourceGroupManager::getSingleton().addResourceLocation(
-      rviz_path + "/ogre_media/materials/glsl150", "FileSystem", "rviz_rendering");
-    Ogre::ResourceGroupManager::getSingleton().addResourceLocation(
-      rviz_path + "/ogre_media/materials/scripts150", "FileSystem", "rviz_rendering");
-  } else if (getGlslVersion() >= 120) {
+  // TODO(wjwwood): figure out why includes don't work on 150
+  // if (getGlslVersion() >= 150) {
+  //   Ogre::ResourceGroupManager::getSingleton().addResourceLocation(
+  //     rviz_path + "/ogre_media/materials/glsl150", "FileSystem", "rviz_rendering");
+  //   Ogre::ResourceGroupManager::getSingleton().addResourceLocation(
+  //     rviz_path + "/ogre_media/materials/scripts150", "FileSystem", "rviz_rendering");
+  // } else if (getGlslVersion() >= 120) {
+  if (getGlslVersion() >= 120) {
     Ogre::ResourceGroupManager::getSingleton().addResourceLocation(
       rviz_path + "/ogre_media/materials/scripts120", "FileSystem", "rviz_rendering");
   } else {
@@ -365,8 +367,8 @@ void RenderSystem::addAdditionalResourcesFromAmentIndex() const
   for (auto resource : resource_locations) {
     std::string content;
     std::string prefix_path;
-    if (ament_index_cpp::get_resource(
-        RVIZ_OGRE_MEDIA_RESOURCE_NAME, resource.first, content, &prefix_path))
+    if (ament_index_cpp::get_resource(RVIZ_OGRE_MEDIA_RESOURCE_NAME, resource.first, content,
+      &prefix_path))
     {
       std::vector<std::string> filenames =
         string_helper::splitStringIntoTrimmedItems(content, '\n');
@@ -375,8 +377,8 @@ void RenderSystem::addAdditionalResourcesFromAmentIndex() const
         if (!QDir(QString::fromStdString(resource_path)).exists()) {
           RVIZ_RENDERING_LOG_WARNING_STREAM("Could not find folder " << resource_path);
         }
-        Ogre::ResourceGroupManager::getSingleton().addResourceLocation(
-          resource_path, "FileSystem", "rviz_rendering");
+        Ogre::ResourceGroupManager::getSingleton().addResourceLocation(resource_path, "FileSystem",
+          "rviz_rendering");
       }
     }
   }

@@ -2,70 +2,28 @@
 Changelog for package rviz2
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-8.6.0 (2021-05-13)
+6.1.8 (2021-05-21)
 ------------------
 
-8.5.0 (2021-04-06)
+6.1.7 (2020-11-24)
+------------------
+* Update maintainers. (`#617 <https://github.com/ros2/rviz/issues/617>`_)
+* Contributors: Michael Jeronimo
+
+6.1.6 (2020-03-11)
 ------------------
 
-8.4.0 (2021-03-18)
+6.1.5 (2019-12-10)
 ------------------
 
-8.3.1 (2021-01-25)
-------------------
-* Use "%s" as format string literal in logging macros (`#633 <https://github.com/ros2/rviz/issues/633>`_)
-* Contributors: Audrow Nash
-
-8.3.0 (2020-12-08)
-------------------
-* Add linters and use ament_lint_auto (`#608 <https://github.com/ros2/rviz/issues/608>`_)
-* Update maintainers (`#607 <https://github.com/ros2/rviz/issues/607>`_)
-* Move and update documentation for ROS 2 (`#600 <https://github.com/ros2/rviz/issues/600>`_)
-* Contributors: Chris Lalancette, Jacob Perron
-
-8.2.0 (2020-06-23)
+6.1.4 (2019-09-06)
 ------------------
 
-8.1.1 (2020-06-03)
+6.1.3 (2019-07-31)
 ------------------
 
-8.1.0 (2020-06-03)
+6.1.2 (2019-06-12)
 ------------------
-* Added missing virtual destructors (`#553 <https://github.com/ros2/rviz/issues/553>`_)
-* Contributors: Ivan Santiago Paunovic
-
-8.0.3 (2020-06-02)
-------------------
-
-8.0.2 (2020-05-21)
-------------------
-* Removed automoc completely. (`#545 <https://github.com/ros2/rviz/issues/545>`_)
-* Contributors: Chris Lalancette
-
-8.0.1 (2020-05-07)
-------------------
-
-8.0.0 (2020-05-01)
-------------------
-* Note from wjwwood: I've chosen bump the major version this time, even though the API was not broken strictly speaking, partly because of some potentially disruptive build system changes and partially in preparation for ROS Foxy, to allow for new minor/patch versions in the previous ROS release Eloquent.
-* Made some code style changes. (`#504 <https://github.com/ros2/rviz/issues/504>`_)
-* Contributors: Dirk Thomas
-
-7.0.3 (2019-11-13)
-------------------
-
-7.0.2 (2019-10-23)
-------------------
-* Remove ROS arguments before passing to QApplication (`#474 <https://github.com/ros2/rviz/issues/474>`_)
-* Contributors: Jacob Perron
-
-7.0.1 (2019-10-04)
-------------------
-
-7.0.0 (2019-09-27)
-------------------
-* Remove -Werror from defualt compiler options (`#420 <https://github.com/ros2/rviz/issues/420>`_)
-* Contributors: Hunter L. Allen
 
 6.1.1 (2019-05-29)
 ------------------

@@ -163,7 +163,7 @@ PoseArrayDisplay::~PoseArrayDisplay()
 
 void PoseArrayDisplay::onInitialize()
 {
-  MFDClass::onInitialize();
+  RTDClass::onInitialize();
   arrows2d_ = std::make_unique<FlatArrowsArray>(scene_manager_);
   arrows2d_->createAndAttachManualObject(scene_node_);
   arrow_node_ = scene_node_->createChildSceneNode();
@@ -308,7 +308,7 @@ std::unique_ptr<rviz_rendering::Axes> PoseArrayDisplay::makeAxes()
 
 void PoseArrayDisplay::reset()
 {
-  MFDClass::reset();
+  RTDClass::reset();
   arrows2d_->clear();
   arrows3d_.clear();
   axes_.clear();

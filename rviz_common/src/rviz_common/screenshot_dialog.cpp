@@ -55,7 +55,7 @@ namespace rviz_common
 ScreenshotDialog::ScreenshotDialog(
   QWidget * main_window, QWidget * render_window,
   const QString & default_save_dir)
-: QWidget(nullptr),    // This should be a top-level window to act like a dialog.
+: QWidget(NULL),    // This should be a top-level window to act like a dialog.
   main_window_(main_window),
   render_window_(render_window),
   save_full_window_(false),
@@ -69,10 +69,9 @@ ScreenshotDialog::ScreenshotDialog(
 
   QCheckBox * full_window_checkbox = new QCheckBox("Save entire rviz window");
 
-  button_box_ = new QDialogButtonBox(
-    QDialogButtonBox::Save |
-    QDialogButtonBox::Retry |
-    QDialogButtonBox::Cancel);
+  button_box_ = new QDialogButtonBox(QDialogButtonBox::Save |
+      QDialogButtonBox::Retry |
+      QDialogButtonBox::Cancel);
 
   QVBoxLayout * main_layout = new QVBoxLayout;
   main_layout->addWidget(image_widget_, 100);
@@ -82,8 +81,7 @@ ScreenshotDialog::ScreenshotDialog(
 
   setLayout(main_layout);
 
-  connect(
-    button_box_, SIGNAL(clicked(QAbstractButton*)), this,
+  connect(button_box_, SIGNAL(clicked(QAbstractButton*)), this,
     SLOT(onButtonClicked(QAbstractButton*)));
   connect(full_window_checkbox, SIGNAL(toggled(bool)), this, SLOT(setSaveFullWindow(bool)));
   connect(delay_timer_, SIGNAL(timeout()), this, SLOT(onTimeout()));
@@ -93,7 +91,8 @@ void ScreenshotDialog::showEvent(QShowEvent * event)
 {
   if (first_time_) {
     QPoint center = main_window_->rect().center();
-    move(center.x() - width() / 2, center.y() - height() / 2);
+    move(center.x() - width() / 2,
+      center.y() - height() / 2);
 
     first_time_ = false;
   }
@@ -126,12 +125,7 @@ void ScreenshotDialog::takeScreenshotNow()
   if (save_full_window_) {
     screenshot_ = screen->grabWindow(main_window_->winId());
   } else {
-    // There is a known issue in Qt where calling winId() on an OpenGL window
-    // (OGRE being a wrapper for OpenGL) can result in rendering 'glitches" (See
-    // https://doc.qt.io/qt-5/qopenglwidget.html). As a work-around, we can raise
-    // the main window, causing the render window to re-render its graphics display.
     screenshot_ = screen->grabWindow(render_window_->winId());
-    main_window_->raise();
   }
   image_widget_->setImage(screenshot_);
 }

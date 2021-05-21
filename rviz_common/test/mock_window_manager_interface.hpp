@@ -42,8 +42,7 @@ class MockWindowManagerInterface : public rviz_common::WindowManagerInterface
 public:
   MOCK_METHOD0(getParentWindow, QWidget * ());
 
-  MOCK_METHOD4(
-    addPane,
+  MOCK_METHOD4(addPane,
     rviz_common::PanelDockWidget *(
       const QString & name, QWidget * pane, Qt::DockWidgetArea area, bool floating));
 

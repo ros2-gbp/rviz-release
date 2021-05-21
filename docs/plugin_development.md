@@ -25,7 +25,7 @@ Refer to the documentation of the relevant base class for a detailed API descrip
 * In order to write your own plugin, set up a regular ROS 2 workspace (see the [official documentation]("https://github.com/ros2/ros2/wiki/Colcon-Tutorial") for further help).
 * You will need to link your program against `rviz_common` and probably also against `rviz_rendering` and `rviz_default_plugins`.
 * To let the plugin loader find your plugin, you will need to invoke the `PLUGINLIB_EXPORT_CLASS` macro.
-  For instance, if your plugin is called "myplugin::Plugin" with base class `rviz_common::Display`, you will need to include the following into your `.cpp` file:
+  For instance, if your plugin is called "myplugin::Plugin" with base class `rviz_common::Dispay`, you will need to include the following into your `.cpp` file:
 ```
     #include <pluginlib/class_list_macros.hpp>
     PLUGINLIB_EXPORT_CLASS(myplugin::Plugin, rviz_common::Display)
@@ -41,9 +41,9 @@ target_compile_definitions(rviz_default_plugins PRIVATE "RVIZ_DEFAULT_PLUGINS_BU
   See `rviz_default_plugins/plugins_description.xml` for an example (the syntax is the same as for the old RViz)
 * Export the plugin description file via
 ```
-pluginlib_export_plugin_description_file(rviz_common plugins_description.xml)
+pluginlib_export_plugin_description_file(<your library> plugins_description.xml)
 ```
-This should make sure that your plugins are found by rviz_common at runtime as described [here](https://index.ros.org/doc/ros2/Tutorials/Ament-CMake-Documentation/#id15)
+This should make sure that your plugins are found at runtime
 
 ### Writing a display plugin
 

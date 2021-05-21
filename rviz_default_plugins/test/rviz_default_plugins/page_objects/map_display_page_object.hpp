@@ -38,6 +38,7 @@ public:
   MapDisplayPageObject();
 
   void setTopic(QString topic);
+  void setUnreliable(bool unreliable);
   void drawUnder(bool under);
   void setAlpha(float alpha);
   void setColorScheme(QString scheme);

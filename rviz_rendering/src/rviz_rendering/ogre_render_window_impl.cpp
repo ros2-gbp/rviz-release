@@ -33,7 +33,17 @@
 #include <cstdlib>
 #include <functional>
 
+#ifdef _WIN32
+# pragma warning(push)
+# pragma warning(disable:4996)
+#endif
+
 #include <OgreEntity.h>
+
+#ifdef _WIN32
+# pragma warning(pop)
+#endif
+
 #include <OgreCamera.h>
 #include <OgreGpuProgramManager.h>
 #include <OgreMaterialManager.h>
@@ -44,9 +54,10 @@
 #include <OgreTechnique.h>
 #include <OgreTextureManager.h>
 #include <OgreViewport.h>
+#include <OgreWindowEventUtilities.h>
 
 #include "rviz_rendering/orthographic.hpp"
-#include "rviz_rendering/render_system.hpp"
+#include "./render_system.hpp"
 #include "rviz_rendering/objects/grid.hpp"
 #include "rviz_rendering/logging.hpp"
 
@@ -112,11 +123,7 @@ RenderWindowImpl::render()
   // Theoretically you can have one function that does this check but from my
   // experience it seems better to keep things separate and keep the render
   // function as simple as possible.
-
-  // At this point, Ogre::WindowEventUtilities::messagePump() was called previously.
-  // This function would process native platform messages for each render window. However, this
-  // should be done by Qt for us. If the behavior is different, consider reimplementing the
-  // method using Qt onboard features.
+  Ogre::WindowEventUtilities::messagePump();
   if (ogre_render_window_->isClosed()) {
     RVIZ_RENDERING_LOG_ERROR("in RenderSystemImpl::render() - ogre window is closed");
     return;
@@ -291,7 +298,7 @@ void RenderWindowImpl::setupStereo()
   rendering_stereo_ = render_stereo;
 
   if (rendering_stereo_) {
-    right_viewport_ = render_window_->addViewport(nullptr, 1);
+    right_viewport_ = render_window_->addViewport(NULL, 1);
 #if OGRE_STEREO_ENABLE
     right_viewport_->setDrawBuffer(Ogre::CBT_BACK_RIGHT);
     viewport_->setDrawBuffer(Ogre::CBT_BACK_LEFT);
@@ -308,7 +315,7 @@ void RenderWindowImpl::setupStereo()
   } else {
     render_window_->removeListener(this);
     render_window_->removeViewport(1);
-    right_viewport_ = nullptr;
+    right_viewport_ = NULL;
 
 #if OGRE_STEREO_ENABLE
     viewport_->setDrawBuffer(Ogre::CBT_BACK);
@@ -317,11 +324,11 @@ void RenderWindowImpl::setupStereo()
     if (left_camera_) {
       left_camera_->getSceneManager()->destroyCamera(left_camera_);
     }
-    left_camera_ = nullptr;
+    left_camera_ = NULL;
     if (right_camera_) {
       right_camera_->getSceneManager()->destroyCamera(right_camera_);
     }
-    right_camera_ = nullptr;
+    right_camera_ = NULL;
   }
 }
 #endif

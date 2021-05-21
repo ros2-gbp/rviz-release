@@ -44,6 +44,11 @@ void GridCellsDisplayPageObject::setTopic(QString topic)
   waitForFirstMessage();
 }
 
+void GridCellsDisplayPageObject::setUnreliable(bool unreliable)
+{
+  setBool("Unreliable", unreliable);
+}
+
 void GridCellsDisplayPageObject::setColor(int red, int green, int blue)
 {
   setColorCode("Color", red, green, blue);

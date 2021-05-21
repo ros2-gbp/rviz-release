@@ -139,9 +139,6 @@ public:
   /// The converting constructor, makes a Value type Config object with the given value.
   explicit Config(QVariant value);
 
-  Config &
-  operator=(const Config & source);
-
   /// Make this object a deep copy of the source.
   void
   copy(const Config & source);

@@ -69,12 +69,11 @@ void FailedViewController::save(Config config) const
 
 void FailedViewController::onActivate()
 {
-  QWidget * parent = nullptr;
+  QWidget * parent = NULL;
   if (context_->getWindowManager() ) {
     parent = context_->getWindowManager()->getParentWindow();
   }
-  QMessageBox::critical(
-    parent, "ViewController '" + getName() + "'unavailable.",
+  QMessageBox::critical(parent, "ViewController '" + getName() + "'unavailable.",
     getDescription() );
 }
 

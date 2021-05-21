@@ -38,6 +38,7 @@
 #include "rviz_common/display_context.hpp"
 #include "rviz_common/frame_manager_iface.hpp"
 #include "rviz_common/properties/int_property.hpp"
+#include "rviz_common/properties/queue_size_property.hpp"
 
 namespace rviz_default_plugins
 {
@@ -45,12 +46,13 @@ namespace displays
 {
 
 PointCloudDisplay::PointCloudDisplay()
-: point_cloud_common_(std::make_unique<PointCloudCommon>(this))
+: queue_size_property_(new rviz_common::QueueSizeProperty(this, 10)),
+  point_cloud_common_(std::make_unique<PointCloudCommon>(this))
 {}
 
 void PointCloudDisplay::onInitialize()
 {
-  MFDClass::onInitialize();
+  RTDClass::onInitialize();
   point_cloud_common_->initialize(context_, scene_node_);
 }
 
@@ -66,13 +68,13 @@ void PointCloudDisplay::update(float wall_dt, float ros_dt)
 
 void PointCloudDisplay::reset()
 {
-  MFDClass::reset();
+  RTDClass::reset();
   point_cloud_common_->reset();
 }
 
 void PointCloudDisplay::onDisable()
 {
-  MFDClass::onDisable();
+  RosTopicDisplay::onDisable();
   point_cloud_common_->onDisable();
 }
 

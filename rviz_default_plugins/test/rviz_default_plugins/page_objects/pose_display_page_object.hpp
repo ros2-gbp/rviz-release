@@ -38,6 +38,7 @@ public:
   PoseDisplayPageObject();
 
   void setTopic(QString topic);
+  void setUnreliable(bool unreliable);
   void setShape(QString shape);
   void setColor(int red, int green, int blue);
   void setAlpha(float alpha);

@@ -34,13 +34,12 @@
 
 #include <utility>
 
-#include <OgreVector3.h>
-
 #include "rviz_rendering/visibility_control.hpp"
 
 namespace Ogre
 {
 class Plane;
+class Vector3;
 class Viewport;
 }
 

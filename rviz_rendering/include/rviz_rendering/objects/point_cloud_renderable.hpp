@@ -73,11 +73,17 @@ public:
   RVIZ_RENDERING_PUBLIC
   virtual ~PointCloudRenderable();
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Woverloaded-virtual"
+#endif
+
   RVIZ_RENDERING_PUBLIC
   Ogre::RenderOperation * getRenderOperation() {return &mRenderOp;}
 
-  // Avoid hidding parent class overload.
-  using Ogre::SimpleRenderable::getRenderOperation;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
   RVIZ_RENDERING_PUBLIC
   Ogre::HardwareVertexBufferSharedPtr getBuffer();

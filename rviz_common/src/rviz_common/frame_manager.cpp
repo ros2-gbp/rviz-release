@@ -47,7 +47,7 @@
 #include "rviz_common/logging.hpp"
 #include "rviz_common/msg_conversions.hpp"
 #include "rviz_common/properties/property.hpp"
-#include "rviz_common/transformation/tf2_helpers/tf2_conversion_helpers.hpp"
+#include "rviz_common/transformation/ros_helpers/ros_conversion_helpers.hpp"
 
 namespace rviz_common
 {
@@ -167,11 +167,8 @@ bool FrameManager::adjustTime(const std::string & frame, rclcpp::Time & time)
       break;
     case SyncApprox:
       {
-        std::string error_message;
         // try to get the time from the latest available transformation
-        if (transformer_->canTransform(
-            fixed_frame_, frame, tf2::TimePointZero, &error_message))
-        {
+        if (transformer_->transformIsAvailable(fixed_frame_, frame)) {
           time = sync_time_;
         }
       }
@@ -247,6 +244,7 @@ bool FrameManager::transform(
     pose_in.header.frame_id = pose_in.header.frame_id.substr(1);
   }
   pose_in.pose = pose_msg;
+  transformation::PoseStamped out_pose;
 
   // TODO(wjwwood): figure out where the `/` is coming from and remove it
   //                also consider warning the user in the GUI about this...
@@ -257,7 +255,9 @@ bool FrameManager::transform(
 
   geometry_msgs::msg::PoseStamped pose_out;
   try {
-    pose_out = transformer_->transform(pose_in, stripped_fixed_frame);
+    pose_out = transformation::ros_helpers::toRosPoseStamped(
+      transformer_->transform(
+        transformation::ros_helpers::fromRosPoseStamped(pose_in), stripped_fixed_frame));
   } catch (const transformation::FrameTransformerException & exception) {
     (void) exception;
     return false;
@@ -282,8 +282,7 @@ bool FrameManager::transformHasProblems(
     return false;
   }
 
-  return !transformer_->canTransform(
-    fixed_frame_, frame, transformation::tf2_helpers::toTf2TimePoint(time), &error);
+  return transformer_->transformHasProblems(frame, fixed_frame_, time, error);
 }
 
 const std::string & FrameManager::getFixedFrame()

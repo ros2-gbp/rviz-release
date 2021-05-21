@@ -33,8 +33,18 @@
 #include <memory>
 #include <string>
 
+#ifdef _WIN32
+# pragma warning(push)
+# pragma warning(disable:4996)
+#endif
+
 #include <OgreEntity.h>
 #include <OgreSubEntity.h>
+
+#ifdef _WIN32
+# pragma warning(pop)
+#endif
+
 #include <OgreSceneNode.h>
 #include <OgreSceneManager.h>
 #include <OgreSharedPtr.h>
@@ -43,7 +53,6 @@
 
 #include "rviz_common/display_context.hpp"
 #include "rviz_common/frame_manager_iface.hpp"
-#include "rviz_common/interactive_object.hpp"
 
 #include "rviz_default_plugins/displays/marker/marker_common.hpp"
 #include "rviz_default_plugins/displays/marker/markers/marker_selection_handler.hpp"
@@ -81,7 +90,7 @@ void MarkerBase::setMessage(const MarkerConstSharedPtr & message)
   MarkerConstSharedPtr old = message_;
   message_ = message;
 
-  expiration_ = context_->getClock()->now() + message->lifetime;
+  expiration_ = rclcpp::Clock().now() + message->lifetime;
 
   onNewMessage(old, message);
 }
@@ -94,7 +103,7 @@ void MarkerBase::updateFrameLocked()
 
 bool MarkerBase::expired()
 {
-  return context_->getClock()->now() >= expiration_;
+  return rclcpp::Clock().now() >= expiration_;
 }
 
 bool MarkerBase::transform(
@@ -126,12 +135,14 @@ bool MarkerBase::transform(
   return true;
 }
 
-void MarkerBase::setInteractiveObject(rviz_common::InteractiveObjectWPtr control)
-{
-  if (handler_) {
-    handler_->setInteractiveObject(control);
-  }
-}
+// TODO(Martin-Idel-SI): Use again when interactive markers are ported
+// void MarkerBase::setInteractiveObject(InteractiveObjectWPtr control)
+// {
+//   if(handler_)
+//   {
+//     handler_->setInteractiveObject(control);
+//   }
+// }
 
 void MarkerBase::setPosition(const Ogre::Vector3 & position)
 {

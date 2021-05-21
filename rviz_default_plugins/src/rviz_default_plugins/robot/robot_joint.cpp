@@ -74,8 +74,7 @@ RobotJoint::RobotJoint(Robot * robot, const urdf::JointConstSharedPtr & joint)
     nullptr,
     SLOT(updateChildVisibility()),
     this);
-  robot_element_property_->setIcon(
-    rviz_common::loadPixmap(
+  robot_element_property_->setIcon(rviz_common::loadPixmap(
       "package://rviz_default_plugins/icons/classes/RobotJoint.png"));
 
   details_ = new Property("Details", QVariant(), "", nullptr);
@@ -217,15 +216,11 @@ void RobotJoint::calculateJointCheckboxesRecursive(
   int & links_with_geom_checked,
   int & links_with_geom_unchecked)
 {
-  links_with_geom = 0;
   links_with_geom_checked = 0;
   links_with_geom_unchecked = 0;
 
   RobotLink * link = robot_->getLink(child_link_name_);
-  if (link == nullptr) {
-    return;
-  }
-  if (link->hasGeometry()) {
+  if (link && link->hasGeometry()) {
     bool checked = link->getLinkProperty()->getValue().toBool();
     links_with_geom_checked += checked ? 1 : 0;
     links_with_geom_unchecked += checked ? 0 : 1;
@@ -271,15 +266,11 @@ void RobotJoint::getChildLinkState(
   int & links_with_geom_unchecked,
   bool recursive) const
 {
-  links_with_geom = 0;
   links_with_geom_checked = 0;
   links_with_geom_unchecked = 0;
 
   RobotLink * link = robot_->getLink(child_link_name_);
-  if (link == nullptr) {
-    return;
-  }
-  if (link->hasGeometry()) {
+  if (link && link->hasGeometry()) {
     bool checked = link->getLinkProperty()->getValue().toBool();
     links_with_geom_checked += checked ? 1 : 0;
     links_with_geom_unchecked += checked ? 0 : 1;
@@ -292,8 +283,7 @@ void RobotJoint::getChildLinkState(
         int child_links_with_geom;
         int child_links_with_geom_checked;
         int child_links_with_geom_unchecked;
-        child_joint->getChildLinkState(
-          child_links_with_geom, child_links_with_geom_checked,
+        child_joint->getChildLinkState(child_links_with_geom, child_links_with_geom_checked,
           child_links_with_geom_unchecked, recursive);
         links_with_geom_checked += child_links_with_geom_checked;
         links_with_geom_unchecked += child_links_with_geom_unchecked;

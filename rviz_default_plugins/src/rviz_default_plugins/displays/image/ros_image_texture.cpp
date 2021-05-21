@@ -27,7 +27,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "rviz_default_plugins/displays/image/ros_image_texture.hpp"
+#include "include/rviz_default_plugins/displays/image/ros_image_texture.hpp"
 
 #include <algorithm>
 #include <deque>
@@ -306,8 +306,7 @@ void ROSImageTexture::loadImageToOgreImage(
 {
   Ogre::DataStreamPtr pixel_stream;
   // C-style cast is used to bypass the const modifier
-  pixel_stream.reset(
-    new Ogre::MemoryDataStream(
+  pixel_stream.reset(new Ogre::MemoryDataStream(
       (uint8_t *) &image_data.data_ptr_[0], image_data.size_));  // NOLINT
   ogre_image.loadRawData(pixel_stream, width_, height_, 1, image_data.pixel_format_, 1, 0);
 }

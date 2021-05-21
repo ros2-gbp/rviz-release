@@ -2,75 +2,32 @@
 Changelog for package rviz_ogre_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-8.6.0 (2021-05-13)
-------------------
-* Strip RPATH from installed Ogre binaries (`#688 <https://github.com/ros2/rviz/issues/688>`_)
-* Contributors: Michel Hidalgo
-
-8.5.0 (2021-04-06)
+6.1.8 (2021-05-21)
 ------------------
 
-8.4.0 (2021-03-18)
+6.1.7 (2020-11-24)
 ------------------
-* Always preserve source permissions in vendor packages (`#647 <https://github.com/ros2/rviz/issues/647>`_)
-* Contributors: Scott K Logan
+* Update maintainers. (`#617 <https://github.com/ros2/rviz/issues/617>`_)
+* Contributors: Michael Jeronimo
 
-8.3.1 (2021-01-25)
-------------------
-
-8.3.0 (2020-12-08)
-------------------
-* Add linters and use ament_lint_auto (`#608 <https://github.com/ros2/rviz/issues/608>`_)
-* Update maintainers (`#607 <https://github.com/ros2/rviz/issues/607>`_)
-* Pass through CMAKE\_{C,CXX}_FLAGS to OGRE build (`#587 <https://github.com/ros2/rviz/issues/587>`_)
-* Contributors: Jacob Perron, Scott K Logan
-
-8.2.0 (2020-06-23)
+6.1.6 (2020-03-11)
 ------------------
 
-8.1.1 (2020-06-03)
+6.1.5 (2019-12-10)
+------------------
+* Skip freetype2 dependencies (`#405 <https://github.com/ros2/rviz/issues/405>`_) (`#489 <https://github.com/ros2/rviz/issues/489>`_)
+* Contributors: Jacob Perron, Sean Yen
+
+6.1.4 (2019-09-06)
 ------------------
 
-8.1.0 (2020-06-03)
+6.1.3 (2019-07-31)
 ------------------
+* Mojave compatibility (`#414 <https://github.com/ros2/rviz/issues/414>`_) (`#433 <https://github.com/ros2/rviz/issues/433>`_)
+* Contributors: Karsten Knese
 
-8.0.3 (2020-06-02)
+6.1.2 (2019-06-12)
 ------------------
-
-8.0.2 (2020-05-21)
-------------------
-
-8.0.1 (2020-05-07)
-------------------
-
-8.0.0 (2020-05-01)
-------------------
-* Note from wjwwood: I've chosen bump the major version this time, even though the API was not broken strictly speaking, partly because of some potentially disruptive build system changes and partially in preparation for ROS Foxy, to allow for new minor/patch versions in the previous ROS release Eloquent.
-* Switched to the CMake Patch module. (`#509 <https://github.com/ros2/rviz/issues/509>`_)
-* Contributors: Dan Rose, Mikael Arguedas
-
-7.0.3 (2019-11-13)
-------------------
-* Skip freetype2 dependencies (`#405 <https://github.com/ros2/rviz/issues/405>`_)
-* Contributors: Sean Yen
-
-7.0.2 (2019-10-23)
-------------------
-* Switch back to patch instead of git apply (`#470 <https://github.com/ros2/rviz/issues/470>`_)
-* Remove OGRE_BUILD_COMPONENT_SAMPLES cmake arg.
-* Contributors: Chris Lalancette
-
-7.0.1 (2019-10-04)
-------------------
-* Fix the rviz_ogre_vendor packaging.
-* Contributors: Chris Lalancette
-
-7.0.0 (2019-09-27)
-------------------
-* Add .dsv file beside custom environment hook (`#449 <https://github.com/ros2/rviz/issues/449>`_)
-* Upgrade from Ogre 1.10 to Ogre 1.12.1 (`#394 <https://github.com/ros2/rviz/issues/394>`_)
-* Mojave compatibility (`#414 <https://github.com/ros2/rviz/issues/414>`_)
-* Contributors: Dirk Thomas, Karsten Knese, Martin Idel
 
 6.1.1 (2019-05-29)
 ------------------

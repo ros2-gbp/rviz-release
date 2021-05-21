@@ -38,6 +38,14 @@
 
 #include "rclcpp/rclcpp.hpp"
 
+namespace rclcpp
+{
+namespace executor
+{
+class Executor;
+}
+}
+
 namespace rviz_common
 {
 namespace ros_integration

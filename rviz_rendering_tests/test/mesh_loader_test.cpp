@@ -37,9 +37,9 @@
 #include <OgreRoot.h>
 #include <OgreSubMesh.h>
 #include <OgreMaterialManager.h>
-#include "resource_retriever/retriever.hpp"
+#include "resource_retriever/retriever.h"
 
-#include "ogre_testing_environment.hpp"
+#include "test/rviz_rendering/ogre_testing_environment.hpp"
 #include "rviz_rendering/mesh_loader.hpp"
 
 using namespace ::testing;  // NOLINT
@@ -49,14 +49,14 @@ class MeshLoaderTestFixture : public ::testing::Test
 protected:
   static void SetUpTestCase()
   {
-    testing_environment_ = std::make_shared<rviz_rendering_tests::OgreTestingEnvironment>();
+    testing_environment_ = std::make_shared<rviz_rendering::OgreTestingEnvironment>();
     testing_environment_->setUpOgreTestEnvironment();
   }
 
-  static std::shared_ptr<rviz_rendering_tests::OgreTestingEnvironment> testing_environment_;
+  static std::shared_ptr<rviz_rendering::OgreTestingEnvironment> testing_environment_;
 };
 
-std::shared_ptr<rviz_rendering_tests::OgreTestingEnvironment>
+std::shared_ptr<rviz_rendering::OgreTestingEnvironment>
 MeshLoaderTestFixture::testing_environment_ = nullptr;
 
 void assertVector3Equality(Ogre::Vector3 actual, Ogre::Vector3 expected)
@@ -95,7 +95,8 @@ TEST_F(MeshLoaderTestFixture, can_load_stl_files) {
 
   auto mesh = rviz_rendering::loadMeshFromResource(mesh_path);
 
-  float expected_bound_radius = 34.920441f;
+  double actual_bounding_radius = mesh->getBoundingSphereRadius();
+  double expected_bound_radius = 34.920441;
   size_t expected_vertex_count = 35532;
   size_t actual_vertex_count = 0;
   // Meshes are divided and stored in submeshes with at most 2004 vertices each.
@@ -104,7 +105,7 @@ TEST_F(MeshLoaderTestFixture, can_load_stl_files) {
   }
   ASSERT_TRUE(mesh->isManuallyLoaded());
   ASSERT_EQ(mesh_path, mesh->getName());
-  ASSERT_FLOAT_EQ(expected_bound_radius, mesh->getBoundingSphereRadius());
+  ASSERT_EQ(std::to_string(expected_bound_radius), std::to_string(actual_bounding_radius));
   ASSERT_EQ(expected_vertex_count, actual_vertex_count);
 }
 

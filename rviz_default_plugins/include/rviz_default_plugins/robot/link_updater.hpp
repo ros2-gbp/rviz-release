@@ -32,14 +32,13 @@
 
 #include <string>
 
-#include <OgreVector3.h>
-
 #include "rviz_common/properties/status_property.hpp"
 
 #include "rviz_default_plugins/visibility_control.hpp"
 
 namespace Ogre
 {
+class Vector3;
 class Quaternion;
 }
 
@@ -52,8 +51,6 @@ using rviz_common::properties::StatusLevel;
 class RVIZ_DEFAULT_PLUGINS_PUBLIC LinkUpdater
 {
 public:
-  virtual ~LinkUpdater() {}
-
   virtual bool getLinkTransforms(
     const std::string & link_name, Ogre::Vector3 & visual_position,
     Ogre::Quaternion & visual_orientation,

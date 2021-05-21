@@ -19,12 +19,14 @@ if(NOT CMAKE_CXX_STANDARD)
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  add_compile_options(-Wall -Wextra -Wpedantic -Wnon-virtual-dtor -Woverloaded-virtual)
+  add_compile_options(-Wall -Wextra -Wpedantic -Werror)
 endif()
 
 find_package(ament_cmake REQUIRED)
 
-find_package(rcutils REQUIRED)
+# Qt5 boilerplate options from http://doc.qt.io/qt-5/cmake-manual.html
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOMOC ON)
 
 find_package(rviz_common REQUIRED)
 
@@ -87,7 +89,7 @@ target_link_libraries(rviz_visual_testing_framework
   ${visual_tests_target_libaries})
 
 # export information to downstream packages
-ament_export_targets(rviz_visual_testing_framework)
+ament_export_interfaces(rviz_visual_testing_framework)
 ament_export_dependencies(Qt5)
 ament_export_dependencies(rviz_common)
 
@@ -107,14 +109,16 @@ install(
   DESTINATION include
 )
 
-install(
-  DIRECTORY config
-  DESTINATION share/${PROJECT_NAME}
-)
-
 if(BUILD_TESTING)
-  find_package(ament_lint_auto REQUIRED)
-  ament_lint_auto_find_test_dependencies()
+  # TODO(wjwwood): replace this with ament_lint_auto() and/or add the copyright linter back
+  find_package(ament_cmake_cppcheck REQUIRED)
+  find_package(ament_cmake_cpplint REQUIRED)
+  find_package(ament_cmake_lint_cmake REQUIRED)
+  find_package(ament_cmake_uncrustify REQUIRED)
+  ament_cppcheck()
+  ament_cpplint()
+  ament_lint_cmake()
+  ament_uncrustify()
 endif()
 
 ament_package()

@@ -41,7 +41,6 @@
 #include <OgreSubMesh.h>
 #include <OgreTechnique.h>
 #include <OgreTextureManager.h>
-#include <OgreVector3.h>
 
 #include <QDir>  // NOLINT cpplint cannot handle include order here
 #include <QFileInfo>  // NOLINT cpplint cannot handle include order here
@@ -62,10 +61,10 @@
 #include <assimp/IOSystem.h>
 #endif
 
-#include "resource_retriever/retriever.hpp"
+#include "resource_retriever/retriever.h"
 
-#include "mesh_loader_helpers/assimp_loader.hpp"
-#include "mesh_loader_helpers/stl_loader.hpp"
+#include "src/rviz_rendering/mesh_loader_helpers/assimp_loader.hpp"
+#include "src/rviz_rendering/mesh_loader_helpers/stl_loader.hpp"
 #include "rviz_rendering/logging.hpp"
 
 #define ROS_PACKAGE_NAME "rviz_rendering"

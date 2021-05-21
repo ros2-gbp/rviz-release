@@ -31,12 +31,9 @@
 
 #include "./identity_frame_transformer.hpp"
 
-#include <future>
 #include <memory>
 #include <string>
 #include <vector>
-
-#include "rviz_common/transformation/tf2_helpers/tf2_conversion_helpers.hpp"
 
 namespace rviz_common
 {
@@ -50,26 +47,50 @@ void IdentityFrameTransformer::initialize(
   (void) clock;
 }
 
-geometry_msgs::msg::PoseStamped IdentityFrameTransformer::transform(
-  const geometry_msgs::msg::PoseStamped & pose_in, const std::string & target_frame)
+void IdentityFrameTransformer::clear() {}
+
+std::vector<std::string> IdentityFrameTransformer::getAllFrameNames()
+{
+  return {""};
+}
+
+transformation::PoseStamped IdentityFrameTransformer::transform(
+  const transformation::PoseStamped & pose_in, const std::string & target_frame)
 {
   (void) target_frame;
-  geometry_msgs::msg::PoseStamped pose_out = pose_in;
+  transformation::PoseStamped pose_out = pose_in;
 
-  if (quaternionIsValid(pose_out.pose.orientation)) {
+  if (quaternionIsValid(pose_out.orientation)) {
     return pose_out;
   }
-  pose_out.pose.orientation.w = 1;
+  pose_out.orientation.w = 1;
   return pose_out;
 }
 
-TransformationLibraryConnector::WeakPtr IdentityFrameTransformer::getConnector()
+bool IdentityFrameTransformer::transformIsAvailable(
+  const std::string & target_frame, const std::string & source_frame)
 {
-  return std::weak_ptr<TransformationLibraryConnector>();
+  (void) target_frame;
+  (void) source_frame;
+
+  return true;
 }
 
-bool IdentityFrameTransformer::frameHasProblems(
-  const std::string & frame, std::string & error) const
+bool IdentityFrameTransformer::transformHasProblems(
+  const std::string & source_frame,
+  const std::string & target_frame,
+  const rclcpp::Time & time,
+  std::string & error)
+{
+  (void) source_frame;
+  (void) target_frame;
+  (void) time;
+  (void) error;
+
+  return false;
+}
+
+bool IdentityFrameTransformer::frameHasProblems(const std::string & frame, std::string & error)
 {
   (void) frame;
   (void) error;
@@ -77,114 +98,12 @@ bool IdentityFrameTransformer::frameHasProblems(
   return false;
 }
 
-void IdentityFrameTransformer::clear() {}
-
-geometry_msgs::msg::TransformStamped IdentityFrameTransformer::lookupTransform(
-  const std::string & target_frame,
-  const std::string & source_frame,
-  const tf2::TimePoint & time) const
+TransformationLibraryConnector::WeakPtr IdentityFrameTransformer::getConnector()
 {
-  geometry_msgs::msg::TransformStamped transform;
-  transform.child_frame_id = target_frame;
-  transform.header = transformation::tf2_helpers::createHeader(time, source_frame);
-  transform.transform.translation.x = 0.0;
-  transform.transform.translation.y = 0.0;
-  transform.transform.translation.z = 0.0;
-  transform.transform.rotation.x = 0.0;
-  transform.transform.rotation.y = 0.0;
-  transform.transform.rotation.z = 0.0;
-  transform.transform.rotation.w = 1.0;
-  return transform;
+  return std::weak_ptr<TransformationLibraryConnector>();
 }
 
-geometry_msgs::msg::TransformStamped IdentityFrameTransformer::lookupTransform(
-  const std::string & target_frame,
-  const tf2::TimePoint & target_time,
-  const std::string & source_frame,
-  const tf2::TimePoint & source_time,
-  const std::string & fixed_frame) const
-{
-  (void) fixed_frame;
-  (void) source_time;
-
-  geometry_msgs::msg::TransformStamped transform;
-  transform.child_frame_id = target_frame;
-  transform.header = transformation::tf2_helpers::createHeader(target_time, source_frame);
-  transform.transform.translation.x = 0.0;
-  transform.transform.translation.y = 0.0;
-  transform.transform.translation.z = 0.0;
-  transform.transform.rotation.x = 0.0;
-  transform.transform.rotation.y = 0.0;
-  transform.transform.rotation.z = 0.0;
-  transform.transform.rotation.w = 1.0;
-  return transform;
-}
-
-bool IdentityFrameTransformer::canTransform(
-  const std::string & target_frame,
-  const std::string & source_frame,
-  const tf2::TimePoint & time,
-  std::string * error_msg) const
-{
-  (void) target_frame;
-  (void) source_frame;
-  (void) time;
-  (void) error_msg;
-
-  return true;
-}
-
-bool IdentityFrameTransformer::canTransform(
-  const std::string & target_frame,
-  const tf2::TimePoint & target_time,
-  const std::string & source_frame,
-  const tf2::TimePoint & source_time,
-  const std::string & fixed_frame,
-  std::string * error_msg) const
-{
-  (void) target_frame;
-  (void) target_time;
-  (void) source_frame;
-  (void) source_time;
-  (void) fixed_frame;
-  (void) error_msg;
-
-  return true;
-}
-
-std::vector<std::string> IdentityFrameTransformer::getAllFrameNames() const
-{
-  return {""};
-}
-
-tf2_ros::TransformStampedFuture IdentityFrameTransformer::waitForTransform(
-  const std::string & target_frame,
-  const std::string & source_frame,
-  const tf2::TimePoint & time,
-  const tf2::Duration & timeout,
-  tf2_ros::TransformReadyCallback callback)
-{
-  (void) timeout;
-
-  geometry_msgs::msg::TransformStamped transform;
-  transform.child_frame_id = target_frame;
-  transform.header = transformation::tf2_helpers::createHeader(time, source_frame);
-  transform.transform.translation.x = 0.0;
-  transform.transform.translation.y = 0.0;
-  transform.transform.translation.z = 0.0;
-  transform.transform.rotation.x = 0.0;
-  transform.transform.rotation.y = 0.0;
-  transform.transform.rotation.z = 0.0;
-  transform.transform.rotation.w = 1.0;
-
-  std::promise<geometry_msgs::msg::TransformStamped> promise;
-  tf2_ros::TransformStampedFuture future(promise.get_future());
-  promise.set_value(transform);
-  callback(future);
-  return future;
-}
-
-bool IdentityFrameTransformer::quaternionIsValid(geometry_msgs::msg::Quaternion quaternion)
+bool IdentityFrameTransformer::quaternionIsValid(transformation::Quaternion quaternion)
 {
   return quaternion.w + quaternion.x + quaternion.y + quaternion.z != 0;
 }

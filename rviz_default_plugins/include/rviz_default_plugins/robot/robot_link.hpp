@@ -63,6 +63,7 @@ class SceneManager;
 class Entity;
 class SubEntity;
 class SceneNode;
+class Vector3;
 class Quaternion;
 class Any;
 class RibbonTrail;

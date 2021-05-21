@@ -70,8 +70,7 @@ void FailedTool::deactivate()
 
 void FailedTool::onInitialize()
 {
-  setDescription(
-    "The class required for this tool, '" + getClassId() +
+  setDescription("The class required for this tool, '" + getClassId() +
     "', could not be loaded.<br><b>Error:</b><br>" + error_message_);
 }
 

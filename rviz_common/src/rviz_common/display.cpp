@@ -111,6 +111,16 @@ void Display::queueRender()
 QVariant Display::getViewData(int column, int role) const
 {
   switch (role) {
+    case Qt::BackgroundRole:
+      {
+        /*
+        QLinearGradient q( 0,0, 0,5);
+        q.setColorAt( 0.0, QColor(230,230,230));
+        q.setColorAt( 1.0, Qt::white);
+        return QBrush( q);
+        */
+        return QColor(Qt::white);
+      }
     case Qt::ForegroundRole:
       {
         // if we're item-enabled (not greyed out) and in warn/error state, set appropriate color
@@ -124,7 +134,7 @@ QVariant Display::getViewData(int column, int role) const
               return QColor(40, 120, 197);
             }
           } else {
-            return QApplication::palette().color(QPalette::Text);
+            return QColor(Qt::black);
           }
         }
         break;
@@ -192,8 +202,7 @@ void Display::setStatus(
   const QString & name,
   const QString & text)
 {
-  QMetaObject::invokeMethod(
-    this, "setStatusInternal", Qt::QueuedConnection,
+  QMetaObject::invokeMethod(this, "setStatusInternal", Qt::QueuedConnection,
     Q_ARG(int, level),
     Q_ARG(QString, name),
     Q_ARG(QString, text));
@@ -245,8 +254,8 @@ void Display::setStatusInternal(int level, const QString & name, const QString &
 
 void Display::deleteStatus(const QString & name)
 {
-  QMetaObject::invokeMethod(
-    this, "deleteStatusInternal", Qt::QueuedConnection, Q_ARG(QString, name));
+  QMetaObject::invokeMethod(this, "deleteStatusInternal", Qt::QueuedConnection,
+    Q_ARG(QString, name));
 }
 
 void Display::deleteStatusInternal(const QString & name)
@@ -389,8 +398,7 @@ Ogre::SceneNode * Display::getSceneNode() const
 void Display::setAssociatedWidget(QWidget * widget)
 {
   if (associated_widget_panel_) {
-    disconnect(
-      associated_widget_panel_, SIGNAL(visibilityChanged(bool)), this,
+    disconnect(associated_widget_panel_, SIGNAL(visibilityChanged(bool)), this,
       SLOT(associatedPanelVisibilityChange(bool)));
     disconnect(associated_widget_panel_, SIGNAL(closed()), this, SLOT(disable()));
   }
@@ -400,8 +408,7 @@ void Display::setAssociatedWidget(QWidget * widget)
     WindowManagerInterface * wm = context_->getWindowManager();
     if (wm) {
       associated_widget_panel_ = wm->addPane(getName(), associated_widget_);
-      connect(
-        associated_widget_panel_, SIGNAL(visibilityChanged(bool)), this,
+      connect(associated_widget_panel_, SIGNAL(visibilityChanged(bool)), this,
         SLOT(associatedPanelVisibilityChange(bool)));
       connect(associated_widget_panel_, SIGNAL(closed()), this, SLOT(disable()));
       associated_widget_panel_->setIcon(getIcon());

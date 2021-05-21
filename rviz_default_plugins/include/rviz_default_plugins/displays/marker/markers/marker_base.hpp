@@ -36,13 +36,10 @@
 #include <string>
 #include <utility>
 
-#include <OgreVector3.h>
-
 #include "visualization_msgs/msg/marker.hpp"
 #include "rclcpp/rclcpp.hpp"
 
 #include "rviz_common/interaction/forwards.hpp"
-#include "rviz_common/interactive_object.hpp"
 #include "rviz_default_plugins/visibility_control.hpp"
 
 // This is necessary because of using stl types with this display. Nevertheless, if you are
@@ -56,6 +53,7 @@
 namespace Ogre
 {
 class SceneNode;
+class Vector3;
 class Quaternion;
 class Entity;
 }  // namespace Ogre
@@ -81,10 +79,8 @@ typedef std::set<Ogre::MaterialPtr> S_MaterialPtr;
 class RVIZ_DEFAULT_PLUGINS_PUBLIC MarkerBase
 {
 public:
-  using Marker = visualization_msgs::msg::Marker;
-  using MarkerConstSharedPtr = visualization_msgs::msg::Marker::ConstSharedPtr;
-
-  using SharedPtr = std::shared_ptr<MarkerBase>;
+  typedef visualization_msgs::msg::Marker Marker;
+  typedef visualization_msgs::msg::Marker::ConstSharedPtr MarkerConstSharedPtr;
 
   MarkerBase(
     MarkerCommon * owner, rviz_common::DisplayContext * context, Ogre::SceneNode * parent_node);
@@ -108,8 +104,9 @@ public:
     return message_->ns + "/" + std::to_string(message_->id);
   }
 
-  /// Associate an InteractiveObject with this MarkerBase.
-  void setInteractiveObject(rviz_common::InteractiveObjectWPtr object);
+  // TODO(Martin-Idel-SI): use again when interactive marker is ported
+  /** @brief Associate an InteractiveObject with this MarkerBase. */
+  // void setInteractiveObject(InteractiveObjectWPtr object);
 
   virtual void setPosition(const Ogre::Vector3 & position);
 

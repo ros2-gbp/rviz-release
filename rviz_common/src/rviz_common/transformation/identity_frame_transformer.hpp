@@ -32,16 +32,13 @@
 #ifndef RVIZ_COMMON__TRANSFORMATION__IDENTITY_FRAME_TRANSFORMER_HPP_
 #define RVIZ_COMMON__TRANSFORMATION__IDENTITY_FRAME_TRANSFORMER_HPP_
 
-#include <chrono>
 #include <string>
 #include <vector>
-
-#include "geometry_msgs/msg/pose_stamped.hpp"
-#include "geometry_msgs/msg/quaternion.hpp"
 
 #include "rclcpp/rclcpp.hpp"
 
 #include "rviz_common/transformation/frame_transformer.hpp"
+#include "rviz_common/transformation/structs.hpp"
 #include "rviz_common/visibility_control.hpp"
 
 namespace rviz_common
@@ -61,64 +58,49 @@ public:
     ros_integration::RosNodeAbstractionIface::WeakPtr rviz_ros_node,
     rclcpp::Clock::SharedPtr clock) override;
 
+  void
+  clear() override;
 
-  geometry_msgs::msg::PoseStamped
+  std::vector<std::string>
+  getAllFrameNames() override;
+
+  transformation::PoseStamped
   transform(
-    const geometry_msgs::msg::PoseStamped & pose_in,
+    // NOLINT (this is not std::transform)
+    const transformation::PoseStamped & pose_in,
     const std::string & target_frame) override;
+
+  bool
+  transformIsAvailable(
+    const std::string & target_frame,
+    const std::string & source_frame) override;
+
+  bool
+  transformHasProblems(
+    const std::string & source_frame,
+    const std::string & target_frame,
+    const rclcpp::Time & time,
+    std::string & error) override;
+
+  bool
+  frameHasProblems(const std::string & frame, std::string & error) override;
 
   TransformationLibraryConnector::WeakPtr
   getConnector() override;
 
-  bool
-  frameHasProblems(const std::string & frame, std::string & error) const override;
-
+#if 0
   void
-  clear() override;
-
-  geometry_msgs::msg::TransformStamped
-  lookupTransform(
-    const std::string & target_frame,
-    const std::string & source_frame,
-    const tf2::TimePoint & time) const override;
-
-  geometry_msgs::msg::TransformStamped
-  lookupTransform(
-    const std::string & target_frame,
-    const tf2::TimePoint & target_time,
-    const std::string & source_frame,
-    const tf2::TimePoint & source_time,
-    const std::string & fixed_Frame) const override;
-
-  bool
-  canTransform(
-    const std::string & target_frame,
-    const std::string & source_frame,
-    const tf2::TimePoint & time,
-    std::string * error_msg) const override;
-
-  bool
-  canTransform(
-    const std::string & target_frame,
-    const tf2::TimePoint & target_time,
-    const std::string & source_frame,
-    const tf2::TimePoint & source_time,
-    const std::string & fixed_frame,
-    std::string * error_msg) const override;
-
-  std::vector<std::string> getAllFrameNames() const override;
-
-  tf2_ros::TransformStampedFuture
-  waitForTransform(
-    const std::string & target_frame,
-    const std::string & source_frame,
-    const tf2::TimePoint & time,
-    const tf2::Duration & timeout,
-    tf2_ros::TransformReadyCallback callback) override;
+  waitForValidTransform(
+    std::string target_frame,
+    std::string source_frame,
+    rclcpp::Time time,
+    rclcpp::Duration timeout,
+    std::function<void(void)> callback) override;
+#endif
 
 private:
   bool
-  quaternionIsValid(geometry_msgs::msg::Quaternion quaternion);
+  quaternionIsValid(transformation::Quaternion quaternion);
 };
 
 }  // namespace transformation

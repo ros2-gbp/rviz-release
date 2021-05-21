@@ -2,118 +2,34 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-8.6.0 (2021-05-13)
+6.1.8 (2021-05-21)
 ------------------
 
-8.5.0 (2021-04-06)
+6.1.7 (2020-11-24)
 ------------------
-* Add visualization_frame to the public API (`#660 <https://github.com/ros2/rviz/issues/660>`_)
-* Contributors: Jafar Abdi
+* Update maintainers. (`#617 <https://github.com/ros2/rviz/issues/617>`_)
+* Contributors: Michael Jeronimo
 
-8.4.0 (2021-03-18)
+6.1.6 (2020-03-11)
 ------------------
-* Add ViewPicker::get3DPatch to the public API (`#657 <https://github.com/ros2/rviz/issues/657>`_)
-* Fix byte indexing for depth patch pixels (`#661 <https://github.com/ros2/rviz/issues/661>`_)
-* fix toolbar vanishing when pressing escape (`#656 <https://github.com/ros2/rviz/issues/656>`_)
-* Expose VisualizationManager and YamlConfigReader to the public API (`#649 <https://github.com/ros2/rviz/issues/649>`_)
-* Use the stack for the classes in the property test. (`#644 <https://github.com/ros2/rviz/issues/644>`_)
-* Contributors: Chris Lalancette, Joseph Schornak, ipa-fez
-
-8.3.1 (2021-01-25)
-------------------
-* Check that the views_man\_ and views_man\_->getCurrent() are not nullptr. (`#634 <https://github.com/ros2/rviz/issues/634>`_)
-* Contributors: Chris Lalancette
-
-8.3.0 (2020-12-08)
-------------------
-* Fix for mousewheel to zoom in/out (`#623 <https://github.com/ros2/rviz/issues/623>`_)
-* Ensure rviz_common::MessageFilterDisplay processes messages in the main thread (`#620 <https://github.com/ros2/rviz/issues/620>`_)
-* Fix render window disppearing after saving image (`#611 <https://github.com/ros2/rviz/issues/611>`_)
-* Add linters and use ament_lint_auto (`#608 <https://github.com/ros2/rviz/issues/608>`_)
-* Update maintainers (`#607 <https://github.com/ros2/rviz/issues/607>`_)
-* TimePanel port (`#599 <https://github.com/ros2/rviz/issues/599>`_)
-* Upgrade to tinyxml2 for rviz (`#418 <https://github.com/ros2/rviz/issues/418>`_)
-* Fix segfault on changing filter size for non-existent topic (`#597 <https://github.com/ros2/rviz/issues/597>`_)
-* improve color support for themes (`#590 <https://github.com/ros2/rviz/issues/590>`_)
-* Fix topic IntProperty number ranges (`#596 <https://github.com/ros2/rviz/issues/596>`_)
-* Switch to nullptr everywhere. (`#592 <https://github.com/ros2/rviz/issues/592>`_)
-* Expose MessageFilterDisplay's queue size (`#593 <https://github.com/ros2/rviz/issues/593>`_)
-* Filter topics in drop down menu (`#591 <https://github.com/ros2/rviz/issues/591>`_)
-* rviz_common: Remove variadic macro warning check (`#421 <https://github.com/ros2/rviz/issues/421>`_)
-* Use retriever.hpp (`#589 <https://github.com/ros2/rviz/issues/589>`_)
-* Fix the order of destructors (`#572 <https://github.com/ros2/rviz/issues/572>`_)
-* Contributors: Audrow Nash, Chen Lihui, Chris Lalancette, Jacob Perron, Martin Idel, Michael Ferguson, Michael Jeronimo, Michel Hidalgo, Nico Neumann, Rich Mattes, Shane Loretz, spiralray
-
-8.2.0 (2020-06-23)
-------------------
-* Changed to not install test header files in rviz_rendering. (`#564 <https://github.com/ros2/rviz/issues/564>`_)
-* Fixed alphabetical include order (`#563 <https://github.com/ros2/rviz/issues/563>`_)
-* Changed to avoid trying to moc generate ``env_config.hpp`` file. (`#550 <https://github.com/ros2/rviz/issues/550>`_)
-* Contributors: Chris Lalancette, Karsten Knese
-
-8.1.1 (2020-06-03)
-------------------
-
-8.1.0 (2020-06-03)
-------------------
-
-8.0.3 (2020-06-02)
-------------------
-* Fixed deprecated Qt usage. (`#555 <https://github.com/ros2/rviz/issues/555>`_)
+* Remove uncessary call to render scene. (`#515 <https://github.com/ros2/rviz/issues/515>`_)
 * Contributors: Jacob Perron
 
-8.0.2 (2020-05-21)
-------------------
-* Changed to use modern cmake style with pluginlib (`#542 <https://github.com/ros2/rviz/issues/542>`_)
-* Removed automoc completely. (`#545 <https://github.com/ros2/rviz/issues/545>`_)
-* Contributors: Chris Lalancette, Karsten Knese
-
-8.0.1 (2020-05-07)
+6.1.5 (2019-12-10)
 ------------------
 
-8.0.0 (2020-05-01)
-------------------
-* Note from wjwwood: I've chosen bump the major version this time, even though the API was not broken strictly speaking, partly because of some potentially disruptive build system changes and partially in preparation for ROS Foxy, to allow for new minor/patch versions in the previous ROS release Eloquent.
-* Removed duplicate include dirs and link libraries. (`#533 <https://github.com/ros2/rviz/issues/533>`_)
-* Added missing export of urdf. (`#529 <https://github.com/ros2/rviz/issues/529>`_)
-* Made changes to avoid newly deprecated functions in rclcpp. (`#528 <https://github.com/ros2/rviz/issues/528>`_)
-* Changed to use ``ament_export_targets()``. (`#525 <https://github.com/ros2/rviz/issues/525>`_)
-* Updated deprecated enums in rviz_common. (`#510 <https://github.com/ros2/rviz/issues/510>`_)
-* Solved a compiler warning in Ubuntu Focal. (`#503 <https://github.com/ros2/rviz/issues/503>`_)
-* Removed an uncessary call to render scene. (`#490 <https://github.com/ros2/rviz/issues/490>`_)
-* Made some code style changes. (`#504 <https://github.com/ros2/rviz/issues/504>`_)
-* Fixed a bug encountered when included as a sub-project. (`#475 <https://github.com/ros2/rviz/issues/475>`_)
-* Contributors: Dan Rose, Dirk Thomas, Ivan Santiago Paunovic, Jacob Perron, William Woodall, brawner
-
-7.0.3 (2019-11-13)
+6.1.4 (2019-09-06)
 ------------------
 
-7.0.2 (2019-10-23)
+6.1.3 (2019-07-31)
 ------------------
+* Fixed deprecation warnings with new Qt (`#435 <https://github.com/ros2/rviz/issues/435>`_) (`#436 <https://github.com/ros2/rviz/issues/436>`_)
+* Contributors: William Woodall
 
-7.0.1 (2019-10-04)
+6.1.2 (2019-06-12)
 ------------------
-
-7.0.0 (2019-09-27)
-------------------
-* Introduce QoS property (`#409 <https://github.com/ros2/rviz/issues/409>`_)
-  A container of properties related to QoS settings. Replaces queue size and unreliable properties.
-* Migrate InteractiveMarkerDisplay (`#457 <https://github.com/ros2/rviz/issues/457>`_)
-* Rename 2d Nav Goal to 2d Goal Pose (`#455 <https://github.com/ros2/rviz/issues/455>`_)
-    * Rename nav pose tool to goal pose tool
-    * Rename topic for goal pose tool from "move_base_simple/goal" to "goal_pose"
-* Do not select interactive markers when mousing over them (`#451 <https://github.com/ros2/rviz/issues/451>`_)
-* Migrate Interaction Tool (`#423 <https://github.com/ros2/rviz/issues/423>`_)
-* Upgrade from Ogre 1.10 to Ogre 1.12.1 (`#394 <https://github.com/ros2/rviz/issues/394>`_)
-* Re-enable use of tf message filter (`#375 <https://github.com/ros2/rviz/issues/375>`_)
-* Static analysis cleanup for rviz_common (`#431 <https://github.com/ros2/rviz/issues/431>`_)
-* Fix deprecation warnings with new Qt (`#435 <https://github.com/ros2/rviz/issues/435>`_)
-* FrameTransformer implements tf2::BufferCoreInterface and tf2_ros::AsyncBufferInterface (`#422 <https://github.com/ros2/rviz/issues/422>`_)
-* Use geometry_msgs types instead of custom types (`#426 <https://github.com/ros2/rviz/issues/426>`_)
-* Remove -Werror from defualt compiler options (`#420 <https://github.com/ros2/rviz/issues/420>`_)
-* Use node to create clock used to stamp publications (`#407 <https://github.com/ros2/rviz/issues/407>`_)
-* Remove blank lines that latest uncrustify doesn't like (`#411 <https://github.com/ros2/rviz/issues/411>`_)
-* Contributors: Emerson Knapp, Hunter L. Allen, Jacob Perron, Martin Idel, Scott K Logan, Shivesh Khaitan, Steven Macenski, William Woodall
+* Changed the clock used to stamp publications, using one attached to a node instead so ``use_sim_time`` will work. (`#407 <https://github.com/ros2/rviz/issues/407>`_)
+* Contributors: Scott K Logan
 
 6.1.1 (2019-05-29)
 ------------------

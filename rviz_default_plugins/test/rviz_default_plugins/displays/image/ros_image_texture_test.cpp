@@ -32,13 +32,22 @@
 #include <memory>
 #include <vector>
 
+#ifdef _WIN32
+# pragma warning(push)
+# pragma warning(disable : 4996)
+#endif
+
 #include <Ogre.h>  // NOLINT
+
+#ifdef _WIN32
+# pragma warning(pop)
+#endif
 
 #include "sensor_msgs/image_encodings.hpp"
 
-#include "../../ogre_testing_environment.hpp"
+#include "test/rviz_rendering/ogre_testing_environment.hpp"
 
-#include "rviz_default_plugins/displays/image/ros_image_texture.hpp"
+#include "include/rviz_default_plugins/displays/image/ros_image_texture.hpp"
 
 using namespace rviz_default_plugins::displays;  // NOLINT
 
@@ -48,14 +57,14 @@ class RosImageTextureTestFixture : public ::testing::Test
 protected:
   static void SetUpTestCase()
   {
-    testing_environment_ = std::make_shared<rviz_default_plugins::OgreTestingEnvironment>();
+    testing_environment_ = std::make_shared<rviz_rendering::OgreTestingEnvironment>();
     testing_environment_->setUpOgreTestEnvironment();
   }
 
-  static std::shared_ptr<rviz_default_plugins::OgreTestingEnvironment> testing_environment_;
+  static std::shared_ptr<rviz_rendering::OgreTestingEnvironment> testing_environment_;
 };
 
-std::shared_ptr<rviz_default_plugins::OgreTestingEnvironment>
+std::shared_ptr<rviz_rendering::OgreTestingEnvironment>
 RosImageTextureTestFixture::testing_environment_ = nullptr;
 
 TEST_F(RosImageTextureTestFixture, constructor_initializes_texture_with_default_image) {
