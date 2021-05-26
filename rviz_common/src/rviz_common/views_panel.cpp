@@ -38,7 +38,7 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
-#include "./visualization_manager.hpp"
+#include "rviz_common/visualization_manager.hpp"
 #include "rviz_common/properties/property_tree_widget.hpp"
 #include "rviz_common/view_controller.hpp"
 #include "rviz_common/view_manager.hpp"
@@ -48,7 +48,7 @@ namespace rviz_common
 
 ViewsPanel::ViewsPanel(QWidget * parent)
 : Panel(parent),
-  view_man_(NULL)
+  view_man_(nullptr)
 {
   camera_type_selector_ = new QComboBox;
   properties_view_ = new properties::PropertyTreeWidget();
@@ -82,22 +82,25 @@ ViewsPanel::ViewsPanel(QWidget * parent)
   connect(remove_button, SIGNAL(clicked()), this, SLOT(onDeleteClicked()));
   connect(rename_button, SIGNAL(clicked()), this, SLOT(renameSelected()));
   connect(zero_button, SIGNAL(clicked()), this, SLOT(onZeroClicked()));
-  connect(properties_view_, SIGNAL(clicked(const QModelIndex&)), this,
+  connect(
+    properties_view_, SIGNAL(clicked(const QModelIndex&)), this,
     SLOT(setCurrentViewFromIndex(const QModelIndex&)));
-  connect(properties_view_, SIGNAL(activated(const QModelIndex&)), this,
+  connect(
+    properties_view_, SIGNAL(activated(const QModelIndex&)), this,
     SLOT(setCurrentViewFromIndex(const QModelIndex&)));
 }
 
 void ViewsPanel::onInitialize()
 {
-  setViewManager(getDisplayContext()->getViewManager() );
+  setViewManager(getDisplayContext()->getViewManager());
 }
 
 void ViewsPanel::setViewManager(ViewManager * view_man)
 {
   if (view_man_) {
     disconnect(save_button_, SIGNAL(clicked()), view_man_, SLOT(copyCurrentToList()));
-    disconnect(camera_type_selector_, SIGNAL(activated(int)), this,
+    disconnect(
+      camera_type_selector_, SIGNAL(activated(int)), this,
       SLOT(onTypeSelectorChanged(int)));
     disconnect(view_man_, SIGNAL(currentChanged()), this, SLOT(onCurrentChanged()));
   }
@@ -117,7 +120,7 @@ void ViewsPanel::setViewManager(ViewManager * view_man)
     connect(camera_type_selector_, SIGNAL(activated(int)), this, SLOT(onTypeSelectorChanged(int)));
     connect(view_man_, SIGNAL(currentChanged()), this, SLOT(onCurrentChanged()));
   } else {
-    properties_view_->setModel(NULL);
+    properties_view_->setModel(nullptr);
   }
   onCurrentChanged();
 }
@@ -130,7 +133,7 @@ void ViewsPanel::onTypeSelectorChanged(int selected_index)
 
 void ViewsPanel::onZeroClicked()
 {
-  if (view_man_->getCurrent() ) {
+  if (view_man_->getCurrent()) {
     view_man_->getCurrent()->reset();
   }
 }
@@ -152,7 +155,7 @@ void ViewsPanel::onDeleteClicked()
     // TODO(anyone): should eventually move to a scheme where the CURRENT view
     // is not in the same list as the saved views, at which point this
     // check can go away.
-    if (views_to_delete[i] != view_man_->getCurrent() ) {
+    if (views_to_delete[i] != view_man_->getCurrent()) {
       delete views_to_delete[i];
     }
   }
@@ -167,13 +170,13 @@ void ViewsPanel::renameSelected()
     // TODO(anyone): should eventually move to a scheme where the CURRENT view
     // is not in the same list as the saved views, at which point this
     // check can go away.
-    if (view == view_man_->getCurrent() ) {
+    if (view == view_man_->getCurrent()) {
       return;
     }
 
     QString old_name = view->getName();
-    QString new_name = QInputDialog::getText(this, "Rename View", "New Name?", QLineEdit::Normal,
-        old_name);
+    QString new_name = QInputDialog::getText(
+      this, "Rename View", "New Name?", QLineEdit::Normal, old_name);
 
     if (new_name.isEmpty() || new_name == old_name) {
       return;
@@ -185,8 +188,12 @@ void ViewsPanel::renameSelected()
 
 void ViewsPanel::onCurrentChanged()
 {
+  if (view_man_ == nullptr || view_man_->getCurrent() == nullptr) {
+    return;
+  }
+
   QString formatted_class_id =
-    ViewController::formatClassId(view_man_->getCurrent()->getClassId() );
+    ViewController::formatClassId(view_man_->getCurrent()->getClassId());
 
   // Make sure the type selector shows the type of the current view.
   // This is only here in case the type is changed programmatically,

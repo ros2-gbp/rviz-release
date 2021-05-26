@@ -48,25 +48,15 @@
 #include <sstream>
 #include <string>
 
-#ifdef _WIN32
-# pragma warning(push)
-# pragma warning(disable:4251)
-#endif
-
-#include <OgreFont.h>
-
-#ifdef _WIN32
-# pragma warning(pop)
-#endif
-
 #include <OgreCamera.h>
-#include <OgreFontManager.h>
 #include <OgreHardwareBufferManager.h>
 #include <OgreMaterialManager.h>
 #include <OgreQuaternion.h>
 #include <OgreRoot.h>
 #include <OgreSceneNode.h>
 #include <OgreVector3.h>
+#include <Overlay/OgreFont.h>  // NOLINT: cpplint cannot handle include order here
+#include <Overlay/OgreFontManager.h>  // NOLINT: cpplint cannot handle include order here
 
 #define POS_TEX_BINDING    0
 #define COLOUR_BINDING     1
@@ -129,7 +119,8 @@ void MovableText::setFontName(const Ogre::String & font_name)
     font_name_ = font_name;
     font_ = Ogre::FontManager::getSingleton().getByName(font_name_, MATERIAL_GROUP).get();
     if (!font_) {
-      throw Ogre::Exception(Ogre::Exception::ERR_ITEM_NOT_FOUND, "Could not find font " +
+      throw Ogre::Exception(
+              Ogre::Exception::ERR_ITEM_NOT_FOUND, "Could not find font " +
               font_name, "MovableText::setFontName");
     }
 
@@ -361,7 +352,8 @@ Ogre::HardwareVertexBufferSharedPtr MovableText::setupHardwareBuffers() const
   offset += Ogre::VertexElement::getTypeSize(Ogre::VET_FLOAT3);
 
   if (!declaration->findElementBySemantic(Ogre::VES_TEXTURE_COORDINATES)) {
-    declaration->addElement(POS_TEX_BINDING, offset, Ogre::VET_FLOAT2,
+    declaration->addElement(
+      POS_TEX_BINDING, offset, Ogre::VET_FLOAT2,
       Ogre::VES_TEXTURE_COORDINATES, 0);
   }
 
@@ -398,6 +390,7 @@ MovableText::calculateTotalDimensionsForPositioning(float & total_height, float 
     if (character == '\n') {
       total_height += effective_char_height + line_spacing_;
       total_width = current_width > total_width ? current_width : total_width;
+      current_width = 0;
     } else if (character == ' ') {
       current_width += space_width_;
     } else {

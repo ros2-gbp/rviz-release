@@ -38,6 +38,8 @@
 
 #include <QDir>  // NOLINT
 
+#include "rcutils/env.h"
+
 VisualTest::VisualTest(
   rviz_common::VisualizerApp * vapp,
   std::shared_ptr<Executor> executor,
@@ -80,8 +82,9 @@ void VisualTest::takeReferenceScreenShot(
   Ogre::String screenshot_name, std::shared_ptr<PageObjectWithWindow> display)
 {
   std::string images_name = QDir::toNativeSeparators(
-    QString::fromStdString(source_directory_path_ + reference_images_path_suffix_ +
-    screenshot_name)).toStdString();
+    QString::fromStdString(
+      source_directory_path_ + reference_images_path_suffix_ +
+      screenshot_name)).toStdString();
 
   if (display) {
     display->captureDisplayRenderWindow(images_name + "_ref.png");
@@ -94,8 +97,9 @@ void VisualTest::takeTestScreenShot(
   Ogre::String screenshot_name, std::shared_ptr<PageObjectWithWindow> display)
 {
   std::string images_name = QDir::toNativeSeparators(
-    QString::fromStdString(build_directory_path_ + test_images_path_suffix_ +
-    screenshot_name)).toStdString();
+    QString::fromStdString(
+      build_directory_path_ + test_images_path_suffix_ +
+      screenshot_name)).toStdString();
 
   if (display) {
     display->captureDisplayRenderWindow(images_name + ".png");
@@ -148,8 +152,9 @@ void VisualTest::setTesterThreshold(double threshold)
 bool VisualTest::checkImageExists(std::string & name)
 {
   const std::string reference_image_name = QDir::toNativeSeparators(
-    QString::fromStdString(source_directory_path_ + reference_images_path_suffix_ +
-    name + "_ref.png")).toStdString();
+    QString::fromStdString(
+      source_directory_path_ + reference_images_path_suffix_ +
+      name + "_ref.png")).toStdString();
   struct stat buffer;
 
   return stat(reference_image_name.c_str(), &buffer) == 0;
@@ -157,8 +162,9 @@ bool VisualTest::checkImageExists(std::string & name)
 
 bool VisualTest::directoriesDoNotExist()
 {
-  const std::string reference_directory = QDir::toNativeSeparators(QString::fromStdString(
-        source_directory_path_ + reference_images_path_suffix_)).toStdString();
+  const std::string reference_directory = QDir::toNativeSeparators(
+    QString::fromStdString(
+      source_directory_path_ + reference_images_path_suffix_)).toStdString();
   const std::string test_directory = QDir::toNativeSeparators(
     QString::fromStdString(build_directory_path_ + test_images_path_suffix_)).toStdString();
   struct stat buffer;
@@ -178,23 +184,12 @@ void VisualTest::reset()
 
 bool VisualTest::generateReferenceImages()
 {
-#ifdef _WIN32
-  char * buffer = nullptr;
-  size_t size = 0;
-  if (_dupenv_s(&buffer, &size, "GenerateReferenceImages") == 0 && buffer != nullptr) {
-    std::string generate_references(buffer);
-    free(buffer);
-
-    return generate_references == "True";
-  }
-
-  return false;
-#else
-  if (!std::getenv("GenerateReferenceImages")) {
+  const char * env_var_value = NULL;
+  const char * ret_str = rcutils_get_env("GenerateReferenceImages", &env_var_value);
+  if (NULL != ret_str || *env_var_value == '\0') {
     return false;
   }
+  std::string generate_references(env_var_value);
 
-  std::string generate_references = std::getenv("GenerateReferenceImages");
   return generate_references == "True";
-#endif
 }

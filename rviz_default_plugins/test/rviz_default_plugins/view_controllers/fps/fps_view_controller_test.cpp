@@ -46,7 +46,7 @@
 #include "rviz_default_plugins/view_controllers/orbit/orbit_view_controller.hpp"
 
 #include "../../displays/display_test_fixture.hpp"
-#include "../../scene_graph_introspection_helper.hpp"
+#include "../../scene_graph_introspection.hpp"
 #include "../view_controller_test_fixture.hpp"
 
 using namespace ::testing;  // NOLINT
@@ -135,7 +135,8 @@ TEST_F(FPSViewControllerTestFixture, moving_the_wheel_moves_camera_in_looking_di
   EXPECT_THAT(z_position->getValue().toFloat(), FloatNear(0, 0.001f));
 }
 
-TEST_F(FPSViewControllerTestFixture,
+TEST_F(
+  FPSViewControllerTestFixture,
   moving_the_mouse_with_right_button_moves_camera_in_looking_direction) {
   setCameraToDefaultPosition();
 

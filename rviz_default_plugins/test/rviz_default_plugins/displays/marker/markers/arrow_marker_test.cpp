@@ -34,14 +34,7 @@
 #include <memory>
 #include <string>
 
-#ifdef _WIN32
-#pragma warning(push)
-#pragma warning(disable : 4996)
 #include <OgreEntity.h>
-#pragma warning(pop)
-#else
-#include <OgreEntity.h>
-#endif
 #include <OgreMesh.h>
 
 #include "visualization_msgs/msg/marker.hpp"
@@ -50,7 +43,7 @@
 
 #include "rviz_default_plugins/displays/marker/markers/arrow_marker.hpp"
 
-#include "../../../scene_graph_introspection_helper.hpp"
+#include "../../../scene_graph_introspection.hpp"
 #include "markers_test_fixture.hpp"
 #include "../marker_messages.hpp"
 

@@ -68,6 +68,11 @@ PointStampedDisplay::PointStampedDisplay()
   setUpProperties();
 }
 
+void PointStampedDisplay::onInitialize()
+{
+  MFDClass::onInitialize();
+}
+
 void PointStampedDisplay::setUpProperties()
 {
   color_property_ = new rviz_common::properties::ColorProperty(
@@ -91,7 +96,7 @@ PointStampedDisplay::~PointStampedDisplay() = default;
 
 void PointStampedDisplay::reset()
 {
-  RTDClass::reset();
+  MFDClass::reset();
   visuals_.clear();
 }
 
@@ -117,7 +122,8 @@ void PointStampedDisplay::onlyKeepHistoryLengthNumberOfVisuals()
 void PointStampedDisplay::processMessage(geometry_msgs::msg::PointStamped::ConstSharedPtr msg)
 {
   if (!rviz_common::validateFloats(msg->point)) {
-    setStatus(rviz_common::properties::StatusProperty::Error, "Topic",
+    setStatus(
+      rviz_common::properties::StatusProperty::Error, "Topic",
       "Message contained invalid floating point values (nans or infs)");
     return;
   }

@@ -42,8 +42,7 @@
 #include "rviz_default_plugins/displays/marker/markers/line_list_marker.hpp"
 #include "rviz_default_plugins/displays/marker/markers/line_strip_marker.hpp"
 
-#include "test/rviz_rendering/scene_graph_introspection.hpp"
-#include "../../../scene_graph_introspection_helper.hpp"
+#include "../../../scene_graph_introspection.hpp"
 #include "markers_test_fixture.hpp"
 #include "../marker_messages.hpp"
 
@@ -64,7 +63,7 @@ TEST_F(MarkersTestFixture, setMessage_does_not_add_anything_when_no_points_are_p
 
   marker_->setMessage(createDefaultMessage(visualization_msgs::msg::Marker::LINE_LIST));
 
-  auto billboard_chain = rviz_rendering::findOneBillboardChain(
+  auto billboard_chain = rviz_default_plugins::findOneBillboardChain(
     scene_manager_->getRootSceneNode());
   ASSERT_TRUE(billboard_chain);
   ASSERT_TRUE(billboard_chain->isVisible());
@@ -81,7 +80,8 @@ TEST_F(MarkersTestFixture, setMessage_sets_billboard_line_invisible_when_transfo
 
   marker_->setMessage(createDefaultMessage(visualization_msgs::msg::Marker::LINE_LIST));
 
-  auto billboard_chain = rviz_rendering::findOneBillboardChain(scene_manager_->getRootSceneNode());
+  auto billboard_chain = rviz_default_plugins::findOneBillboardChain(
+    scene_manager_->getRootSceneNode());
   ASSERT_TRUE(billboard_chain);
   EXPECT_FALSE(billboard_chain->isVisible());
 }
@@ -105,7 +105,8 @@ TEST_F(MarkersTestFixture, setMessage_does_not_show_billboard_line_if_uneven_num
 
   marker_->setMessage(message);
 
-  auto billboard_chain = rviz_rendering::findOneBillboardChain(scene_manager_->getRootSceneNode());
+  auto billboard_chain = rviz_default_plugins::findOneBillboardChain(
+    scene_manager_->getRootSceneNode());
   ASSERT_TRUE(billboard_chain);
   EXPECT_TRUE(billboard_chain->isVisible());
   EXPECT_THAT(billboard_chain->getNumberOfChains(), Eq(1u));
@@ -123,7 +124,8 @@ TEST_F(MarkersTestFixture, setMessage_clears_marker_upon_new_message) {
 
   marker_->setMessage(createDefaultMessage(visualization_msgs::msg::Marker::LINE_LIST));
 
-  auto billboard_chain = rviz_rendering::findOneBillboardChain(scene_manager_->getRootSceneNode());
+  auto billboard_chain = rviz_default_plugins::findOneBillboardChain(
+    scene_manager_->getRootSceneNode());
   ASSERT_TRUE(billboard_chain);
   EXPECT_TRUE(billboard_chain->isVisible());
   EXPECT_THAT(billboard_chain->getNumberOfChains(), Eq(1u));
@@ -143,20 +145,24 @@ TEST_F(MarkersTestFixture, setMessage_adds_billboard_line_with_one_color) {
 
   marker_->setMessage(message);
 
-  auto billboard_chain = rviz_rendering::findOneBillboardChain(scene_manager_->getRootSceneNode());
+  auto billboard_chain = rviz_default_plugins::findOneBillboardChain(
+    scene_manager_->getRootSceneNode());
   ASSERT_TRUE(billboard_chain);
   EXPECT_TRUE(billboard_chain->isVisible());
   EXPECT_THAT(billboard_chain->getNumberOfChains(), Eq(1u));
   EXPECT_THAT(billboard_chain->getNumChainElements(0), Eq(2u));
-  EXPECT_THAT(billboard_chain->getChainElement(0, 1).position,
+  EXPECT_THAT(
+    billboard_chain->getChainElement(0, 1).position,
     Vector3Eq(Ogre::Vector3(first_point.x, first_point.y, first_point.z)));
-  EXPECT_THAT(billboard_chain->getChainElement(0, 0).position,
+  EXPECT_THAT(
+    billboard_chain->getChainElement(0, 0).position,
     Vector3Eq(Ogre::Vector3(second_point.x, second_point.y, second_point.z)));
   assertColorEquals(message.color, billboard_chain, 0);
   assertColorEquals(message.color, billboard_chain, 1);
 }
 
-TEST_F(MarkersTestFixture,
+TEST_F(
+  MarkersTestFixture,
   setMessage_adds_billboard_line_with_many_colors_if_all_points_have_color_information) {
   marker_ = makeMarker<rviz_default_plugins::displays::markers::LineListMarker>();
   mockValidTransform();
@@ -174,14 +180,17 @@ TEST_F(MarkersTestFixture,
 
   marker_->setMessage(message);
 
-  auto billboard_chain = rviz_rendering::findOneBillboardChain(scene_manager_->getRootSceneNode());
+  auto billboard_chain = rviz_default_plugins::findOneBillboardChain(
+    scene_manager_->getRootSceneNode());
   ASSERT_TRUE(billboard_chain);
   EXPECT_TRUE(billboard_chain->isVisible());
   EXPECT_THAT(billboard_chain->getNumberOfChains(), Eq(1u));
   EXPECT_THAT(billboard_chain->getNumChainElements(0), Eq(2u));
-  EXPECT_THAT(billboard_chain->getChainElement(0, 1).position,
+  EXPECT_THAT(
+    billboard_chain->getChainElement(0, 1).position,
     Vector3Eq(Ogre::Vector3(first_point.x, first_point.y, first_point.z)));
-  EXPECT_THAT(billboard_chain->getChainElement(0, 0).position,
+  EXPECT_THAT(
+    billboard_chain->getChainElement(0, 0).position,
     Vector3Eq(Ogre::Vector3(second_point.x, second_point.y, second_point.z)));
   assertColorEquals(second_point_color, billboard_chain, 0);
   assertColorEquals(first_point_color, billboard_chain, 1);
@@ -197,7 +206,8 @@ TEST_F(MarkersTestFixture, setMessage_shows_billboard_strip_for_uneven_number_of
 
   marker_->setMessage(message);
 
-  auto billboard_chain = rviz_rendering::findOneBillboardChain(scene_manager_->getRootSceneNode());
+  auto billboard_chain = rviz_default_plugins::findOneBillboardChain(
+    scene_manager_->getRootSceneNode());
   ASSERT_TRUE(billboard_chain);
   EXPECT_TRUE(billboard_chain->isVisible());
   EXPECT_THAT(billboard_chain->getNumberOfChains(), Eq(1u));
@@ -217,15 +227,19 @@ TEST_F(MarkersTestFixture, setMessage_adds_many_points_into_same_chain) {
 
   marker_->setMessage(message);
 
-  auto billboard_chain = rviz_rendering::findOneBillboardChain(scene_manager_->getRootSceneNode());
+  auto billboard_chain = rviz_default_plugins::findOneBillboardChain(
+    scene_manager_->getRootSceneNode());
   ASSERT_TRUE(billboard_chain);
   EXPECT_TRUE(billboard_chain->isVisible());
   EXPECT_THAT(billboard_chain->getNumberOfChains(), Eq(1u));
   EXPECT_THAT(billboard_chain->getNumChainElements(0), Eq(3u));
-  EXPECT_THAT(billboard_chain->getChainElement(0, 2).position,
+  EXPECT_THAT(
+    billboard_chain->getChainElement(0, 2).position,
     Vector3Eq(Ogre::Vector3(first_point.x, first_point.y, first_point.z)));
-  EXPECT_THAT(billboard_chain->getChainElement(0, 1).position,
+  EXPECT_THAT(
+    billboard_chain->getChainElement(0, 1).position,
     Vector3Eq(Ogre::Vector3(second_point.x, second_point.y, second_point.z)));
-  EXPECT_THAT(billboard_chain->getChainElement(0, 0).position,
+  EXPECT_THAT(
+    billboard_chain->getChainElement(0, 0).position,
     Vector3Eq(Ogre::Vector3(third_point.x, third_point.y, third_point.z)));
 }

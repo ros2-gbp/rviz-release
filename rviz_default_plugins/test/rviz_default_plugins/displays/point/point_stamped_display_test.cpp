@@ -33,14 +33,7 @@
 #include <string>
 #include <vector>
 
-#ifdef _WIN32
-#pragma warning(push)
-#pragma warning(disable : 4996)
 #include <OgreEntity.h>
-#pragma warning(pop)
-#else
-#include <OgreEntity.h>
-#endif
 #include <OgreMesh.h>
 #include <OgreManualObject.h>
 
@@ -50,8 +43,7 @@
 
 #include "rviz_default_plugins/displays/point/point_stamped_display.hpp"
 
-#include "test/rviz_rendering/scene_graph_introspection.hpp"
-#include "../../scene_graph_introspection_helper.hpp"
+#include "../../scene_graph_introspection.hpp"
 #include "../display_test_fixture.hpp"
 
 using namespace ::testing;  // NOLINT
@@ -86,8 +78,9 @@ void assertPointsPresent(std::vector<Ogre::Entity *> entities, Ogre::Vector3 pos
 {
   bool found = false;
   for (auto entity : entities) {
-    if (Matches(Vector3Eq(position))(entity->getParentSceneNode()
-      ->getParentSceneNode()->getPosition()))
+    if (
+      Matches(Vector3Eq(position))(
+        entity->getParentSceneNode()->getParentSceneNode()->getPosition()))
     {
       found = true;
     }
@@ -100,23 +93,23 @@ TEST_F(PointStampedTestFixture, processMessage_adds_nothing_to_scene_if_invalid_
 
   point_stamped_display_->processMessage(createPointMessage(0, 0, 0));
 
-  auto objects = rviz_rendering::findAllEntitiesByMeshName(
+  auto objects = rviz_default_plugins::findAllEntitiesByMeshName(
     scene_manager_->getRootSceneNode(), "rviz_sphere.mesh");
   EXPECT_THAT(objects.size(), Eq(0u));
 }
 
-TEST_F(PointStampedTestFixture,
-  processMessage_stores_no_more_messages_in_scene_than_history_allows)
+TEST_F(
+  PointStampedTestFixture, processMessage_stores_no_more_messages_in_scene_than_history_allows)
 {
   mockValidTransform();
-  EXPECT_THAT(point_stamped_display_->childAt(5)->getNameStd(), StrEq("History Length"));
-  point_stamped_display_->childAt(5)->setValue(2);
+  EXPECT_THAT(point_stamped_display_->childAt(4)->getNameStd(), StrEq("History Length"));
+  point_stamped_display_->childAt(4)->setValue(2);
 
   point_stamped_display_->processMessage(createPointMessage(0, 0, 0));
   point_stamped_display_->processMessage(createPointMessage(1, 0, 0));
   point_stamped_display_->processMessage(createPointMessage(-1, 0, 0));
 
-  auto objects = rviz_rendering::findAllEntitiesByMeshName(
+  auto objects = rviz_default_plugins::findAllEntitiesByMeshName(
     scene_manager_->getRootSceneNode(), "rviz_sphere.mesh");
   EXPECT_THAT(objects.size(), Eq(2u));
   assertPointsPresent(objects, Ogre::Vector3(1, 0, 0));

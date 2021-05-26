@@ -33,24 +33,9 @@
 #include <cstdint>
 #include <utility>
 
-#ifndef _WIN32
-# pragma GCC diagnostic push
-# pragma GCC diagnostic ignored "-Wunused-parameter"
-# pragma GCC diagnostic ignored "-Wpedantic"
-#else
-# pragma warning(push)
-# pragma warning(disable : 4996)
-#endif
-
 #include <OgreCamera.h>
 #include <OgreSceneNode.h>
 #include <OgreViewport.h>
-
-#ifndef _WIN32
-# pragma GCC diagnostic pop
-#else
-# pragma warning(pop)
-#endif
 
 #include "rviz_rendering/objects/shape.hpp"
 #include "rviz_rendering/render_window.hpp"
@@ -150,7 +135,7 @@ void XYOrbitViewController::lookAt(const Ogre::Vector3 & point)
 
 void XYOrbitViewController::setShiftOrbitStatus()
 {
-  setStatus("<b>Left-Click:</b> Move X/Y.  <b>Right-Click:</b>: Zoom.");
+  setStatus("<b>Left-Click:</b> Move X/Y.  <b>Right-Click:</b> Zoom.");
 }
 
 void XYOrbitViewController::moveFocalPoint(
@@ -219,5 +204,6 @@ void XYOrbitViewController::handleWheelEvent(
 }  // namespace rviz_default_plugins
 
 #include <pluginlib/class_list_macros.hpp>  // NOLINT
-PLUGINLIB_EXPORT_CLASS(rviz_default_plugins::view_controllers::XYOrbitViewController,
+PLUGINLIB_EXPORT_CLASS(
+  rviz_default_plugins::view_controllers::XYOrbitViewController,
   rviz_common::ViewController)

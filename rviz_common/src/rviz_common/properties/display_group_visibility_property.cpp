@@ -35,7 +35,7 @@
 
 #include <map>
 
-#include "include/rviz_common/properties/display_group_visibility_property.hpp"
+#include "rviz_common/properties/display_group_visibility_property.hpp"
 
 #include "rviz_common/properties/bool_property.hpp"
 #include "rviz_common/display_context.hpp"
@@ -108,11 +108,13 @@ void DisplayGroupVisibilityProperty::onDisplayAdded(Display * display)
   auto display_group = qobject_cast<DisplayGroup *>(display);
   DisplayVisibilityProperty * vis_prop;
   if (display_group) {
-    vis_prop = new DisplayGroupVisibilityProperty(vis_bit_, display_group, parent_display_, "",
-        true, "Uncheck to hide everything in this Display Group", this);
+    vis_prop = new DisplayGroupVisibilityProperty(
+      vis_bit_, display_group, parent_display_, "",
+      true, "Uncheck to hide everything in this Display Group", this);
   } else {
-    vis_prop = new DisplayVisibilityProperty(vis_bit_, display, "", true,
-        "Show or hide this Display", this);
+    vis_prop = new DisplayVisibilityProperty(
+      vis_bit_, display, "", true,
+      "Show or hide this Display", this);
   }
   disp_vis_props_[display] = vis_prop;
   sortDisplayList();

@@ -34,19 +34,9 @@
 #include <cstddef>
 #include <string>
 
-#ifndef _WIN32
-# pragma GCC diagnostic push
-# pragma GCC diagnostic ignored "-Wunused-parameter"
-# pragma GCC diagnostic ignored "-Wpedantic"
-#endif
-
 #include <OgreSharedPtr.h>
 #include <OgrePrerequisites.h>
 #include <OgreBlendMode.h>
-
-#ifndef _WIN32
-# pragma GCC diagnostic pop
-#endif
 
 #include "nav_msgs/msg/occupancy_grid.hpp"
 
@@ -89,7 +79,7 @@ public:
   void setVisible(bool visible);
 
   RVIZ_DEFAULT_PLUGINS_PUBLIC
-  void resetTexture();
+  void resetOldTexture();
 
   RVIZ_DEFAULT_PLUGINS_PUBLIC
   void setRenderQueueGroup(uint8_t group);
@@ -120,6 +110,7 @@ private:
   Ogre::SceneNode * scene_node_;
   Ogre::ManualObject * manual_object_;
   Ogre::TexturePtr texture_;
+  Ogre::TexturePtr old_texture_;
   Ogre::MaterialPtr material_;
   size_t x_, y_, width_, height_;
 };

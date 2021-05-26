@@ -23,22 +23,12 @@ else()
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  add_compile_options(-Wall -Wextra -Wpedantic -Werror)
-  # TODO(wjwwood): try to remove this -- currently needed to pass on CI
-  include(CheckCXXCompilerFlag)
-  check_cxx_compiler_flag(-Wno-gnu-zero-variadic-macro-arguments HAS_W_FLAG)
-  if(HAS_W_FLAG)
-    add_compile_options(-Wno-gnu-zero-variadic-macro-arguments)
-  endif()
+  add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
 find_package(ament_cmake REQUIRED)
 # do find_package(rviz_ogre_vendor) first to make sure the custom OGRE is found
 find_package(rviz_ogre_vendor REQUIRED)
-
-# Qt5 boilerplate options from http://doc.qt.io/qt-5/cmake-manual.html
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(CMAKE_AUTOMOC ON)
 
 find_package(Qt5 REQUIRED COMPONENTS Widgets)
 
@@ -50,14 +40,15 @@ find_package(rviz_assimp_vendor REQUIRED)
 find_package(rviz_rendering REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
-find_package(tinyxml_vendor REQUIRED)
+find_package(tinyxml2_vendor REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 find_package(tf2_ros REQUIRED)
+find_package(message_filters REQUIRED)
 find_package(urdf REQUIRED)
 find_package(yaml_cpp_vendor REQUIRED)
 
-find_package(TinyXML REQUIRED)  # provided by tinyxml_vendor
+find_package(TinyXML2 REQUIRED)  # provided by tinyxml_vendor
 
 # Copy env_config.hpp so that env_config.cpp can find it
 # TODO(jsquare): Get rid of copy hpp file
@@ -71,9 +62,8 @@ set(ROS_DISTRO "ROS 2.0")
 set(OGRE_PLUGIN_PATH "rviz_ogre_vendor")
 configure_file(src/rviz_common/env_config.cpp.in ${ENV_CONFIG_CPP} @ONLY)
 
-# These need to be added in the add_library() call so AUTOMOC detects them.
+# These need to be added in the add_library() call
 set(rviz_common_headers_to_moc
-  ${ENV_CONFIG_HPP}
   src/rviz_common/add_display_dialog.hpp
   src/rviz_common/help_panel.hpp
   include/rviz_common/properties/enum_property.hpp
@@ -88,7 +78,6 @@ set(rviz_common_headers_to_moc
   src/rviz_common/displays_panel.hpp
   src/rviz_common/failed_panel.hpp
   src/rviz_common/frame_manager.hpp
-  include/rviz_common/transformation/frame_transformer.hpp
   include/rviz_common/frame_manager_iface.hpp
   src/rviz_common/loading_dialog.hpp
   src/rviz_common/new_object_dialog.hpp
@@ -105,31 +94,27 @@ set(rviz_common_headers_to_moc
   include/rviz_common/properties/editable_enum_property.hpp
   include/rviz_common/properties/float_edit.hpp
   include/rviz_common/properties/float_property.hpp
-  include/rviz_common/properties/grouped_checkbox_property.hpp
-  include/rviz_common/properties/grouped_checkbox_property_group.hpp
   include/rviz_common/properties/int_property.hpp
   include/rviz_common/properties/line_edit_with_button.hpp
   include/rviz_common/properties/property.hpp
   include/rviz_common/properties/property_tree_delegate.hpp
   include/rviz_common/properties/property_tree_model.hpp
   include/rviz_common/properties/property_tree_with_help.hpp
+  include/rviz_common/properties/qos_profile_property.hpp
   include/rviz_common/properties/ros_topic_property.hpp
   include/rviz_common/properties/status_list.hpp
   include/rviz_common/properties/status_property.hpp
   include/rviz_common/properties/string_property.hpp
   include/rviz_common/properties/tf_frame_property.hpp
   include/rviz_common/properties/vector_property.hpp
-  include/rviz_common/properties/queue_size_property.hpp
   include/rviz_common/render_panel.hpp
+  include/rviz_common/visualization_manager.hpp
   src/rviz_common/scaled_image_widget.hpp
   src/rviz_common/screenshot_dialog.hpp
   include/rviz_common/interaction/selection_manager.hpp
   include/rviz_common/interaction/selection_manager_iface.hpp
-  include/rviz_common/interaction/selection_renderer.hpp
   src/rviz_common/splash_screen.hpp
-  # src/rviz_common/time_panel.hpp
-  src/rviz_common/transformation/identity_frame_transformer.hpp
-  include/rviz_common/transformation/structs.hpp
+  src/rviz_common/time_panel.hpp
   include/rviz_common/tool.hpp
   src/rviz_common/tool_manager.hpp
   src/rviz_common/tool_properties_panel.hpp
@@ -138,13 +123,14 @@ set(rviz_common_headers_to_moc
   include/rviz_common/view_controller.hpp
   include/rviz_common/view_manager.hpp
   src/rviz_common/views_panel.hpp
-  src/rviz_common/visualization_frame.hpp
-  src/rviz_common/visualization_manager.hpp
+  include/rviz_common/visualization_frame.hpp
   src/rviz_common/widget_geometry_change_detector.hpp
-  include/rviz_common/window_manager_interface.hpp
-  include/rviz_common/validate_floats.hpp
   include/rviz_common/ros_topic_display.hpp
 )
+
+foreach(header "${rviz_common_headers_to_moc}")
+  qt5_wrap_cpp(rviz_common_moc_files "${header}")
+endforeach()
 
 set(rviz_common_source_files
   ${ENV_CONFIG_CPP}
@@ -195,13 +181,13 @@ set(rviz_common_source_files
   src/rviz_common/properties/property.cpp
   src/rviz_common/properties/ros_topic_property.cpp
   src/rviz_common/properties/quaternion_property.cpp
+  src/rviz_common/properties/qos_profile_property.cpp
   src/rviz_common/properties/splitter_handle.cpp
   src/rviz_common/properties/status_list.cpp
   src/rviz_common/properties/status_property.cpp
   src/rviz_common/properties/string_property.cpp
   src/rviz_common/properties/tf_frame_property.cpp
   src/rviz_common/properties/vector_property.cpp
-  src/rviz_common/properties/queue_size_property.cpp
   src/rviz_common/render_panel.cpp
   src/rviz_common/ros_integration/ros_client_abstraction.cpp
   src/rviz_common/ros_integration/ros_node_abstraction.cpp
@@ -214,10 +200,8 @@ set(rviz_common_source_files
   src/rviz_common/interaction/selection_renderer.cpp
   src/rviz_common/interaction/view_picker.cpp
   src/rviz_common/splash_screen.cpp
-  # src/rviz_common/time_panel.cpp
+  src/rviz_common/time_panel.cpp
   src/rviz_common/transformation/identity_frame_transformer.cpp
-  src/rviz_common/transformation/structs.cpp
-  src/rviz_common/transformation/ros_helpers/ros_conversion_helpers.cpp
   src/rviz_common/tool_manager.cpp
   src/rviz_common/tool_properties_panel.cpp
   src/rviz_common/tool.cpp
@@ -237,7 +221,7 @@ set(rviz_common_source_files
 )
 
 add_library(rviz_common SHARED
-  ${rviz_common_headers_to_moc}
+  ${rviz_common_moc_files}
   ${rviz_common_source_files}
 )
 
@@ -245,21 +229,20 @@ target_include_directories(rviz_common
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
-    ${pluginlib_INCLUDE_DIRS}
-    ${TinyXML_INCLUDE_DIRS}
 )
 
 target_link_libraries(rviz_common
+  PUBLIC
   rviz_ogre_vendor::OgreMain
   rviz_ogre_vendor::OgreOverlay
-  ${pluginlib_LIBRARIES}
   rviz_rendering::rviz_rendering
   Qt5::Widgets
-  ${TinyXML_LIBRARIES}
 )
 
 ament_target_dependencies(rviz_common
+  PUBLIC
   geometry_msgs
+  pluginlib
   rclcpp
   resource_retriever
   rviz_assimp_vendor
@@ -268,6 +251,8 @@ ament_target_dependencies(rviz_common
   tf2
   tf2_geometry_msgs
   tf2_ros
+  message_filters
+  tinyxml2_vendor
   urdf
   yaml_cpp_vendor
 )
@@ -277,7 +262,7 @@ target_compile_definitions(rviz_common PUBLIC "PLUGINLIB__DISABLE_BOOST_FUNCTION
 # which is appropriate when building the dll but not consuming it.
 target_compile_definitions(rviz_common PRIVATE "RVIZ_COMMON_BUILDING_LIBRARY")
 
-ament_export_interfaces(rviz_common)
+ament_export_targets(rviz_common)
 ament_export_dependencies(
   rviz_rendering
   geometry_msgs
@@ -288,6 +273,7 @@ ament_export_dependencies(
   tf2
   tf2_geometry_msgs
   tf2_ros
+  urdf
   yaml_cpp_vendor
 )
 ament_export_include_directories(include)
@@ -312,38 +298,46 @@ install(FILES default.rviz
 )
 
 install(
-  DIRECTORY "${CMAKE_SOURCE_DIR}/icons"
+  DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/icons"
   DESTINATION "share/${PROJECT_NAME}"
 )
 
 install(
-  DIRECTORY "${CMAKE_SOURCE_DIR}/images"
+  DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/images"
   DESTINATION "share/${PROJECT_NAME}"
 )
 
 install(
-  DIRECTORY "${CMAKE_SOURCE_DIR}/help"
+  DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/help"
   DESTINATION "share/${PROJECT_NAME}"
 )
 
 if(BUILD_TESTING)
-  # TODO(wjwwood): replace this with ament_lint_auto() and/or add the copyright linter back
-  find_package(ament_cmake_cppcheck REQUIRED)
-  find_package(ament_cmake_cpplint REQUIRED)
-  find_package(ament_cmake_lint_cmake REQUIRED)
-  find_package(ament_cmake_uncrustify REQUIRED)
+  find_package(ament_lint_auto REQUIRED)
+  ament_lint_auto_find_test_dependencies()
 
   find_package(ament_cmake_gmock REQUIRED)
   find_package(ament_cmake_gtest REQUIRED)
 
-  ament_cppcheck()
-  ament_cpplint()
-  ament_lint_cmake()
-  ament_uncrustify()
+  qt5_wrap_cpp(rviz_common_test_moc_files test/mock_display.hpp)
+  qt5_wrap_cpp(rviz_common_test_moc_files test/mock_property_change_receiver.hpp)
+
+  qt5_wrap_cpp(rviz_common_test_frame_manager_moc src/rviz_common/frame_manager.hpp)
+
+  ament_add_gmock(display_factory_test
+    test/display_factory_test.cpp
+    src/rviz_common/display_factory.cpp
+    ${SKIP_DISPLAY_TESTS})
+  if(TARGET display_factory_test)
+    target_compile_definitions(display_factory_test PUBLIC
+      -D_TEST_PLUGIN_DESCRIPTIONS="${CMAKE_CURRENT_SOURCE_DIR}")
+    target_link_libraries(display_factory_test rviz_common Qt5::Widgets)
+  endif()
 
   ament_add_gmock(frame_manager_test
     test/frame_manager_test.cpp
     src/rviz_common/frame_manager.cpp
+    ${rviz_common_test_frame_manager_moc}
   )
   if(TARGET frame_manager_test)
     target_link_libraries(frame_manager_test
@@ -376,11 +370,18 @@ if(BUILD_TESTING)
   endif()
 
   ament_add_gtest(rviz_common_property_test
+    ${rviz_common_test_moc_files}
     test/property_test.cpp
+    test/mock_display.cpp
     test/mock_property_change_receiver.cpp
   )
   if(TARGET rviz_common_property_test)
     target_link_libraries(rviz_common_property_test rviz_common)
+  endif()
+
+  ament_add_gmock(qos_profile_property_test test/properties/qos_profile_property_test.cpp)
+  if(TARGET qos_profile_property_test)
+    target_link_libraries(qos_profile_property_test rviz_common)
   endif()
 
   ament_add_gmock(rviz_common_visualizer_app_test test/visualizer_app_test.cpp)
@@ -402,18 +403,12 @@ if(BUILD_TESTING)
     target_link_libraries(identity_transformer_test rviz_common)
   endif()
 
-  ament_add_gmock(ros_conversion_helpers_test
-    test/transformation/ros_conversion_helpers_test.cpp
-  )
-  if(TARGET ros_conversion_helpers_test)
-    target_link_libraries(ros_conversion_helpers_test rviz_common)
-  endif()
-
   ament_add_gmock(selection_manager_test
     test/interaction/selection_manager_test.cpp
     test/interaction/mock_selection_renderer.hpp
     test/interaction/selection_test_fixture.hpp
     test/display_context_fixture.cpp
+    test/ogre_testing_environment.cpp
     ${SKIP_DISPLAY_TESTS})
   if(TARGET selection_manager_test)
     target_link_libraries(selection_manager_test
@@ -427,6 +422,7 @@ if(BUILD_TESTING)
     test/interaction/selection_handler_test.cpp
     test/interaction/selection_test_fixture.hpp
     test/display_context_fixture.cpp
+    test/ogre_testing_environment.cpp
     ${SKIP_DISPLAY_TESTS})
   if(TARGET selection_handler_test)
     target_link_libraries(selection_handler_test
@@ -437,9 +433,11 @@ if(BUILD_TESTING)
   endif()
 
   ament_add_gtest(rviz_common_display_test
+    ${rviz_common_test_moc_files}
     test/display_test.cpp
     test/mock_display.cpp
     test/mock_display_group.cpp
+    test/mock_property_change_receiver.cpp
     ${SKIP_DISPLAY_TESTS})
   if(TARGET rviz_common_display_test)
     target_link_libraries(rviz_common_display_test rviz_common Qt5::Widgets)

@@ -116,7 +116,7 @@ SelectionManager::~SelectionManager()
   delete highlight_rectangle_;
 
   for (auto & pixel_box : pixel_boxes_) {
-    delete[] reinterpret_cast<uint8_t *>(pixel_box.data);
+    delete[] static_cast<uint8_t *>(pixel_box.data);
   }
 
   delete property_model_;
@@ -140,9 +140,9 @@ void SelectionManager::initialize()
 
   static const uint32_t texture_data[1] = {0xffff0080};
   Ogre::DataStreamPtr pixel_stream;
-  pixel_stream.reset(new Ogre::MemoryDataStream(
-      reinterpret_cast<void *>(const_cast<uint32_t *>(&texture_data[0])),
-      4
+  pixel_stream.reset(
+    new Ogre::MemoryDataStream(
+      reinterpret_cast<void *>(const_cast<uint32_t *>(&texture_data[0])), 4
   ));
 
   Ogre::TexturePtr tex = Ogre::TextureManager::getSingleton().loadRawData(
@@ -207,9 +207,10 @@ void SelectionManager::setTextureSize(unsigned size)
       }
 
       // create new texture
-      render_texture = Ogre::TextureManager::getSingleton().createManual(tex_name,
-          Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, Ogre::TEX_TYPE_2D, size, size, 0,
-          Ogre::PF_R8G8B8A8, Ogre::TU_STATIC | Ogre::TU_RENDERTARGET);
+      render_texture = Ogre::TextureManager::getSingleton().createManual(
+        tex_name,
+        Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, Ogre::TEX_TYPE_2D, size, size, 0,
+        Ogre::PF_R8G8B8A8, Ogre::TU_STATIC | Ogre::TU_RENDERTARGET);
 
       render_texture->getBuffer()->getRenderTarget()->setAutoUpdated(false);
     }
@@ -269,7 +270,7 @@ void SelectionManager::unpackColors(const Ogre::PixelBox & box)
     for (uint32_t x = 0; x < w; ++x) {
       uint32_t pos = (x + y * w) * 4;
 
-      uint32_t pix_val = *reinterpret_cast<uint32_t *>(reinterpret_cast<uint8_t *>(box.data) + pos);
+      uint32_t pix_val = *reinterpret_cast<uint32_t *>(static_cast<uint8_t *>(box.data) + pos);
       uint32_t handle = colorToHandle(box.format, pix_val);
 
       pixel_buffer_.push_back(handle);
@@ -353,15 +354,13 @@ void SelectionManager::setPickData(
     return;
   }
   // Loop over all objects attached to this node.
-  auto obj_it = node->getAttachedObjectIterator();
-  while (obj_it.hasMoreElements()) {
-    auto obj = obj_it.getNext();
-    setPickData(handle, color, obj);
+  auto objects = node->getAttachedObjects();
+  for (const auto & object : objects) {
+    setPickData(handle, color, object);
   }
   // Loop over and recurse into all child nodes.
-  auto child_it = node->getChildIterator();
-  while (child_it.hasMoreElements()) {
-    auto child = dynamic_cast<Ogre::SceneNode *>(child_it.getNext());
+  for (auto child_node : node->getChildren()) {
+    auto child = dynamic_cast<Ogre::SceneNode *>(child_node);
     setPickData(handle, color, child);
   }
 }
@@ -587,8 +586,7 @@ void SelectionManager::pick(
   int y1,
   int x2,
   int y2,
-  M_Picked & results,
-  bool single_render_pass)
+  M_Picked & results)
 {
   auto handler_lock = handler_manager_->lock(std::defer_lock);
   std::lock(selection_mutex_, handler_lock);
@@ -621,7 +619,7 @@ void SelectionManager::pick(
         std::pair<M_Picked::iterator, bool> insert_result =
           results.insert(std::make_pair(handle, Picked(handle)));
         if (insert_result.second) {
-          if (handler->needsAdditionalRenderPass(1) && !single_render_pass) {
+          if (handler->needsAdditionalRenderPass(1)) {
             need_additional.insert(handle);
             need_additional_render = true;
           }

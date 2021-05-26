@@ -37,20 +37,10 @@
 
 #ifndef Q_MOC_RUN
 
-#ifndef _WIN32
-# pragma GCC diagnostic push
-# pragma GCC diagnostic ignored "-Wunused-parameter"
-# pragma GCC diagnostic ignored "-Wpedantic"
-#endif
-
 #include <OgreTexture.h>
 #include <OgreMaterial.h>
 #include <OgreVector3.h>
 #include <OgreSharedPtr.h>
-
-#ifndef _WIN32
-# pragma GCC diagnostic pop
-#endif
 
 #endif  // Q_MOC_RUN
 
@@ -58,8 +48,9 @@
 #include "nav_msgs/msg/occupancy_grid.hpp"
 #include "map_msgs/msg/occupancy_grid_update.hpp"
 #include "rclcpp/time.hpp"
+#include "rclcpp/qos.hpp"
 
-#include "rviz_common/ros_topic_display.hpp"
+#include "rviz_common/message_filter_display.hpp"
 
 #include "rviz_default_plugins/displays/map/swatch.hpp"
 #include "rviz_default_plugins/visibility_control.hpp"
@@ -96,7 +87,7 @@ class AlphaSetter;
  * \brief Displays a map along the XY plane.
  */
 class RVIZ_DEFAULT_PLUGINS_PUBLIC MapDisplay : public
-  rviz_common::RosTopicDisplay<nav_msgs::msg::OccupancyGrid>
+  rviz_common::MessageFilterDisplay<nav_msgs::msg::OccupancyGrid>
 {
   Q_OBJECT
 
@@ -131,8 +122,10 @@ protected Q_SLOTS:
   void updatePalette();
   /** @brief Show current_map_ in the scene. */
   void transformMap();
+  void updateMapUpdateTopic();
 
 protected:
+  void updateTopic() override;
   void update(float wall_dt, float ros_dt) override;
 
   void subscribe() override;
@@ -147,6 +140,9 @@ protected:
   void updateMapDataInMemory(map_msgs::msg::OccupancyGridUpdate::ConstSharedPtr update);
 
   void clear();
+
+  void subscribeToUpdateTopic();
+  void unsubscribeToUpdateTopic();
 
   void showValidMap();
   void resetSwatchesIfNecessary(size_t width, size_t height, float resolution);
@@ -176,7 +172,10 @@ protected:
   nav_msgs::msg::OccupancyGrid current_map_;
 
   rclcpp::Subscription<map_msgs::msg::OccupancyGridUpdate>::SharedPtr update_subscription_;
+  rclcpp::QoS update_profile_;
 
+  rviz_common::properties::RosTopicProperty * update_topic_property_;
+  rviz_common::properties::QosProfileProperty * update_profile_property_;
   rviz_common::properties::FloatProperty * resolution_property_;
   rviz_common::properties::IntProperty * width_property_;
   rviz_common::properties::IntProperty * height_property_;

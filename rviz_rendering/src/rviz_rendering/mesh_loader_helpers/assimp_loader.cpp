@@ -136,19 +136,9 @@ private:
   uint8_t * pos_;
 };
 
-class ResourceIOSystem : public Assimp::IOSystem
+class ResourceIOSystem final : public Assimp::IOSystem
 {
 public:
-  struct RetrieverResult
-  {
-    RetrieverResult(bool resource_exists, Assimp::IOStream * resource_io_stream)
-    : resource_exists_(resource_exists),
-      resource_io_stream_(resource_io_stream) {}
-
-    bool resource_exists_;
-    Assimp::IOStream * resource_io_stream_;
-  };
-
   ResourceIOSystem() = default;
 
   ~ResourceIOSystem() override = default;
@@ -162,16 +152,18 @@ public:
   // Check whether a specific file exists
   bool Exists(const char * file) const override
   {
-    return checkExistsAndOpen(file).resource_exists_;
+    try {
+      resource_retriever::MemoryResource res = retriever_.get(file);
+    } catch (const resource_retriever::Exception & e) {
+      (void) e;  // do nothing on exception
+      return false;
+    }
+
+    return true;
   }
 
   // ... and finally a method to open a custom stream
   Assimp::IOStream * Open(const char * file, const char * mode = "rb") override
-  {
-    return checkExistsAndOpen(file, mode).resource_io_stream_;
-  }
-
-  RetrieverResult checkExistsAndOpen(const char * file, const char * mode = "rb") const
   {
     (void) mode;
     assert(mode == std::string("r") || mode == std::string("rb"));
@@ -179,12 +171,13 @@ public:
     resource_retriever::MemoryResource res;
     try {
       res = retriever_.get(file);
-    } catch (resource_retriever::Exception & e) {
+    } catch (const resource_retriever::Exception & e) {
       (void) e;  // do nothing on exception
-      return RetrieverResult(false, nullptr);
+      return nullptr;
     }
 
-    return RetrieverResult(true, new ResourceIOStream(res));
+    // This will get freed when 'Close' is called
+    return new ResourceIOStream(res);
   }
 
   void Close(Assimp::IOStream * stream) override
@@ -230,9 +223,10 @@ Ogre::MeshPtr AssimpLoader::meshFromAssimpScene(const std::string & name, const 
 
 const aiScene * AssimpLoader::getScene(const std::string & resource_path)
 {
-  return importer_->ReadFile(resource_path,
-           aiProcess_SortByPType | aiProcess_GenNormals | aiProcess_Triangulate |
-           aiProcess_GenUVCoords | aiProcess_FlipUVs);
+  return importer_->ReadFile(
+    resource_path,
+    aiProcess_SortByPType | aiProcess_GenNormals | aiProcess_Triangulate |
+    aiProcess_GenUVCoords | aiProcess_FlipUVs);
 }
 
 std::string AssimpLoader::getErrorMessage()
@@ -256,7 +250,7 @@ std::vector<Ogre::MaterialPtr> AssimpLoader::loadMaterials(
     material_name = resource_path + "Material" + std::to_string(i);
     auto result = Ogre::MaterialManager::getSingleton().createOrRetrieve(
       material_name, ROS_PACKAGE_NAME, true);
-    Ogre::MaterialPtr mat = Ogre::static_pointer_cast<Ogre::Material>(result.first);
+    Ogre::MaterialPtr mat = std::static_pointer_cast<Ogre::Material>(result.first);
     material_table_out.push_back(mat);
 
     aiMaterial * ai_material = scene->mMaterials[i];
@@ -486,6 +480,7 @@ void AssimpLoader::declareVertexBufferOrdering(
   }
 
   // TODO(anyone): vertex colors
+  (void)offset;
 }
 
 Ogre::HardwareVertexBufferSharedPtr

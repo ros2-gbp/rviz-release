@@ -41,7 +41,6 @@
 #include "rviz_rendering/objects/point_cloud.hpp"
 #include "rviz_common/properties/int_property.hpp"
 #include "rviz_common/validate_floats.hpp"
-#include "rviz_common/properties/queue_size_property.hpp"
 #include "rviz_common/uniform_string_stream.hpp"
 
 namespace rviz_default_plugins
@@ -50,13 +49,12 @@ namespace displays
 {
 
 PointCloud2Display::PointCloud2Display()
-: queue_size_property_(new rviz_common::QueueSizeProperty(this, 10)),
-  point_cloud_common_(new PointCloudCommon(this))
+: point_cloud_common_(new PointCloudCommon(this))
 {}
 
 void PointCloud2Display::onInitialize()
 {
-  RTDClass::onInitialize();
+  MFDClass::onInitialize();
   point_cloud_common_->initialize(context_, scene_node_);
 }
 
@@ -179,13 +177,13 @@ void PointCloud2Display::update(float wall_dt, float ros_dt)
 
 void PointCloud2Display::reset()
 {
-  RTDClass::reset();
+  MFDClass::reset();
   point_cloud_common_->reset();
 }
 
 void PointCloud2Display::onDisable()
 {
-  RosTopicDisplay::onDisable();
+  MFDClass::onDisable();
   point_cloud_common_->onDisable();
 }
 

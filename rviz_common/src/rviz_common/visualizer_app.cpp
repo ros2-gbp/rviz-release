@@ -47,8 +47,8 @@
 #include "rviz_common/logging.hpp"
 #include "rviz_rendering/ogre_logging.hpp"
 
-#include "./visualization_frame.hpp"
-#include "./visualization_manager.hpp"
+#include "rviz_common/visualization_frame.hpp"
+#include "rviz_common/visualization_manager.hpp"
 
 // TODO(wjwwood): figure out a non-depricated way to do this
 #if 0

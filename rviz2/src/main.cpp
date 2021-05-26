@@ -30,6 +30,7 @@
 
 #include <memory>
 #include <string>
+#include <vector>
 
 #include <QApplication>  // NOLINT: cpplint is unable to handle the include order here
 
@@ -40,23 +41,31 @@
 
 int main(int argc, char ** argv)
 {
-  QApplication qapp(argc, argv);
+  // remove ROS arguments before passing to QApplication
+  std::vector<std::string> non_ros_args = rclcpp::remove_ros_arguments(argc, argv);
+  std::vector<char *> non_ros_args_c_strings;
+  for (auto & arg : non_ros_args) {
+    non_ros_args_c_strings.push_back(&arg.front());
+  }
+  int non_ros_argc = static_cast<int>(non_ros_args_c_strings.size());
+
+  QApplication qapp(non_ros_argc, non_ros_args_c_strings.data());
 
   // TODO(wjwwood): use node's logger here in stead
   auto logger = rclcpp::get_logger("rviz2");
   // install logging handlers to route logging through ROS's logging system
   rviz_common::set_logging_handlers(
     [logger](const std::string & msg, const std::string &, size_t) {
-      RCLCPP_DEBUG(logger, msg.c_str());
+      RCLCPP_DEBUG(logger, "%s", msg.c_str());
     },
     [logger](const std::string & msg, const std::string &, size_t) {
-      RCLCPP_INFO(logger, msg.c_str());
+      RCLCPP_INFO(logger, "%s", msg.c_str());
     },
     [logger](const std::string & msg, const std::string &, size_t) {
-      RCLCPP_WARN(logger, msg.c_str());
+      RCLCPP_WARN(logger, "%s", msg.c_str());
     },
     [logger](const std::string & msg, const std::string &, size_t) {
-      RCLCPP_ERROR(logger, msg.c_str());
+      RCLCPP_ERROR(logger, "%s", msg.c_str());
     }
   );
 

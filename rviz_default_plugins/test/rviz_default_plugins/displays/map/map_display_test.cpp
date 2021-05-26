@@ -39,8 +39,7 @@
 #include <OgreManualObject.h>
 
 #include "rviz_default_plugins/displays/map/map_display.hpp"
-#include "test/rviz_rendering/scene_graph_introspection.hpp"
-#include "../../scene_graph_introspection_helper.hpp"
+#include "../../scene_graph_introspection.hpp"
 #include "../display_test_fixture.hpp"
 
 using namespace ::testing;  // NOLINT
@@ -100,7 +99,7 @@ public:
   void expectNoManualObjects()
   {
     map_display_->showMap();
-    auto manual_objects = rviz_rendering::findAllOgreObjectByType<Ogre::ManualObject>(
+    auto manual_objects = rviz_default_plugins::findAllOgreObjectByType<Ogre::ManualObject>(
       scene_manager_->getRootSceneNode(), "ManualObject");
 
     EXPECT_THAT(manual_objects, IsEmpty());
@@ -147,7 +146,7 @@ TEST_F(MapTestFixture, showMap_shows_manual_object_if_current_map_is_valid) {
 
   map_display_->processMessage(createMapMessage());
 
-  auto manual_objects = rviz_rendering::findAllOgreObjectByType<Ogre::ManualObject>(
+  auto manual_objects = rviz_default_plugins::findAllOgreObjectByType<Ogre::ManualObject>(
     scene_manager_->getRootSceneNode(), "ManualObject");
 
   ASSERT_THAT(manual_objects, SizeIs(1));
@@ -161,14 +160,16 @@ TEST_F(MapTestFixture, showMap_defaults_empty_frame_id_to_map) {
   EXPECT_CALL(
     *frame_manager_,
     transform("/map", _, _, _, _))  // NOLINT
-  .WillRepeatedly(DoAll(    // NOLINT
+  .WillRepeatedly(
+    // NOLINT
+    DoAll(
       SetArgReferee<3>(position), SetArgReferee<4>(orientation), Return(true)));
 
   auto message = createMapMessage();
   message->header.frame_id = "";
   map_display_->processMessage(message);
 
-  auto manual_objects = rviz_rendering::findAllOgreObjectByType<Ogre::ManualObject>(
+  auto manual_objects = rviz_default_plugins::findAllOgreObjectByType<Ogre::ManualObject>(
     scene_manager_->getRootSceneNode(), "ManualObject");
 
   ASSERT_THAT(manual_objects, SizeIs(1));
@@ -181,7 +182,7 @@ TEST_F(MapTestFixture, showMap_defaults_empty_frame_id_to_map) {
 TEST_F(MapTestFixture, showMap_does_not_display_anything_if_transform_fails) {
   map_display_->processMessage(createMapMessage());
 
-  auto manual_objects = rviz_rendering::findAllOgreObjectByType<Ogre::ManualObject>(
+  auto manual_objects = rviz_default_plugins::findAllOgreObjectByType<Ogre::ManualObject>(
     scene_manager_->getRootSceneNode(), "ManualObject");
 
   ASSERT_THAT(manual_objects, SizeIs(1));
@@ -197,7 +198,7 @@ TEST_F(MapTestFixture, reset_deletes_map) {
 
   map_display_->reset();
 
-  auto manual_objects = rviz_rendering::findAllOgreObjectByType<Ogre::ManualObject>(
+  auto manual_objects = rviz_default_plugins::findAllOgreObjectByType<Ogre::ManualObject>(
     scene_manager_->getRootSceneNode(), "ManualObject");
 
   ASSERT_THAT(manual_objects, SizeIs(0));
@@ -207,7 +208,7 @@ TEST_F(MapTestFixture, createSwatches_creates_more_swatches_if_map_is_too_big) {
   // one dimension is larger than 2^16 --> that's too much for one texture buffer
   map_display_->processMessage(createMapMessage(70000, 50));
 
-  auto manual_objects = rviz_rendering::findAllOgreObjectByType<Ogre::ManualObject>(
+  auto manual_objects = rviz_default_plugins::findAllOgreObjectByType<Ogre::ManualObject>(
     scene_manager_->getRootSceneNode(), "ManualObject");
 
   EXPECT_THAT(manual_objects, SizeIs(2));

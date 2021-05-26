@@ -37,8 +37,6 @@
 
 #include <QFile>  // NOLINT cpplint cannot handle include order here
 
-// TODO(Martin-Idel-SI): Upgrade to tinyxml2 once supported by urdf
-#include <tinyxml.h>  // NOLINT cpplint cannot handle include order here
 #include "urdf/model.h"
 
 #include "tf2_ros/transform_listener.h"
@@ -86,49 +84,52 @@ RobotModelDisplay::RobotModelDisplay()
     std::make_unique<rviz_default_plugins::transformation::TransformerGuard<
       rviz_default_plugins::transformation::TFFrameTransformer>>(this, "TF"))
 {
-  visual_enabled_property_ = new Property("Visual Enabled", true,
-      "Whether to display the visual representation of the robot.",
-      this, SLOT(updateVisualVisible()));
+  visual_enabled_property_ = new Property(
+    "Visual Enabled", true,
+    "Whether to display the visual representation of the robot.",
+    this, SLOT(updateVisualVisible()));
 
-  collision_enabled_property_ = new Property("Collision Enabled", false,
-      "Whether to display the collision representation of the robot.",
-      this, SLOT(updateCollisionVisible()));
+  collision_enabled_property_ = new Property(
+    "Collision Enabled", false,
+    "Whether to display the collision representation of the robot.",
+    this, SLOT(updateCollisionVisible()));
 
-  update_rate_property_ = new FloatProperty("Update Interval", 0,
-      "Interval at which to update the links, in seconds. "
-      " 0 means to update every update cycle.",
-      this);
+  update_rate_property_ = new FloatProperty(
+    "Update Interval", 0,
+    "Interval at which to update the links, in seconds. "
+    " 0 means to update every update cycle.",
+    this);
   update_rate_property_->setMin(0);
 
-  alpha_property_ = new FloatProperty("Alpha", 1,
-      "Amount of transparency to apply to the links.",
-      this, SLOT(updateAlpha()));
+  alpha_property_ = new FloatProperty(
+    "Alpha", 1,
+    "Amount of transparency to apply to the links.",
+    this, SLOT(updateAlpha()));
   alpha_property_->setMin(0.0);
   alpha_property_->setMax(1.0);
 
-  description_source_property_ = new EnumProperty("Description Source", "Topic",
-      "Source to get the robot description from.", this, SLOT(updatePropertyVisibility()));
+  description_source_property_ = new EnumProperty(
+    "Description Source", "Topic",
+    "Source to get the robot description from.", this, SLOT(updatePropertyVisibility()));
   description_source_property_->addOption("Topic", DescriptionSource::TOPIC);
   description_source_property_->addOption("File", DescriptionSource::FILE);
 
-  description_file_property_ = new FilePickerProperty("Description File", "",
-      "Path to the robot description.",
-      this, SLOT(updateRobotDescription()));
+  description_file_property_ = new FilePickerProperty(
+    "Description File", "",
+    "Path to the robot description.",
+    this, SLOT(updateRobotDescription()));
 
   this->moveChild(topic_property_->rowNumberInParent(), this->numChildren() - 1);
   topic_property_->setDescription("Topic where filepath to urdf is published.");
   topic_property_->setName("Description Topic");
 
-  unreliable_property_->setHidden(true);
-  rmw_qos_profile_t qos = rmw_qos_profile_default;
-  qos.depth = 1;
-  qos.durability = RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL;
-  qos_profile = qos;
+  qos_profile = rclcpp::QoS(rclcpp::KeepLast(1)).transient_local();
 
-  tf_prefix_property_ = new StringProperty("TF Prefix", "",
-      "Robot Model normally assumes the link name is the same as the tf frame name. "
-      " This option allows you to set a prefix.  Mainly useful for multi-robot situations.",
-      this, SLOT(updateTfPrefix()));
+  tf_prefix_property_ = new StringProperty(
+    "TF Prefix", "",
+    "Robot Model normally assumes the link name is the same as the tf frame name. "
+    " This option allows you to set a prefix.  Mainly useful for multi-robot situations.",
+    this, SLOT(updateTfPrefix()));
 }
 
 RobotModelDisplay::~RobotModelDisplay() = default;
@@ -247,16 +248,8 @@ void RobotModelDisplay::load_urdf_from_string(const std::string & robot_descript
 
 void RobotModelDisplay::display_urdf_content()
 {
-  TiXmlDocument doc;
-  doc.Parse(robot_description_.c_str());
-  if (!doc.RootElement() ) {
-    clear();
-    setStatus(StatusProperty::Error, "URDF", "URDF failed XML parse");
-    return;
-  }
-
   urdf::Model descr;
-  if (!descr.initXml(doc.RootElement())) {
+  if (!descr.initString(robot_description_)) {
     clear();
     setStatus(StatusProperty::Error, "URDF", "URDF failed Model parse");
     return;
@@ -269,7 +262,8 @@ void RobotModelDisplay::display_urdf_content()
 
 void RobotModelDisplay::updateRobot()
 {
-  robot_->update(robot::TFLinkUpdater(
+  robot_->update(
+    robot::TFLinkUpdater(
       context_->getFrameManager(),
       [this](auto arg1, auto arg2, auto arg3) {linkUpdaterStatusFunction(arg1, arg2, arg3, this);},
       tf_prefix_property_->getStdString()));

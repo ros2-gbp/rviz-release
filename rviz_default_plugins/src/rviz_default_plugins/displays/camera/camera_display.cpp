@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2012, Willow Garage, Inc.
  * Copyright (c) 2018, Bosch Software Innovations GmbH.
+ * Copyright (c) 2020, TNG Technology Consulting GmbH.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,6 +46,8 @@
 #include <OgreTechnique.h>
 #include <OgreCamera.h>
 
+#include "image_transport/camera_common.hpp"
+
 #include "rviz_rendering/material_manager.hpp"
 #include "rviz_rendering/objects/axes.hpp"
 #include "rviz_rendering/render_window.hpp"
@@ -57,7 +60,6 @@
 #include "rviz_common/properties/float_property.hpp"
 #include "rviz_common/properties/int_property.hpp"
 #include "rviz_common/properties/ros_topic_property.hpp"
-#include "rviz_common/properties/queue_size_property.hpp"
 #include "rviz_common/render_panel.hpp"
 #include "rviz_common/uniform_string_stream.hpp"
 #include "rviz_common/validate_floats.hpp"
@@ -92,8 +94,7 @@ bool validateFloats(const sensor_msgs::msg::CameraInfo & msg)
 }
 
 CameraDisplay::CameraDisplay()
-: queue_size_property_(std::make_unique<rviz_common::QueueSizeProperty>(this, 10)),
-  texture_(std::make_unique<ROSImageTexture>()),
+: texture_(std::make_unique<ROSImageTexture>()),
   new_caminfo_(false),
   caminfo_ok_(false),
   force_render_(false)
@@ -132,7 +133,7 @@ CameraDisplay::~CameraDisplay()
 
 void CameraDisplay::onInitialize()
 {
-  RTDClass::onInitialize();
+  ITDClass::onInitialize();
 
   setupSceneNodes();
   setupRenderPanel();
@@ -267,7 +268,7 @@ void CameraDisplay::onDisable()
 
 void CameraDisplay::subscribe()
 {
-  RTDClass::subscribe();
+  ITDClass::subscribe();
 
   if ((!isEnabled()) || (topic_property_->getTopicStd().empty())) {
     return;
@@ -279,21 +280,18 @@ void CameraDisplay::subscribe()
 void CameraDisplay::createCameraInfoSubscription()
 {
   try {
-    // TODO(wjwwood): update this class to use rclcpp::QoS.
-    auto qos = rclcpp::QoS(rclcpp::QoSInitialization::from_rmw(qos_profile));
-    qos.get_rmw_qos_profile() = qos_profile;
     // TODO(anhosi,wjwwood): replace with abstraction for subscriptions one available
 
     // The camera_info topic should be at the same level as the image topic
     // TODO(anyone) Store this in a member variable
-    auto camera_info_topic = topic_property_->getTopicStd();
-    camera_info_topic =
-      camera_info_topic.substr(0, camera_info_topic.rfind("/") + 1) + "camera_info";
+
+    std::string camera_info_topic = image_transport::getCameraInfoTopic(
+      topic_property_->getTopicStd());
 
     caminfo_sub_ = rviz_ros_node_.lock()->get_raw_node()->
       template create_subscription<sensor_msgs::msg::CameraInfo>(
-      topic_property_->getTopicStd() + "/camera_info",
-      qos,
+      camera_info_topic,
+      rclcpp::SensorDataQoS(),
       [this](sensor_msgs::msg::CameraInfo::ConstSharedPtr msg) {
         std::unique_lock<std::mutex> lock(caminfo_mutex_);
         current_caminfo_ = msg;
@@ -307,7 +305,7 @@ void CameraDisplay::createCameraInfoSubscription()
 
 void CameraDisplay::unsubscribe()
 {
-  RTDClass::unsubscribe();
+  ITDClass::unsubscribe();
   caminfo_sub_.reset();
 }
 
@@ -337,11 +335,11 @@ void CameraDisplay::clear()
   new_caminfo_ = false;
   current_caminfo_.reset();
 
-  auto camera_info_topic = topic_property_->getTopicStd();
-  camera_info_topic =
-    camera_info_topic.substr(0, camera_info_topic.rfind("/") + 1) + "camera_info";
+  std::string camera_info_topic =
+    image_transport::getCameraInfoTopic(topic_property_->getTopicStd());
 
-  setStatus(StatusLevel::Warn, CAM_INFO_STATUS,
+  setStatus(
+    StatusLevel::Warn, CAM_INFO_STATUS,
     "No CameraInfo received on [" + QString::fromStdString(camera_info_topic) + "]. "
     "Topic may not exist.");
 
@@ -379,25 +377,27 @@ bool CameraDisplay::updateCamera()
   }
 
   if (!info) {
-    auto camera_info_topic = topic_property_->getTopicStd();
-    camera_info_topic =
-      camera_info_topic.substr(0, camera_info_topic.rfind("/") + 1) + "camera_info";
+    std::string camera_info_topic = image_transport::getCameraInfoTopic(
+      topic_property_->getTopicStd());
 
-    setStatus(StatusLevel::Warn, CAM_INFO_STATUS,
+    setStatus(
+      StatusLevel::Warn, CAM_INFO_STATUS,
       "Expecting Camera Info on topic [" + QString::fromStdString(camera_info_topic) + "]. "
       "No CameraInfo received. Topic may not exist.");
     return false;
   }
 
   if (!validateFloats(*info)) {
-    setStatus(StatusLevel::Error, CAM_INFO_STATUS,
+    setStatus(
+      StatusLevel::Error, CAM_INFO_STATUS,
       "Contains invalid floating point values (nans or infs)");
     return false;
   }
 
   rclcpp::Time rviz_time = context_->getFrameManager()->getTime();
   if (timeDifferenceInExactSyncMode(image, rviz_time)) {
-    setStatus(StatusLevel::Warn, TIME_STATUS,
+    setStatus(
+      StatusLevel::Warn, TIME_STATUS,
       QString("Time-syncing active and no image at timestamp ") + rviz_time.nanoseconds() + ".");
     return false;
   }
@@ -417,7 +417,8 @@ bool CameraDisplay::updateCamera()
 
   auto dimensions = getImageDimensions(info);
   if (dimensions.height == 0.0 || dimensions.width == 0.0) {
-    setStatus(StatusLevel::Error, CAM_INFO_STATUS,
+    setStatus(
+      StatusLevel::Error, CAM_INFO_STATUS,
       "Could not determine width/height of image "
       "due to malformed CameraInfo (either width or height is 0)");
     return false;
@@ -425,7 +426,8 @@ bool CameraDisplay::updateCamera()
 
   translatePosition(position, info, orientation);
   if (!rviz_common::validateFloats(position)) {
-    setStatus(StatusLevel::Error, CAM_INFO_STATUS,
+    setStatus(
+      StatusLevel::Error, CAM_INFO_STATUS,
       "CameraInfo/P resulted in an invalid position calculation (nans or infs)");
     return false;
   }
@@ -472,14 +474,14 @@ ImageDimensions CameraDisplay::getImageDimensions(
 
   // If the image width is 0 due to a malformed caminfo, try to grab the width from the image.
   if (dimensions.width == 0) {
-    RVIZ_COMMON_LOG_DEBUG_STREAM("Malformed CameraInfo on camera" << qPrintable(getName()) << ", "
-      "width = 0");
+    RVIZ_COMMON_LOG_DEBUG_STREAM(
+      "Malformed CameraInfo on camera" << qPrintable(getName()) << ", width = 0");
     dimensions.width = texture_->getWidth();
   }
 
   if (dimensions.height == 0) {
-    RVIZ_COMMON_LOG_DEBUG_STREAM("Malformed CameraInfo on camera" << qPrintable(getName()) << ","
-      " height = 0");
+    RVIZ_COMMON_LOG_DEBUG_STREAM(
+      "Malformed CameraInfo on camera" << qPrintable(getName()) << ", height = 0");
     dimensions.height = texture_->getHeight();
   }
 
@@ -571,7 +573,7 @@ void CameraDisplay::processMessage(sensor_msgs::msg::Image::ConstSharedPtr msg)
 
 void CameraDisplay::reset()
 {
-  RTDClass::reset();
+  ITDClass::reset();
   clear();
 }
 

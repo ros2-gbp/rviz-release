@@ -34,6 +34,7 @@
 #include <vector>
 
 #include "rviz_common/ros_integration/ros_client_abstraction.hpp"
+#include "ament_index_cpp/get_package_share_directory.hpp"
 
 void VisualTestFixture::SetUpTestCase()
 {
@@ -51,13 +52,21 @@ void VisualTestFixture::SetUpTestCase()
   visualizer_app_->setApp(qapp_);
 
   visualizer_app_->init(argc, argv);
+
+  std::string package_share_directory = ament_index_cpp::get_package_share_directory(
+    "rviz_visual_testing_framework");
   if (VisualTest::generateReferenceImages()) {
-    visualizer_app_->loadConfig(QDir::toNativeSeparators(
-        QString::fromStdString(std::string(_SRC_DIR_PATH) + "/visual_tests_default_config.rviz")));
+    visualizer_app_->loadConfig(
+      QDir::toNativeSeparators(
+        QString::fromStdString(
+          package_share_directory +
+          "/config/visual_tests_default_config.rviz")));
   } else {
-    visualizer_app_->loadConfig(QDir::toNativeSeparators(
-        QString::fromStdString(std::string(_SRC_DIR_PATH) +
-        "/visual_tests_test_image_config.rviz")));
+    visualizer_app_->loadConfig(
+      QDir::toNativeSeparators(
+        QString::fromStdString(
+          package_share_directory +
+          "/config/visual_tests_test_image_config.rviz")));
   }
 }
 
@@ -96,7 +105,8 @@ void VisualTestFixture::setCamLookAt(Ogre::Vector3 camera_look_at_vector)
 
 void VisualTestFixture::updateCamWithDelay(Ogre::Vector3 new_pose, Ogre::Vector3 new_look_at)
 {
-  executor_->queueAction([this, new_pose, new_look_at] {
+  executor_->queueAction(
+    [this, new_pose, new_look_at] {
       visual_test_->setCamPose(new_pose);
       visual_test_->setCamLookAt(new_look_at);
     });

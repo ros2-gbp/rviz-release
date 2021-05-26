@@ -38,7 +38,7 @@
 
 #include "ament_index_cpp/get_package_share_directory.hpp"
 #include "ament_index_cpp/get_package_prefix.hpp"
-#include "resource_retriever/retriever.h"
+#include "resource_retriever/retriever.hpp"
 
 #include "rviz_common/logging.hpp"
 
@@ -94,8 +94,9 @@ QCursor makeIconCursor(QString url, bool fill_cache)
 {
   QPixmap icon = loadPixmap(url, fill_cache);
   if (icon.width() == 0 || icon.height() == 0) {
-    RVIZ_COMMON_LOG_ERROR_STREAM("Could not load pixmap " << url.toStdString() << " -- "
-      "using default cursor instead.");
+    RVIZ_COMMON_LOG_ERROR_STREAM(
+      "Could not load pixmap " << url.toStdString() << " -- "
+        "using default cursor instead.");
     return getDefaultCursor();
   }
   QString cache_key = url + ".cursor";

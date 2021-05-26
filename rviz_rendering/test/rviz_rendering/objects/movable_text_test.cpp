@@ -31,23 +31,13 @@
 #include <gmock/gmock.h>
 
 #include <memory>
-#include <string>
 #include <vector>
 
-#ifdef _WIN32
-# pragma warning(push)
-# pragma warning(disable:4251)
-#endif
-#include <OgreFont.h>
-#include <OgreFontManager.h>
-#ifdef _WIN32
-# pragma warning(pop)
-#endif
-#include <OgreMovableObject.h>
 #include <OgreVector3.h>
+#include <Overlay/OgreFontManager.h>  // NOLINT: cpplint cannot handle include order here
 
 #include "rviz_rendering/objects/movable_text.hpp"
-#include "test/rviz_rendering/ogre_testing_environment.hpp"
+#include "../ogre_testing_environment.hpp"
 
 #include "../matcher.hpp"
 
@@ -131,7 +121,8 @@ TEST_F(MovableTextTestFixture, larger_char_height_makes_characters_wider) {
 TEST_F(MovableTextTestFixture, horizontal_alignment_center_centers_x_coordinate) {
   auto movable_text = std::make_shared<rviz_rendering::MovableText>("W");
 
-  movable_text->setTextAlignment(rviz_rendering::MovableText::HorizontalAlignment::H_CENTER,
+  movable_text->setTextAlignment(
+    rviz_rendering::MovableText::HorizontalAlignment::H_CENTER,
     rviz_rendering::MovableText::VerticalAlignment::V_BELOW);
   movable_text->update();
 
@@ -147,7 +138,8 @@ TEST_F(MovableTextTestFixture, horizontal_alignment_center_centers_x_coordinate)
 TEST_F(MovableTextTestFixture, vertical_alignment_center_centers_y_coordinate) {
   auto movable_text = std::make_shared<rviz_rendering::MovableText>("W");
 
-  movable_text->setTextAlignment(rviz_rendering::MovableText::HorizontalAlignment::H_LEFT,
+  movable_text->setTextAlignment(
+    rviz_rendering::MovableText::HorizontalAlignment::H_LEFT,
     rviz_rendering::MovableText::VerticalAlignment::V_CENTER);
   movable_text->update();
 
@@ -163,7 +155,8 @@ TEST_F(MovableTextTestFixture, vertical_alignment_center_centers_y_coordinate) {
 TEST_F(MovableTextTestFixture, vertical_alignment_above_puts_y_coordinate_above_zero) {
   auto movable_text = std::make_shared<rviz_rendering::MovableText>("W");
 
-  movable_text->setTextAlignment(rviz_rendering::MovableText::HorizontalAlignment::H_LEFT,
+  movable_text->setTextAlignment(
+    rviz_rendering::MovableText::HorizontalAlignment::H_LEFT,
     rviz_rendering::MovableText::VerticalAlignment::V_ABOVE);
   movable_text->update();
 
@@ -179,7 +172,8 @@ TEST_F(MovableTextTestFixture, vertical_alignment_above_puts_y_coordinate_above_
 TEST_F(MovableTextTestFixture, vertical_alignment_above_puts_y_coordinate_above) {
   auto movable_text = std::make_shared<rviz_rendering::MovableText>("W\nW");
 
-  movable_text->setTextAlignment(rviz_rendering::MovableText::HorizontalAlignment::H_LEFT,
+  movable_text->setTextAlignment(
+    rviz_rendering::MovableText::HorizontalAlignment::H_LEFT,
     rviz_rendering::MovableText::VerticalAlignment::V_ABOVE);
   movable_text->update();
 
@@ -227,7 +221,8 @@ TEST_F(MovableTextTestFixture, setLineSpacing_changes_space_between_lines) {
 TEST_F(MovableTextTestFixture, horizontal_alignment_works_correctly_with_spaces) {
   auto movable_text = std::make_shared<rviz_rendering::MovableText>("A A");
 
-  movable_text->setTextAlignment(rviz_rendering::MovableText::HorizontalAlignment::H_CENTER,
+  movable_text->setTextAlignment(
+    rviz_rendering::MovableText::HorizontalAlignment::H_CENTER,
     rviz_rendering::MovableText::VerticalAlignment::V_BELOW);
   movable_text->update();
 
