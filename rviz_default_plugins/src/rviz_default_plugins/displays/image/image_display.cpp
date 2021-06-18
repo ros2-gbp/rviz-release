@@ -102,7 +102,7 @@ ImageDisplay::ImageDisplay(std::unique_ptr<ROSImageTextureIface> texture)
 
 void ImageDisplay::onInitialize()
 {
-  ITDClass::onInitialize();
+  MFDClass::onInitialize();
 
   updateNormalizeOptions();
   setupScreenRectangle();
@@ -119,12 +119,12 @@ ImageDisplay::~ImageDisplay() = default;
 
 void ImageDisplay::onEnable()
 {
-  ITDClass::subscribe();
+  MFDClass::subscribe();
 }
 
 void ImageDisplay::onDisable()
 {
-  ITDClass::unsubscribe();
+  MFDClass::unsubscribe();
   clear();
 }
 
@@ -187,7 +187,7 @@ void ImageDisplay::update(float wall_dt, float ros_dt)
 
 void ImageDisplay::reset()
 {
-  ITDClass::reset();
+  MFDClass::reset();
   clear();
 }
 

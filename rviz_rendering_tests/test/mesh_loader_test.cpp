@@ -37,7 +37,7 @@
 #include <OgreRoot.h>
 #include <OgreSubMesh.h>
 #include <OgreMaterialManager.h>
-#include "resource_retriever/retriever.hpp"
+#include "resource_retriever/retriever.h"
 
 #include "ogre_testing_environment.hpp"
 #include "rviz_rendering/mesh_loader.hpp"
