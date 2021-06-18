@@ -1,7 +1,7 @@
-From 9acbf6bffd72b45fc810ec9513f949ec2f81f87e Mon Sep 17 00:00:00 2001
+From e8ed02f35ad92cbb57ce56cab1cebd6a14456d0f Mon Sep 17 00:00:00 2001
 From: Jacob Perron <jacob@openrobotics.org>
 Date: Mon, 30 Sep 2019 12:25:00 -0700
-Subject: [PATCH 1/4] Migrate patch from Dashing
+Subject: [PATCH] Migrate patch from Dashing
 
 Signed-off-by: Jacob Perron <jacob@openrobotics.org>
 ---
@@ -9,12 +9,12 @@ Signed-off-by: Jacob Perron <jacob@openrobotics.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/debian/rules.em b/debian/rules.em
-index 9c9604d9..fc22fb4f 100755
+index 5a040673..4bec1c91 100755
 --- a/debian/rules.em
 +++ b/debian/rules.em
-@@ -50,7 +50,7 @@ override_dh_shlibdeps:
- 	# in the install tree that was dropped by catkin, and source it.  It will
- 	# set things like CMAKE_PREFIX_PATH, PKG_CONFIG_PATH, and PYTHONPATH.
+@@ -51,7 +51,7 @@ override_dh_shlibdeps:
+ 	# in the install tree and source it.  It will set things like
+ 	# CMAKE_PREFIX_PATH, PKG_CONFIG_PATH, and PYTHONPATH.
  	if [ -f "@(InstallationPrefix)/setup.sh" ]; then . "@(InstallationPrefix)/setup.sh"; fi && \
 -	dh_shlibdeps -l$(CURDIR)/debian/@(Package)/@(InstallationPrefix)/lib/
 +	dh_shlibdeps -l$(CURDIR)/debian/@(Package)/@(InstallationPrefix)/lib/:$(CURDIR)/debian/@(Package)/@(InstallationPrefix)/opt/rviz_ogre_vendor/lib/
