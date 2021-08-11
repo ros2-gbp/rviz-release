@@ -2,23 +2,42 @@
 Changelog for package rviz_rendering
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-8.2.2 (2021-06-18)
+8.7.0 (2021-08-11)
+------------------
+* Removed some memory leaks in rviz_rendering and rviz_rendering_tests (`#710 <https://github.com/ros2/rviz/issues/710>`_)
+* Contributors: Alejandro Hernández Cordero
+
+8.6.0 (2021-05-13)
+------------------
+* Export Qt5 dependencies properly (`#687 <https://github.com/ros2/rviz/issues/687>`_)
+* Putting glsl 1.50 resources back in RenderSystem (`#668 <https://github.com/ros2/rviz/issues/668>`_)
+* Contributors: Michel Hidalgo, Piotr Jaroszek
+
+8.5.0 (2021-04-06)
 ------------------
 
-8.2.1 (2020-12-09)
+8.4.0 (2021-03-18)
 ------------------
-* Prevent rviz_rendering::AssimpLoader from loading materials twice. (`#622 <https://github.com/ros2/rviz/issues/622>`_) (`#629 <https://github.com/ros2/rviz/issues/629>`_)
-* Update maintainer list (`#619 <https://github.com/ros2/rviz/issues/619>`_)
-* [foxy-backport] fast forward of ros2 (default) to foxy (`#570 <https://github.com/ros2/rviz/issues/570>`_)
-  * restore compatibility with older Qt versions (`#561 <https://github.com/ros2/rviz/issues/561>`_)
-  * Suppress warnings when building with older Qt versions. (`#562 <https://github.com/ros2/rviz/issues/562>`_)
-  * Don't try to moc generate env_config.hpp file. (`#550 <https://github.com/ros2/rviz/issues/550>`_)
-  This removes one more warning from rviz_common builds.
-  * rewrite hack to avoid CMake warning with assimp 5.0.1 and older, apply cross platform (`#565 <https://github.com/ros2/rviz/issues/565>`_)
-  * Use dedicated TransformListener thread (`#551 <https://github.com/ros2/rviz/issues/551>`_)
-  * restore alphabetical include order (`#563 <https://github.com/ros2/rviz/issues/563>`_)
-  * Don't install test header files in rviz_rendering. (`#564 <https://github.com/ros2/rviz/issues/564>`_)
-* Contributors: Michael Jeronimo, Michel Hidalgo, William Woodall, Dirk Thomas, Chris Lalancette, ymd-stella, Karsten Knese
+* reset current line width when calculating text width (`#655 <https://github.com/ros2/rviz/issues/655>`_)
+* Silence a dead store warning. (`#643 <https://github.com/ros2/rviz/issues/643>`_)
+* Fix a memory leak when using the ResourceIOSystem. (`#641 <https://github.com/ros2/rviz/issues/641>`_)
+* Contributors: Chris Lalancette, ipa-fez
+
+8.3.1 (2021-01-25)
+------------------
+* Revert "Support loading meshes other than .mesh and .stl with package URIs (`#610 <https://github.com/ros2/rviz/issues/610>`_)" (`#638 <https://github.com/ros2/rviz/issues/638>`_)
+* Contributors: Shane Loretz
+
+8.3.0 (2020-12-08)
+------------------
+* Prevent rviz_rendering::AssimpLoader from loading materials twice. (`#622 <https://github.com/ros2/rviz/issues/622>`_)
+* Support loading meshes other than .mesh and .stl with package URIs (`#610 <https://github.com/ros2/rviz/issues/610>`_)
+* Add linters and use ament_lint_auto (`#608 <https://github.com/ros2/rviz/issues/608>`_)
+* Update maintainers (`#607 <https://github.com/ros2/rviz/issues/607>`_)
+* Switch to nullptr everywhere. (`#592 <https://github.com/ros2/rviz/issues/592>`_)
+* Use retriever.hpp (`#589 <https://github.com/ros2/rviz/issues/589>`_)
+* Avoid hidding base class getRenderOperation in PointCloudRenderable (`#586 <https://github.com/ros2/rviz/issues/586>`_)
+* Contributors: Chris Lalancette, Ivan Santiago Paunovic, Jacob Perron, Michel Hidalgo, Shane Loretz
 
 8.2.0 (2020-06-23)
 ------------------

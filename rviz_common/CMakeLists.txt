@@ -24,12 +24,6 @@ endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
-  # TODO(wjwwood): try to remove this -- currently needed to pass on CI
-  include(CheckCXXCompilerFlag)
-  check_cxx_compiler_flag(-Wno-gnu-zero-variadic-macro-arguments HAS_W_FLAG)
-  if(HAS_W_FLAG)
-    add_compile_options(-Wno-gnu-zero-variadic-macro-arguments)
-  endif()
 endif()
 
 find_package(ament_cmake REQUIRED)
@@ -46,7 +40,7 @@ find_package(rviz_assimp_vendor REQUIRED)
 find_package(rviz_rendering REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
-find_package(tinyxml_vendor REQUIRED)
+find_package(tinyxml2_vendor REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 find_package(tf2_ros REQUIRED)
@@ -54,7 +48,7 @@ find_package(message_filters REQUIRED)
 find_package(urdf REQUIRED)
 find_package(yaml_cpp_vendor REQUIRED)
 
-find_package(TinyXML REQUIRED)  # provided by tinyxml_vendor
+find_package(TinyXML2 REQUIRED)  # provided by tinyxml_vendor
 
 # Copy env_config.hpp so that env_config.cpp can find it
 # TODO(jsquare): Get rid of copy hpp file
@@ -63,8 +57,9 @@ configure_file(src/rviz_common/env_config.hpp ${ENV_CONFIG_HPP} @ONLY)
 
 # TODO(jsquare): Adopt parameters given here
 set(ENV_CONFIG_CPP ${CMAKE_CURRENT_BINARY_DIR}/src/rviz_common/env_config.cpp)
-set(RVIZ_VERSION "Alpha")
-set(ROS_DISTRO "ROS 2.0")
+ament_package_xml()
+set(RVIZ_VERSION "${rviz_common_VERSION}")
+set(ROS_DISTRO "ROS 2")
 set(OGRE_PLUGIN_PATH "rviz_ogre_vendor")
 configure_file(src/rviz_common/env_config.cpp.in ${ENV_CONFIG_CPP} @ONLY)
 
@@ -120,6 +115,7 @@ set(rviz_common_headers_to_moc
   include/rviz_common/interaction/selection_manager.hpp
   include/rviz_common/interaction/selection_manager_iface.hpp
   src/rviz_common/splash_screen.hpp
+  src/rviz_common/time_panel.hpp
   include/rviz_common/tool.hpp
   src/rviz_common/tool_manager.hpp
   src/rviz_common/tool_properties_panel.hpp
@@ -128,7 +124,7 @@ set(rviz_common_headers_to_moc
   include/rviz_common/view_controller.hpp
   include/rviz_common/view_manager.hpp
   src/rviz_common/views_panel.hpp
-  src/rviz_common/visualization_frame.hpp
+  include/rviz_common/visualization_frame.hpp
   src/rviz_common/widget_geometry_change_detector.hpp
   include/rviz_common/ros_topic_display.hpp
 )
@@ -205,6 +201,7 @@ set(rviz_common_source_files
   src/rviz_common/interaction/selection_renderer.cpp
   src/rviz_common/interaction/view_picker.cpp
   src/rviz_common/splash_screen.cpp
+  src/rviz_common/time_panel.cpp
   src/rviz_common/transformation/identity_frame_transformer.cpp
   src/rviz_common/tool_manager.cpp
   src/rviz_common/tool_properties_panel.cpp
@@ -233,16 +230,13 @@ target_include_directories(rviz_common
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
-    ${TinyXML_INCLUDE_DIRS}
 )
 
 target_link_libraries(rviz_common
   PUBLIC
   rviz_ogre_vendor::OgreMain
   rviz_ogre_vendor::OgreOverlay
-  rviz_rendering::rviz_rendering
   Qt5::Widgets
-  ${TinyXML_LIBRARIES}
 )
 
 ament_target_dependencies(rviz_common
@@ -252,12 +246,14 @@ ament_target_dependencies(rviz_common
   rclcpp
   resource_retriever
   rviz_assimp_vendor
+  rviz_rendering
   sensor_msgs
   std_msgs
   tf2
   tf2_geometry_msgs
   tf2_ros
   message_filters
+  tinyxml2_vendor
   urdf
   yaml_cpp_vendor
 )
@@ -318,24 +314,27 @@ install(
 )
 
 if(BUILD_TESTING)
-  # TODO(wjwwood): replace this with ament_lint_auto() and/or add the copyright linter back
-  find_package(ament_cmake_cppcheck REQUIRED)
-  find_package(ament_cmake_cpplint REQUIRED)
-  find_package(ament_cmake_lint_cmake REQUIRED)
-  find_package(ament_cmake_uncrustify REQUIRED)
+  find_package(ament_lint_auto REQUIRED)
+  ament_lint_auto_find_test_dependencies()
 
   find_package(ament_cmake_gmock REQUIRED)
   find_package(ament_cmake_gtest REQUIRED)
-
-  ament_cppcheck()
-  ament_cpplint()
-  ament_lint_cmake()
-  ament_uncrustify()
 
   qt5_wrap_cpp(rviz_common_test_moc_files test/mock_display.hpp)
   qt5_wrap_cpp(rviz_common_test_moc_files test/mock_property_change_receiver.hpp)
 
   qt5_wrap_cpp(rviz_common_test_frame_manager_moc src/rviz_common/frame_manager.hpp)
+
+  ament_add_gmock(display_factory_test
+    test/display_factory_test.cpp
+    src/rviz_common/display_factory.cpp
+    ${SKIP_DISPLAY_TESTS})
+  if(TARGET display_factory_test)
+    target_compile_definitions(display_factory_test PUBLIC
+      -D_TEST_PLUGIN_DESCRIPTIONS="${CMAKE_CURRENT_SOURCE_DIR}")
+    target_link_libraries(display_factory_test rviz_common Qt5::Widgets)
+  endif()
+
   ament_add_gmock(frame_manager_test
     test/frame_manager_test.cpp
     src/rviz_common/frame_manager.cpp
