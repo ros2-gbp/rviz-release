@@ -154,8 +154,15 @@ install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/ogre_media"
   USE_SOURCE_PERMISSIONS)
 
 if(BUILD_TESTING)
-  find_package(ament_lint_auto REQUIRED)
-  ament_lint_auto_find_test_dependencies()
+  # TODO(wjwwood): replace this with ament_lint_auto() and/or add the copyright linter back
+  find_package(ament_cmake_cppcheck REQUIRED)
+  find_package(ament_cmake_cpplint REQUIRED)
+  find_package(ament_cmake_lint_cmake REQUIRED)
+  find_package(ament_cmake_uncrustify REQUIRED)
+  ament_cppcheck()
+  ament_cpplint()
+  ament_lint_cmake()
+  ament_uncrustify()
 
   find_package(ament_cmake_gmock REQUIRED)
   find_package(ament_cmake_gtest REQUIRED)
@@ -277,6 +284,4 @@ list(APPEND ${PROJECT_NAME}_CONFIG_EXTRAS
   "${CMAKE_CURRENT_SOURCE_DIR}/src/cmake/register_rviz_ogre_media_exports_hook-extras.cmake"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/cmake/register_rviz_ogre_media_exports.cmake")
 
-ament_package(
-  CONFIG_EXTRAS "rviz_rendering-extras.cmake"
-)
+ament_package()

@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "rviz_common/visualization_frame.hpp"
+#include "visualization_frame.hpp"
 
 #include <exception>
 #include <fstream>
@@ -119,7 +119,6 @@ VisualizationFrame::VisualizationFrame(
   loading_(false),
   post_load_timer_(new QTimer(this)),
   frame_count_(0),
-  toolbar_visible_(true),
   rviz_ros_node_(rviz_ros_node)
 {
   setObjectName("VisualizationFrame");
@@ -1206,13 +1205,8 @@ void VisualizationFrame::onDeletePanel()
 
 void VisualizationFrame::setFullScreen(bool full_screen)
 {
-  auto state = windowState();
-  if (full_screen == state.testFlag(Qt::WindowFullScreen)) {
-    return;
-  }
   Q_EMIT (fullScreenChange(full_screen));
 
-  // When switching to fullscreen, remember visibility state of toolbar
   if (full_screen) {
     toolbar_visible_ = toolbar_->isVisible();
   }
@@ -1222,9 +1216,9 @@ void VisualizationFrame::setFullScreen(bool full_screen)
   setHideButtonVisibility(!full_screen);
 
   if (full_screen) {
-    setWindowState(state | Qt::WindowFullScreen);
+    setWindowState(windowState() | Qt::WindowFullScreen);
   } else {
-    setWindowState(state & ~Qt::WindowFullScreen);
+    setWindowState(windowState() & ~Qt::WindowFullScreen);
   }
   show();
 }

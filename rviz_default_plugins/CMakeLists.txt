@@ -59,7 +59,6 @@ find_package(rviz_ogre_vendor REQUIRED)
 find_package(Qt5 REQUIRED COMPONENTS Widgets Test)
 
 find_package(geometry_msgs REQUIRED)
-find_package(image_transport REQUIRED)
 find_package(interactive_markers REQUIRED)
 find_package(laser_geometry REQUIRED)
 find_package(map_msgs REQUIRED)
@@ -133,7 +132,6 @@ set(rviz_default_plugins_source_files
   src/rviz_default_plugins/displays/grid_cells/grid_cells_display.cpp
   src/rviz_default_plugins/displays/fluid_pressure/fluid_pressure_display.cpp
   src/rviz_default_plugins/displays/illuminance/illuminance_display.cpp
-  src/rviz_default_plugins/displays/image/get_transport_from_topic.cpp
   src/rviz_default_plugins/displays/image/image_display.cpp
   src/rviz_default_plugins/displays/image/ros_image_texture.cpp
   src/rviz_default_plugins/displays/interactive_markers/integer_action.cpp
@@ -254,12 +252,12 @@ ament_target_dependencies(rviz_default_plugins
   tf2_ros
   urdf
   visualization_msgs
-  image_transport
 )
 
 ament_export_include_directories(include)
 ament_export_targets(rviz_default_plugins HAS_LIBRARY_TARGET)
 ament_export_dependencies(
+  Qt5
   rviz_common
   geometry_msgs
   interactive_markers
@@ -296,8 +294,15 @@ install(
 )
 
 if(BUILD_TESTING)
-  find_package(ament_lint_auto REQUIRED)
-  ament_lint_auto_find_test_dependencies()
+  # TODO(wjwwood): replace this with ament_lint_auto() and/or add the copyright linter back
+  find_package(ament_cmake_cppcheck REQUIRED)
+  find_package(ament_cmake_cpplint REQUIRED)
+  find_package(ament_cmake_lint_cmake REQUIRED)
+  find_package(ament_cmake_uncrustify REQUIRED)
+  ament_cppcheck()
+  ament_cpplint()
+  ament_lint_cmake()
+  ament_uncrustify()
 
   find_package(ament_cmake_gtest REQUIRED)
   find_package(ament_cmake_gmock REQUIRED)
@@ -362,13 +367,6 @@ if(BUILD_TESTING)
     target_include_directories(frame_info_test PUBLIC ${TEST_INCLUDE_DIRS})
     target_link_libraries(frame_info_test ${TEST_LINK_LIBRARIES})
     ament_target_dependencies(frame_info_test ${TEST_TARGET_DEPENDENCIES})
-  endif()
-
-  ament_add_gmock(get_transport_from_topic_test
-    test/rviz_default_plugins/displays/image/get_transport_from_topic_test.cpp)
-  if(TARGET get_transport_from_topic_test)
-    target_include_directories(get_transport_from_topic_test PUBLIC ${TEST_INCLUDE_DIRS} ${rviz_common_INCLUDE_DIRS})
-    target_link_libraries(get_transport_from_topic_test ${TEST_LINK_LIBRARIES} ${rviz_common})
   endif()
 
   ament_add_gmock(grid_cells_display_test
@@ -1022,7 +1020,4 @@ if(BUILD_TESTING)
   endif()
 endif()
 
-ament_package(
-  CONFIG_EXTRAS "rviz_default_plugins-extras.cmake"
-)
-
+ament_package()
