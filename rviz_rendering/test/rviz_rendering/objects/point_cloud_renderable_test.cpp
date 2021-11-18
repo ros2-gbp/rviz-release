@@ -44,13 +44,14 @@ using namespace ::testing;  // NOLINT
 class PointCloudRenderableTestFixture : public ::testing::Test
 {
 protected:
-  static void SetUpTestCase()
+  void SetUp()
   {
     testing_environment_ = std::make_shared<rviz_rendering::OgreTestingEnvironment>();
     testing_environment_->setUpOgreTestEnvironment();
+    PointCloudRenderable();
   }
 
-  PointCloudRenderableTestFixture()
+  void PointCloudRenderable()
   {
     cloud_ = std::make_shared<rviz_rendering::PointCloud>();
     auto points = std::vector<rviz_rendering::PointCloud::Point>(
@@ -59,13 +60,10 @@ protected:
     renderable_ = cloud_->getRenderables().front();
   }
 
-  static std::shared_ptr<rviz_rendering::OgreTestingEnvironment> testing_environment_;
+  std::shared_ptr<rviz_rendering::OgreTestingEnvironment> testing_environment_;
   std::shared_ptr<rviz_rendering::PointCloud> cloud_;
   rviz_rendering::PointCloudRenderablePtr renderable_;
 };
-
-std::shared_ptr<rviz_rendering::OgreTestingEnvironment>
-PointCloudRenderableTestFixture::testing_environment_ = nullptr;
 
 TEST_F(PointCloudRenderableTestFixture, getBoundingRadius_returns_radius_from_coordinate_origin) {
   auto boundingBox = Ogre::AxisAlignedBox(Ogre::Vector3(-1, -1, -1), Ogre::Vector3(2, 2, 0));
@@ -83,13 +81,26 @@ TEST_F(PointCloudRenderableTestFixture, renderable_contains_a_correctly_filled_b
   size_t vertex_size = renderable_->getBuffer()->getVertexSize();
   size_t number_of_vertices = renderable_->getBuffer()->getNumVertices();
 
-  size_t size_of_single_vertex = 3 * 8 + 4;  // three floats + 4 bytes for color
-  size_t vertices_added = 3 * 1;  // three vertices per point
+  size_t size_of_single_vertex {0};
+  size_t vertices_added {0};
+
+  int glsl_version = testing_environment_->getGlslVersion();
+  if (glsl_version >= 150) {
+    size_of_single_vertex = 3 * 4 + 4;  // position + color
+    vertices_added = 1;
+    ASSERT_THAT(
+      renderable_->getRenderOperation()->operationType,
+      Eq(Ogre::RenderOperation::OT_POINT_LIST));
+  } else if (glsl_version >= 120) {
+    size_of_single_vertex = 3 * 4 + 3 * 4 + 4;  // position + texture coordinates + color
+    vertices_added = 3 * 1;  // three vertices per point
+    ASSERT_THAT(
+      renderable_->getRenderOperation()->operationType,
+      Eq(Ogre::RenderOperation::OT_TRIANGLE_LIST));
+  }
 
   ASSERT_THAT(vertex_size, Eq(size_of_single_vertex));
   ASSERT_THAT(number_of_vertices, Eq(vertices_added));
-  ASSERT_THAT(
-    renderable_->getRenderOperation()->operationType, Eq(Ogre::RenderOperation::OT_TRIANGLE_LIST));
 }
 
 TEST_F(

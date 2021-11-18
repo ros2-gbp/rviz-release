@@ -143,6 +143,17 @@ void InteractiveMarkerDisplay::onDisable()
   unsubscribe();
 }
 
+void InteractiveMarkerDisplay::setTopic(const QString & topic, const QString & datatype)
+{
+  (void) datatype;
+
+  // Separate the namespace from the rest of the topic name, usually formatted '/namespace/update'
+  std::string topic_name = topic.toStdString();
+  std::string topic_namespace = topic_name.substr(0, topic_name.find('/', 1));
+
+  interactive_marker_namespace_property_->setString(QString::fromStdString(topic_namespace));
+}
+
 void InteractiveMarkerDisplay::namespaceChanged()
 {
   unsubscribe();
@@ -195,7 +206,7 @@ void InteractiveMarkerDisplay::update(float wall_dt, float ros_dt)
 
   interactive_marker_client_->update();
 
-  for (const auto name_marker_pair : interactive_markers_map_) {
+  for (const auto & name_marker_pair : interactive_markers_map_) {
     name_marker_pair.second->update();
   }
 }
@@ -358,7 +369,7 @@ void InteractiveMarkerDisplay::updateShowDescriptions()
 {
   bool show = show_descriptions_property_->getBool();
 
-  for (const auto name_marker_pair : interactive_markers_map_) {
+  for (const auto & name_marker_pair : interactive_markers_map_) {
     name_marker_pair.second->setShowDescription(show);
   }
 }
@@ -367,7 +378,7 @@ void InteractiveMarkerDisplay::updateShowAxes()
 {
   bool show = show_axes_property_->getBool();
 
-  for (const auto name_marker_pair : interactive_markers_map_) {
+  for (const auto & name_marker_pair : interactive_markers_map_) {
     name_marker_pair.second->setShowAxes(show);
   }
 }
@@ -376,7 +387,7 @@ void InteractiveMarkerDisplay::updateShowVisualAids()
 {
   bool show = show_visual_aids_property_->getBool();
 
-  for (const auto name_marker_pair : interactive_markers_map_) {
+  for (const auto & name_marker_pair : interactive_markers_map_) {
     name_marker_pair.second->setShowVisualAids(show);
   }
 }

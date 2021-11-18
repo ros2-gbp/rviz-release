@@ -36,6 +36,7 @@
 #include <memory>
 
 #include "rviz_common/ros_topic_display.hpp"
+#include "rviz_common/properties/int_property.hpp"
 
 namespace rviz_common
 {
@@ -59,13 +60,15 @@ public:
   : tf_filter_(nullptr),
     messages_received_(0)
   {
-    // TODO(Martin-Idel-SI): We need a way to extract the MessageType from the template to set a
-    // correct string. Previously was:
-    // QString message_type =
-    //   QString::fromStdString(message_filters::message_traits::datatype<MessageType>());
-    QString message_type = QString::fromStdString("");
+    QString message_type = rosidl_generator_traits::name<MessageType>();
     topic_property_->setMessageType(message_type);
     topic_property_->setDescription(message_type + " topic to subscribe to.");
+
+    message_queue_property_ = new properties::IntProperty(
+      "Filter size", 10,
+      "Set the filter size of the Message Filter Display.",
+      topic_property_, SLOT(updateMessageQueueSize()), this,
+      1, INT_MAX);
   }
 
   /**
@@ -123,16 +126,25 @@ protected:
       tf_filter_ =
         std::make_shared<tf2_ros::MessageFilter<MessageType, transformation::FrameTransformer>>(
         *context_->getFrameManager()->getTransformer(),
-        fixed_frame_.toStdString(), 10, rviz_ros_node_.lock()->get_raw_node());
+        fixed_frame_.toStdString(),
+        static_cast<uint32_t>(message_queue_property_->getInt()),
+        rviz_ros_node_.lock()->get_raw_node());
       tf_filter_->connectInput(*subscription_);
       tf_filter_->registerCallback(
         std::bind(
-          &MessageFilterDisplay<MessageType>::incomingMessage, this,
+          &MessageFilterDisplay<MessageType>::messageTaken, this,
           std::placeholders::_1));
       setStatus(properties::StatusProperty::Ok, "Topic", "OK");
     } catch (rclcpp::exceptions::InvalidTopicNameError & e) {
       setStatus(
         properties::StatusProperty::Error, "Topic", QString("Error subscribing: ") + e.what());
+    }
+  }
+
+  void updateMessageQueueSize()
+  {
+    if (tf_filter_) {
+      tf_filter_->setQueueSize(static_cast<uint32_t>(message_queue_property_->getInt()));
     }
   }
 
@@ -174,17 +186,22 @@ protected:
     reset();
   }
 
-  /// Incoming message callback.
-  /**
-   * Checks if the message pointer
-   * is valid, increments messages_received_, then calls
-   * processMessage().
-   */
-  void incomingMessage(const typename MessageType::ConstSharedPtr msg)
+  void messageTaken(typename MessageType::ConstSharedPtr msg)
   {
     if (!msg) {
       return;
     }
+
+    // Do not process message right away, tf2_ros::MessageFilter may be
+    // calling back from tf2_ros::TransformListener dedicated thread.
+    // Use type erased signal/slot machinery to ensure messages are
+    // processed in the main thread.
+    Q_EMIT typeErasedMessageTaken(std::static_pointer_cast<const void>(msg));
+  }
+
+  void processTypeErasedMessage(std::shared_ptr<const void> type_erased_msg) override
+  {
+    auto msg = std::static_pointer_cast<const MessageType>(type_erased_msg);
 
     ++messages_received_;
     setStatus(
@@ -204,6 +221,7 @@ protected:
   typename std::shared_ptr<message_filters::Subscriber<MessageType>> subscription_;
   std::shared_ptr<tf2_ros::MessageFilter<MessageType, transformation::FrameTransformer>> tf_filter_;
   uint32_t messages_received_;
+  properties::IntProperty * message_queue_property_;
 };
 
 }  // end namespace rviz_common
