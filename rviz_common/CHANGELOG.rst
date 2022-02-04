@@ -2,86 +2,49 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-9.1.1 (2022-01-25)
+8.2.6 (2022-02-04)
 ------------------
-* Fix support for assimp 5.1.0 (`#817 <https://github.com/ros2/rviz/issues/817>`_)
-* Contributors: Silvio Traversaro
+* Add rviz_rendering dependency to rviz_common (`#727 <https://github.com/ros2/rviz/issues/727>`_) (`#785 <https://github.com/ros2/rviz/issues/785>`_)
+* Contributors: Jacob Perron, Rebecca Butler
 
-9.1.0 (2022-01-13)
+8.2.5 (2021-10-12)
 ------------------
-* Fix cpplint errors (`#818 <https://github.com/ros2/rviz/issues/818>`_)
-* Set message type for ros topic display (`#800 <https://github.com/ros2/rviz/issues/800>`_)
-* Contributors: Daisuke Nishimatsu, Jacob Perron
+* Revert "Ensure rviz_common::MessageFilterDisplay processes messages in the main thread (`#620 <https://github.com/ros2/rviz/issues/620>`_) (`#765 <https://github.com/ros2/rviz/issues/765>`_)" (`#783 <https://github.com/ros2/rviz/issues/783>`_)
+* Contributors: Greg Balke
 
-9.0.1 (2021-12-17)
+8.2.4 (2021-10-05)
 ------------------
-* Fixes for uncrustify 0.72 (`#807 <https://github.com/ros2/rviz/issues/807>`_)
-* Do not block visualization manager updates when opening the display panel dialog (`#795 <https://github.com/ros2/rviz/issues/795>`_)
-* Contributors: Chris Lalancette, Ivan Santiago Paunovic
-
-9.0.0 (2021-11-18)
-------------------
-* Switch to using Qt::MiddleButton for RViz. (`#802 <https://github.com/ros2/rviz/issues/802>`_)
-* Removed traces in renderPanel (`#777 <https://github.com/ros2/rviz/issues/777>`_)
-* move yaml_config_writer.hpp to public includes (`#764 <https://github.com/ros2/rviz/issues/764>`_)
-* Update displays_panel.cpp (`#745 <https://github.com/ros2/rviz/issues/745>`_)
-* Robot: Report mesh loading issues (`#744 <https://github.com/ros2/rviz/issues/744>`_)
-* Exposed tool_manager header file. (`#767 <https://github.com/ros2/rviz/issues/767>`_)
-* refactor: make const getter methods const (`#756 <https://github.com/ros2/rviz/issues/756>`_)
+* Removed traces in renderPanel (`#777 <https://github.com/ros2/rviz/issues/777>`_) (`#779 <https://github.com/ros2/rviz/issues/779>`_)
+* Ensure rviz_common::MessageFilterDisplay processes messages in the main thread (`#620 <https://github.com/ros2/rviz/issues/620>`_) (`#765 <https://github.com/ros2/rviz/issues/765>`_)
+* Update displays_panel.cpp (`#745 <https://github.com/ros2/rviz/issues/745>`_) (`#772 <https://github.com/ros2/rviz/issues/772>`_)
+* Fix byte indexing for depth patch pixels (`#661 <https://github.com/ros2/rviz/issues/661>`_) (`#759 <https://github.com/ros2/rviz/issues/759>`_)
+* Fix toolbar vanishing when pressing escape (`#656 <https://github.com/ros2/rviz/issues/656>`_) (`#758 <https://github.com/ros2/rviz/issues/758>`_)
 * Efficiently handle 3-bytes pixel formats (`#743 <https://github.com/ros2/rviz/issues/743>`_)
-* Report sample lost events (`#686 <https://github.com/ros2/rviz/issues/686>`_)
-* Contributors: ANDOU Tetsuo, Alejandro Hernández Cordero, Chris Lalancette, Gonzo, Joseph Schornak, davidorchansky
-
-8.7.0 (2021-08-11)
+* Contributors: Alejandro Hernández Cordero, Jacob Perron, Vojtech Spurny, Michel Hidalgo, Greg Balke, Joseph Schornak, ipa-fez
+8.2.3 (2021-09-01)
 ------------------
-* Update window close icon (`#734 <https://github.com/ros2/rviz/issues/734>`_)
-* Fix missing "X" icon in panel close button (`#731 <https://github.com/ros2/rviz/issues/731>`_)
-* Add rviz_rendering dependency to rviz_common (`#727 <https://github.com/ros2/rviz/issues/727>`_)
-* Remove the word "Alpha" from the splash screen. (`#696 <https://github.com/ros2/rviz/issues/696>`_)
-* Removed some memory leaks in rviz_rendering and rviz_rendering_tests (`#710 <https://github.com/ros2/rviz/issues/710>`_)
-* Contributors: Alejandro Hernández Cordero, Chris Lalancette, Rebecca Butler
+* Update message_filter_display.hpp (`#708 <https://github.com/ros2/rviz/issues/708>`_)
+* Contributors: Nisala Kalupahana
 
-8.6.0 (2021-05-13)
+8.2.2 (2021-06-18)
 ------------------
+* Expose VisualizationManager and YamlConfigReader to the public API (`#649 <https://github.com/ros2/rviz/issues/649>`_) (`#709 <https://github.com/ros2/rviz/issues/709>`_)
+* Contributors: Michael Jeronimo
 
-8.5.0 (2021-04-06)
+8.2.1 (2020-12-09)
 ------------------
-* Add visualization_frame to the public API (`#660 <https://github.com/ros2/rviz/issues/660>`_)
-* Contributors: Jafar Abdi
-
-8.4.0 (2021-03-18)
-------------------
-* Add ViewPicker::get3DPatch to the public API (`#657 <https://github.com/ros2/rviz/issues/657>`_)
-* Fix byte indexing for depth patch pixels (`#661 <https://github.com/ros2/rviz/issues/661>`_)
-* fix toolbar vanishing when pressing escape (`#656 <https://github.com/ros2/rviz/issues/656>`_)
-* Expose VisualizationManager and YamlConfigReader to the public API (`#649 <https://github.com/ros2/rviz/issues/649>`_)
-* Use the stack for the classes in the property test. (`#644 <https://github.com/ros2/rviz/issues/644>`_)
-* Contributors: Chris Lalancette, Joseph Schornak, ipa-fez
-
-8.3.1 (2021-01-25)
-------------------
-* Check that the views_man\_ and views_man\_->getCurrent() are not nullptr. (`#634 <https://github.com/ros2/rviz/issues/634>`_)
-* Contributors: Chris Lalancette
-
-8.3.0 (2020-12-08)
-------------------
-* Fix for mousewheel to zoom in/out (`#623 <https://github.com/ros2/rviz/issues/623>`_)
-* Ensure rviz_common::MessageFilterDisplay processes messages in the main thread (`#620 <https://github.com/ros2/rviz/issues/620>`_)
-* Fix render window disppearing after saving image (`#611 <https://github.com/ros2/rviz/issues/611>`_)
-* Add linters and use ament_lint_auto (`#608 <https://github.com/ros2/rviz/issues/608>`_)
-* Update maintainers (`#607 <https://github.com/ros2/rviz/issues/607>`_)
-* TimePanel port (`#599 <https://github.com/ros2/rviz/issues/599>`_)
-* Upgrade to tinyxml2 for rviz (`#418 <https://github.com/ros2/rviz/issues/418>`_)
-* Fix segfault on changing filter size for non-existent topic (`#597 <https://github.com/ros2/rviz/issues/597>`_)
-* improve color support for themes (`#590 <https://github.com/ros2/rviz/issues/590>`_)
-* Fix topic IntProperty number ranges (`#596 <https://github.com/ros2/rviz/issues/596>`_)
-* Switch to nullptr everywhere. (`#592 <https://github.com/ros2/rviz/issues/592>`_)
-* Expose MessageFilterDisplay's queue size (`#593 <https://github.com/ros2/rviz/issues/593>`_)
-* Filter topics in drop down menu (`#591 <https://github.com/ros2/rviz/issues/591>`_)
-* rviz_common: Remove variadic macro warning check (`#421 <https://github.com/ros2/rviz/issues/421>`_)
-* Use retriever.hpp (`#589 <https://github.com/ros2/rviz/issues/589>`_)
-* Fix the order of destructors (`#572 <https://github.com/ros2/rviz/issues/572>`_)
-* Contributors: Audrow Nash, Chen Lihui, Chris Lalancette, Jacob Perron, Martin Idel, Michael Ferguson, Michael Jeronimo, Michel Hidalgo, Nico Neumann, Rich Mattes, Shane Loretz, spiralray
+* Fix for mousewheel to zoom in/out (`#623 <https://github.com/ros2/rviz/issues/623>`_) (`#626 <https://github.com/ros2/rviz/issues/626>`_)
+* Update maintainer list (`#619 <https://github.com/ros2/rviz/issues/619>`_)
+* [foxy-backport] fast forward of ros2 (default) to foxy (`#570 <https://github.com/ros2/rviz/issues/570>`_)
+  * restore compatibility with older Qt versions (`#561 <https://github.com/ros2/rviz/issues/561>`_)
+  * Suppress warnings when building with older Qt versions. (`#562 <https://github.com/ros2/rviz/issues/562>`_)
+  * Don't try to moc generate env_config.hpp file. (`#550 <https://github.com/ros2/rviz/issues/550>`_)
+  This removes one more warning from rviz_common builds.
+  * rewrite hack to avoid CMake warning with assimp 5.0.1 and older, apply cross platform (`#565 <https://github.com/ros2/rviz/issues/565>`_)
+  * Use dedicated TransformListener thread (`#551 <https://github.com/ros2/rviz/issues/551>`_)
+  * restore alphabetical include order (`#563 <https://github.com/ros2/rviz/issues/563>`_)
+  * Don't install test header files in rviz_rendering. (`#564 <https://github.com/ros2/rviz/issues/564>`_)
+* Contributors: Jacob Perron, Michael Jeronimo, William Woodall, Chen Lihui, Dirk Thomas, Chris Lalancette, ymd-stella, Karsten Knese
 
 8.2.0 (2020-06-23)
 ------------------

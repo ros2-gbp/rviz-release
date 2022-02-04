@@ -1,11 +1,6 @@
-# lint_cmake: -readability/wonkycase
 cmake_minimum_required(VERSION 3.5)
 
 project(rviz_assimp_vendor)
-
-option(FORCE_BUILD_VENDOR_PKG
-  "Build assimp from source, even if system-installed package is available"
-  OFF)
 
 find_package(ament_cmake REQUIRED)
 
@@ -54,7 +49,6 @@ macro(build_assimp)
       ${CMAKE_CURRENT_BINARY_DIR}/assimp_install/
     DESTINATION
       ${CMAKE_INSTALL_PREFIX}/opt/rviz_assimp_vendor
-    USE_SOURCE_PERMISSIONS
   )
 endmacro()
 
@@ -66,7 +60,7 @@ set(ON 1)
 
 find_package(assimp QUIET)
 
-if(FORCE_BUILD_VENDOR_PKG OR NOT assimp_FOUND OR "${assimp_VERSION}" VERSION_LESS 4.1.0)
+if(NOT assimp_FOUND OR "${assimp_VERSION}" VERSION_LESS 4.1.0)
   build_assimp()
 
   if(WIN32)
@@ -83,11 +77,6 @@ if(FORCE_BUILD_VENDOR_PKG OR NOT assimp_FOUND OR "${assimp_VERSION}" VERSION_LES
     set(ENV_VAR_VALUE "opt/rviz_assimp_vendor/lib")
   endif()
   ament_environment_hooks(env_hook/rviz_assimp_vendor_library_path.dsv.in)
-endif()
-
-if(BUILD_TESTING)
-  find_package(ament_lint_auto REQUIRED)
-  ament_lint_auto_find_test_dependencies()
 endif()
 
 ament_package(

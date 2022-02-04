@@ -32,16 +32,16 @@
 
 #include <string>
 
-#include "OgreHardwareBufferManager.h"
-#include "OgreMaterial.h"
-#include "OgreMaterialManager.h"
-#include "OgreMeshManager.h"
-#include "OgreMeshSerializer.h"
-#include "OgrePass.h"
-#include "OgreSubMesh.h"
-#include "OgreTechnique.h"
-#include "OgreTextureManager.h"
-#include "OgreVector3.h"
+#include <OgreHardwareBufferManager.h>
+#include <OgreMaterial.h>
+#include <OgreMaterialManager.h>
+#include <OgreMeshManager.h>
+#include <OgreMeshSerializer.h>
+#include <OgrePass.h>
+#include <OgreSubMesh.h>
+#include <OgreTechnique.h>
+#include <OgreTextureManager.h>
+#include <OgreVector3.h>
 
 #include <QDir>  // NOLINT cpplint cannot handle include order here
 #include <QFileInfo>  // NOLINT cpplint cannot handle include order here
@@ -49,20 +49,20 @@
 
 #define ASSIMP_UNIFIED_HEADER_NAMES 1
 #if defined(ASSIMP_UNIFIED_HEADER_NAMES)
-#include "assimp/Importer.hpp"
-#include "assimp/scene.h"
-#include "assimp/postprocess.h"
-#include "assimp/IOStream.hpp"
-#include "assimp/IOSystem.hpp"
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+#include <assimp/IOStream.hpp>
+#include <assimp/IOSystem.hpp>
 #else
-#include "assimp/assimp.hpp"
-#include "assimp/aiScene.h"
-#include "assimp/aiPostProcess.h"
-#include "assimp/IOStream.h"
-#include "assimp/IOSystem.h"
+#include <assimp/assimp.hpp>
+#include <assimp/aiScene.h>
+#include <assimp/aiPostProcess.h>
+#include <assimp/IOStream.h>
+#include <assimp/IOSystem.h>
 #endif
 
-#include "resource_retriever/retriever.hpp"
+#include "resource_retriever/retriever.h"
 
 #include "mesh_loader_helpers/assimp_loader.hpp"
 #include "mesh_loader_helpers/stl_loader.hpp"
@@ -106,7 +106,6 @@ Ogre::MeshPtr loadMeshFromResource(const std::string & resource_path)
       Ogre::MeshPtr mesh = Ogre::MeshManager::getSingleton().createManual(
         resource_path, ROS_PACKAGE_NAME);
       ser.importMesh(stream, mesh.get());
-      stream->close();
 
       return mesh;
     } else if (ext == "stl" || ext == "STL" || ext == "stlb" || ext == "STLB") {

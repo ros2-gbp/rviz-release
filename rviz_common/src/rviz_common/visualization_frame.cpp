@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "rviz_common/visualization_frame.hpp"
+#include "visualization_frame.hpp"
 
 #include <exception>
 #include <fstream>
@@ -69,7 +69,6 @@
 #include "rviz_common/render_panel.hpp"
 #include "rviz_common/tool.hpp"
 #include "rviz_common/yaml_config_reader.hpp"
-#include "rviz_common/yaml_config_writer.hpp"
 #include "rviz_rendering/render_window.hpp"
 
 #include "./env_config.hpp"
@@ -79,9 +78,10 @@
 #include "./panel_factory.hpp"
 #include "./screenshot_dialog.hpp"
 #include "./splash_screen.hpp"
-#include "rviz_common/tool_manager.hpp"
+#include "./tool_manager.hpp"
 #include "rviz_common/visualization_manager.hpp"
 #include "./widget_geometry_change_detector.hpp"
+#include "./yaml_config_writer.hpp"
 
 // #include "./displays_panel.hpp"
 #include "./help_panel.hpp"
@@ -364,6 +364,7 @@ void VisualizationFrame::initialize(
   delete splash_;
   splash_ = nullptr;
 
+  manager_->startUpdate();
   initialized_ = true;
   Q_EMIT statusUpdate("RViz is ready.");
 
@@ -613,9 +614,11 @@ void VisualizationFrame::openNewPanelDialog()
     &class_id,
     &display_name,
     this);
+  manager_->stopUpdate();
   if (dialog->exec() == QDialog::Accepted) {
     addPanelByName(display_name, class_id);
   }
+  manager_->startUpdate();
 }
 
 void VisualizationFrame::openNewToolDialog()
@@ -630,9 +633,11 @@ void VisualizationFrame::openNewToolDialog()
     empty,
     tool_man->getToolClasses(),
     &class_id);
+  manager_->stopUpdate();
   if (dialog->exec() == QDialog::Accepted) {
     tool_man->addTool(class_id);
   }
+  manager_->startUpdate();
   activateWindow();  // Force keyboard focus back on main window.
 }
 
@@ -652,7 +657,7 @@ void VisualizationFrame::updateRecentConfigMenu()
         display_name = (
           QDir::homePath() + "/" +
           QString::fromStdString(display_name.substr(home_dir_.size()))
-        ).toStdString();
+          ).toStdString();
       }
       QString qdisplay_name = QString::fromStdString(display_name);
       QAction * action = new QAction(qdisplay_name, this);
@@ -703,13 +708,11 @@ void VisualizationFrame::loadDisplayConfig(const QString & qpath)
   setWindowModified(false);
   loading_ = true;
 
-  std::unique_ptr<LoadingDialog> dialog;
+  LoadingDialog * dialog = nullptr;
   if (initialized_) {
-    dialog.reset(new LoadingDialog(this));
+    dialog = new LoadingDialog(this);
     dialog->show();
-    connect(
-      this, SIGNAL(statusUpdate(const QString&)),
-      dialog.get(), SLOT(showMessage(const QString&)));
+    connect(this, SIGNAL(statusUpdate(const QString&)), dialog, SLOT(showMessage(const QString&)));
   }
 
   YamlConfigReader reader;
@@ -728,6 +731,8 @@ void VisualizationFrame::loadDisplayConfig(const QString & qpath)
   setDisplayConfigFile(path);
 
   last_config_dir_ = path_info.absolutePath().toStdString();
+
+  delete dialog;
 
   post_load_timer_->start(1000);
 }
@@ -925,7 +930,9 @@ bool VisualizationFrame::prepareToExit()
     box.setInformativeText(QString::fromStdString("Save changes to " + display_config_file_ + "?"));
     box.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
     box.setDefaultButton(QMessageBox::Save);
+    manager_->stopUpdate();
     int result = box.exec();
+    manager_->startUpdate();
     switch (result) {
       case QMessageBox::Save:
         if (saveDisplayConfig(QString::fromStdString(display_config_file_))) {
@@ -962,10 +969,12 @@ bool VisualizationFrame::prepareToExit()
 
 void VisualizationFrame::onOpen()
 {
+  manager_->stopUpdate();
   QString filename = QFileDialog::getOpenFileName(
     this, "Choose a file to open",
     QString::fromStdString(last_config_dir_),
     "RViz config files (" CONFIG_EXTENSION_WILDCARD ")");
+  manager_->startUpdate();
 
   if (!filename.isEmpty()) {
     if (!QFile(filename).exists()) {
@@ -987,6 +996,7 @@ void VisualizationFrame::onSave()
   savePersistentSettings();
 
   if (!saveDisplayConfig(QString::fromStdString(display_config_file_))) {
+    manager_->stopUpdate();
     QMessageBox box(this);
     box.setWindowTitle("Failed to save.");
     box.setText(getErrorMessage());
@@ -998,15 +1008,18 @@ void VisualizationFrame::onSave()
     if (box.exec() == QMessageBox::Save) {
       onSaveAs();
     }
+    manager_->startUpdate();
   }
 }
 
 void VisualizationFrame::onSaveAs()
 {
+  manager_->stopUpdate();
   QString q_filename = QFileDialog::getSaveFileName(
     this, "Choose a file to save to",
     QString::fromStdString(last_config_dir_),
     "RViz config files (" CONFIG_EXTENSION_WILDCARD ")");
+  manager_->startUpdate();
 
   if (!q_filename.isEmpty()) {
     if (!q_filename.endsWith("." CONFIG_EXTENSION)) {

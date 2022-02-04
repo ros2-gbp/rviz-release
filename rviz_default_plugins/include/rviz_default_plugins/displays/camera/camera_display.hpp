@@ -1,7 +1,6 @@
 /*
  * Copyright (c) 2009, Willow Garage, Inc.
  * Copyright (c) 2018, Bosch Software Innovations GmbH.
- * Copyright (c) 2020, TNG Technology Consulting GmbH.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,13 +46,11 @@
 # include <OgreSharedPtr.h>
 
 # include "sensor_msgs/msg/camera_info.hpp"
-# include "tf2_ros/message_filter.h"
 
-# include "rviz_default_plugins/displays/image/image_transport_display.hpp"
+# include "rviz_rendering/render_window.hpp"
+# include "rviz_common/message_filter_display.hpp"
 # include "rviz_default_plugins/displays/image/ros_image_texture_iface.hpp"
 # include "rviz_default_plugins/visibility_control.hpp"
-# include "rviz_rendering/render_window.hpp"
-
 #endif
 
 namespace Ogre
@@ -68,16 +65,17 @@ namespace rviz_common
 {
 
 class QueueSizeProperty;
-
 class RenderPanel;
 
 namespace properties
 {
+
 class EnumProperty;
 class FloatProperty;
 class IntProperty;
 class RosTopicProperty;
 class DisplayGroupVisibilityProperty;
+
 }  // namespace properties
 }  // namespace rviz_common
 
@@ -98,7 +96,7 @@ struct ImageDimensions
  *
  */
 class RVIZ_DEFAULT_PLUGINS_PUBLIC CameraDisplay
-  : public rviz_default_plugins::displays::ImageTransportDisplay<sensor_msgs::msg::Image>,
+  : public rviz_common::MessageFilterDisplay<sensor_msgs::msg::Image>,
   public Ogre::RenderTargetListener
 {
   Q_OBJECT
@@ -129,8 +127,6 @@ protected:
   void onEnable() override;
 
   void onDisable() override;
-
-  void fixedFrameChanged() override;
 
   void processMessage(sensor_msgs::msg::Image::ConstSharedPtr msg) override;
 
@@ -185,9 +181,6 @@ private:
 
   rclcpp::Subscription<sensor_msgs::msg::CameraInfo>::SharedPtr caminfo_sub_;
 
-  std::shared_ptr<tf2_ros::MessageFilter<sensor_msgs::msg::Image,
-    rviz_common::transformation::FrameTransformer>> tf_filter_;
-
   std::unique_ptr<ROSImageTextureIface> texture_;
   std::unique_ptr<rviz_common::RenderPanel> render_panel_;
 
@@ -204,9 +197,7 @@ private:
   bool force_render_;
 
   uint32_t vis_bit_;
-
   void setupSceneNodes();
-
   void setupRenderPanel();
 };
 

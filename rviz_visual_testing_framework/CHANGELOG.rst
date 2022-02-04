@@ -2,45 +2,26 @@
 Changelog for package rviz_visual_testing_framework
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-9.1.1 (2022-01-25)
+8.2.6 (2022-02-04)
 ------------------
 
-9.1.0 (2022-01-13)
+8.2.5 (2021-10-12)
 ------------------
 
-9.0.1 (2021-12-17)
-------------------
-* Fixes for uncrustify 0.72 (`#807 <https://github.com/ros2/rviz/issues/807>`_)
-* Contributors: Chris Lalancette
-
-9.0.0 (2021-11-18)
+8.2.4 (2021-10-05)
 ------------------
 
-8.7.0 (2021-08-11)
+8.2.3 (2021-09-01)
 ------------------
 
-8.6.0 (2021-05-13)
-------------------
-* Update includes after rcutils/get_env.h deprecation (`#677 <https://github.com/ros2/rviz/issues/677>`_)
-* Contributors: Christophe Bedard
-
-8.5.0 (2021-04-06)
+8.2.2 (2021-06-18)
 ------------------
 
-8.4.0 (2021-03-18)
+8.2.1 (2020-12-09)
 ------------------
-* Quiet a clang warning about a Qt memory leak. (`#651 <https://github.com/ros2/rviz/issues/651>`_)
-* Contributors: Chris Lalancette
-
-8.3.1 (2021-01-25)
-------------------
-
-8.3.0 (2020-12-08)
-------------------
-* use rcutils_get_env. (`#609 <https://github.com/ros2/rviz/issues/609>`_)
-* Add linters and use ament_lint_auto (`#608 <https://github.com/ros2/rviz/issues/608>`_)
-* Update maintainers (`#607 <https://github.com/ros2/rviz/issues/607>`_)
-* Contributors: Jacob Perron, tomoya
+* Update maintainer list (`#619 <https://github.com/ros2/rviz/issues/619>`_)
+* changelogs
+* Contributors: Michael Jeronimo, William Woodall
 
 8.2.0 (2020-06-23)
 ------------------
