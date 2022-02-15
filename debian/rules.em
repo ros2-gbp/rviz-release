@@ -57,7 +57,8 @@ override_dh_shlibdeps:
 	# in the install tree and source it.  It will set things like
 	# CMAKE_PREFIX_PATH, PKG_CONFIG_PATH, and PYTHONPATH.
 	if [ -f "@(InstallationPrefix)/setup.sh" ]; then . "@(InstallationPrefix)/setup.sh"; fi && \
-	dh_shlibdeps -l$(CURDIR)/debian/@(Package)/@(InstallationPrefix)/lib/
+	dh_shlibdeps -l$(CURDIR)/debian/@(Package)/@(InstallationPrefix)/lib/:$(CURDIR)/debian/@(Package)/@(InstallationPrefix)/lib/$(shell dpkg-architecture -qDEB_HOST_MULTIARCH)/:@(InstallationPrefix)/lib/:@(InstallationPrefix)/lib/$(shell dpkg-architecture -qDEB_HOST_MULTIARCH)/:$(CURDIR)/debian/@(Package)/@(InstallationPrefix)/opt/rviz_assimp_vendor/lib/:$(CURDIR)/debian/@(Package)/@(InstallationPrefix)/opt/rviz_ogre_vendor/lib/:$(CURDIR)/debian/@(Package)/@(InstallationPrefix)/opt/rviz_yaml_cpp_vendor/lib/
+
 
 override_dh_auto_install:
 	# In case we're installing to a non-standard location, look for a setup.sh
