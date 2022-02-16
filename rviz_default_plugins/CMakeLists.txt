@@ -224,7 +224,7 @@ add_library(rviz_default_plugins SHARED
 
 target_include_directories(rviz_default_plugins PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include>
+  $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
   ${Qt5Widgets_INCLUDE_DIRS}
 )
 
@@ -237,9 +237,6 @@ target_link_libraries(rviz_default_plugins PUBLIC
 # Causes the visibility macros to use dllexport rather than dllimport,
 # which is appropriate when building the dll but not consuming it.
 target_compile_definitions(rviz_default_plugins PRIVATE "RVIZ_DEFAULT_PLUGINS_BUILDING_LIBRARY")
-
-# prevent pluginlib from using boost
-target_compile_definitions(rviz_default_plugins PUBLIC "PLUGINLIB__DISABLE_BOOST_FUNCTIONS")
 
 pluginlib_export_plugin_description_file(rviz_common plugins_description.xml)
 
@@ -263,8 +260,12 @@ ament_target_dependencies(rviz_default_plugins
   visualization_msgs
 )
 
-ament_export_include_directories(include)
+# Export old-style CMake variables
+ament_export_include_directories("include/${PROJECT_NAME}")
+
+# Export modern CMake targets
 ament_export_targets(rviz_default_plugins HAS_LIBRARY_TARGET)
+
 ament_export_dependencies(
   geometry_msgs
   image_transport
@@ -290,12 +291,11 @@ install(
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin
-  INCLUDES DESTINATION include
 )
 
 install(
   DIRECTORY include/
-  DESTINATION include
+  DESTINATION include/${PROJECT_NAME}
 )
 
 install(
