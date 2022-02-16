@@ -228,7 +228,7 @@ add_library(rviz_common SHARED
 target_include_directories(rviz_common
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:include>
+    $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
 )
 
 target_link_libraries(rviz_common
@@ -255,13 +255,10 @@ ament_target_dependencies(rviz_common
   urdf
   yaml_cpp_vendor
 )
-# prevent pluginlib from using boost
-target_compile_definitions(rviz_common PUBLIC "PLUGINLIB__DISABLE_BOOST_FUNCTIONS")
 # Causes the visibility macros to use dllexport rather than dllimport,
 # which is appropriate when building the dll but not consuming it.
 target_compile_definitions(rviz_common PRIVATE "RVIZ_COMMON_BUILDING_LIBRARY")
 
-ament_export_targets(rviz_common)
 ament_export_dependencies(
   rviz_rendering
   geometry_msgs
@@ -275,8 +272,13 @@ ament_export_dependencies(
   urdf
   yaml_cpp_vendor
 )
-ament_export_include_directories(include)
+
+# Export old-style CMake variables
+ament_export_include_directories("include/${PROJECT_NAME}")
 ament_export_libraries(rviz_common)
+
+# Export modern CMake targets
+ament_export_targets(rviz_common)
 
 install(
   TARGETS rviz_common
@@ -284,12 +286,11 @@ install(
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin
-  INCLUDES DESTINATION include
 )
 
 install(
   DIRECTORY include/
-  DESTINATION include
+  DESTINATION include/${PROJECT_NAME}
 )
 
 install(FILES default.rviz
