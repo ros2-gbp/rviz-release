@@ -1,4 +1,4 @@
-From ba992e9116303907ca8b1a9141fe21f6d1a301ee Mon Sep 17 00:00:00 2001
+From a8451d03d0e8329c41760e4fb0b38e89a42ae661 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Steven!=20Ragnar=C3=B6k?= <steven@nuclearsandwich.com>
 Date: Tue, 15 Feb 2022 13:04:20 -0800
 Subject: [PATCH] Tell dh_shlibdeps where to find vendor libraries.
@@ -22,5 +22,5 @@ index 5a040673..b16d44b2 100755
  override_dh_auto_install:
  	# In case we're installing to a non-standard location, look for a setup.sh
 -- 
-2.35.1
+2.25.1
 
