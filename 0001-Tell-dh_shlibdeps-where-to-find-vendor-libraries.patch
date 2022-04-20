@@ -1,4 +1,4 @@
-From 0d626ec7ddca9f104075079d0c8cf0e9f2593a28 Mon Sep 17 00:00:00 2001
+From a48e00c4ce2291bbb5e72c8622be054479c1e7b7 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Steven!=20Ragnar=C3=B6k?= <steven@nuclearsandwich.com>
 Date: Tue, 15 Feb 2022 13:03:13 -0800
 Subject: [PATCH] Tell dh_shlibdeps where to find vendor libraries.
@@ -8,10 +8,10 @@ Subject: [PATCH] Tell dh_shlibdeps where to find vendor libraries.
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/debian/rules.em b/debian/rules.em
-index 5a040673..b514e6e5 100755
+index 2ab7b14a..899a953b 100755
 --- a/debian/rules.em
 +++ b/debian/rules.em
-@@ -51,7 +51,8 @@ override_dh_shlibdeps:
+@@ -57,7 +57,8 @@ override_dh_shlibdeps:
  	# in the install tree and source it.  It will set things like
  	# CMAKE_PREFIX_PATH, PKG_CONFIG_PATH, and PYTHONPATH.
  	if [ -f "@(InstallationPrefix)/setup.sh" ]; then . "@(InstallationPrefix)/setup.sh"; fi && \
