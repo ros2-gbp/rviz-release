@@ -2,6 +2,9 @@
 Changelog for package rviz_default_plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+11.2.1 (2022-04-26)
+-------------------
+
 11.2.0 (2022-04-08)
 -------------------
 * Add far plane distance property to camera (`#849 <https://github.com/ros2/rviz/issues/849>`_)
