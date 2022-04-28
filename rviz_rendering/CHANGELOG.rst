@@ -2,64 +2,13 @@
 Changelog for package rviz_rendering
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-11.2.1 (2022-04-26)
--------------------
-* Stop using glsl150 resources for now. (`#851 <https://github.com/ros2/rviz/issues/851>`_)
-* Contributors: Chris Lalancette
-
-11.2.0 (2022-04-08)
--------------------
-
-11.1.1 (2022-03-30)
--------------------
-
-11.1.0 (2022-03-24)
--------------------
-* Make getVerticesPerPoint method public and improve tests (`#843 <https://github.com/ros2/rviz/issues/843>`_)
-* Disable class-memaccess warnings for Eigen (`#838 <https://github.com/ros2/rviz/issues/838>`_)
-* Contributors: Chris Lalancette, Jorge Perez
-
-11.0.0 (2022-03-01)
--------------------
-* Disable a warning when including Eigen. (`#835 <https://github.com/ros2/rviz/issues/835>`_)
-* Contributors: Chris Lalancette
-
-10.0.0 (2022-02-16)
--------------------
-* Install headers to include/${PROJECT_NAME} (`#829 <https://github.com/ros2/rviz/issues/829>`_)
-* Contributors: Shane Loretz
-
-9.1.1 (2022-01-25)
+8.5.1 (2022-04-28)
 ------------------
-* Fix support for assimp 5.1.0 (`#817 <https://github.com/ros2/rviz/issues/817>`_)
-* Contributors: Silvio Traversaro
-
-9.1.0 (2022-01-13)
-------------------
-* Fix cpplint errors (`#818 <https://github.com/ros2/rviz/issues/818>`_)
-* Contributors: Jacob Perron
-
-9.0.1 (2021-12-17)
-------------------
-* Fixes for uncrustify 0.72 (`#807 <https://github.com/ros2/rviz/issues/807>`_)
-* Contributors: Chris Lalancette
-
-9.0.0 (2021-11-18)
-------------------
-* Suppress assimp warnings in rviz_rendering build (`#775 <https://github.com/ros2/rviz/issues/775>`_)
-* Fix for ogre failing when material already exists (`#729 <https://github.com/ros2/rviz/issues/729>`_)
-* Contributors: Scott K Logan, Wolf Vollprecht
-
-8.7.0 (2021-08-11)
-------------------
+* Fix support for assimp 5.1.0 (`#827 <https://github.com/ros2/rviz/issues/827>`_)
+* Export Qt5 dependencies properly (`#687 <https://github.com/ros2/rviz/issues/687>`_) (`#789 <https://github.com/ros2/rviz/issues/789>`_)
+* fixed windows test
 * Removed some memory leaks in rviz_rendering and rviz_rendering_tests (`#710 <https://github.com/ros2/rviz/issues/710>`_)
-* Contributors: Alejandro Hernández Cordero
-
-8.6.0 (2021-05-13)
-------------------
-* Export Qt5 dependencies properly (`#687 <https://github.com/ros2/rviz/issues/687>`_)
-* Putting glsl 1.50 resources back in RenderSystem (`#668 <https://github.com/ros2/rviz/issues/668>`_)
-* Contributors: Michel Hidalgo, Piotr Jaroszek
+* Contributors: Akash, Alejandro Hernández Cordero, Michel Hidalgo, ahcorde
 
 8.5.0 (2021-04-06)
 ------------------
