@@ -121,6 +121,7 @@ ament_target_dependencies(rviz_rendering
 )
 ament_export_dependencies(
   rviz_ogre_vendor
+  rviz_assimp_vendor
   eigen3_cmake_module
   Eigen3
   resource_retriever
@@ -277,4 +278,6 @@ list(APPEND ${PROJECT_NAME}_CONFIG_EXTRAS
   "${CMAKE_CURRENT_SOURCE_DIR}/src/cmake/register_rviz_ogre_media_exports_hook-extras.cmake"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/cmake/register_rviz_ogre_media_exports.cmake")
 
-ament_package()
+ament_package(
+  CONFIG_EXTRAS "rviz_rendering-extras.cmake"
+)
