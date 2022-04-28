@@ -1,4 +1,4 @@
-From fbeddbe01c0dedeac6f5cee839b43c4e87448152 Mon Sep 17 00:00:00 2001
+From 351f8b25821a16a7db19149349abb12957520577 Mon Sep 17 00:00:00 2001
 From: Jacob Perron <jacob@openrobotics.org>
 Date: Mon, 30 Sep 2019 12:23:28 -0700
 Subject: [PATCH] Migrate patch from Dashing
@@ -23,5 +23,5 @@ index 5a040673..b514e6e5 100755
  override_dh_auto_install:
  	# In case we're installing to a non-standard location, look for a setup.sh
 -- 
-2.30.2
+2.25.1
 
