@@ -1,6 +1,5 @@
 /*
- * Copyright (c) 2009, Willow Garage, Inc.
- * Copyright (c) 2017, Open Source Robotics Foundation, Inc.
+ * Copyright (c) 2020, TNG Technology Consulting GmbH.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -11,8 +10,8 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Willow Garage, Inc. nor the names of its
- *       contributors may be used to endorse or promote products derived from
+ *     * Neither the name of the copyright holder nor the names of its contributors
+ *       may be used to endorse or promote products derived from
  *       this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -28,31 +27,37 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "loading_dialog.hpp"
+#include <string>
 
-#include <QApplication>
-#include <QLabel>
-#include <QVBoxLayout>
+#include "rviz_default_plugins/displays/image/get_transport_from_topic.hpp"
 
-namespace rviz_common
+namespace rviz_default_plugins
+{
+namespace displays
 {
 
-LoadingDialog::LoadingDialog(QWidget * parent)
-: QDialog(parent)
+bool isRawTransport(const std::string & topic)
 {
-  setModal(true);
-
-  label_ = new QLabel;
-  QVBoxLayout * layout = new QVBoxLayout;
-  layout->addWidget(label_);
-  setLayout(layout);
+  std::string last_subtopic = topic.substr(topic.find_last_of('/') + 1);
+  return last_subtopic != "compressed" && last_subtopic != "compressedDepth" &&
+         last_subtopic != "theora";
 }
 
-void LoadingDialog::showMessage(const QString & message)
+std::string getTransportFromTopic(const std::string & topic)
 {
-  label_->setText(message);
-  QApplication::processEvents();
-  QWidget::repaint();
+  if (isRawTransport(topic)) {
+    return "raw";
+  }
+  return topic.substr(topic.find_last_of('/') + 1);
 }
 
-}  // namespace rviz_common
+std::string getBaseTopicFromTopic(const std::string & topic)
+{
+  if (isRawTransport(topic)) {
+    return topic;
+  }
+  return topic.substr(0, topic.find_last_of('/'));
+}
+
+}  //  end namespace displays
+}  //  end namespace rviz_default_plugins
