@@ -1,4 +1,4 @@
-From fbc4fdbb2b7a6a8b7c78bdfc7f18455868e079de Mon Sep 17 00:00:00 2001
+From 6647a0f7da08831ba9112ce3d56912b48363b300 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Steven!=20Ragnar=C3=B6k?= <steven@nuclearsandwich.com>
 Date: Tue, 15 Feb 2022 13:04:20 -0800
 Subject: [PATCH] Tell dh_shlibdeps where to find vendor libraries.
