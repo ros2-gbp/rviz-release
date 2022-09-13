@@ -84,7 +84,7 @@
 #include "rviz_common/interaction/view_picker.hpp"
 #include "rviz_common/interaction/view_picker_iface.hpp"
 #include "rviz_common/tool.hpp"
-#include "./tool_manager.hpp"
+#include "rviz_common/tool_manager.hpp"
 // #include "rviz_common/view_controller.hpp"
 #include "rviz_common/view_manager.hpp"
 // #include "./viewport_mouse_event.hpp"
@@ -232,6 +232,19 @@ VisualizationManager::VisualizationManager(
   handler_manager_ = std::make_shared<HandlerManager>();
   selection_manager_ = std::make_shared<SelectionManager>(this);
   view_picker_ = std::make_shared<ViewPicker>(this);
+
+  rcl_jump_threshold_t jump_threshold;
+  jump_threshold.on_clock_change = true;
+  // Disable forward jump callbacks
+  jump_threshold.min_forward.nanoseconds = 0;
+  // Anything backwards is a jump
+  jump_threshold.min_backward.nanoseconds = -1;
+  clock_jump_handler_ = clock_->create_jump_callback(
+    nullptr, std::bind(
+      &VisualizationManager::onTimeJump, this,
+      std::placeholders::_1), jump_threshold);
+
+  connect(this, SIGNAL(timeJumped()), this, SLOT(resetTime()));
 
   executor_->add_node(rviz_ros_node_.lock()->get_raw_node());
 // TODO(wjwwood): redo with executors?
@@ -425,8 +438,8 @@ void VisualizationManager::onUpdate()
     view_manager_->getCurrent() &&
     view_manager_->getCurrent()->getCamera())
   {
-    using rviz_rendering::RenderWindowOgreAdapter;
-    RenderWindowOgreAdapter::getDirectionalLight(render_panel_->getRenderWindow())->setDirection(
+    rviz_rendering::RenderWindowOgreAdapter::setDirectionalLightDirection(
+      render_panel_->getRenderWindow(),
       view_manager_->getCurrent()->getCamera()->getDerivedDirection());
   }
 
@@ -435,6 +448,20 @@ void VisualizationManager::onUpdate()
     render_requested_ = 0;
     std::lock_guard<std::mutex> lock(private_->render_mutex_);
     ogre_root_->renderOneFrame();
+  }
+}
+
+void VisualizationManager::onTimeJump(const rcl_time_jump_t & jump)
+{
+  if (jump.clock_change == RCL_ROS_TIME_ACTIVATED ||
+    jump.clock_change == RCL_ROS_TIME_DEACTIVATED)
+  {
+    RVIZ_COMMON_LOG_WARNING("Detected time source change. Resetting RViz.");
+    Q_EMIT timeJumped();
+  } else if (jump.delta.nanoseconds < 0) {
+    RVIZ_COMMON_LOG_WARNING_STREAM(
+      "Detected jump back in time. Resetting RViz.");
+    Q_EMIT timeJumped();
   }
 }
 
@@ -606,10 +633,7 @@ double VisualizationManager::getWallClockElapsed()
 
 double VisualizationManager::getROSTimeElapsed()
 {
-  // TODO(wjwwood): why does this function return now - begin, whereas the getWallClockElapsed
-  //                returns a pre-calculated elapsed value?
-  //                figure out how this function is being used and make these consistent
-  return (frame_manager_->getTime() - ros_time_begin_).nanoseconds() / 1e9;
+  return static_cast<double>(ros_time_elapsed_) / 1e9;
 }
 
 void VisualizationManager::updateBackgroundColor()

@@ -33,7 +33,7 @@
 #include <memory>
 #include <vector>
 
-#include <OgreVector3.h>
+#include <OgreVector.h>
 #include <Overlay/OgreFontManager.h>  // NOLINT: cpplint cannot handle include order here
 
 #include "rviz_rendering/objects/movable_text.hpp"
@@ -46,17 +46,14 @@ using namespace ::testing;  // NOLINT
 class MovableTextTestFixture : public ::testing::Test
 {
 protected:
-  static void SetUpTestCase()
+  void SetUp()
   {
     testing_environment_ = std::make_shared<rviz_rendering::OgreTestingEnvironment>();
     testing_environment_->setUpOgreTestEnvironment();
   }
 
-  static std::shared_ptr<rviz_rendering::OgreTestingEnvironment> testing_environment_;
+  std::shared_ptr<rviz_rendering::OgreTestingEnvironment> testing_environment_;
 };
-
-std::shared_ptr<rviz_rendering::OgreTestingEnvironment>
-MovableTextTestFixture::testing_environment_ = nullptr;
 
 float getCharWidth(std::shared_ptr<rviz_rendering::MovableText> movable_text, char character)
 {

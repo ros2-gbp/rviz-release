@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2012, Willow Garage, Inc.
  * Copyright (c) 2018, Bosch Software Innovations GmbH.
+ * Copyright (c) 2020, TNG Technology Consulting GmbH.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,6 +33,7 @@
 
 #include <memory>
 #include <string>
+#include <sstream>
 
 #include <OgreManualObject.h>
 #include <OgreMaterialManager.h>
@@ -44,6 +46,8 @@
 #include <OgreViewport.h>
 #include <OgreTechnique.h>
 #include <OgreCamera.h>
+
+#include "image_transport/camera_common.hpp"
 
 #include "rviz_rendering/material_manager.hpp"
 #include "rviz_rendering/objects/axes.hpp"
@@ -91,7 +95,8 @@ bool validateFloats(const sensor_msgs::msg::CameraInfo & msg)
 }
 
 CameraDisplay::CameraDisplay()
-: texture_(std::make_unique<ROSImageTexture>()),
+: tf_filter_(nullptr),
+  texture_(std::make_unique<ROSImageTexture>()),
   new_caminfo_(false),
   caminfo_ok_(false),
   force_render_(false)
@@ -117,6 +122,13 @@ CameraDisplay::CameraDisplay()
     this);
   zoom_property_->setMin(0.00001f);
   zoom_property_->setMax(100000.0f);
+
+  far_plane_property_ = new rviz_common::properties::FloatProperty(
+    "Far Plane Distance", 100.0f,
+    "Geometry beyond the camera's far plane will not be rendered.",
+    this);
+  far_plane_property_->setMin(0.00001f);
+  far_plane_property_->setMax(100000.0f);
 }
 
 CameraDisplay::~CameraDisplay()
@@ -130,7 +142,7 @@ CameraDisplay::~CameraDisplay()
 
 void CameraDisplay::onInitialize()
 {
-  MFDClass::onInitialize();
+  ITDClass::onInitialize();
 
   setupSceneNodes();
   setupRenderPanel();
@@ -263,9 +275,37 @@ void CameraDisplay::onDisable()
   clear();
 }
 
+void CameraDisplay::fixedFrameChanged()
+{
+  if (tf_filter_) {
+    tf_filter_->setTargetFrame(fixed_frame_.toStdString());
+  }
+  reset();
+}
+
 void CameraDisplay::subscribe()
 {
-  MFDClass::subscribe();
+  ITDClass::subscribe();
+
+  if (!subscription_) {
+    return;
+  }
+
+  // Unregster the callback registered by the ImageTransportDisplay
+  // and instead connect it to the TF filter
+  subscription_callback_.disconnect();
+
+  tf_filter_ = std::make_shared<
+    tf2_ros::MessageFilter<sensor_msgs::msg::Image,
+    rviz_common::transformation::FrameTransformer>>(
+    *context_->getFrameManager()->getTransformer(),
+    fixed_frame_.toStdString(), 10, rviz_ros_node_.lock()->get_raw_node());
+
+  tf_filter_->connectInput(*subscription_);
+  tf_filter_->registerCallback(
+    [ = ](const sensor_msgs::msg::Image::ConstSharedPtr msg) {
+      this->incomingMessage(msg);
+    });
 
   if ((!isEnabled()) || (topic_property_->getTopicStd().empty())) {
     return;
@@ -281,9 +321,20 @@ void CameraDisplay::createCameraInfoSubscription()
 
     // The camera_info topic should be at the same level as the image topic
     // TODO(anyone) Store this in a member variable
-    auto camera_info_topic = topic_property_->getTopicStd();
-    camera_info_topic =
-      camera_info_topic.substr(0, camera_info_topic.rfind("/") + 1) + "camera_info";
+
+    std::string camera_info_topic = image_transport::getCameraInfoTopic(
+      topic_property_->getTopicStd());
+
+    rclcpp::SubscriptionOptions sub_opts;
+    sub_opts.event_callbacks.message_lost_callback =
+      [&](rclcpp::QOSMessageLostInfo & info)
+      {
+        std::ostringstream sstm;
+        sstm << "Some messages were lost:\n>\tNumber of new lost messages: " <<
+          info.total_count_change << " \n>\tTotal number of messages lost: " <<
+          info.total_count;
+        setStatus(StatusLevel::Warn, CAM_INFO_STATUS, QString(sstm.str().c_str()));
+      };
 
     caminfo_sub_ = rviz_ros_node_.lock()->get_raw_node()->
       template create_subscription<sensor_msgs::msg::CameraInfo>(
@@ -293,7 +344,8 @@ void CameraDisplay::createCameraInfoSubscription()
         std::unique_lock<std::mutex> lock(caminfo_mutex_);
         current_caminfo_ = msg;
         new_caminfo_ = true;
-      });
+      }, sub_opts);
+
     setStatus(StatusLevel::Ok, CAM_INFO_STATUS, "OK");
   } catch (rclcpp::exceptions::InvalidTopicNameError & e) {
     setStatus(StatusLevel::Error, CAM_INFO_STATUS, QString("Error subscribing: ") + e.what());
@@ -302,8 +354,9 @@ void CameraDisplay::createCameraInfoSubscription()
 
 void CameraDisplay::unsubscribe()
 {
-  MFDClass::unsubscribe();
+  ITDClass::unsubscribe();
   caminfo_sub_.reset();
+  tf_filter_.reset();
 }
 
 void CameraDisplay::updateAlpha()
@@ -332,17 +385,21 @@ void CameraDisplay::clear()
   new_caminfo_ = false;
   current_caminfo_.reset();
 
-  auto camera_info_topic = topic_property_->getTopicStd();
-  camera_info_topic =
-    camera_info_topic.substr(0, camera_info_topic.rfind("/") + 1) + "camera_info";
+  std::string camera_info_topic =
+    image_transport::getCameraInfoTopic(topic_property_->getTopicStd());
 
   setStatus(
     StatusLevel::Warn, CAM_INFO_STATUS,
     "No CameraInfo received on [" + QString::fromStdString(camera_info_topic) + "]. "
     "Topic may not exist.");
 
-  rviz_rendering::RenderWindowOgreAdapter::getOgreCamera(
-    render_panel_->getRenderWindow())->setPosition(rviz_common::RenderPanel::default_camera_pose_);
+  rviz_rendering::RenderWindowOgreAdapter::setOgreCameraPosition(
+    render_panel_->getRenderWindow(),
+    rviz_common::RenderPanel::default_camera_pose_);
+
+  if (tf_filter_) {
+    tf_filter_->clear();
+  }
 }
 
 void CameraDisplay::update(float wall_dt, float ros_dt)
@@ -375,9 +432,8 @@ bool CameraDisplay::updateCamera()
   }
 
   if (!info) {
-    auto camera_info_topic = topic_property_->getTopicStd();
-    camera_info_topic =
-      camera_info_topic.substr(0, camera_info_topic.rfind("/") + 1) + "camera_info";
+    std::string camera_info_topic = image_transport::getCameraInfoTopic(
+      topic_property_->getTopicStd());
 
     setStatus(
       StatusLevel::Warn, CAM_INFO_STATUS,
@@ -432,9 +488,8 @@ bool CameraDisplay::updateCamera()
   }
 
   auto render_window = render_panel_->getRenderWindow();
-  rviz_rendering::RenderWindowOgreAdapter::getOgreCamera(render_window)->setPosition(position);
-  rviz_rendering::RenderWindowOgreAdapter::getOgreCamera(render_window)
-  ->setOrientation(orientation);
+  rviz_rendering::RenderWindowOgreAdapter::setOgreCameraPosition(render_window, position);
+  rviz_rendering::RenderWindowOgreAdapter::setOgreCameraOrientation(render_window, orientation);
 
   Ogre::Vector2 zoom = getZoomFromInfo(info, dimensions);
   Ogre::Matrix4 proj_matrix = calculateProjectionMatrix(info, dimensions, zoom);
@@ -545,7 +600,7 @@ Ogre::Matrix4 CameraDisplay::calculateProjectionMatrix(
   auto fx = static_cast<float>(info->p[0]);
   auto fy = static_cast<float>(info->p[5]);
 
-  float far_plane = 100.0f;
+  float far_plane = far_plane_property_->getFloat();
   float near_plane = 0.01f;
 
   Ogre::Matrix4 proj_matrix;
@@ -572,7 +627,7 @@ void CameraDisplay::processMessage(sensor_msgs::msg::Image::ConstSharedPtr msg)
 
 void CameraDisplay::reset()
 {
-  MFDClass::reset();
+  ITDClass::reset();
   clear();
 }
 

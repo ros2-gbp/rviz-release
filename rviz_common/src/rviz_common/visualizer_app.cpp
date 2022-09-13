@@ -47,7 +47,7 @@
 #include "rviz_common/logging.hpp"
 #include "rviz_rendering/ogre_logging.hpp"
 
-#include "./visualization_frame.hpp"
+#include "rviz_common/visualization_frame.hpp"
 #include "rviz_common/visualization_manager.hpp"
 
 // TODO(wjwwood): figure out a non-depricated way to do this
@@ -258,7 +258,8 @@ bool VisualizerApp::init(int argc, char ** argv)
   // nh_.reset(new ros::NodeHandle);
   //
   if (enable_ogre_log) {
-    rviz_rendering::OgreLogging::useLogFileAndStandardOut();
+    rviz_rendering::OgreLogging::get()->useLogFileAndStandardOut();
+    rviz_rendering::OgreLogging::get()->configureLogging();
   }
   //
   // if (force_gl_version) {

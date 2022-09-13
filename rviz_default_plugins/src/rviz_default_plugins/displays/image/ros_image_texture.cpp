@@ -48,9 +48,6 @@
 #include "rviz_common/logging.hpp"
 #include "rviz_common/uniform_string_stream.hpp"
 
-uint32_t stride_;
-std::shared_ptr<std::vector<uint8_t>> bufferptr_;
-
 namespace rviz_default_plugins
 {
 namespace displays
@@ -78,7 +75,6 @@ ROSImageTexture::ROSImageTexture()
 ROSImageTexture::~ROSImageTexture()
 {
   current_image_.reset();
-  bufferptr_.reset();
 }
 
 void ROSImageTexture::clear()
@@ -226,7 +222,6 @@ bool ROSImageTexture::update()
   if (image->data.empty()) {
     return false;
   }
-
 
   width_ = image->width;
   height_ = image->height;
@@ -457,6 +452,7 @@ ImageData ROSImageTexture::setFormatAndNormalizeDataIfNecessary(ImageData image_
         bufferptr_->data(), const_cast<uint8_t *>(image_data.data_ptr_),
         0, height_, width_, stride_);
     }
+
 
     image_data.pixel_format_ = Ogre::PF_BYTE_RGB;
     image_data.data_ptr_ = bufferptr_->data();
