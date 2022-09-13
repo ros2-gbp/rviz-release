@@ -30,12 +30,6 @@
 
 #include "rviz_default_plugins/robot/robot_link.hpp"
 
-#include <ignition/math/Inertial.hh>
-#include <ignition/math/MassMatrix3.hh>
-#include <ignition/math/Pose3.hh>
-#include <ignition/math/Quaternion.hh>
-#include <ignition/math/Vector3.hh>
-
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <map>
@@ -55,6 +49,12 @@
 #include <OgreTechnique.h>
 
 #include <QFileInfo>  // NOLINT cpplint cannot handle include order here
+
+#include <ignition/math/Inertial.hh>
+#include <ignition/math/MassMatrix3.hh>
+#include <ignition/math/Pose3.hh>
+#include <ignition/math/Quaternion.hh>
+#include <ignition/math/Vector3.hh>
 
 #include "resource_retriever/retriever.hpp"
 
@@ -885,9 +885,12 @@ void RobotLink::createInertia(const urdf::LinkConstSharedPtr & link)
     ignition::math::Quaterniond box_rot;
     if (!mass_matrix.EquivalentBox(box_scale, box_rot)) {
       // Invalid inertia, load with default scale
-      RVIZ_COMMON_LOG_ERROR_STREAM(
-        "The link is static or has unrealistic "
-        "inertia, so the equivalent inertia box will not be shown.\n");
+      if (link->parent_joint && link->parent_joint->type != urdf::Joint::FIXED) {
+        // Do not show error message for base link or static links
+        RVIZ_COMMON_LOG_ERROR_STREAM(
+          "The link " << link->name << " is has unrealistic "
+            "inertia, so the equivalent inertia box will not be shown.\n");
+      }
       return;
     }
     Ogre::Vector3 translate(
