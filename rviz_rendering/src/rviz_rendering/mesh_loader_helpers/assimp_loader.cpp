@@ -136,9 +136,19 @@ private:
   uint8_t * pos_;
 };
 
-class ResourceIOSystem final : public Assimp::IOSystem
+class ResourceIOSystem : public Assimp::IOSystem
 {
 public:
+  struct RetrieverResult
+  {
+    RetrieverResult(bool resource_exists, Assimp::IOStream * resource_io_stream)
+    : resource_exists_(resource_exists),
+      resource_io_stream_(resource_io_stream) {}
+
+    bool resource_exists_;
+    Assimp::IOStream * resource_io_stream_;
+  };
+
   ResourceIOSystem() = default;
 
   ~ResourceIOSystem() override = default;
@@ -152,18 +162,16 @@ public:
   // Check whether a specific file exists
   bool Exists(const char * file) const override
   {
-    try {
-      resource_retriever::MemoryResource res = retriever_.get(file);
-    } catch (const resource_retriever::Exception & e) {
-      (void) e;  // do nothing on exception
-      return false;
-    }
-
-    return true;
+    return checkExistsAndOpen(file).resource_exists_;
   }
 
   // ... and finally a method to open a custom stream
   Assimp::IOStream * Open(const char * file, const char * mode = "rb") override
+  {
+    return checkExistsAndOpen(file, mode).resource_io_stream_;
+  }
+
+  RetrieverResult checkExistsAndOpen(const char * file, const char * mode = "rb") const
   {
     (void) mode;
     assert(mode == std::string("r") || mode == std::string("rb"));
@@ -171,13 +179,12 @@ public:
     resource_retriever::MemoryResource res;
     try {
       res = retriever_.get(file);
-    } catch (const resource_retriever::Exception & e) {
+    } catch (resource_retriever::Exception & e) {
       (void) e;  // do nothing on exception
-      return nullptr;
+      return RetrieverResult(false, nullptr);
     }
 
-    // This will get freed when 'Close' is called
-    return new ResourceIOStream(res);
+    return RetrieverResult(true, new ResourceIOStream(res));
   }
 
   void Close(Assimp::IOStream * stream) override
@@ -480,7 +487,6 @@ void AssimpLoader::declareVertexBufferOrdering(
   }
 
   // TODO(anyone): vertex colors
-  (void)offset;
 }
 
 Ogre::HardwareVertexBufferSharedPtr

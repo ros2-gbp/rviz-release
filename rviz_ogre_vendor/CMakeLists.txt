@@ -59,7 +59,6 @@ macro(build_freetype)
       ${CMAKE_CURRENT_BINARY_DIR}/freetype_install/
     DESTINATION
       ${CMAKE_INSTALL_PREFIX}/opt/rviz_ogre_vendor
-    USE_SOURCE_PERMISSIONS
   )
 endmacro()
 
@@ -98,14 +97,12 @@ macro(build_zlib)
       ${CMAKE_CURRENT_BINARY_DIR}/zlib-install/
     DESTINATION
       ${CMAKE_INSTALL_PREFIX}/opt/rviz_ogre_vendor
-    USE_SOURCE_PERMISSIONS
   )
 endmacro()
 
 macro(build_ogre)
   set(extra_cmake_args)
-  set(OGRE_C_FLAGS ${CMAKE_C_FLAGS})
-  set(OGRE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
+  set(OGRE_CXX_FLAGS)
   # standard library is important for linking, but the other cxx flags are not
   if(CMAKE_CXX_FLAGS MATCHES "-stdlib=libc\\+\\+")
     set(OGRE_CXX_FLAGS "${OGRE_CXX_FLAGS} -stdlib=libc++")
@@ -116,20 +113,19 @@ macro(build_ogre)
   endif()
 
   if(WIN32)
-    set(OGRE_C_FLAGS "${OGRE_C_FLAGS} /w /EHsc")
     set(OGRE_CXX_FLAGS "${OGRE_CXX_FLAGS} /w /EHsc")
+    list(APPEND extra_cmake_args "-DCMAKE_C_FLAGS=/w /EHsc")
   elseif(APPLE)
     set(OGRE_CXX_FLAGS "${OGRE_CXX_FLAGS} -std=c++14 -stdlib=libc++ -w")
     list(APPEND extra_cmake_args "-DCMAKE_OSX_ARCHITECTURES='x86_64'")
   else()  # Linux
-    set(OGRE_C_FLAGS "${OGRE_C_FLAGS} -w")
     # include Clang -Wno-everything to disable warnings in that build. GCC doesn't mind it
     set(OGRE_CXX_FLAGS "${OGRE_CXX_FLAGS} -std=c++14 -w -Wno-everything")
+    list(APPEND extra_cmake_args "-DCMAKE_C_FLAGS=-w")
   endif()
   list(APPEND extra_cmake_args "-DOGRE_BUILD_RENDERSYSTEM_GL:BOOL=TRUE")
   list(APPEND extra_cmake_args "-DOGRE_BUILD_RENDERSYSTEM_D3D11:BOOL=OFF")
   list(APPEND extra_cmake_args "-DOGRE_BUILD_RENDERSYSTEM_D3D9:BOOL=OFF")
-  list(APPEND extra_cmake_args "-DCMAKE_C_FLAGS=${OGRE_C_FLAGS}")
   list(APPEND extra_cmake_args "-DCMAKE_CXX_FLAGS=${OGRE_CXX_FLAGS}")
 
   # Uncomment this line to enable the GL3PLUS render engine
@@ -173,7 +169,6 @@ macro(build_ogre)
       -DOGRE_INSTALL_SAMPLES_SOURCE:BOOL=FALSE
       -DOGRE_CONFIG_THREADS:STRING=0
       -DOGRE_RESOURCEMANAGER_STRICT:STRING=2
-      -DCMAKE_SKIP_INSTALL_RPATH:BOOL=ON
       -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/ogre_install
       -DOGRE_BUILD_LIBS_AS_FRAMEWORKS:BOOL=OFF
       -DOGRE_BUILD_COMPONENT_PYTHON:BOOL=FALSE
@@ -183,8 +178,7 @@ macro(build_ogre)
       ${extra_cmake_args}
       -Wno-dev
     PATCH_COMMAND
-      ${Patch_EXECUTABLE} -p1 -N < ${CMAKE_CURRENT_SOURCE_DIR}/pragma-patch.diff &&
-      ${Patch_EXECUTABLE} -p1 -N < ${CMAKE_CURRENT_SOURCE_DIR}/fix-arm64.diff
+      ${Patch_EXECUTABLE} -p1 -N < ${CMAKE_CURRENT_SOURCE_DIR}/pragma-patch.diff
     COMMAND
       ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/FindFreetype.cmake ${CMAKE_CURRENT_BINARY_DIR}/ogre-v1.12.1-prefix/src/ogre-v1.12.1/CMake/Packages/FindFreetype.cmake
   )
@@ -202,7 +196,6 @@ macro(build_ogre)
       ${CMAKE_CURRENT_BINARY_DIR}/ogre_install/
     DESTINATION
       ${CMAKE_INSTALL_PREFIX}/opt/rviz_ogre_vendor
-    USE_SOURCE_PERMISSIONS
   )
 endmacro()
 
@@ -229,11 +222,6 @@ else()
   set(ENV_VAR_VALUE "opt/rviz_ogre_vendor/lib")
 endif()
 ament_environment_hooks(env_hook/rviz_ogre_vendor_library_path.dsv.in)
-
-if(BUILD_TESTING)
-  find_package(ament_lint_auto REQUIRED)
-  ament_lint_auto_find_test_dependencies()
-endif()
 
 ament_package(
   CONFIG_EXTRAS "rviz_ogre_vendor-extras.cmake.in"

@@ -24,8 +24,6 @@ endif()
 
 find_package(ament_cmake REQUIRED)
 
-find_package(rcutils REQUIRED)
-
 find_package(rviz_common REQUIRED)
 
 find_package(rviz_ogre_vendor REQUIRED)
@@ -81,21 +79,17 @@ add_library(rviz_visual_testing_framework STATIC ${visual_test_framework_source_
 target_include_directories(rviz_visual_testing_framework
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
     ${GTEST_INCLUDE_DIRS})
 
 target_link_libraries(rviz_visual_testing_framework
   ${visual_tests_target_libaries})
 
 # export information to downstream packages
+ament_export_targets(rviz_visual_testing_framework)
 ament_export_dependencies(Qt5)
 ament_export_dependencies(rviz_common)
 
-# Export old-style CMake variables
-ament_export_include_directories("include/${PROJECT_NAME}")
-
-# Export modern CMake targets
-ament_export_targets(rviz_visual_testing_framework)
+ament_export_include_directories(include)
 
 install(
   TARGETS rviz_visual_testing_framework
@@ -103,11 +97,12 @@ install(
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin
+  INCLUDES DESTINATION include
 )
 
 install(
   DIRECTORY include/
-  DESTINATION include/${PROJECT_NAME}
+  DESTINATION include
 )
 
 install(
@@ -116,8 +111,15 @@ install(
 )
 
 if(BUILD_TESTING)
-  find_package(ament_lint_auto REQUIRED)
-  ament_lint_auto_find_test_dependencies()
+  # TODO(wjwwood): replace this with ament_lint_auto() and/or add the copyright linter back
+  find_package(ament_cmake_cppcheck REQUIRED)
+  find_package(ament_cmake_cpplint REQUIRED)
+  find_package(ament_cmake_lint_cmake REQUIRED)
+  find_package(ament_cmake_uncrustify REQUIRED)
+  ament_cppcheck()
+  ament_cpplint()
+  ament_lint_cmake()
+  ament_uncrustify()
 endif()
 
 ament_package()
