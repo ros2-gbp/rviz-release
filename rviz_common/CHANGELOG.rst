@@ -2,23 +2,21 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-12.1.0 (2022-11-02)
+11.2.4 (2022-11-07)
 -------------------
-* Remove YAML_CPP_DLL define (`#831 <https://github.com/ros2/rviz/issues/831>`_)
-* Contributors: Akash
 
-12.0.0 (2022-09-13)
+11.2.3 (2022-09-12)
 -------------------
-* Document getTransform() time behavior (`#893 <https://github.com/ros2/rviz/issues/893>`_)
-* Ogre 1.12.10 upgrade (`#878 <https://github.com/ros2/rviz/issues/878>`_)
-* Add RVIZ_COMMON_PUBLIC macro (`#865 <https://github.com/ros2/rviz/issues/865>`_)
-* Contributors: Kenji Brameld, Shane Loretz, juchajam
 
-11.3.0 (2022-04-26)
+11.2.2 (2022-05-10)
 -------------------
-* Add time jump handler (`#752 <https://github.com/ros2/rviz/issues/752>`_) (`#791 <https://github.com/ros2/rviz/issues/791>`_)
+* Add time jump handler (`#791 <https://github.com/ros2/rviz/issues/791>`_) (`#854 <https://github.com/ros2/rviz/issues/854>`_)
+* Contributors: Jacob Perron
+
+11.2.1 (2022-04-26)
+-------------------
 * Make sure not to dereference a null Renderable pointer. (`#850 <https://github.com/ros2/rviz/issues/850>`_)
-* Contributors: Chris Lalancette, Marcel Zeilinger
+* Contributors: Chris Lalancette
 
 11.2.0 (2022-04-08)
 -------------------
