@@ -9,7 +9,10 @@ option(FORCE_BUILD_VENDOR_PKG
 
 find_package(ament_cmake REQUIRED)
 
-set(PACKAGE_VERSION "1.0.0")
+# Avoid DOWNLOAD_EXTRACT_TIMESTAMP warning for CMake >= 3.24
+if(POLICY CMP0135)
+  cmake_policy(SET CMP0135 NEW)
+endif()
 
 macro(build_assimp)
   set(extra_cmake_args)
@@ -21,13 +24,15 @@ macro(build_assimp)
     list(APPEND extra_cmake_args "-DCMAKE_CXX_FLAGS=/w /EHsc")
     list(APPEND extra_cmake_args "-DCMAKE_C_FLAGS=/w")
   else()
-    list(APPEND extra_cmake_args "-DCMAKE_CXX_FLAGS=-std=c++14 -w")
-    list(APPEND extra_cmake_args "-DCMAKE_C_FLAGS=-w")
+    list(APPEND extra_cmake_args "-DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS} -std=c++14 -w")
+    list(APPEND extra_cmake_args "-DCMAKE_C_FLAGS=${CMAKE_C_FLAGS} -w")
   endif()
 
   list(APPEND extra_cmake_args "-DASSIMP_BUILD_ASSIMP_TOOLS=OFF")
   list(APPEND extra_cmake_args "-DASSIMP_BUILD_TESTS=OFF")
   list(APPEND extra_cmake_args "-DASSIMP_BUILD_SAMPLES=OFF")
+  list(APPEND extra_cmake_args "-DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}")
+  list(APPEND extra_cmake_args "-DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}")
 
   if(WIN32 AND NOT ${CMAKE_VERBOSE_MAKEFILE})
     set(should_log ON)  # prevent warnings in Windows CI

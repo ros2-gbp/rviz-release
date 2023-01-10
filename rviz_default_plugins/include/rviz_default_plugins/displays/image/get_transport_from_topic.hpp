@@ -1,6 +1,5 @@
 /*
- * Copyright (c) 2009, Willow Garage, Inc.
- * Copyright (c) 2017, Open Source Robotics Foundation, Inc.
+ * Copyright (c) 2020, TNG Technology Consulting GmbH.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -11,8 +10,8 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Willow Garage, Inc. nor the names of its
- *       contributors may be used to endorse or promote products derived from
+ *     * Neither the name of the copyright holder nor the names of its contributors
+ *       may be used to endorse or promote products derived from
  *       this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -28,31 +27,26 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "loading_dialog.hpp"
+#ifndef RVIZ_DEFAULT_PLUGINS__DISPLAYS__IMAGE__GET_TRANSPORT_FROM_TOPIC_HPP_
+#define RVIZ_DEFAULT_PLUGINS__DISPLAYS__IMAGE__GET_TRANSPORT_FROM_TOPIC_HPP_
 
-#include <QApplication>
-#include <QLabel>
-#include <QVBoxLayout>
+#include <string>
 
-namespace rviz_common
+#include "rviz_default_plugins/visibility_control.hpp"
+
+namespace rviz_default_plugins
+{
+namespace displays
 {
 
-LoadingDialog::LoadingDialog(QWidget * parent)
-: QDialog(parent)
-{
-  setModal(true);
+RVIZ_DEFAULT_PLUGINS_PUBLIC
+std::string getTransportFromTopic(const std::string & topic);
 
-  label_ = new QLabel;
-  QVBoxLayout * layout = new QVBoxLayout;
-  layout->addWidget(label_);
-  setLayout(layout);
-}
+RVIZ_DEFAULT_PLUGINS_PUBLIC
+std::string getBaseTopicFromTopic(const std::string & topic);
 
-void LoadingDialog::showMessage(const QString & message)
-{
-  label_->setText(message);
-  QApplication::processEvents();
-  QWidget::repaint();
-}
 
-}  // namespace rviz_common
+}  //  end namespace displays
+}  //  end namespace rviz_default_plugins
+
+#endif  //  RVIZ_DEFAULT_PLUGINS__DISPLAYS__IMAGE__GET_TRANSPORT_FROM_TOPIC_HPP_

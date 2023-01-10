@@ -6,6 +6,11 @@ find_package(ament_cmake REQUIRED)
 
 set(PACKAGE_VERSION "1.0.0")
 
+# Avoid DOWNLOAD_EXTRACT_TIMESTAMP warning for CMake >= 3.24
+if(POLICY CMP0135)
+  cmake_policy(SET CMP0135 NEW)
+endif()
+
 if(WIN32)
   set(BUILDING_FREETYPE_LOCALLY ON)
   set(BUILDING_ZLIB_LOCALLY ON)
@@ -173,6 +178,7 @@ macro(build_ogre)
       -DOGRE_INSTALL_SAMPLES_SOURCE:BOOL=FALSE
       -DOGRE_CONFIG_THREADS:STRING=0
       -DOGRE_RESOURCEMANAGER_STRICT:STRING=2
+      -DCMAKE_SKIP_INSTALL_RPATH:BOOL=ON
       -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/ogre_install
       -DOGRE_BUILD_LIBS_AS_FRAMEWORKS:BOOL=OFF
       -DOGRE_BUILD_COMPONENT_PYTHON:BOOL=FALSE
@@ -182,7 +188,8 @@ macro(build_ogre)
       ${extra_cmake_args}
       -Wno-dev
     PATCH_COMMAND
-      ${Patch_EXECUTABLE} -p1 -N < ${CMAKE_CURRENT_SOURCE_DIR}/pragma-patch.diff
+      ${Patch_EXECUTABLE} -p1 -N < ${CMAKE_CURRENT_SOURCE_DIR}/pragma-patch.diff &&
+      ${Patch_EXECUTABLE} -p1 -N < ${CMAKE_CURRENT_SOURCE_DIR}/fix-arm64.diff
     COMMAND
       ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/FindFreetype.cmake ${CMAKE_CURRENT_BINARY_DIR}/ogre-v1.12.1-prefix/src/ogre-v1.12.1/CMake/Packages/FindFreetype.cmake
   )

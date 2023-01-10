@@ -112,7 +112,9 @@ public:
     const urdf::LinkConstSharedPtr & link,
     const std::string & parent_joint_name,
     bool visual,
-    bool collision);
+    bool collision,
+    bool mass,
+    bool inertia);
   ~RobotLink() override;
 
   virtual void setRobotAlpha(float a);
@@ -149,6 +151,7 @@ public:
   Ogre::SceneNode * getVisualNode() const {return visual_node_;}
   Ogre::SceneNode * getCollisionNode() const {return collision_node_;}
   Robot * getRobot() const {return robot_;}
+  const std::string getGeometryErrors() const;
 
   // get the meshes vector to be used in robot_test.cpp
   std::vector<Ogre::Entity *> getVisualMeshes() {return visual_meshes_;}
@@ -187,7 +190,12 @@ private:
     Ogre::MaterialPtr & material_for_link, const urdf::VisualSharedPtr & visual) const;
 
   void createCollision(const urdf::LinkConstSharedPtr & link);
+
+  void addError(const char * format, ...);
+
   void createVisual(const urdf::LinkConstSharedPtr & link);
+  void createMass(const urdf::LinkConstSharedPtr & link);
+  void createInertia(const urdf::LinkConstSharedPtr & link);
   void createSelection();
 
   template<typename T>
@@ -243,10 +251,12 @@ private:
   std::vector<Ogre::Entity *> collision_meshes_;  ///< The entities representing the
 ///< collision mesh of this link (if they exist)
 
-  Ogre::SceneNode * visual_node_;              ///< The scene node the visual meshes
-///< are attached to
-  Ogre::SceneNode * collision_node_;           ///< The scene node the collision meshes
-///< are attached to
+  Ogre::SceneNode * visual_node_;          ///< The scene node the visual meshes are attached to
+  Ogre::SceneNode * collision_node_;       ///< The scene node the collision meshes are attached to
+  Ogre::SceneNode * mass_node_;            ///< The scene node the visual meshes are attached to
+  Ogre::SceneNode * inertia_node_;         ///< The scene node the collision meshes are attached to
+  rviz_rendering::Shape * mass_shape_;     ///< The shape representing the mass
+  rviz_rendering::Shape * inertia_shape_;  ///< The shape representing the inertia
 
   Ogre::RibbonTrail * trail_;
 
@@ -262,6 +272,8 @@ private:
 
   Ogre::MaterialPtr color_material_;
   bool using_color_;
+
+  std::string error;
 
   friend class RobotLinkSelectionHandler;
 };

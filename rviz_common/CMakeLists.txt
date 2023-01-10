@@ -36,7 +36,6 @@ find_package(geometry_msgs REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(resource_retriever REQUIRED)
-find_package(rviz_assimp_vendor REQUIRED)
 find_package(rviz_rendering REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
@@ -57,8 +56,9 @@ configure_file(src/rviz_common/env_config.hpp ${ENV_CONFIG_HPP} @ONLY)
 
 # TODO(jsquare): Adopt parameters given here
 set(ENV_CONFIG_CPP ${CMAKE_CURRENT_BINARY_DIR}/src/rviz_common/env_config.cpp)
-set(RVIZ_VERSION "Alpha")
-set(ROS_DISTRO "ROS 2.0")
+ament_package_xml()
+set(RVIZ_VERSION "${rviz_common_VERSION}")
+set(ROS_DISTRO "ROS 2")
 set(OGRE_PLUGIN_PATH "rviz_ogre_vendor")
 configure_file(src/rviz_common/env_config.cpp.in ${ENV_CONFIG_CPP} @ONLY)
 
@@ -116,7 +116,7 @@ set(rviz_common_headers_to_moc
   src/rviz_common/splash_screen.hpp
   src/rviz_common/time_panel.hpp
   include/rviz_common/tool.hpp
-  src/rviz_common/tool_manager.hpp
+  include/rviz_common/tool_manager.hpp
   src/rviz_common/tool_properties_panel.hpp
   include/rviz_common/transformation/transformation_manager.hpp
   src/rviz_common/transformation_panel.hpp
@@ -228,7 +228,7 @@ add_library(rviz_common SHARED
 target_include_directories(rviz_common
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:include>
+    $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
 )
 
 target_link_libraries(rviz_common
@@ -244,7 +244,6 @@ ament_target_dependencies(rviz_common
   pluginlib
   rclcpp
   resource_retriever
-  rviz_assimp_vendor
   rviz_rendering
   sensor_msgs
   std_msgs
@@ -256,13 +255,10 @@ ament_target_dependencies(rviz_common
   urdf
   yaml_cpp_vendor
 )
-# prevent pluginlib from using boost
-target_compile_definitions(rviz_common PUBLIC "PLUGINLIB__DISABLE_BOOST_FUNCTIONS")
 # Causes the visibility macros to use dllexport rather than dllimport,
 # which is appropriate when building the dll but not consuming it.
 target_compile_definitions(rviz_common PRIVATE "RVIZ_COMMON_BUILDING_LIBRARY")
 
-ament_export_targets(rviz_common)
 ament_export_dependencies(
   rviz_rendering
   geometry_msgs
@@ -276,8 +272,13 @@ ament_export_dependencies(
   urdf
   yaml_cpp_vendor
 )
-ament_export_include_directories(include)
+
+# Export old-style CMake variables
+ament_export_include_directories("include/${PROJECT_NAME}")
 ament_export_libraries(rviz_common)
+
+# Export modern CMake targets
+ament_export_targets(rviz_common)
 
 install(
   TARGETS rviz_common
@@ -285,12 +286,11 @@ install(
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin
-  INCLUDES DESTINATION include
 )
 
 install(
   DIRECTORY include/
-  DESTINATION include
+  DESTINATION include/${PROJECT_NAME}
 )
 
 install(FILES default.rviz

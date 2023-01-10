@@ -91,7 +91,6 @@ public:
   prepareOverlays(Ogre::SceneManager * scene_manager);
 
   /// return OpenGl Version as integer, e.g. 320 for OpenGl 3.20
-  RVIZ_RENDERING_PUBLIC
   int
   getGlVersion();
 

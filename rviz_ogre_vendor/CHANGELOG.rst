@@ -2,13 +2,61 @@
 Changelog for package rviz_ogre_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-8.5.2 (2022-12-02)
-------------------
-* Fix interface link libraries in ogre vendor (`#879 <https://github.com/ros2/rviz/issues/879>`_)
+11.2.5 (2023-01-10)
+-------------------
+* Fixes policy CMP0135 warning for CMake >= 3.24 (`#898 <https://github.com/ros2/rviz/issues/898>`_) (`#936 <https://github.com/ros2/rviz/issues/936>`_)
+* Contributors: mergify[bot]
+
+11.2.4 (2022-11-07)
+-------------------
+
+11.2.3 (2022-09-12)
+-------------------
+
+11.2.2 (2022-05-10)
+-------------------
+
+11.2.1 (2022-04-26)
+-------------------
+
+11.2.0 (2022-04-08)
+-------------------
+
+11.1.1 (2022-03-30)
+-------------------
+* Fix interface link libraries in ogre vendor (`#761 <https://github.com/ros2/rviz/issues/761>`_)
 * Contributors: Laszlo Turanyi
 
-8.5.1 (2022-04-28)
+11.1.0 (2022-03-24)
+-------------------
+
+11.0.0 (2022-03-01)
+-------------------
+
+10.0.0 (2022-02-16)
+-------------------
+* Fix the build for Ubuntu Jammy arm64. (`#828 <https://github.com/ros2/rviz/issues/828>`_)
+* Contributors: Chris Lalancette
+
+9.1.1 (2022-01-25)
 ------------------
+
+9.1.0 (2022-01-13)
+------------------
+
+9.0.1 (2021-12-17)
+------------------
+
+9.0.0 (2021-11-18)
+------------------
+
+8.7.0 (2021-08-11)
+------------------
+
+8.6.0 (2021-05-13)
+------------------
+* Strip RPATH from installed Ogre binaries (`#688 <https://github.com/ros2/rviz/issues/688>`_)
+* Contributors: Michel Hidalgo
 
 8.5.0 (2021-04-06)
 ------------------

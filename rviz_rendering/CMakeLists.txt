@@ -107,41 +107,43 @@ target_link_libraries(rviz_rendering
 target_include_directories(rviz_rendering
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:include>
+    $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
     ${Eigen3_INCLUDE_DIRS}
 )
 # Causes the visibility macros to use dllexport rather than dllimport,
 # which is appropriate when building the dll but not consuming it.
 target_compile_definitions(rviz_rendering PRIVATE "RVIZ_RENDERING_BUILDING_LIBRARY")
 
-ament_export_targets(rviz_rendering)
 ament_target_dependencies(rviz_rendering
-  PUBLIC
+  SYSTEM PUBLIC
   rviz_assimp_vendor
 )
 ament_export_dependencies(
-  rviz_ogre_vendor
   rviz_assimp_vendor
+  rviz_ogre_vendor
   eigen3_cmake_module
   Eigen3
   resource_retriever
   ament_index_cpp)
 
-ament_export_include_directories(include)
+# Export old-style CMake variables
+ament_export_include_directories("include/${PROJECT_NAME}")
 ament_export_libraries(rviz_rendering)
+
+# Export modern CMake targets
+ament_export_targets(rviz_rendering)
 
 install(
   TARGETS rviz_rendering
   EXPORT rviz_rendering
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
-  INCLUDES DESTINATION include
   RUNTIME DESTINATION bin
 )
 
 install(
   DIRECTORY include/
-  DESTINATION include
+  DESTINATION include/${PROJECT_NAME}
 )
 
 set(rviz_rendering_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src/cmake")
