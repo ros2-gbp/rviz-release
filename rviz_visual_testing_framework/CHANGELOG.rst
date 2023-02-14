@@ -2,19 +2,24 @@
 Changelog for package rviz_visual_testing_framework
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-11.2.5 (2023-01-10)
+12.3.0 (2023-02-14)
+-------------------
+* Update rviz to C++17. (`#939 <https://github.com/ros2/rviz/issues/939>`_)
+* [rolling] Update maintainers - 2022-11-07 (`#923 <https://github.com/ros2/rviz/issues/923>`_)
+* Contributors: Audrow Nash, Chris Lalancette
+
+12.2.0 (2022-11-07)
 -------------------
 
-11.2.4 (2022-11-07)
+12.1.0 (2022-11-02)
 -------------------
 
-11.2.3 (2022-09-12)
+12.0.0 (2022-09-13)
 -------------------
+* Ogre 1.12.10 upgrade (`#878 <https://github.com/ros2/rviz/issues/878>`_)
+* Contributors: Kenji Brameld
 
-11.2.2 (2022-05-10)
--------------------
-
-11.2.1 (2022-04-26)
+11.3.0 (2022-04-26)
 -------------------
 
 11.2.0 (2022-04-08)
