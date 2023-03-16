@@ -114,7 +114,6 @@ SelectionManager::~SelectionManager()
 
   highlight_node_->getParentSceneNode()->removeAndDestroyChild(highlight_node_);
   delete highlight_rectangle_;
-  context_->getSceneManager()->destroyCamera(camera_);
 
   for (auto & pixel_box : pixel_boxes_) {
     delete[] static_cast<uint8_t *>(pixel_box.data);
@@ -176,10 +175,8 @@ void SelectionManager::initialize()
 
   // create picking camera
   camera_ = scene_manager->createCamera(name + "_camera");
-  auto camera_node = scene_manager->getRootSceneNode()->createChildSceneNode();
-  camera_node->attachObject(camera_);
 
-  renderer_->initialize(camera_);
+  renderer_->initialize(camera_, scene_manager);
 
   handler_manager_ = context_->getHandlerManager();
   handler_manager_->addListener(this);

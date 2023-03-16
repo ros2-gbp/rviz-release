@@ -40,7 +40,7 @@
 #include <OgreSceneNode.h>
 #include <OgreTechnique.h>
 #include <OgreTextureManager.h>
-#include <OgreVector.h>
+#include <OgreVector3.h>
 
 #include "rviz_rendering/logging.hpp"
 #include "rviz_rendering/material_manager.hpp"
@@ -58,7 +58,7 @@ Shape::createEntity(
   Ogre::SceneManager * scene_manager)
 {
   if (type == Mesh) {
-    return nullptr;  // the entity is initialized after the vertex data was specified
+    return NULL;  // the entity is initialized after the vertex data was specified
   }
   std::string mesh_name;
   switch (type) {
