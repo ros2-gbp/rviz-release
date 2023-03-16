@@ -1,4 +1,4 @@
-From dfcc84b5fb43bcb5a347070384af080ac4664e8b Mon Sep 17 00:00:00 2001
+From bd7cb8423e5e7c9ac5eab30e6498671362ebe289 Mon Sep 17 00:00:00 2001
 From: Jacob Perron <jacob@openrobotics.org>
 Date: Mon, 30 Sep 2019 12:20:23 -0700
 Subject: [PATCH] Migrate patch from Dashing
@@ -9,10 +9,10 @@ Signed-off-by: Jacob Perron <jacob@openrobotics.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/debian/rules.em b/debian/rules.em
-index 5a040673..71191b29 100755
+index 2ab7b14a..b5d81529 100755
 --- a/debian/rules.em
 +++ b/debian/rules.em
-@@ -51,7 +51,7 @@ override_dh_shlibdeps:
+@@ -57,7 +57,7 @@ override_dh_shlibdeps:
  	# in the install tree and source it.  It will set things like
  	# CMAKE_PREFIX_PATH, PKG_CONFIG_PATH, and PYTHONPATH.
  	if [ -f "@(InstallationPrefix)/setup.sh" ]; then . "@(InstallationPrefix)/setup.sh"; fi && \
@@ -22,5 +22,5 @@ index 5a040673..71191b29 100755
  override_dh_auto_install:
  	# In case we're installing to a non-standard location, look for a setup.sh
 -- 
-2.25.1
+2.34.1
 
