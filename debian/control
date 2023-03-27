@@ -1,0 +1,12 @@
+Source: ros-rolling-rviz2
+Section: misc
+Priority: optional
+Maintainer: Alejandro Hernandez Cordero <alejandro@openrobotics.org>
+Build-Depends: debhelper (>= 9.0.0), python3-yaml <!nocheck>, qtbase5-dev, ros-rolling-ament-cmake, ros-rolling-ament-cmake-cppcheck <!nocheck>, ros-rolling-ament-cmake-cpplint <!nocheck>, ros-rolling-ament-cmake-lint-cmake <!nocheck>, ros-rolling-ament-cmake-pytest <!nocheck>, ros-rolling-ament-cmake-uncrustify <!nocheck>, ros-rolling-ament-cmake-xmllint <!nocheck>, ros-rolling-ament-lint-auto <!nocheck>, ros-rolling-geometry-msgs <!nocheck>, ros-rolling-rclcpp <!nocheck>, ros-rolling-rviz-common, ros-rolling-rviz-ogre-vendor, ros-rolling-sensor-msgs <!nocheck>, ros-rolling-ros-workspace
+Homepage: https://github.com/ros2/rviz/blob/ros2/README.md
+Standards-Version: 3.9.2
+
+Package: ros-rolling-rviz2
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, python3-dev, ros-rolling-rviz-common, ros-rolling-rviz-default-plugins, ros-rolling-rviz-ogre-vendor, ros-rolling-ros-workspace
+Description: 3D visualization tool for ROS.
