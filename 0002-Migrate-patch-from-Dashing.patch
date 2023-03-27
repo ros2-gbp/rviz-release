@@ -1,0 +1,26 @@
+From 8341f79fda4d69db0e79b734686d2caa663da54d Mon Sep 17 00:00:00 2001
+From: Jacob Perron <jacob@openrobotics.org>
+Date: Mon, 30 Sep 2019 12:25:00 -0700
+Subject: [PATCH 2/2] Migrate patch from Dashing
+
+Signed-off-by: Jacob Perron <jacob@openrobotics.org>
+---
+ debian/rules.em | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/debian/rules.em b/debian/rules.em
+index 234822e2..1f7b0457 100755
+--- a/debian/rules.em
++++ b/debian/rules.em
+@@ -57,7 +57,7 @@ override_dh_shlibdeps:
+ 	# in the install tree and source it.  It will set things like
+ 	# CMAKE_PREFIX_PATH, PKG_CONFIG_PATH, and PYTHONPATH.
+ 	if [ -f "@(InstallationPrefix)/setup.sh" ]; then . "@(InstallationPrefix)/setup.sh"; fi && \
+-	dh_shlibdeps -l$(CURDIR)/debian/@(Package)/@(InstallationPrefix)/lib/:$(CURDIR)/debian/@(Package)/@(InstallationPrefix)/opt/rviz_ogre_vendor/lib/OGRE/
++	dh_shlibdeps -l$(CURDIR)/debian/@(Package)/@(InstallationPrefix)/lib/:$(CURDIR)/debian/@(Package)/@(InstallationPrefix)/opt/rviz_ogre_vendor/lib/:$(CURDIR)/debian/@(Package)/@(InstallationPrefix)/opt/rviz_ogre_vendor/lib/OGRE/
+ 
+ override_dh_auto_install:
+ 	# In case we're installing to a non-standard location, look for a setup.sh
+-- 
+2.39.2
+
