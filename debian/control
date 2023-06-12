@@ -1,0 +1,12 @@
+Source: ros-rolling-rviz-default-plugins
+Section: misc
+Priority: optional
+Maintainer: Alejandro Hernandez Cordero <alejandro@openrobotics.org>
+Build-Depends: debhelper (>= 9.0.0), qtbase5-dev, ros-rolling-ament-cmake-cppcheck <!nocheck>, ros-rolling-ament-cmake-cpplint <!nocheck>, ros-rolling-ament-cmake-gmock <!nocheck>, ros-rolling-ament-cmake-gtest <!nocheck>, ros-rolling-ament-cmake-lint-cmake <!nocheck>, ros-rolling-ament-cmake-ros, ros-rolling-ament-cmake-uncrustify <!nocheck>, ros-rolling-ament-cmake-xmllint <!nocheck>, ros-rolling-ament-index-cpp <!nocheck>, ros-rolling-ament-lint-auto <!nocheck>, ros-rolling-geometry-msgs, ros-rolling-ignition-math6-vendor, ros-rolling-image-transport, ros-rolling-interactive-markers, ros-rolling-laser-geometry, ros-rolling-map-msgs, ros-rolling-nav-msgs, ros-rolling-pluginlib, ros-rolling-rclcpp, ros-rolling-resource-retriever, ros-rolling-rviz-common, ros-rolling-rviz-ogre-vendor, ros-rolling-rviz-rendering, ros-rolling-rviz-rendering-tests <!nocheck>, ros-rolling-rviz-visual-testing-framework <!nocheck>, ros-rolling-tf2, ros-rolling-tf2-geometry-msgs, ros-rolling-tf2-ros, ros-rolling-urdf, ros-rolling-visualization-msgs, ros-rolling-ros-workspace
+Homepage: https://github.com/ros2/rviz/blob/ros2/README.md
+Standards-Version: 3.9.2
+
+Package: ros-rolling-rviz-default-plugins
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libqt5core5a, libqt5gui5, libqt5opengl5, libqt5widgets5, ros-rolling-geometry-msgs, ros-rolling-ignition-math6-vendor, ros-rolling-image-transport, ros-rolling-interactive-markers, ros-rolling-laser-geometry, ros-rolling-map-msgs, ros-rolling-nav-msgs, ros-rolling-pluginlib, ros-rolling-rclcpp, ros-rolling-resource-retriever, ros-rolling-rviz-common, ros-rolling-rviz-ogre-vendor, ros-rolling-rviz-rendering, ros-rolling-tf2, ros-rolling-tf2-geometry-msgs, ros-rolling-tf2-ros, ros-rolling-urdf, ros-rolling-visualization-msgs, ros-rolling-ros-workspace
+Description: Several default plugins for rviz to cover the basic functionality.
