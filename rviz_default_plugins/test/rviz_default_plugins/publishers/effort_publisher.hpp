@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018, Bosch Software Innovations GmbH.
+ * Copyright (c) 2019, Martin Idel
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,64 +27,62 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "pose_display_page_object.hpp"
+#ifndef RVIZ_DEFAULT_PLUGINS__PUBLISHERS__EFFORT_PUBLISHER_HPP_
+#define RVIZ_DEFAULT_PLUGINS__PUBLISHERS__EFFORT_PUBLISHER_HPP_
 
-#include <QString>
+#include <string>
+#include <chrono>
 
-#include <memory>
-#include <vector>
+#include <rclcpp/rclcpp.hpp>
+#include <sensor_msgs/msg/joint_state.hpp>
 
-PoseDisplayPageObject::PoseDisplayPageObject()
-: BasePageObject(0, "Pose")
-{}
+using namespace std::chrono_literals;  // NOLINT
 
-void PoseDisplayPageObject::setTopic(QString topic)
+namespace nodes
 {
-  setComboBox("Topic", topic);
-  waitForFirstMessage();
+
+class EffortPublisher : public rclcpp::Node
+{
+public:
+  EffortPublisher();
+
+private:
+  sensor_msgs::msg::JointState createJointStateMessage();
+
+  rclcpp::TimerBase::SharedPtr timer_;
+  rclcpp::Publisher<sensor_msgs::msg::JointState>::SharedPtr publisher_;
+};
+
+EffortPublisher::EffortPublisher()
+: Node("effort_publisher")
+{
+  publisher_ = this->create_publisher<sensor_msgs::msg::JointState>("joint_states", 10);
+
+  auto timer_callback =
+    [this]() -> void {
+      auto message = createJointStateMessage();
+      this->publisher_->publish(message);
+    };
+  timer_ = this->create_wall_timer(500ms, timer_callback);
 }
 
-void PoseDisplayPageObject::setShape(QString shape)
+sensor_msgs::msg::JointState EffortPublisher::createJointStateMessage()
 {
-  setComboBox("Shape", shape);
+  sensor_msgs::msg::JointState msg;
+  msg.name.push_back("joint1");
+  msg.name.push_back("joint2");
+  msg.position.push_back(0.0);
+  msg.position.push_back(0.0);
+
+  msg.header.frame_id = "world";
+
+  msg.effort.push_back(1);
+  msg.effort.push_back(2);
+  msg.header.stamp = this->get_clock()->now();
+
+  return msg;
 }
 
-void PoseDisplayPageObject::setColor(int red, int green, int blue)
-{
-  setColorCode("Color", red, green, blue);
-}
+}  // namespace nodes
 
-void PoseDisplayPageObject::setAlpha(float alpha)
-{
-  setFloat("Alpha", alpha);
-}
-
-void PoseDisplayPageObject::setShaftLength(float shaft_length)
-{
-  setFloat("Shaft Length", shaft_length);
-}
-
-void PoseDisplayPageObject::setShaftRadius(float shaft_radius)
-{
-  setFloat("Shaft Radius", shaft_radius);
-}
-
-void PoseDisplayPageObject::setHeadLength(float head_length)
-{
-  setFloat("Head Length", head_length);
-}
-
-void PoseDisplayPageObject::setHeadRadius(float head_radius)
-{
-  setFloat("Head Radius", head_radius);
-}
-
-void PoseDisplayPageObject::setAxesLength(float axes_length)
-{
-  setFloat("Axes Length", axes_length);
-}
-
-void PoseDisplayPageObject::setAxesRadius(float axes_radius)
-{
-  setFloat("Axes Radius", axes_radius);
-}
+#endif  // RVIZ_DEFAULT_PLUGINS__PUBLISHERS__EFFORT_PUBLISHER_HPP_
