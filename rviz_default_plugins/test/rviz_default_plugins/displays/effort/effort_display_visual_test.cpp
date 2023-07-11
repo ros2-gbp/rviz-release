@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018, Bosch Software Innovations GmbH.
+ * Copyright (c) 2023, Open Source Robotics Foundation, Inc.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -10,8 +10,8 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the copyright holder nor the names of its contributors
- *       may be used to endorse or promote products derived from
+ *     * Neither the name of the Willow Garage, Inc. nor the names of its
+ *       contributors may be used to endorse or promote products derived from
  *       this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -27,64 +27,33 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "pose_display_page_object.hpp"
-
-#include <QString>
-
 #include <memory>
-#include <vector>
+#include <string>
 
-PoseDisplayPageObject::PoseDisplayPageObject()
-: BasePageObject(0, "Pose")
-{}
+#include "rviz_visual_testing_framework/visual_test_fixture.hpp"
+#include "rviz_visual_testing_framework/visual_test_publisher.hpp"
 
-void PoseDisplayPageObject::setTopic(QString topic)
-{
-  setComboBox("Topic", topic);
-  waitForFirstMessage();
-}
+#include "../../page_objects/effort_display_page_object.hpp"
+#include "../../publishers/effort_publisher.hpp"
 
-void PoseDisplayPageObject::setShape(QString shape)
-{
-  setComboBox("Shape", shape);
-}
+TEST_F(VisualTestFixture, wrenches_are_displayed) {
+  auto effort_publisher = std::make_shared<nodes::EffortPublisher>();
+  auto effort_visual_publisher =
+    std::make_unique<VisualTestPublisher>(effort_publisher, "effort_frame");
 
-void PoseDisplayPageObject::setColor(int red, int green, int blue)
-{
-  setColorCode("Color", red, green, blue);
-}
+  setCamPose(Ogre::Vector3(10, 10, 16));
+  setCamLookAt(Ogre::Vector3(0, 0, 0));
 
-void PoseDisplayPageObject::setAlpha(float alpha)
-{
-  setFloat("Alpha", alpha);
-}
+  auto effort_display = addDisplay<EffortDisplayPageObject>();
+  effort_display->setTopic("/joint_states");
+  effort_display->setScale(2);
+  effort_display->setWidth(4);
+  effort_display->setRobotDescription("robot_description");
 
-void PoseDisplayPageObject::setShaftLength(float shaft_length)
-{
-  setFloat("Shaft Length", shaft_length);
-}
+  captureMainWindow();
 
-void PoseDisplayPageObject::setShaftRadius(float shaft_radius)
-{
-  setFloat("Shaft Radius", shaft_radius);
-}
+  effort_display->setAlpha(0.0f);
+  captureMainWindow("empty_scene");
 
-void PoseDisplayPageObject::setHeadLength(float head_length)
-{
-  setFloat("Head Length", head_length);
-}
-
-void PoseDisplayPageObject::setHeadRadius(float head_radius)
-{
-  setFloat("Head Radius", head_radius);
-}
-
-void PoseDisplayPageObject::setAxesLength(float axes_length)
-{
-  setFloat("Axes Length", axes_length);
-}
-
-void PoseDisplayPageObject::setAxesRadius(float axes_radius)
-{
-  setFloat("Axes Radius", axes_radius);
+  assertScreenShotsIdentity();
 }
