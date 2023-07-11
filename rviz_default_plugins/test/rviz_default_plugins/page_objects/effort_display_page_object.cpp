@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018, Bosch Software Innovations GmbH.
+ * Copyright (c) 2023, Open Source Robotics Foundation, Inc.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -10,8 +10,8 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the copyright holder nor the names of its contributors
- *       may be used to endorse or promote products derived from
+ *     * Neither the name of the Willow Garage, Inc. nor the names of its
+ *       contributors may be used to endorse or promote products derived from
  *       this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -27,64 +27,42 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "pose_display_page_object.hpp"
-
-#include <QString>
+#include "effort_display_page_object.hpp"
 
 #include <memory>
 #include <vector>
 
-PoseDisplayPageObject::PoseDisplayPageObject()
-: BasePageObject(0, "Pose")
+EffortDisplayPageObject::EffortDisplayPageObject()
+: BasePageObject(0, "Effort")
 {}
 
-void PoseDisplayPageObject::setTopic(QString topic)
+void EffortDisplayPageObject::setTopic(QString topic)
 {
   setComboBox("Topic", topic);
   waitForFirstMessage();
 }
 
-void PoseDisplayPageObject::setShape(QString shape)
-{
-  setComboBox("Shape", shape);
-}
-
-void PoseDisplayPageObject::setColor(int red, int green, int blue)
-{
-  setColorCode("Color", red, green, blue);
-}
-
-void PoseDisplayPageObject::setAlpha(float alpha)
+void EffortDisplayPageObject::setAlpha(float alpha)
 {
   setFloat("Alpha", alpha);
 }
 
-void PoseDisplayPageObject::setShaftLength(float shaft_length)
+void EffortDisplayPageObject::setScale(float scale)
 {
-  setFloat("Shaft Length", shaft_length);
+  setFloat("Scale", scale);
 }
 
-void PoseDisplayPageObject::setShaftRadius(float shaft_radius)
+void EffortDisplayPageObject::setWidth(float width)
 {
-  setFloat("Shaft Radius", shaft_radius);
+  setFloat("Width", width);
 }
 
-void PoseDisplayPageObject::setHeadLength(float head_length)
+void EffortDisplayPageObject::setHistoryLength(int history)
 {
-  setFloat("Head Length", head_length);
+  setInt("History Length", history);
 }
 
-void PoseDisplayPageObject::setHeadRadius(float head_radius)
+void EffortDisplayPageObject::setRobotDescription(QString topic)
 {
-  setFloat("Head Radius", head_radius);
-}
-
-void PoseDisplayPageObject::setAxesLength(float axes_length)
-{
-  setFloat("Axes Length", axes_length);
-}
-
-void PoseDisplayPageObject::setAxesRadius(float axes_radius)
-{
-  setFloat("Axes Radius", axes_radius);
+  setString("Robot Description", topic);
 }
