@@ -2,26 +2,7 @@
 Changelog for package rviz_rendering
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-12.7.0 (2023-07-11)
--------------------
-* Added Effort plugin (`#990 <https://github.com/ros2/rviz/issues/990>`_)
-* load GLB meshes (`#1001 <https://github.com/ros2/rviz/issues/1001>`_)
-* Fixed camera default plusin crash (`#999 <https://github.com/ros2/rviz/issues/999>`_)
-* Contributors: Alejandro Hernández Cordero, Morgan Quigley
-
-12.6.1 (2023-06-12)
--------------------
-
-12.6.0 (2023-06-07)
--------------------
-
-12.5.1 (2023-05-11)
--------------------
-* Clean Code (`#975 <https://github.com/ros2/rviz/issues/975>`_)
-  * Clean Code
-* Contributors: mosfet80
-
-12.5.0 (2023-04-28)
+12.4.1 (2023-07-14)
 -------------------
 
 12.4.0 (2023-04-18)

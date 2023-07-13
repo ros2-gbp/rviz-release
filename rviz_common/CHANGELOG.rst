@@ -2,29 +2,11 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-12.7.0 (2023-07-11)
+12.4.1 (2023-07-14)
 -------------------
-* use static QCoreApplication::processEvents() function without a QApplication instance (`#924 <https://github.com/ros2/rviz/issues/924>`_)
-* Re-implemented setName for tools (`#989 <https://github.com/ros2/rviz/issues/989>`_)
-* Contributors: Felix Exner (fexner), Yannis Gerlach
-
-12.6.1 (2023-06-12)
--------------------
+* Re-implemented setName for tools (`#997 <https://github.com/ros2/rviz/issues/997>`_)
 * Add a libqt5-svg dependency to rviz_common. (`#992 <https://github.com/ros2/rviz/issues/992>`_)
-* Contributors: Chris Lalancette
-
-12.6.0 (2023-06-07)
--------------------
-* Remove onHelpWiki. (`#985 <https://github.com/ros2/rviz/issues/985>`_)
-* Contributors: Chris Lalancette
-
-12.5.1 (2023-05-11)
--------------------
-* Clean Code (`#975 <https://github.com/ros2/rviz/issues/975>`_)
-* Contributors: mosfet80
-
-12.5.0 (2023-04-28)
--------------------
+* Contributors: Alejandro Hernández Cordero, Chris Lalancette, Felix Exner
 
 12.4.0 (2023-04-18)
 -------------------
