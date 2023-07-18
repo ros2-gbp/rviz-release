@@ -34,7 +34,7 @@
 #include <memory>
 #include <string>
 
-#include <OgreVector.h>
+#include <OgreVector3.h>
 
 #include "rclcpp/rclcpp.hpp"
 
