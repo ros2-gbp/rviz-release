@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, Willow Garage, Inc.
+ * Copyright (c) 2023, Open Source Robotics Foundation, Inc.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,57 +27,53 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "rviz_default_plugins/displays/pointcloud/point_cloud_display.hpp"
+#include "accel_display_page_object.hpp"
 
+#include <QString>
 #include <memory>
-#include <utility>
+#include <vector>
 
-#include <Ogre.h>
-
-#include "rviz_default_plugins/displays/pointcloud/point_cloud_common.hpp"
-#include "rviz_common/display_context.hpp"
-#include "rviz_common/frame_manager_iface.hpp"
-#include "rviz_common/properties/int_property.hpp"
-
-namespace rviz_default_plugins
-{
-namespace displays
-{
-
-PointCloudDisplay::PointCloudDisplay()
-: point_cloud_common_(std::make_unique<PointCloudCommon>(this))
+AccelDisplayPageObject::AccelDisplayPageObject()
+: BasePageObject(0, "AccelStamped")
 {}
 
-void PointCloudDisplay::onInitialize()
+void AccelDisplayPageObject::setTopic(QString topic)
 {
-  MFDClass::onInitialize();
-  point_cloud_common_->initialize(context_, scene_node_);
+  setComboBox("Topic", topic);
+  waitForFirstMessage();
 }
 
-void PointCloudDisplay::processMessage(const sensor_msgs::msg::PointCloud::ConstSharedPtr cloud)
+void AccelDisplayPageObject::setAlpha(float alpha)
 {
-  point_cloud_common_->addMessage(cloud);
+  setFloat("Alpha", alpha);
 }
 
-void PointCloudDisplay::update(float wall_dt, float ros_dt)
+void AccelDisplayPageObject::setAngularColor(int r, int g, int b)
 {
-  point_cloud_common_->update(wall_dt, ros_dt);
+  setColorCode("Angular Color", r, g, b);
 }
 
-void PointCloudDisplay::reset()
+void AccelDisplayPageObject::setLinearColor(int r, int g, int b)
 {
-  MFDClass::reset();
-  point_cloud_common_->reset();
+  setColorCode("Linear Color", r, g, b);
 }
 
-void PointCloudDisplay::onDisable()
+void AccelDisplayPageObject::setLinearScale(float scale)
 {
-  MFDClass::onDisable();
-  point_cloud_common_->onDisable();
+  setFloat("Linear Arrow Scale", scale);
 }
 
-}  // namespace displays
-}  // namespace rviz_default_plugins
+void AccelDisplayPageObject::setAngularScale(float scale)
+{
+  setFloat("Angular Arrow Scale", scale);
+}
 
-#include <pluginlib/class_list_macros.hpp>  // NOLINT
-PLUGINLIB_EXPORT_CLASS(rviz_default_plugins::displays::PointCloudDisplay, rviz_common::Display)
+void AccelDisplayPageObject::setWidth(float width)
+{
+  setFloat("Arrow Width", width);
+}
+
+void AccelDisplayPageObject::setHistoryLength(int history)
+{
+  setInt("History Length", history);
+}
