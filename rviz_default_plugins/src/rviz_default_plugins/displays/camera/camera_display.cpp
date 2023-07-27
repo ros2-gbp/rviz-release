@@ -94,28 +94,6 @@ bool validateFloats(const sensor_msgs::msg::CameraInfo & msg)
   return valid;
 }
 
-static Ogre::Vector4 calculateScreenCorners(
-  const sensor_msgs::msg::CameraInfo::ConstSharedPtr info,
-  const Ogre::Vector2 & zoom)
-{
-  float x_corner_start, y_corner_start, x_corner_end, y_corner_end;
-
-  if (info->roi.height != 0 || info->roi.width != 0) {
-    // corners are computed according to roi
-    x_corner_start = (2.0 * info->roi.x_offset / info->width - 1.0) * zoom.x;
-    y_corner_start = (-2.0 * info->roi.y_offset / info->height + 1.0) * zoom.y;
-    x_corner_end = x_corner_start + (2.0 * info->roi.width / info->width) * zoom.x;
-    y_corner_end = y_corner_start - (2.0 * info->roi.height / info->height) * zoom.y;
-  } else {
-    x_corner_start = -1.0f * zoom.x;
-    y_corner_start = 1.0f * zoom.y;
-    x_corner_end = 1.0f * zoom.x;
-    y_corner_end = -1.0f * zoom.y;
-  }
-
-  return {x_corner_start, y_corner_start, x_corner_end, y_corner_end};
-}
-
 CameraDisplay::CameraDisplay()
 : tf_filter_(nullptr),
   texture_(std::make_unique<ROSImageTexture>()),
@@ -415,9 +393,8 @@ void CameraDisplay::clear()
     "No CameraInfo received on [" + QString::fromStdString(camera_info_topic) + "]. "
     "Topic may not exist.");
 
-  rviz_rendering::RenderWindowOgreAdapter::setOgreCameraPosition(
-    render_panel_->getRenderWindow(),
-    rviz_common::RenderPanel::default_camera_pose_);
+  rviz_rendering::RenderWindowOgreAdapter::getOgreCamera(
+    render_panel_->getRenderWindow())->setPosition(rviz_common::RenderPanel::default_camera_pose_);
 
   if (tf_filter_) {
     tf_filter_->clear();
@@ -510,8 +487,9 @@ bool CameraDisplay::updateCamera()
   }
 
   auto render_window = render_panel_->getRenderWindow();
-  rviz_rendering::RenderWindowOgreAdapter::setOgreCameraPosition(render_window, position);
-  rviz_rendering::RenderWindowOgreAdapter::setOgreCameraOrientation(render_window, orientation);
+  rviz_rendering::RenderWindowOgreAdapter::getOgreCamera(render_window)->setPosition(position);
+  rviz_rendering::RenderWindowOgreAdapter::getOgreCamera(render_window)
+  ->setOrientation(orientation);
 
   Ogre::Vector2 zoom = getZoomFromInfo(info, dimensions);
   Ogre::Matrix4 proj_matrix = calculateProjectionMatrix(info, dimensions, zoom);
@@ -522,9 +500,8 @@ bool CameraDisplay::updateCamera()
   setStatus(StatusLevel::Ok, CAM_INFO_STATUS, "OK");
 
   // adjust the image rectangles to fit the zoom & aspect ratio
-  Ogre::Vector4 corners = calculateScreenCorners(info, zoom);
-  background_screen_rect_->setCorners(corners.x, corners.y, corners.z, corners.w);
-  overlay_screen_rect_->setCorners(corners.x, corners.y, corners.z, corners.w);
+  background_screen_rect_->setCorners(-1.0f * zoom.x, 1.0f * zoom.y, 1.0f * zoom.x, -1.0f * zoom.y);
+  overlay_screen_rect_->setCorners(-1.0f * zoom.x, 1.0f * zoom.y, 1.0f * zoom.x, -1.0f * zoom.y);
 
   Ogre::AxisAlignedBox aabInf;
   aabInf.setInfinite();

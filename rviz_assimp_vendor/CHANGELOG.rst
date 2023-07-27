@@ -2,40 +2,27 @@
 Changelog for package rviz_assimp_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-12.4.2 (2023-07-27)
+11.2.7 (2023-07-27)
 -------------------
 
-12.4.1 (2023-07-14)
+11.2.6 (2023-07-18)
 -------------------
 
-12.4.0 (2023-04-18)
+11.2.5 (2023-01-10)
 -------------------
-* If vendored assimp is present, always prefer that (`#970 <https://github.com/ros2/rviz/issues/970>`_)
-* Contributors: Scott K Logan
+* Fixes policy CMP0135 warning for CMake >= 3.24 (`#898 <https://github.com/ros2/rviz/issues/898>`_) (`#936 <https://github.com/ros2/rviz/issues/936>`_)
+* Contributors: mergify[bot]
 
-12.3.2 (2023-04-11)
--------------------
-
-12.3.1 (2023-03-01)
+11.2.4 (2022-11-07)
 -------------------
 
-12.3.0 (2023-02-14)
--------------------
-* [rolling] Update maintainers - 2022-11-07 (`#923 <https://github.com/ros2/rviz/issues/923>`_)
-* Contributors: Audrow Nash
-
-12.2.0 (2022-11-07)
+11.2.3 (2022-09-12)
 -------------------
 
-12.1.0 (2022-11-02)
+11.2.2 (2022-05-10)
 -------------------
 
-12.0.0 (2022-09-13)
--------------------
-* Fixes policy CMP0135 warning for CMake >= 3.24 (`#898 <https://github.com/ros2/rviz/issues/898>`_)
-* Contributors: Cristóbal Arroyo
-
-11.3.0 (2022-04-26)
+11.2.1 (2022-04-26)
 -------------------
 
 11.2.0 (2022-04-08)
