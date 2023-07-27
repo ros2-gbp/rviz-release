@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, Willow Garage, Inc.
+ * Copyright (c) 2023, Open Source Robotics Foundation, Inc.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,57 +27,29 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "rviz_default_plugins/displays/pointcloud/point_cloud_display.hpp"
+
+#ifndef RVIZ_DEFAULT_PLUGINS__DISPLAYS__TWIST__TWIST_DISPLAY_HPP_
+#define RVIZ_DEFAULT_PLUGINS__DISPLAYS__TWIST__TWIST_DISPLAY_HPP_
 
 #include <memory>
-#include <utility>
 
-#include <Ogre.h>
+#include "rviz_default_plugins/displays/screw/screw_display.hpp"
 
-#include "rviz_default_plugins/displays/pointcloud/point_cloud_common.hpp"
-#include "rviz_common/display_context.hpp"
-#include "rviz_common/frame_manager_iface.hpp"
-#include "rviz_common/properties/int_property.hpp"
+#include <geometry_msgs/msg/twist_stamped.hpp>
 
 namespace rviz_default_plugins
 {
 namespace displays
 {
-
-PointCloudDisplay::PointCloudDisplay()
-: point_cloud_common_(std::make_unique<PointCloudCommon>(this))
-{}
-
-void PointCloudDisplay::onInitialize()
+class TwistStampedDisplay : public ScrewDisplay<geometry_msgs::msg::TwistStamped>
 {
-  MFDClass::onInitialize();
-  point_cloud_common_->initialize(context_, scene_node_);
-}
+  Q_OBJECT
 
-void PointCloudDisplay::processMessage(const sensor_msgs::msg::PointCloud::ConstSharedPtr cloud)
-{
-  point_cloud_common_->addMessage(cloud);
-}
-
-void PointCloudDisplay::update(float wall_dt, float ros_dt)
-{
-  point_cloud_common_->update(wall_dt, ros_dt);
-}
-
-void PointCloudDisplay::reset()
-{
-  MFDClass::reset();
-  point_cloud_common_->reset();
-}
-
-void PointCloudDisplay::onDisable()
-{
-  MFDClass::onDisable();
-  point_cloud_common_->onDisable();
-}
+  // Function to handle an incoming ROS message.
+  void processMessage(geometry_msgs::msg::TwistStamped::ConstSharedPtr msg) override;
+};
 
 }  // namespace displays
 }  // namespace rviz_default_plugins
 
-#include <pluginlib/class_list_macros.hpp>  // NOLINT
-PLUGINLIB_EXPORT_CLASS(rviz_default_plugins::displays::PointCloudDisplay, rviz_common::Display)
+#endif  // RVIZ_DEFAULT_PLUGINS__DISPLAYS__TWIST__TWIST_DISPLAY_HPP_
