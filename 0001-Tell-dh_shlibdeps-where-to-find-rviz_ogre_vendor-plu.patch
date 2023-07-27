@@ -1,4 +1,4 @@
-From 76ec8cc3edcb3f1650809b754488c8fc29801c69 Mon Sep 17 00:00:00 2001
+From 65c9264972fe2b823bbe44200674c9ddff1cfdf8 Mon Sep 17 00:00:00 2001
 From: Michel Hidalgo <michel@ekumenlabs.com>
 Date: Thu, 20 May 2021 14:04:38 -0300
 Subject: [PATCH 1/2] Tell dh_shlibdeps where to find rviz_ogre_vendor plugin
