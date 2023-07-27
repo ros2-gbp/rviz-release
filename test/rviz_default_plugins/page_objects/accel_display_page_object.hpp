@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, Willow Garage, Inc.
+ * Copyright (c) 2023, Open Source Robotics Foundation, Inc.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,57 +27,26 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "rviz_default_plugins/displays/pointcloud/point_cloud_display.hpp"
+#ifndef RVIZ_DEFAULT_PLUGINS__PAGE_OBJECTS__ACCEL_DISPLAY_PAGE_OBJECT_HPP_
+#define RVIZ_DEFAULT_PLUGINS__PAGE_OBJECTS__ACCEL_DISPLAY_PAGE_OBJECT_HPP_
 
-#include <memory>
-#include <utility>
+#include "rviz_visual_testing_framework/page_objects/base_page_object.hpp"
 
-#include <Ogre.h>
+#include <QString>  // NOLINT
 
-#include "rviz_default_plugins/displays/pointcloud/point_cloud_common.hpp"
-#include "rviz_common/display_context.hpp"
-#include "rviz_common/frame_manager_iface.hpp"
-#include "rviz_common/properties/int_property.hpp"
-
-namespace rviz_default_plugins
+class AccelDisplayPageObject : public BasePageObject
 {
-namespace displays
-{
+public:
+  AccelDisplayPageObject();
 
-PointCloudDisplay::PointCloudDisplay()
-: point_cloud_common_(std::make_unique<PointCloudCommon>(this))
-{}
+  void setTopic(QString topic);
+  void setAlpha(float alpha);
+  void setAngularColor(int r, int g, int b);
+  void setLinearColor(int r, int g, int b);
+  void setAngularScale(float scale);
+  void setLinearScale(float scale);
+  void setWidth(float width);
+  void setHistoryLength(int history);
+};
 
-void PointCloudDisplay::onInitialize()
-{
-  MFDClass::onInitialize();
-  point_cloud_common_->initialize(context_, scene_node_);
-}
-
-void PointCloudDisplay::processMessage(const sensor_msgs::msg::PointCloud::ConstSharedPtr cloud)
-{
-  point_cloud_common_->addMessage(cloud);
-}
-
-void PointCloudDisplay::update(float wall_dt, float ros_dt)
-{
-  point_cloud_common_->update(wall_dt, ros_dt);
-}
-
-void PointCloudDisplay::reset()
-{
-  MFDClass::reset();
-  point_cloud_common_->reset();
-}
-
-void PointCloudDisplay::onDisable()
-{
-  MFDClass::onDisable();
-  point_cloud_common_->onDisable();
-}
-
-}  // namespace displays
-}  // namespace rviz_default_plugins
-
-#include <pluginlib/class_list_macros.hpp>  // NOLINT
-PLUGINLIB_EXPORT_CLASS(rviz_default_plugins::displays::PointCloudDisplay, rviz_common::Display)
+#endif  // RVIZ_DEFAULT_PLUGINS__PAGE_OBJECTS__ACCEL_DISPLAY_PAGE_OBJECT_HPP_
