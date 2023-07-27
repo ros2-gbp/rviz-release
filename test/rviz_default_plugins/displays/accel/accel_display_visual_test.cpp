@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, Willow Garage, Inc.
+ * Copyright (c) 2023, Open Source Robotics Foundation, Inc.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,57 +27,35 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "rviz_default_plugins/displays/pointcloud/point_cloud_display.hpp"
-
 #include <memory>
-#include <utility>
+#include <string>
 
-#include <Ogre.h>
+#include "rviz_visual_testing_framework/visual_test_fixture.hpp"
+#include "rviz_visual_testing_framework/visual_test_publisher.hpp"
 
-#include "rviz_default_plugins/displays/pointcloud/point_cloud_common.hpp"
-#include "rviz_common/display_context.hpp"
-#include "rviz_common/frame_manager_iface.hpp"
-#include "rviz_common/properties/int_property.hpp"
+#include "../../page_objects/accel_display_page_object.hpp"
+#include "../../publishers/accel_publisher.hpp"
 
-namespace rviz_default_plugins
-{
-namespace displays
-{
+TEST_F(VisualTestFixture, accels_are_displayed) {
+  auto accel_publisher = std::make_shared<nodes::AccelPublisher>();
+  auto accel_visual_publisher =
+    std::make_unique<VisualTestPublisher>(accel_publisher, "accel_frame");
 
-PointCloudDisplay::PointCloudDisplay()
-: point_cloud_common_(std::make_unique<PointCloudCommon>(this))
-{}
+  setCamPose(Ogre::Vector3(10, 10, 16));
+  setCamLookAt(Ogre::Vector3(0, 0, 0));
 
-void PointCloudDisplay::onInitialize()
-{
-  MFDClass::onInitialize();
-  point_cloud_common_->initialize(context_, scene_node_);
+  auto accel_display = addDisplay<AccelDisplayPageObject>();
+  accel_display->setTopic("/accel");
+  accel_display->setLinearColor(255, 255, 0);
+  accel_display->setAngularColor(0, 255, 255);
+  accel_display->setLinearScale(2);
+  accel_display->setAngularScale(2);
+  accel_display->setWidth(4);
+
+  captureMainWindow();
+
+  accel_display->setAlpha(0.0f);
+  captureMainWindow("empty_scene");
+
+  assertScreenShotsIdentity();
 }
-
-void PointCloudDisplay::processMessage(const sensor_msgs::msg::PointCloud::ConstSharedPtr cloud)
-{
-  point_cloud_common_->addMessage(cloud);
-}
-
-void PointCloudDisplay::update(float wall_dt, float ros_dt)
-{
-  point_cloud_common_->update(wall_dt, ros_dt);
-}
-
-void PointCloudDisplay::reset()
-{
-  MFDClass::reset();
-  point_cloud_common_->reset();
-}
-
-void PointCloudDisplay::onDisable()
-{
-  MFDClass::onDisable();
-  point_cloud_common_->onDisable();
-}
-
-}  // namespace displays
-}  // namespace rviz_default_plugins
-
-#include <pluginlib/class_list_macros.hpp>  // NOLINT
-PLUGINLIB_EXPORT_CLASS(rviz_default_plugins::displays::PointCloudDisplay, rviz_common::Display)
