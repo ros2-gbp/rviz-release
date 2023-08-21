@@ -2,33 +2,66 @@
 Changelog for package rviz_rendering
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-11.2.7 (2023-07-27)
+13.0.0 (2023-08-21)
 -------------------
-* Added TwistStamped and AccelStamped default plugins (`#991 <https://github.com/ros2/rviz/issues/991>`_) (`#1014 <https://github.com/ros2/rviz/issues/1014>`_)
-  (cherry picked from commit 9599dd488d543671121c40df9aec5533064e86fb)
-  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
-* Contributors: mergify[bot]
+* Fix the flakey rviz_rendering tests (`#1026 <https://github.com/ros2/rviz/issues/1026>`_)
+* Contributors: Chris Lalancette
 
-11.2.6 (2023-07-18)
+12.8.0 (2023-08-27)
 -------------------
-* Added Effort plugin (`#990 <https://github.com/ros2/rviz/issues/990>`_) (`#1010 <https://github.com/ros2/rviz/issues/1010>`_)
-* Contributors: mergify[bot]
+* Added TwistStamped and AccelStamped default plugins (`#991 <https://github.com/ros2/rviz/issues/991>`_)
+* Contributors: Alejandro Hernández Cordero
 
-11.2.5 (2023-01-10)
+12.7.0 (2023-07-11)
 -------------------
-* add test to ensure binary STL files from SOLIDWORKS get imported without a warning (`#917 <https://github.com/ros2/rviz/issues/917>`_) (`#931 <https://github.com/ros2/rviz/issues/931>`_)
-* Contributors: mergify[bot]
+* Added Effort plugin (`#990 <https://github.com/ros2/rviz/issues/990>`_)
+* load GLB meshes (`#1001 <https://github.com/ros2/rviz/issues/1001>`_)
+* Fixed camera default plusin crash (`#999 <https://github.com/ros2/rviz/issues/999>`_)
+* Contributors: Alejandro Hernández Cordero, Morgan Quigley
 
-11.2.4 (2022-11-07)
--------------------
-
-11.2.3 (2022-09-12)
+12.6.1 (2023-06-12)
 -------------------
 
-11.2.2 (2022-05-10)
+12.6.0 (2023-06-07)
 -------------------
 
-11.2.1 (2022-04-26)
+12.5.1 (2023-05-11)
+-------------------
+* Clean Code (`#975 <https://github.com/ros2/rviz/issues/975>`_)
+  * Clean Code
+* Contributors: mosfet80
+
+12.5.0 (2023-04-28)
+-------------------
+
+12.4.0 (2023-04-18)
+-------------------
+
+12.3.2 (2023-04-11)
+-------------------
+
+12.3.1 (2023-03-01)
+-------------------
+
+12.3.0 (2023-02-14)
+-------------------
+* [rolling] Update maintainers - 2022-11-07 (`#923 <https://github.com/ros2/rviz/issues/923>`_)
+* Contributors: Audrow Nash
+
+12.2.0 (2022-11-07)
+-------------------
+* add test to ensure binary STL files from SOLIDWORKS get imported without a warning (`#917 <https://github.com/ros2/rviz/issues/917>`_)
+* Contributors: Kenji Brameld
+
+12.1.0 (2022-11-02)
+-------------------
+
+12.0.0 (2022-09-13)
+-------------------
+* Ogre 1.12.10 upgrade (`#878 <https://github.com/ros2/rviz/issues/878>`_)
+* Contributors: Kenji Brameld
+
+11.3.0 (2022-04-26)
 -------------------
 * Stop using glsl150 resources for now. (`#851 <https://github.com/ros2/rviz/issues/851>`_)
 * Contributors: Chris Lalancette

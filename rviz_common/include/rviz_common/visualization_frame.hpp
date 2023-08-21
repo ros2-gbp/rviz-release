@@ -80,7 +80,7 @@ class WidgetGeometryChangeDetector;
  * At the top is a toolbar with Tools like "Move Camera", "Select", etc.
  * There is also a menu bar with file/open, etc.
  */
-class VisualizationFrame : public QMainWindow, public WindowManagerInterface
+class RVIZ_COMMON_PUBLIC VisualizationFrame : public QMainWindow, public WindowManagerInterface
 {
   Q_OBJECT
 
@@ -261,10 +261,6 @@ protected Q_SLOTS:
   /// Handle QActions, often fired when panels are added or removed.
   void
   onRecentConfigSelected();
-
-  /// Handle event to display the help on the ROS wiki.
-  void
-  onHelpWiki();
 
   /// Handle event to show the about dialog.
   void
