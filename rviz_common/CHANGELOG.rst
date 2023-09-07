@@ -2,24 +2,51 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-12.4.3 (2023-08-21)
+13.1.0 (2023-09-07)
 -------------------
-* Remove unused LineEditWithButton::simulateReturnPressed() (`#1040 <https://github.com/ros2/rviz/issues/1040>`_) (`#1043 <https://github.com/ros2/rviz/issues/1043>`_)
-* Contributors: mergify[bot]
-
-12.4.2 (2023-07-27)
--------------------
-* Remove warning in depth_cloud_mld.cpp (`#1021 <https://github.com/ros2/rviz/issues/1021>`_)
-  (cherry picked from commit 092e3efef2f907549976ffd101e5ad8100cbea3f)
-* Added DepthCloud default plugin (`#996 <https://github.com/ros2/rviz/issues/996>`_)
-  (cherry picked from commit 8f2e17e441399974ebd465a2d2ef0a3529f57f23)
+* Removed unused code (`#1044 <https://github.com/ros2/rviz/issues/1044>`_)
 * Contributors: Alejandro Hernández Cordero
 
-12.4.1 (2023-07-14)
+13.0.0 (2023-08-21)
 -------------------
-* Re-implemented setName for tools (`#997 <https://github.com/ros2/rviz/issues/997>`_)
+* Remove unused LineEditWithButton::simulateReturnPressed() (`#1040 <https://github.com/ros2/rviz/issues/1040>`_)
+* Contributors: Alejandro Hernández Cordero
+
+12.8.0 (2023-08-27)
+-------------------
+* Remove warning in depth_cloud_mld.cpp (`#1021 <https://github.com/ros2/rviz/issues/1021>`_)
+* Added DepthCloud default plugin (`#996 <https://github.com/ros2/rviz/issues/996>`_)
+* Stop inheriting from std::iterator. (`#1013 <https://github.com/ros2/rviz/issues/1013>`_)
+  In C++17, inheriting from std::iterator has been
+  deprecated: https://www.fluentcpp.com/2018/05/08/std-iterator-deprecated/
+  Here, switch away from inheriting and just define the
+  interface ourselves (which is the current recommended best practice).
+  This removes some warnings when building with gcc 13.1.1
+* Contributors: Alejandro Hernández Cordero, Chris Lalancette
+
+12.7.0 (2023-07-11)
+-------------------
+* use static QCoreApplication::processEvents() function without a QApplication instance (`#924 <https://github.com/ros2/rviz/issues/924>`_)
+* Re-implemented setName for tools (`#989 <https://github.com/ros2/rviz/issues/989>`_)
+* Contributors: Felix Exner (fexner), Yannis Gerlach
+
+12.6.1 (2023-06-12)
+-------------------
 * Add a libqt5-svg dependency to rviz_common. (`#992 <https://github.com/ros2/rviz/issues/992>`_)
-* Contributors: Alejandro Hernández Cordero, Chris Lalancette, Felix Exner
+* Contributors: Chris Lalancette
+
+12.6.0 (2023-06-07)
+-------------------
+* Remove onHelpWiki. (`#985 <https://github.com/ros2/rviz/issues/985>`_)
+* Contributors: Chris Lalancette
+
+12.5.1 (2023-05-11)
+-------------------
+* Clean Code (`#975 <https://github.com/ros2/rviz/issues/975>`_)
+* Contributors: mosfet80
+
+12.5.0 (2023-04-28)
+-------------------
 
 12.4.0 (2023-04-18)
 -------------------

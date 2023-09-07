@@ -2,23 +2,44 @@
 Changelog for package rviz_rendering
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-12.4.3 (2023-08-21)
+13.1.0 (2023-09-07)
 -------------------
-* Fix the flakey rviz_rendering tests (`#1026 <https://github.com/ros2/rviz/issues/1026>`_) (`#1031 <https://github.com/ros2/rviz/issues/1031>`_)
-* Contributors: mergify[bot]
+* make box-mode point cloud shader lighter on top than bottom (`#1058 <https://github.com/ros2/rviz/issues/1058>`_)
+* Removed warning when building in release mode (`#1057 <https://github.com/ros2/rviz/issues/1057>`_)
+* Fixed low FPS when sending point markers (`#1049 <https://github.com/ros2/rviz/issues/1049>`_)
+* Removed unused code (`#1044 <https://github.com/ros2/rviz/issues/1044>`_)
+* Contributors: Alejandro Hernández Cordero, Morgan Quigley
 
-12.4.2 (2023-07-27)
+13.0.0 (2023-08-21)
 -------------------
-* Added TwistStamped and AccelStamped default plugins (`#991 <https://github.com/ros2/rviz/issues/991>`_) (`#1015 <https://github.com/ros2/rviz/issues/1015>`_)
-  (cherry picked from commit 9599dd488d543671121c40df9aec5533064e86fb)
-  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
-* Added Effort plugin (`#990 <https://github.com/ros2/rviz/issues/990>`_) (`#1011 <https://github.com/ros2/rviz/issues/1011>`_)
-  * Added Effort plugin
-  (cherry picked from commit e3b56ed7058502d94fe3d1c27948d4f4e9be58a8)
-  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
+* Fix the flakey rviz_rendering tests (`#1026 <https://github.com/ros2/rviz/issues/1026>`_)
+* Contributors: Chris Lalancette
+
+12.8.0 (2023-08-27)
+-------------------
+* Added TwistStamped and AccelStamped default plugins (`#991 <https://github.com/ros2/rviz/issues/991>`_)
 * Contributors: Alejandro Hernández Cordero
 
-12.4.1 (2023-07-14)
+12.7.0 (2023-07-11)
+-------------------
+* Added Effort plugin (`#990 <https://github.com/ros2/rviz/issues/990>`_)
+* load GLB meshes (`#1001 <https://github.com/ros2/rviz/issues/1001>`_)
+* Fixed camera default plusin crash (`#999 <https://github.com/ros2/rviz/issues/999>`_)
+* Contributors: Alejandro Hernández Cordero, Morgan Quigley
+
+12.6.1 (2023-06-12)
+-------------------
+
+12.6.0 (2023-06-07)
+-------------------
+
+12.5.1 (2023-05-11)
+-------------------
+* Clean Code (`#975 <https://github.com/ros2/rviz/issues/975>`_)
+  * Clean Code
+* Contributors: mosfet80
+
+12.5.0 (2023-04-28)
 -------------------
 
 12.4.0 (2023-04-18)
