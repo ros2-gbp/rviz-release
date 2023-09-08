@@ -107,12 +107,8 @@ private:
     const std::string & resource_path,
     Ogre::MaterialPtr & mat,
     const aiMaterial * ai_material,
-    MaterialInternals & material_internals,
-    const aiScene * ai_scene);
+    MaterialInternals & material_internals);
   void loadTexture(const std::string & resource_path);
-  void loadEmbeddedTexture(
-    const aiTexture * ai_texture,
-    const std::string & resource_path);
   void setBlending(
     Ogre::MaterialPtr & mat, const aiMaterial * ai_material,
     const MaterialInternals & material_internals);

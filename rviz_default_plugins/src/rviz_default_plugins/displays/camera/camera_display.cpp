@@ -325,7 +325,7 @@ void CameraDisplay::subscribe()
 
   tf_filter_->connectInput(*subscription_);
   tf_filter_->registerCallback(
-    [this](const sensor_msgs::msg::Image::ConstSharedPtr msg) {
+    [ = ](const sensor_msgs::msg::Image::ConstSharedPtr msg) {
       this->incomingMessage(msg);
     });
 
