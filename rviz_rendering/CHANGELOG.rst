@@ -2,62 +2,40 @@
 Changelog for package rviz_rendering
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-12.4.4 (2023-09-08)
+11.2.8 (2023-09-19)
 -------------------
-* Fixed low FPS when sending point markers (`#1056 <https://github.com/ros2/rviz/issues/1056>`_)
-* Fixed camera default plugin crash (`#1054 <https://github.com/ros2/rviz/issues/1054>`_)
-* Fix the flakey rviz_rendering tests (`#1031 <https://github.com/ros2/rviz/issues/1031>`_)
-* Added TwistStamped and AccelStamped default plugins (`#1015 <https://github.com/ros2/rviz/issues/1015>`_)
-* Added Effort plugin (`#1011 <https://github.com/ros2/rviz/issues/1011>`_)
-* Contributors: Alejandro Hernández Cordero, Chris Lalancette
-
-12.4.3 (2023-08-21)
--------------------
-* Fix the flakey rviz_rendering tests (`#1026 <https://github.com/ros2/rviz/issues/1026>`_) (`#1031 <https://github.com/ros2/rviz/issues/1031>`_)
+* Removed warning when building in release mode (`#1057 <https://github.com/ros2/rviz/issues/1057>`_) (`#1059 <https://github.com/ros2/rviz/issues/1059>`_)
+* Fixed low FPS when sending point markers (`#1049 <https://github.com/ros2/rviz/issues/1049>`_) (`#1055 <https://github.com/ros2/rviz/issues/1055>`_)
+* Fix the flakey rviz_rendering tests (`#1026 <https://github.com/ros2/rviz/issues/1026>`_) (`#1030 <https://github.com/ros2/rviz/issues/1030>`_)
 * Contributors: mergify[bot]
 
-12.4.2 (2023-07-27)
+11.2.7 (2023-07-27)
 -------------------
-* Added TwistStamped and AccelStamped default plugins (`#991 <https://github.com/ros2/rviz/issues/991>`_) (`#1015 <https://github.com/ros2/rviz/issues/1015>`_)
+* Added TwistStamped and AccelStamped default plugins (`#991 <https://github.com/ros2/rviz/issues/991>`_) (`#1014 <https://github.com/ros2/rviz/issues/1014>`_)
   (cherry picked from commit 9599dd488d543671121c40df9aec5533064e86fb)
   Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
-* Added Effort plugin (`#990 <https://github.com/ros2/rviz/issues/990>`_) (`#1011 <https://github.com/ros2/rviz/issues/1011>`_)
-  * Added Effort plugin
-  (cherry picked from commit e3b56ed7058502d94fe3d1c27948d4f4e9be58a8)
-  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
-* Contributors: Alejandro Hernández Cordero
+* Contributors: mergify[bot]
 
-12.4.1 (2023-07-14)
+11.2.6 (2023-07-18)
+-------------------
+* Added Effort plugin (`#990 <https://github.com/ros2/rviz/issues/990>`_) (`#1010 <https://github.com/ros2/rviz/issues/1010>`_)
+* Contributors: mergify[bot]
+
+11.2.5 (2023-01-10)
+-------------------
+* add test to ensure binary STL files from SOLIDWORKS get imported without a warning (`#917 <https://github.com/ros2/rviz/issues/917>`_) (`#931 <https://github.com/ros2/rviz/issues/931>`_)
+* Contributors: mergify[bot]
+
+11.2.4 (2022-11-07)
 -------------------
 
-12.4.0 (2023-04-18)
+11.2.3 (2022-09-12)
 -------------------
 
-12.3.2 (2023-04-11)
+11.2.2 (2022-05-10)
 -------------------
 
-12.3.1 (2023-03-01)
--------------------
-
-12.3.0 (2023-02-14)
--------------------
-* [rolling] Update maintainers - 2022-11-07 (`#923 <https://github.com/ros2/rviz/issues/923>`_)
-* Contributors: Audrow Nash
-
-12.2.0 (2022-11-07)
--------------------
-* add test to ensure binary STL files from SOLIDWORKS get imported without a warning (`#917 <https://github.com/ros2/rviz/issues/917>`_)
-* Contributors: Kenji Brameld
-
-12.1.0 (2022-11-02)
--------------------
-
-12.0.0 (2022-09-13)
--------------------
-* Ogre 1.12.10 upgrade (`#878 <https://github.com/ros2/rviz/issues/878>`_)
-* Contributors: Kenji Brameld
-
-11.3.0 (2022-04-26)
+11.2.1 (2022-04-26)
 -------------------
 * Stop using glsl150 resources for now. (`#851 <https://github.com/ros2/rviz/issues/851>`_)
 * Contributors: Chris Lalancette

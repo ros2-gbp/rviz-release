@@ -2,53 +2,32 @@
 Changelog for package rviz_ogre_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-12.4.4 (2023-09-08)
+11.2.8 (2023-09-19)
+-------------------
+* Make resource file paths relative (`#862 <https://github.com/ros2/rviz/issues/862>`_) (`#867 <https://github.com/ros2/rviz/issues/867>`_)
+* Contributors: mergify[bot]
+
+11.2.7 (2023-07-27)
 -------------------
 
-12.4.3 (2023-08-21)
+11.2.6 (2023-07-18)
 -------------------
 
-12.4.2 (2023-07-27)
+11.2.5 (2023-01-10)
+-------------------
+* Fixes policy CMP0135 warning for CMake >= 3.24 (`#898 <https://github.com/ros2/rviz/issues/898>`_) (`#936 <https://github.com/ros2/rviz/issues/936>`_)
+* Contributors: mergify[bot]
+
+11.2.4 (2022-11-07)
 -------------------
 
-12.4.1 (2023-07-14)
--------------------
-* CMake: rename FeatureSummary.cmake to avoid name clashes (`#988 <https://github.com/ros2/rviz/issues/988>`_)
-* Contributors: Gökçe Aydos, Scott K Logan
-
-12.4.0 (2023-04-18)
+11.2.3 (2022-09-12)
 -------------------
 
-12.3.2 (2023-04-11)
--------------------
-* Fix build failures on macOS + Apple Silicon (`#944 <https://github.com/ros2/rviz/issues/944>`_)
-* Contributors: Yadu
-
-12.3.1 (2023-03-01)
+11.2.2 (2022-05-10)
 -------------------
 
-12.3.0 (2023-02-14)
--------------------
-* [rolling] Update maintainers - 2022-11-07 (`#923 <https://github.com/ros2/rviz/issues/923>`_)
-* Contributors: Audrow Nash
-
-12.2.0 (2022-11-07)
--------------------
-* Remove broken rviz_ogre_vendor::RenderSystem_GL target (`#920 <https://github.com/ros2/rviz/issues/920>`_)
-* Contributors: Shane Loretz
-
-12.1.0 (2022-11-02)
--------------------
-
-12.0.0 (2022-09-13)
--------------------
-* Fixes policy CMP0135 warning for CMake >= 3.24 (`#898 <https://github.com/ros2/rviz/issues/898>`_)
-* Ogre 1.12.10 upgrade (`#878 <https://github.com/ros2/rviz/issues/878>`_)
-* Make resource file paths relative (`#862 <https://github.com/ros2/rviz/issues/862>`_)
-* Use CMAKE_STAGING_PREFIX for staging OGRE installation (`#861 <https://github.com/ros2/rviz/issues/861>`_)
-* Contributors: Cristóbal Arroyo, Kenji Brameld, Scott K Logan
-
-11.3.0 (2022-04-26)
+11.2.1 (2022-04-26)
 -------------------
 
 11.2.0 (2022-04-08)

@@ -2,10 +2,9 @@ cmake_minimum_required(VERSION 3.5)
 
 project(rviz_common)
 
-# Default to C++17
+# Default to C++14
 if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 17)
-  set(CMAKE_CXX_STANDARD_REQUIRED ON)
+  set(CMAKE_CXX_STANDARD 14)
 endif()
 
 # Tests currently only run on OS X @ OSRF jenkins

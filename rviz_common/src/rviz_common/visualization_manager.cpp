@@ -438,8 +438,8 @@ void VisualizationManager::onUpdate()
     view_manager_->getCurrent() &&
     view_manager_->getCurrent()->getCamera())
   {
-    rviz_rendering::RenderWindowOgreAdapter::setDirectionalLightDirection(
-      render_panel_->getRenderWindow(),
+    using rviz_rendering::RenderWindowOgreAdapter;
+    RenderWindowOgreAdapter::getDirectionalLight(render_panel_->getRenderWindow())->setDirection(
       view_manager_->getCurrent()->getCamera()->getDerivedDirection());
   }
 
