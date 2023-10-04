@@ -41,7 +41,7 @@
 #include "OgreSubMesh.h"
 #include "OgreTechnique.h"
 #include "OgreTextureManager.h"
-#include "OgreVector3.h"
+#include "OgreVector.h"
 
 #include <QDir>  // NOLINT cpplint cannot handle include order here
 #include <QFileInfo>  // NOLINT cpplint cannot handle include order here
@@ -67,8 +67,6 @@
 #include "mesh_loader_helpers/assimp_loader.hpp"
 #include "mesh_loader_helpers/stl_loader.hpp"
 #include "rviz_rendering/logging.hpp"
-
-#define ROS_PACKAGE_NAME "rviz_rendering"
 
 namespace rviz_rendering
 {
