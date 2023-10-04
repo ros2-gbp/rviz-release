@@ -2,6 +2,9 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+13.1.1 (2023-10-04)
+-------------------
+
 13.1.0 (2023-09-07)
 -------------------
 * Removed unused code (`#1044 <https://github.com/ros2/rviz/issues/1044>`_)
