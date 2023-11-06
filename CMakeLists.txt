@@ -72,13 +72,13 @@ add_library(rviz_rendering SHARED
   src/rviz_rendering/logging.cpp
   src/rviz_rendering/material_manager.cpp
   src/rviz_rendering/mesh_loader.cpp
+  src/rviz_rendering/objects/mesh_shape.cpp
   src/rviz_rendering/ogre_logging.cpp
   src/rviz_rendering/ogre_render_window_impl.cpp
   src/rviz_rendering/orthographic.cpp
   src/rviz_rendering/render_system.cpp
   src/rviz_rendering/render_window.cpp
   src/rviz_rendering/resource_config.cpp
-  src/rviz_rendering/mesh_loader_helpers/stl_loader.cpp
   src/rviz_rendering/mesh_loader_helpers/assimp_loader.cpp
   src/rviz_rendering/string_helper.cpp
   src/rviz_rendering/objects/arrow.cpp
@@ -296,6 +296,18 @@ if(BUILD_TESTING)
     ${SKIP_DISPLAY_TESTS})
   if(TARGET wrench_visual_test_target)
     target_link_libraries(wrench_visual_test_target
+      rviz_ogre_vendor::OgreMain
+      rviz_rendering
+      rviz_rendering_test_utils
+      Qt5::Widgets  # explicitly do this for include directories (not necessary for external use)
+    )
+  endif()
+
+  ament_add_gmock(mesh_shape_visual_test_target
+    test/rviz_rendering/mesh_shape_test.cpp
+    ${SKIP_DISPLAY_TESTS})
+  if(TARGET mesh_shape_visual_test_target)
+    target_link_libraries(mesh_shape_visual_test_target
       rviz_ogre_vendor::OgreMain
       rviz_rendering
       rviz_rendering_test_utils
