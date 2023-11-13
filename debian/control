@@ -1,0 +1,13 @@
+Source: ros-humble-rviz-assimp-vendor
+Section: misc
+Priority: optional
+Maintainer: Jacob Perron <jacob@openrobotics.org>
+Build-Depends: debhelper (>= 9.0.0), libassimp-dev, ros-humble-ament-cmake, ros-humble-ament-cmake-lint-cmake <!nocheck>, ros-humble-ament-cmake-xmllint <!nocheck>, ros-humble-ament-lint-auto <!nocheck>, ros-humble-ros-workspace
+Homepage: http://assimp.sourceforge.net/index.html
+Standards-Version: 3.9.2
+
+Package: ros-humble-rviz-assimp-vendor
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libassimp-dev, ros-humble-ros-workspace
+Description: Wrapper around assimp, providing nothing but a dependency on assimp, on some systems.
+ On others, it provides a fixed CMake module or even an ExternalProject build of assimp.
