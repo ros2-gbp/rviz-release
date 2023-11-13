@@ -80,7 +80,7 @@ class WidgetGeometryChangeDetector;
  * At the top is a toolbar with Tools like "Move Camera", "Select", etc.
  * There is also a menu bar with file/open, etc.
  */
-class RVIZ_COMMON_PUBLIC VisualizationFrame : public QMainWindow, public WindowManagerInterface
+class VisualizationFrame : public QMainWindow, public WindowManagerInterface
 {
   Q_OBJECT
 
@@ -94,6 +94,13 @@ public:
   /// Set the QApplication, this should be called directly after construction.
   void
   setApp(QApplication * app);
+
+  // TODO(wjwwood): figure out how to preserve the "choost new master" feature
+#if 0
+  /// Call this before initialize() to have it take effect.
+  void
+  setShowChooseNewMaster(bool show);
+#endif
 
   /// Set the path to the html help file.
   /**
@@ -255,6 +262,10 @@ protected Q_SLOTS:
   void
   onRecentConfigSelected();
 
+  /// Handle event to display the help on the ROS wiki.
+  void
+  onHelpWiki();
+
   /// Handle event to show the about dialog.
   void
   onHelpAbout();
@@ -310,6 +321,17 @@ protected Q_SLOTS:
    */
   void
   indicateToolIsCurrent(Tool * tool);
+
+  // TODO(wjwwood): figure out how to reenable this, or how it might be useful in ROS 2
+#if 0
+  /// Restart rviz with a new master.
+  /**
+   * Save the current state and quit with exit code 255 to signal the wrapper
+   * that we would like to restart with a different ROS master URI.
+   */
+  void
+  changeMaster();
+#endif
 
   /// Delete a panel widget.
   /**

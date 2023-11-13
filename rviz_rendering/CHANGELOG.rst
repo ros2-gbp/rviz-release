@@ -2,92 +2,43 @@
 Changelog for package rviz_rendering
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-13.2.0 (2023-11-06)
--------------------
-* Include MeshShape class (`#1064 <https://github.com/ros2/rviz/issues/1064>`_)
-* Use assimp to load stl (`#1063 <https://github.com/ros2/rviz/issues/1063>`_)
-* Contributors: Alejandro Hernández Cordero
-
-13.1.2 (2023-10-09)
--------------------
-* RVIZ_RENDERING_PUBLIC to export class RenderSystem (`#1072 <https://github.com/ros2/rviz/issues/1072>`_)
-* Restore the maybe-uninitialized flag in covariance_visual.hpp (`#1071 <https://github.com/ros2/rviz/issues/1071>`_)
-* Fix up warnings when building with clang. (`#1070 <https://github.com/ros2/rviz/issues/1070>`_)
-* Contributors: Chris Lalancette, Felix F Xu
-
-13.1.1 (2023-10-04)
--------------------
-* Use buildsystem info to get the ros_package_name (`#1062 <https://github.com/ros2/rviz/issues/1062>`_)
-* Contributors: Alejandro Hernández Cordero
-
-13.1.0 (2023-09-07)
--------------------
-* make box-mode point cloud shader lighter on top than bottom (`#1058 <https://github.com/ros2/rviz/issues/1058>`_)
-* Removed warning when building in release mode (`#1057 <https://github.com/ros2/rviz/issues/1057>`_)
-* Fixed low FPS when sending point markers (`#1049 <https://github.com/ros2/rviz/issues/1049>`_)
-* Removed unused code (`#1044 <https://github.com/ros2/rviz/issues/1044>`_)
-* Contributors: Alejandro Hernández Cordero, Morgan Quigley
-
-13.0.0 (2023-08-21)
--------------------
-* Fix the flakey rviz_rendering tests (`#1026 <https://github.com/ros2/rviz/issues/1026>`_)
-* Contributors: Chris Lalancette
-
-12.8.0 (2023-08-27)
--------------------
-* Added TwistStamped and AccelStamped default plugins (`#991 <https://github.com/ros2/rviz/issues/991>`_)
-* Contributors: Alejandro Hernández Cordero
-
-12.7.0 (2023-07-11)
--------------------
-* Added Effort plugin (`#990 <https://github.com/ros2/rviz/issues/990>`_)
-* load GLB meshes (`#1001 <https://github.com/ros2/rviz/issues/1001>`_)
-* Fixed camera default plusin crash (`#999 <https://github.com/ros2/rviz/issues/999>`_)
-* Contributors: Alejandro Hernández Cordero, Morgan Quigley
-
-12.6.1 (2023-06-12)
+11.2.9 (2023-11-13)
 -------------------
 
-12.6.0 (2023-06-07)
+11.2.8 (2023-09-19)
+-------------------
+* Removed warning when building in release mode (`#1057 <https://github.com/ros2/rviz/issues/1057>`_) (`#1059 <https://github.com/ros2/rviz/issues/1059>`_)
+* Fixed low FPS when sending point markers (`#1049 <https://github.com/ros2/rviz/issues/1049>`_) (`#1055 <https://github.com/ros2/rviz/issues/1055>`_)
+* Fix the flakey rviz_rendering tests (`#1026 <https://github.com/ros2/rviz/issues/1026>`_) (`#1030 <https://github.com/ros2/rviz/issues/1030>`_)
+* Contributors: mergify[bot]
+
+11.2.7 (2023-07-27)
+-------------------
+* Added TwistStamped and AccelStamped default plugins (`#991 <https://github.com/ros2/rviz/issues/991>`_) (`#1014 <https://github.com/ros2/rviz/issues/1014>`_)
+  (cherry picked from commit 9599dd488d543671121c40df9aec5533064e86fb)
+  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
+* Contributors: mergify[bot]
+
+11.2.6 (2023-07-18)
+-------------------
+* Added Effort plugin (`#990 <https://github.com/ros2/rviz/issues/990>`_) (`#1010 <https://github.com/ros2/rviz/issues/1010>`_)
+* Contributors: mergify[bot]
+
+11.2.5 (2023-01-10)
+-------------------
+* add test to ensure binary STL files from SOLIDWORKS get imported without a warning (`#917 <https://github.com/ros2/rviz/issues/917>`_) (`#931 <https://github.com/ros2/rviz/issues/931>`_)
+* Contributors: mergify[bot]
+
+11.2.4 (2022-11-07)
 -------------------
 
-12.5.1 (2023-05-11)
--------------------
-* Clean Code (`#975 <https://github.com/ros2/rviz/issues/975>`_)
-  * Clean Code
-* Contributors: mosfet80
-
-12.5.0 (2023-04-28)
+11.2.3 (2022-09-12)
 -------------------
 
-12.4.0 (2023-04-18)
+11.2.2 (2022-05-10)
 -------------------
 
-12.3.2 (2023-04-11)
--------------------
-
-12.3.1 (2023-03-01)
--------------------
-
-12.3.0 (2023-02-14)
--------------------
-* [rolling] Update maintainers - 2022-11-07 (`#923 <https://github.com/ros2/rviz/issues/923>`_)
-* Contributors: Audrow Nash
-
-12.2.0 (2022-11-07)
--------------------
-* add test to ensure binary STL files from SOLIDWORKS get imported without a warning (`#917 <https://github.com/ros2/rviz/issues/917>`_)
-* Contributors: Kenji Brameld
-
-12.1.0 (2022-11-02)
--------------------
-
-12.0.0 (2022-09-13)
--------------------
-* Ogre 1.12.10 upgrade (`#878 <https://github.com/ros2/rviz/issues/878>`_)
-* Contributors: Kenji Brameld
-
-11.3.0 (2022-04-26)
+11.2.1 (2022-04-26)
 -------------------
 * Stop using glsl150 resources for now. (`#851 <https://github.com/ros2/rviz/issues/851>`_)
 * Contributors: Chris Lalancette
