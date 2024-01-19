@@ -31,6 +31,7 @@
 #ifndef RVIZ_RENDERING__RENDER_SYSTEM_HPP_
 #define RVIZ_RENDERING__RENDER_SYSTEM_HPP_
 
+#define OGRE_VERSION_HIGHER_OR_EQUAL_1_9_0 (OGRE_VERSION >= ((1 << 16) | (9 << 8) | 0))
 
 #include <cstdint>
 #include <string>
@@ -54,7 +55,7 @@
 namespace rviz_rendering
 {
 
-class RVIZ_RENDERING_PUBLIC RenderSystem
+class RenderSystem
 {
 public:
 #if defined(__APPLE__) || defined(_WIN32)
@@ -63,10 +64,12 @@ public:
   typedef unsigned long WindowIDType;  // NOLINT: we need to use C longs here
 #endif
 
+  RVIZ_RENDERING_PUBLIC
   static
   RenderSystem *
   get();
 
+  RVIZ_RENDERING_PUBLIC
   Ogre::RenderWindow *
   makeRenderWindow(
     WindowIDType window_id,
@@ -77,6 +80,7 @@ public:
   Ogre::Root *
   getOgreRoot();
 
+  RVIZ_RENDERING_PUBLIC
   ~RenderSystem();
 
   void Destroy();
@@ -91,6 +95,7 @@ public:
   getGlVersion();
 
   /// return GLSL Version as integer, e.g. 150 for GLSL 1.50
+  RVIZ_RENDERING_PUBLIC
   int
   getGlslVersion();
 
