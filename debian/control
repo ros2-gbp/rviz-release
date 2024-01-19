@@ -1,0 +1,12 @@
+Source: ros-iron-rviz2
+Section: misc
+Priority: optional
+Maintainer: Alejandro Hernandez Cordero <alejandro@openrobotics.org>
+Build-Depends: debhelper (>= 9.0.0), python3-yaml <!nocheck>, qtbase5-dev, ros-iron-ament-cmake, ros-iron-ament-cmake-cppcheck <!nocheck>, ros-iron-ament-cmake-cpplint <!nocheck>, ros-iron-ament-cmake-lint-cmake <!nocheck>, ros-iron-ament-cmake-pytest <!nocheck>, ros-iron-ament-cmake-uncrustify <!nocheck>, ros-iron-ament-cmake-xmllint <!nocheck>, ros-iron-ament-lint-auto <!nocheck>, ros-iron-geometry-msgs <!nocheck>, ros-iron-rclcpp <!nocheck>, ros-iron-rviz-common, ros-iron-rviz-ogre-vendor, ros-iron-sensor-msgs <!nocheck>, ros-iron-ros-workspace
+Homepage: https://github.com/ros2/rviz/blob/ros2/README.md
+Standards-Version: 3.9.2
+
+Package: ros-iron-rviz2
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, python3-dev, ros-iron-rviz-common, ros-iron-rviz-default-plugins, ros-iron-rviz-ogre-vendor, ros-iron-ros-workspace
+Description: 3D visualization tool for ROS.
