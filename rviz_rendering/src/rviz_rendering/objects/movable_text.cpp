@@ -54,7 +54,7 @@
 #include <OgreQuaternion.h>
 #include <OgreRoot.h>
 #include <OgreSceneNode.h>
-#include <OgreVector3.h>
+#include <OgreVector.h>
 #include <Overlay/OgreFont.h>  // NOLINT: cpplint cannot handle include order here
 #include <Overlay/OgreFontManager.h>  // NOLINT: cpplint cannot handle include order here
 
@@ -476,8 +476,7 @@ void MovableText::updateColors()
   assert(font_);
   assert(material_);
 
-  Ogre::RGBA color;
-  Ogre::Root::getSingleton().convertColourValue(color_, &color);
+  Ogre::RGBA color = color_.getAsBYTE();
   fillColorBuffer(color);
   needs_color_update_ = false;
 }
@@ -518,8 +517,7 @@ void MovableText::getWorldTransforms(Ogre::Matrix4 * xform) const
 
     mCamera->getDerivedOrientation().ToRotationMatrix(rot3x3);
 
-    Ogre::Vector3 parent_position = mParentNode->_getDerivedPosition() +
-      Ogre::Vector3::UNIT_Y * global_translation_;
+    Ogre::Vector3 parent_position = mParentNode->_getDerivedPosition() + global_translation_;
     parent_position += rot3x3 * local_translation_;
 
     scale3x3[0][0] = mParentNode->_getDerivedScale().x / 2;

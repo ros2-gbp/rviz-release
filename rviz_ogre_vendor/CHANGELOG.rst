@@ -2,38 +2,89 @@
 Changelog for package rviz_ogre_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-11.2.10 (2024-01-24)
---------------------
-
-11.2.9 (2023-11-13)
+13.3.1 (2024-01-24)
 -------------------
 
-11.2.8 (2023-09-19)
+13.3.0 (2023-12-26)
 -------------------
-* Make resource file paths relative (`#862 <https://github.com/ros2/rviz/issues/862>`_) (`#867 <https://github.com/ros2/rviz/issues/867>`_)
-* Contributors: mergify[bot]
+* Suppress a couple more of clang warnings in rviz_ogre_vendor. (`#1102 <https://github.com/ros2/rviz/issues/1102>`_)
+* Contributors: Chris Lalancette
 
-11.2.7 (2023-07-27)
--------------------
-
-11.2.6 (2023-07-18)
+13.2.0 (2023-11-06)
 -------------------
 
-11.2.5 (2023-01-10)
--------------------
-* Fixes policy CMP0135 warning for CMake >= 3.24 (`#898 <https://github.com/ros2/rviz/issues/898>`_) (`#936 <https://github.com/ros2/rviz/issues/936>`_)
-* Contributors: mergify[bot]
-
-11.2.4 (2022-11-07)
+13.1.2 (2023-10-09)
 -------------------
 
-11.2.3 (2022-09-12)
+13.1.1 (2023-10-04)
 -------------------
 
-11.2.2 (2022-05-10)
+13.1.0 (2023-09-07)
 -------------------
 
-11.2.1 (2022-04-26)
+13.0.0 (2023-08-21)
+-------------------
+
+12.8.0 (2023-08-27)
+-------------------
+
+12.7.0 (2023-07-11)
+-------------------
+* Fix the vendoring flags for clang compilation. (`#1003 <https://github.com/ros2/rviz/issues/1003>`_)
+  Several of the flags are not available on clang, so
+  don't add them there.  This fixes the clang build for
+  me locally.
+* Switch to ament_cmake_vendor_package (`#995 <https://github.com/ros2/rviz/issues/995>`_)
+* Contributors: Chris Lalancette, Scott K Logan
+
+12.6.1 (2023-06-12)
+-------------------
+
+12.6.0 (2023-06-07)
+-------------------
+* CMake: rename FeatureSummary.cmake to avoid name clashes (`#953 <https://github.com/ros2/rviz/issues/953>`_)
+* FIX CVE in external libraries (`#961 <https://github.com/ros2/rviz/issues/961>`_)
+* Contributors: Gökçe Aydos, mosfet80
+
+12.5.1 (2023-05-11)
+-------------------
+
+12.5.0 (2023-04-28)
+-------------------
+
+12.4.0 (2023-04-18)
+-------------------
+
+12.3.2 (2023-04-11)
+-------------------
+* Fix build failures on macOS + Apple Silicon (`#944 <https://github.com/ros2/rviz/issues/944>`_)
+* Contributors: Yadu
+
+12.3.1 (2023-03-01)
+-------------------
+
+12.3.0 (2023-02-14)
+-------------------
+* [rolling] Update maintainers - 2022-11-07 (`#923 <https://github.com/ros2/rviz/issues/923>`_)
+* Contributors: Audrow Nash
+
+12.2.0 (2022-11-07)
+-------------------
+* Remove broken rviz_ogre_vendor::RenderSystem_GL target (`#920 <https://github.com/ros2/rviz/issues/920>`_)
+* Contributors: Shane Loretz
+
+12.1.0 (2022-11-02)
+-------------------
+
+12.0.0 (2022-09-13)
+-------------------
+* Fixes policy CMP0135 warning for CMake >= 3.24 (`#898 <https://github.com/ros2/rviz/issues/898>`_)
+* Ogre 1.12.10 upgrade (`#878 <https://github.com/ros2/rviz/issues/878>`_)
+* Make resource file paths relative (`#862 <https://github.com/ros2/rviz/issues/862>`_)
+* Use CMAKE_STAGING_PREFIX for staging OGRE installation (`#861 <https://github.com/ros2/rviz/issues/861>`_)
+* Contributors: Cristóbal Arroyo, Kenji Brameld, Scott K Logan
+
+11.3.0 (2022-04-26)
 -------------------
 
 11.2.0 (2022-04-08)
