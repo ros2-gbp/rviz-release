@@ -2,60 +2,34 @@
 Changelog for package rviz_visual_testing_framework
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-12.4.5 (2023-11-17)
+11.2.10 (2024-01-24)
+--------------------
+
+11.2.9 (2023-11-13)
 -------------------
 
-12.4.4 (2023-09-08)
--------------------
-* Improve the compilation time of rviz_default_plugins (`#1009 <https://github.com/ros2/rviz/issues/1009>`_)
-* Contributors: Alejandro Hernández Cordero, Chris Lalancette
-
-
-12.4.3 (2023-08-21)
+11.2.8 (2023-09-19)
 -------------------
 
-12.4.2 (2023-07-27)
--------------------
-* Improve the compilation time of rviz_default_plugins (`#1007 <https://github.com/ros2/rviz/issues/1007>`_) (`#1009 <https://github.com/ros2/rviz/issues/1009>`_)
-  * Cleanup rviz_visual_testing_frameiwork CMakeLists.txt
-  The main motivation here is to remove an exported absolute
-  path from this package.  To do this, mark everything in
-  the CMakeLists.txt private that we can.
-  This ended up exposing a bunch of missing dependencies
-  in rviz_default_plugins, so fix those here as well.
-  (cherry picked from commit 5af8896a30311e4b8171864391d3bc2d8b81b611)
-  Co-authored-by: Chris Lalancette <clalancette@gmail.com>
-
-12.4.1 (2023-07-14)
+11.2.7 (2023-07-27)
 -------------------
 
-12.4.0 (2023-04-18)
+11.2.6 (2023-07-18)
 -------------------
 
-12.3.2 (2023-04-11)
+11.2.5 (2023-01-10)
 -------------------
 
-12.3.1 (2023-03-01)
+11.2.4 (2022-11-07)
 -------------------
 
-12.3.0 (2023-02-14)
--------------------
-* Update rviz to C++17. (`#939 <https://github.com/ros2/rviz/issues/939>`_)
-* [rolling] Update maintainers - 2022-11-07 (`#923 <https://github.com/ros2/rviz/issues/923>`_)
-* Contributors: Audrow Nash, Chris Lalancette
-
-12.2.0 (2022-11-07)
+11.2.3 (2022-09-12)
 -------------------
 
-12.1.0 (2022-11-02)
+11.2.2 (2022-05-10)
 -------------------
 
-12.0.0 (2022-09-13)
--------------------
-* Ogre 1.12.10 upgrade (`#878 <https://github.com/ros2/rviz/issues/878>`_)
-* Contributors: Kenji Brameld
-
-11.3.0 (2022-04-26)
+11.2.1 (2022-04-26)
 -------------------
 
 11.2.0 (2022-04-08)

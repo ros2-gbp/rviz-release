@@ -2,23 +2,22 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-12.4.5 (2023-11-17)
--------------------
-* Initialize more of the visualization_manager members. (`#1092 <https://github.com/ros2/rviz/issues/1092>`_)
-* Contributors: Chris Lalancette
+11.2.10 (2024-01-24)
+--------------------
+* Switch to using rcpputils::fs helpers. (`#1105 <https://github.com/ros2/rviz/issues/1105>`_)
+* Rolling namespace in title (backport `#1074 <https://github.com/ros2/rviz/issues/1074>`_) (`#1099 <https://github.com/ros2/rviz/issues/1099>`_)
+* Initialize more of the visualization_manager members. (`#1090 <https://github.com/ros2/rviz/issues/1090>`_) (`#1091 <https://github.com/ros2/rviz/issues/1091>`_)
+* Contributors: Chris Lalancette, mergify[bot]
 
-12.4.4 (2023-09-08)
+11.2.9 (2023-11-13)
 -------------------
-* Remove warning in depth_cloud_mld.cpp (`#1021 <https://github.com/ros2/rviz/issues/1021>`_)
-* Added DepthCloud default plugin (`#1017 <https://github.com/ros2/rviz/issues/1017>`_)
-* Contributors: Alejandro Hernández Cordero, Chris Lalancette
 
-12.4.3 (2023-08-21)
+11.2.8 (2023-09-19)
 -------------------
-* Remove unused LineEditWithButton::simulateReturnPressed() (`#1040 <https://github.com/ros2/rviz/issues/1040>`_) (`#1043 <https://github.com/ros2/rviz/issues/1043>`_)
+* Remove unused LineEditWithButton::simulateReturnPressed() (`#1040 <https://github.com/ros2/rviz/issues/1040>`_) (`#1042 <https://github.com/ros2/rviz/issues/1042>`_)
 * Contributors: mergify[bot]
 
-12.4.2 (2023-07-27)
+11.2.7 (2023-07-27)
 -------------------
 * Remove warning in depth_cloud_mld.cpp (`#1021 <https://github.com/ros2/rviz/issues/1021>`_)
   (cherry picked from commit 092e3efef2f907549976ffd101e5ad8100cbea3f)
@@ -26,50 +25,33 @@ Changelog for package rviz_common
   (cherry picked from commit 8f2e17e441399974ebd465a2d2ef0a3529f57f23)
 * Contributors: Alejandro Hernández Cordero
 
-12.4.1 (2023-07-14)
+11.2.6 (2023-07-18)
 -------------------
-* Re-implemented setName for tools (`#997 <https://github.com/ros2/rviz/issues/997>`_)
+* Merge pull request `#993 <https://github.com/ros2/rviz/issues/993>`_ from ros2/mergify/bp/humble/pr-992
+* Merge pull request `#998 <https://github.com/ros2/rviz/issues/998>`_ from ros2/mergify/bp/humble/pr-989
+* Re-implemented setName for tools (`#989 <https://github.com/ros2/rviz/issues/989>`_)
 * Add a libqt5-svg dependency to rviz_common. (`#992 <https://github.com/ros2/rviz/issues/992>`_)
-* Contributors: Alejandro Hernández Cordero, Chris Lalancette, Felix Exner
+* Update Frame shortcut (`#958 <https://github.com/ros2/rviz/issues/958>`_) (`#960 <https://github.com/ros2/rviz/issues/960>`_)
+* Contributors: Alejandro Hernández Cordero, Chris Lalancette, Felix Exner (fexner), mergify[bot]
 
-12.4.0 (2023-04-18)
+11.2.5 (2023-01-10)
 -------------------
 
-12.3.2 (2023-04-11)
--------------------
-* Update Frame shortcut (`#958 <https://github.com/ros2/rviz/issues/958>`_)
-  * Update Frame shortcut
-* Contributors: David V. Lu!!
-
-12.3.1 (2023-03-01)
+11.2.4 (2022-11-07)
 -------------------
 
-12.3.0 (2023-02-14)
--------------------
-* Update rviz to C++17. (`#939 <https://github.com/ros2/rviz/issues/939>`_)
-* [rolling] Update maintainers - 2022-11-07 (`#923 <https://github.com/ros2/rviz/issues/923>`_)
-* Contributors: Audrow Nash, Chris Lalancette
-
-12.2.0 (2022-11-07)
+11.2.3 (2022-09-12)
 -------------------
 
-12.1.0 (2022-11-02)
+11.2.2 (2022-05-10)
 -------------------
-* Remove YAML_CPP_DLL define (`#831 <https://github.com/ros2/rviz/issues/831>`_)
-* Contributors: Akash
+* Add time jump handler (`#791 <https://github.com/ros2/rviz/issues/791>`_) (`#854 <https://github.com/ros2/rviz/issues/854>`_)
+* Contributors: Jacob Perron
 
-12.0.0 (2022-09-13)
+11.2.1 (2022-04-26)
 -------------------
-* Document getTransform() time behavior (`#893 <https://github.com/ros2/rviz/issues/893>`_)
-* Ogre 1.12.10 upgrade (`#878 <https://github.com/ros2/rviz/issues/878>`_)
-* Add RVIZ_COMMON_PUBLIC macro (`#865 <https://github.com/ros2/rviz/issues/865>`_)
-* Contributors: Kenji Brameld, Shane Loretz, juchajam
-
-11.3.0 (2022-04-26)
--------------------
-* Add time jump handler (`#752 <https://github.com/ros2/rviz/issues/752>`_) (`#791 <https://github.com/ros2/rviz/issues/791>`_)
 * Make sure not to dereference a null Renderable pointer. (`#850 <https://github.com/ros2/rviz/issues/850>`_)
-* Contributors: Chris Lalancette, Marcel Zeilinger
+* Contributors: Chris Lalancette
 
 11.2.0 (2022-04-08)
 -------------------
