@@ -1,4 +1,4 @@
-From 77c9acdfaf88ded5b58cbbf5bd797ac61cd35263 Mon Sep 17 00:00:00 2001
+From d53e48b633aa4bd0cf43c0801f151425fc0d526c Mon Sep 17 00:00:00 2001
 From: Michel Hidalgo <michel@ekumenlabs.com>
 Date: Thu, 20 May 2021 14:04:38 -0300
 Subject: [PATCH 1/2] Tell dh_shlibdeps where to find rviz_ogre_vendor plugin
@@ -10,7 +10,7 @@ Signed-off-by: Michel Hidalgo <michel@ekumenlabs.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/debian/rules.em b/debian/rules.em
-index 2ab7b14af920..234822e2fc63 100755
+index 2ab7b14af..234822e2f 100755
 --- a/debian/rules.em
 +++ b/debian/rules.em
 @@ -57,7 +57,7 @@ override_dh_shlibdeps:
@@ -23,5 +23,5 @@ index 2ab7b14af920..234822e2fc63 100755
  override_dh_auto_install:
  	# In case we're installing to a non-standard location, look for a setup.sh
 -- 
-2.43.0
+2.34.1
 
