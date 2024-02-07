@@ -2,55 +2,25 @@
 Changelog for package rviz_ogre_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-13.3.1 (2024-01-24)
+12.4.6 (2024-02-07)
 -------------------
 
-13.3.0 (2023-12-26)
--------------------
-* Suppress a couple more of clang warnings in rviz_ogre_vendor. (`#1102 <https://github.com/ros2/rviz/issues/1102>`_)
-* Contributors: Chris Lalancette
-
-13.2.0 (2023-11-06)
+12.4.5 (2023-11-17)
 -------------------
 
-13.1.2 (2023-10-09)
+12.4.4 (2023-09-08)
 -------------------
 
-13.1.1 (2023-10-04)
+12.4.3 (2023-08-21)
 -------------------
 
-13.1.0 (2023-09-07)
+12.4.2 (2023-07-27)
 -------------------
 
-13.0.0 (2023-08-21)
+12.4.1 (2023-07-14)
 -------------------
-
-12.8.0 (2023-08-27)
--------------------
-
-12.7.0 (2023-07-11)
--------------------
-* Fix the vendoring flags for clang compilation. (`#1003 <https://github.com/ros2/rviz/issues/1003>`_)
-  Several of the flags are not available on clang, so
-  don't add them there.  This fixes the clang build for
-  me locally.
-* Switch to ament_cmake_vendor_package (`#995 <https://github.com/ros2/rviz/issues/995>`_)
-* Contributors: Chris Lalancette, Scott K Logan
-
-12.6.1 (2023-06-12)
--------------------
-
-12.6.0 (2023-06-07)
--------------------
-* CMake: rename FeatureSummary.cmake to avoid name clashes (`#953 <https://github.com/ros2/rviz/issues/953>`_)
-* FIX CVE in external libraries (`#961 <https://github.com/ros2/rviz/issues/961>`_)
-* Contributors: Gökçe Aydos, mosfet80
-
-12.5.1 (2023-05-11)
--------------------
-
-12.5.0 (2023-04-28)
--------------------
+* CMake: rename FeatureSummary.cmake to avoid name clashes (`#988 <https://github.com/ros2/rviz/issues/988>`_)
+* Contributors: Gökçe Aydos, Scott K Logan
 
 12.4.0 (2023-04-18)
 -------------------

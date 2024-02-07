@@ -257,7 +257,6 @@ Ogre::MaterialPtr CameraDisplay::createMaterial(std::string name) const
     material->getTechnique(0)->getPass(0)->createTextureUnitState();
   tu->setTextureName(texture_->getTexture()->getName());
   tu->setTextureFiltering(Ogre::TFO_NONE);
-  tu->setTextureAddressingMode(Ogre::TextureUnitState::TAM_CLAMP);
   tu->setAlphaOperation(Ogre::LBX_SOURCE1, Ogre::LBS_MANUAL, Ogre::LBS_CURRENT, 0.0);
 
   return material;
@@ -326,7 +325,7 @@ void CameraDisplay::subscribe()
 
   tf_filter_->connectInput(*subscription_);
   tf_filter_->registerCallback(
-    [this](const sensor_msgs::msg::Image::ConstSharedPtr msg) {
+    [ = ](const sensor_msgs::msg::Image::ConstSharedPtr msg) {
       this->incomingMessage(msg);
     });
 
@@ -483,9 +482,8 @@ bool CameraDisplay::updateCamera()
 
   Ogre::Vector3 position;
   Ogre::Quaternion orientation;
-  rclcpp::Time time_stamp(image->header.stamp, RCL_ROS_TIME);
   if (!context_->getFrameManager()->getTransform(
-      image->header.frame_id, time_stamp, position, orientation))
+      image->header.frame_id, image->header.stamp, position, orientation))
   {
     setMissingTransformToFixedFrame(image->header.frame_id);
     return false;
@@ -544,7 +542,7 @@ bool CameraDisplay::timeDifferenceInExactSyncMode(
   const sensor_msgs::msg::Image::ConstSharedPtr & image, rclcpp::Time & rviz_time) const
 {
   return context_->getFrameManager()->getSyncMode() == rviz_common::FrameManagerIface::SyncExact &&
-         rviz_time != rclcpp::Time(image->header.stamp, RCL_ROS_TIME);
+         rviz_time != image->header.stamp;
 }
 
 ImageDimensions CameraDisplay::getImageDimensions(
