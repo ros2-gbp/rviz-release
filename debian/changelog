@@ -1,0 +1,815 @@
+ros-rolling-rviz-ogre-vendor (13.3.1-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 24 Jan 2024 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (13.3.0-2noble) noble; urgency=high
+
+  * Suppress a couple more of clang warnings in rviz_ogre_vendor. (#1102 <https://github.com/ros2/rviz/issues/1102>)
+  * Contributors: Chris Lalancette
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 26 Dec 2023 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (13.2.0-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 06 Nov 2023 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (13.1.2-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 09 Oct 2023 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (13.1.1-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 04 Oct 2023 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (13.1.0-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 07 Sep 2023 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (13.0.0-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 21 Aug 2023 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (12.8.0-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 27 Aug 2023 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (12.7.0-2noble) noble; urgency=high
+
+  * Fix the vendoring flags for clang compilation. (#1003 <https://github.com/ros2/rviz/issues/1003>)
+    Several of the flags are not available on clang, so
+    don't add them there.  This fixes the clang build for
+    me locally.
+  * Switch to ament_cmake_vendor_package (#995 <https://github.com/ros2/rviz/issues/995>)
+  * Contributors: Chris Lalancette, Scott K Logan
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 11 Jul 2023 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (12.6.1-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 12 Jun 2023 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (12.6.0-2noble) noble; urgency=high
+
+  * CMake: rename FeatureSummary.cmake to avoid name clashes (#953 <https://github.com/ros2/rviz/issues/953>)
+  * FIX CVE in external libraries (#961 <https://github.com/ros2/rviz/issues/961>)
+  * Contributors: Gökçe Aydos, mosfet80
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 07 Jun 2023 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (12.5.1-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 11 May 2023 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (12.5.0-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 28 Apr 2023 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (12.4.0-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 18 Apr 2023 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (12.3.2-2noble) noble; urgency=high
+
+  * Fix build failures on macOS + Apple Silicon (#944 <https://github.com/ros2/rviz/issues/944>)
+  * Contributors: Yadu
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 11 Apr 2023 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (12.3.1-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 01 Mar 2023 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (12.3.0-2noble) noble; urgency=high
+
+  * [rolling] Update maintainers - 2022-11-07 (#923 <https://github.com/ros2/rviz/issues/923>)
+  * Contributors: Audrow Nash
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 14 Feb 2023 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (12.2.0-2noble) noble; urgency=high
+
+  * Remove broken rviz_ogre_vendor::RenderSystem_GL target (#920 <https://github.com/ros2/rviz/issues/920>)
+  * Contributors: Shane Loretz
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 07 Nov 2022 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (12.1.0-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 02 Nov 2022 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (12.0.0-2noble) noble; urgency=high
+
+  * Fixes policy CMP0135 warning for CMake >= 3.24 (#898 <https://github.com/ros2/rviz/issues/898>)
+  * Ogre 1.12.10 upgrade (#878 <https://github.com/ros2/rviz/issues/878>)
+  * Make resource file paths relative (#862 <https://github.com/ros2/rviz/issues/862>)
+  * Use CMAKE_STAGING_PREFIX for staging OGRE installation (#861 <https://github.com/ros2/rviz/issues/861>)
+  * Contributors: Cristóbal Arroyo, Kenji Brameld, Scott K Logan
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 13 Sep 2022 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (11.3.0-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 26 Apr 2022 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (11.2.0-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 08 Apr 2022 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (11.1.1-2noble) noble; urgency=high
+
+  * Fix interface link libraries in ogre vendor (#761 <https://github.com/ros2/rviz/issues/761>)
+  * Contributors: Laszlo Turanyi
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 30 Mar 2022 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (11.1.0-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 24 Mar 2022 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (11.0.0-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 01 Mar 2022 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (10.0.0-2noble) noble; urgency=high
+
+  * Fix the build for Ubuntu Jammy arm64. (#828 <https://github.com/ros2/rviz/issues/828>)
+  * Contributors: Chris Lalancette
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 16 Feb 2022 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (9.1.1-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 25 Jan 2022 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (9.1.0-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 13 Jan 2022 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (9.0.1-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 17 Dec 2021 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (9.0.0-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 18 Nov 2021 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (8.7.0-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 11 Aug 2021 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (8.6.0-2noble) noble; urgency=high
+
+  * Strip RPATH from installed Ogre binaries (#688 <https://github.com/ros2/rviz/issues/688>)
+  * Contributors: Michel Hidalgo
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 13 May 2021 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (8.5.0-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 06 Apr 2021 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (8.4.0-2noble) noble; urgency=high
+
+  * Always preserve source permissions in vendor packages (#647 <https://github.com/ros2/rviz/issues/647>)
+  * Contributors: Scott K Logan
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 18 Mar 2021 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (8.3.1-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 25 Jan 2021 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (8.3.0-2noble) noble; urgency=high
+
+  * Add linters and use ament_lint_auto (#608 <https://github.com/ros2/rviz/issues/608>)
+  * Update maintainers (#607 <https://github.com/ros2/rviz/issues/607>)
+  * Pass through CMAKE_{C,CXX}_FLAGS to OGRE build (#587 <https://github.com/ros2/rviz/issues/587>)
+  * Contributors: Jacob Perron, Scott K Logan
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 08 Dec 2020 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (8.2.0-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 23 Jun 2020 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (8.1.1-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 03 Jun 2020 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (8.1.0-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 03 Jun 2020 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (8.0.3-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 02 Jun 2020 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (8.0.2-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 21 May 2020 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (8.0.1-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 07 May 2020 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (8.0.0-2noble) noble; urgency=high
+
+  * Note from wjwwood: I've chosen bump the major version this time, even though the API was not broken strictly speaking, partly because of some potentially disruptive build system changes and partially in preparation for ROS Foxy, to allow for new minor/patch versions in the previous ROS release Eloquent.
+  * Switched to the CMake Patch module. (#509 <https://github.com/ros2/rviz/issues/509>)
+  * Contributors: Dan Rose, Mikael Arguedas
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 01 May 2020 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (7.0.3-2noble) noble; urgency=high
+
+  * Skip freetype2 dependencies (#405 <https://github.com/ros2/rviz/issues/405>)
+  * Contributors: Sean Yen
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 13 Nov 2019 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (7.0.2-2noble) noble; urgency=high
+
+  * Switch back to patch instead of git apply (#470 <https://github.com/ros2/rviz/issues/470>)
+  * Remove OGRE_BUILD_COMPONENT_SAMPLES cmake arg.
+  * Contributors: Chris Lalancette
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 23 Oct 2019 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (7.0.1-2noble) noble; urgency=high
+
+  * Fix the rviz_ogre_vendor packaging.
+  * Contributors: Chris Lalancette
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 04 Oct 2019 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (7.0.0-2noble) noble; urgency=high
+
+  * Add .dsv file beside custom environment hook (#449 <https://github.com/ros2/rviz/issues/449>)
+  * Upgrade from Ogre 1.10 to Ogre 1.12.1 (#394 <https://github.com/ros2/rviz/issues/394>)
+  * Mojave compatibility (#414 <https://github.com/ros2/rviz/issues/414>)
+  * Contributors: Dirk Thomas, Karsten Knese, Martin Idel
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 27 Sep 2019 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (6.1.1-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 29 May 2019 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (6.1.0-2noble) noble; urgency=high
+
+  * Upgraded to OGRE 1.10.12 to get a macOS fix but also not break any APIs by upgrading to OGRE 1.11.x. (#380 <https://github.com/ros2/rviz/issues/380>)
+  * Contributors: Emerson Knapp
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 20 May 2019 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (6.0.0-2noble) noble; urgency=high
+
+  * Suppress ogre_vendor warnings in clang+libcxx build. The -w flag was not strong enough for Clang builds. (#389 <https://github.com/ros2/rviz/issues/389>)
+    Signed-off-by: Emerson Knapp <mailto:eknapp@amazon.com>
+  * Pass through only the stdlib flag to the vendor build, instead of all C++ flags (#388 <https://github.com/ros2/rviz/issues/388>)
+    Signed-off-by: Emerson Knapp <mailto:eknapp@amazon.com>
+  * Pass through CXX flags to OGRE vendor build (#381 <https://github.com/ros2/rviz/issues/381>)
+    * Pass through CXX flags
+    Signed-off-by: Emerson Knapp <mailto:eknapp@amazon.com>
+    * fixup
+    Signed-off-by: William Woodall <mailto:william@osrfoundation.org>
+    * re-add removed libc++ flag, because OSX build always needs it
+    Signed-off-by: Emerson Knapp <mailto:eknapp@amazon.com>
+  * Propagate toolchain-file to external-project (#374 <https://github.com/ros2/rviz/issues/374>)
+    If defined, propagate the CMAKE_TOOLCHAIN_FILE argument to the cmake
+    argument of freetype, zlib and ogre projects.
+    Change-Id: Ibf2802b96c2238a06191e78a1b2a3128769a83af
+    Signed-off-by: Louis Mayencourt <mailto:louis.mayencourt@arm.com>
+  * Contributors: Emerson Knapp, lmayencourt
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 08 May 2019 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (5.1.0-2noble) noble; urgency=high
+
+  * Skip the system directories when looking for OGRE (#371 <https://github.com/ros2/rviz/issues/371>)
+  * Contributors: Scott K Logan
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 14 Jan 2019 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (5.0.0-2noble) noble; urgency=high
+
+  * Changed ZLIB_ROOT -> ZLIB_DIR (#349 <https://github.com/ros2/rviz/issues/349>)
+  * Contributors: Mikael Arguedas
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 04 Dec 2018 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (4.0.1-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 28 Jun 2018 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (4.0.0-2noble) noble; urgency=high
+
+  * Changed the download timeout for Ogre to be twenty (20) minutes. (#323 <https://github.com/ros2/rviz/issues/323>)
+  * Contributors: Dirk Thomas, Martin Idel, Mikael Arguedas, Russ
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 27 Jun 2018 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (3.0.0-2noble) noble; urgency=high
+
+  * Updated Ogre to 1.10.11. (#181 <https://github.com/ros2/rviz/issues/181>)
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 07 Feb 2018 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (2.0.0-2noble) noble; urgency=high
+
+  * First version for ROS 2.
+  * Contributors: Andreas Greimel, Andreas Holzner, Chris Ye, Johannes Jeising, Martin Idel, Steven! Ragnarok, William Woodall
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 08 Dec 2017 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.12.11-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 02 Aug 2017 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.12.10-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 05 Jun 2017 17:37:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.12.9-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 05 Jun 2017 14:23:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.12.8-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 07 May 2017 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.12.7-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 05 May 2017 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.12.6-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 02 May 2017 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.12.5-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 01 May 2017 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.12.4-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 27 Oct 2016 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.12.3-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 19 Oct 2016 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.12.2-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 18 Oct 2016 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.12.1-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 20 Apr 2016 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.12.0-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 11 Apr 2016 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.11.14-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 03 Apr 2016 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.11.13-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 23 Mar 2016 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.11.12-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 22 Mar 2016 19:58:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.11.11-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 22 Mar 2016 18:16:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.11.10-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 13 Oct 2015 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.11.9-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 21 Sep 2015 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.11.8-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 05 Aug 2015 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.11.7-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 02 Mar 2015 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.11.6-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 13 Feb 2015 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.11.5-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 11 Feb 2015 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.11.4-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 30 Oct 2014 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.11.3-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 26 Jun 2014 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.11.2-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 13 May 2014 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.11.1-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 01 May 2014 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.11.0-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 04 Mar 2014 21:40:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.10.14-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 04 Mar 2014 21:35:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.10.13-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 26 Feb 2014 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.10.12-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 25 Feb 2014 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.10.11-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 26 Jan 2014 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.10.10-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 22 Dec 2013 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.10.9-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 15 Oct 2013 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.10.7-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 16 Sep 2013 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.10.6-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 03 Sep 2013 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.10.5-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 28 Aug 2013 03:50:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.10.4-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 28 Aug 2013 03:13:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.10.3-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 14 Aug 2013 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.10.2-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 26 Jul 2013 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.10.1-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 16 Jul 2013 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.10.0-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 27 Jun 2013 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.9.30-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 30 May 2013 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.9.29-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 15 Apr 2013 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.9.27-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 15 Mar 2013 13:23:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.9.26-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 15 Mar 2013 10:38:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.9.25-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 07 Mar 2013 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.9.24-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sat, 16 Feb 2013 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.9.23-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 13 Feb 2013 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.9.22-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 12 Feb 2013 16:30:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.9.21-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 12 Feb 2013 14:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.9.20-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 21 Jan 2013 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.9.19-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 13 Jan 2013 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.9.18-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 18 Dec 2012 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.9.17-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 14 Dec 2012 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.9.16-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 14 Nov 2012 15:49:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.9.15-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 13 Nov 2012 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.9.14-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 14 Nov 2012 02:20:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.9.13-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 14 Nov 2012 00:58:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.9.12-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 06 Nov 2012 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.9.11-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 02 Nov 2012 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.9.10-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 01 Nov 2012 11:10:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.9.9-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 01 Nov 2012 11:01:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.9.8-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 01 Nov 2012 10:52:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.9.7-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 01 Nov 2012 10:40:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.9.6-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 31 Oct 2012 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.9.5-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 19 Oct 2012 00:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.9.4-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 15 Oct 2012 15:00:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.9.3-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 15 Oct 2012 10:41:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.9.2-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 12 Oct 2012 13:38:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.9.1-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 12 Oct 2012 11:57:00 -0000
+
+ros-rolling-rviz-ogre-vendor (1.9.0-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 10 Oct 2012 00:00:00 -0000
+
+
