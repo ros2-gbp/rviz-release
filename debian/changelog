@@ -1,0 +1,954 @@
+ros-rolling-rviz-common (13.3.1-2noble) noble; urgency=high
+
+  * Append measured subscription frequency to topic status (#1113 <https://github.com/ros2/rviz/issues/1113>)
+  * Contributors: Yadu
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 24 Jan 2024 00:00:00 -0000
+
+ros-rolling-rviz-common (13.3.0-2noble) noble; urgency=high
+
+  * Implement reset time service (#1109 <https://github.com/ros2/rviz/issues/1109>)
+  * Add "R" key as shortcut for resetTime (#1088 <https://github.com/ros2/rviz/issues/1088>)
+  * Add fullscreen startup option (#1097 <https://github.com/ros2/rviz/issues/1097>)
+  * Switch to target_link_libraries. (#1098 <https://github.com/ros2/rviz/issues/1098>)
+  * Initialize more of the visualization_manager members. (#1090 <https://github.com/ros2/rviz/issues/1090>)
+  * Explicit time conversions and comparisons (#1087 <https://github.com/ros2/rviz/issues/1087>)
+  * Rolling namespace in title (#1074 <https://github.com/ros2/rviz/issues/1074>)
+  * Contributors: AiVerisimilitude, Chris Lalancette, Hyunseok, Markus Bader, Paul Erik Frivold
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 26 Dec 2023 00:00:00 -0000
+
+ros-rolling-rviz-common (13.2.0-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 06 Nov 2023 00:00:00 -0000
+
+ros-rolling-rviz-common (13.1.2-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 09 Oct 2023 00:00:00 -0000
+
+ros-rolling-rviz-common (13.1.1-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 04 Oct 2023 00:00:00 -0000
+
+ros-rolling-rviz-common (13.1.0-2noble) noble; urgency=high
+
+  * Removed unused code (#1044 <https://github.com/ros2/rviz/issues/1044>)
+  * Contributors: Alejandro Hernández Cordero
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 07 Sep 2023 00:00:00 -0000
+
+ros-rolling-rviz-common (13.0.0-2noble) noble; urgency=high
+
+  * Remove unused LineEditWithButton::simulateReturnPressed() (#1040 <https://github.com/ros2/rviz/issues/1040>)
+  * Contributors: Alejandro Hernández Cordero
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 21 Aug 2023 00:00:00 -0000
+
+ros-rolling-rviz-common (12.8.0-2noble) noble; urgency=high
+
+  * Remove warning in depth_cloud_mld.cpp (#1021 <https://github.com/ros2/rviz/issues/1021>)
+  * Added DepthCloud default plugin (#996 <https://github.com/ros2/rviz/issues/996>)
+  * Stop inheriting from std::iterator. (#1013 <https://github.com/ros2/rviz/issues/1013>)
+    In C++17, inheriting from std::iterator has been
+    deprecated: https://www.fluentcpp.com/2018/05/08/std-iterator-deprecated/
+    Here, switch away from inheriting and just define the
+    interface ourselves (which is the current recommended best practice).
+    This removes some warnings when building with gcc 13.1.1
+  * Contributors: Alejandro Hernández Cordero, Chris Lalancette
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 27 Aug 2023 00:00:00 -0000
+
+ros-rolling-rviz-common (12.7.0-2noble) noble; urgency=high
+
+  * use static QCoreApplication::processEvents() function without a QApplication instance (#924 <https://github.com/ros2/rviz/issues/924>)
+  * Re-implemented setName for tools (#989 <https://github.com/ros2/rviz/issues/989>)
+  * Contributors: Felix Exner (fexner), Yannis Gerlach
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 11 Jul 2023 00:00:00 -0000
+
+ros-rolling-rviz-common (12.6.1-2noble) noble; urgency=high
+
+  * Add a libqt5-svg dependency to rviz_common. (#992 <https://github.com/ros2/rviz/issues/992>)
+  * Contributors: Chris Lalancette
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 12 Jun 2023 00:00:00 -0000
+
+ros-rolling-rviz-common (12.6.0-2noble) noble; urgency=high
+
+  * Remove onHelpWiki. (#985 <https://github.com/ros2/rviz/issues/985>)
+  * Contributors: Chris Lalancette
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 07 Jun 2023 00:00:00 -0000
+
+ros-rolling-rviz-common (12.5.1-2noble) noble; urgency=high
+
+  * Clean Code (#975 <https://github.com/ros2/rviz/issues/975>)
+  * Contributors: mosfet80
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 11 May 2023 00:00:00 -0000
+
+ros-rolling-rviz-common (12.5.0-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 28 Apr 2023 00:00:00 -0000
+
+ros-rolling-rviz-common (12.4.0-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 18 Apr 2023 00:00:00 -0000
+
+ros-rolling-rviz-common (12.3.2-2noble) noble; urgency=high
+
+  * Update Frame shortcut (#958 <https://github.com/ros2/rviz/issues/958>)
+    * Update Frame shortcut
+  * Contributors: David V. Lu!!
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 11 Apr 2023 00:00:00 -0000
+
+ros-rolling-rviz-common (12.3.1-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 01 Mar 2023 00:00:00 -0000
+
+ros-rolling-rviz-common (12.3.0-2noble) noble; urgency=high
+
+  * Update rviz to C++17. (#939 <https://github.com/ros2/rviz/issues/939>)
+  * [rolling] Update maintainers - 2022-11-07 (#923 <https://github.com/ros2/rviz/issues/923>)
+  * Contributors: Audrow Nash, Chris Lalancette
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 14 Feb 2023 00:00:00 -0000
+
+ros-rolling-rviz-common (12.2.0-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 07 Nov 2022 00:00:00 -0000
+
+ros-rolling-rviz-common (12.1.0-2noble) noble; urgency=high
+
+  * Remove YAML_CPP_DLL define (#831 <https://github.com/ros2/rviz/issues/831>)
+  * Contributors: Akash
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 02 Nov 2022 00:00:00 -0000
+
+ros-rolling-rviz-common (12.0.0-2noble) noble; urgency=high
+
+  * Document getTransform() time behavior (#893 <https://github.com/ros2/rviz/issues/893>)
+  * Ogre 1.12.10 upgrade (#878 <https://github.com/ros2/rviz/issues/878>)
+  * Add RVIZ_COMMON_PUBLIC macro (#865 <https://github.com/ros2/rviz/issues/865>)
+  * Contributors: Kenji Brameld, Shane Loretz, juchajam
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 13 Sep 2022 00:00:00 -0000
+
+ros-rolling-rviz-common (11.3.0-2noble) noble; urgency=high
+
+  * Add time jump handler (#752 <https://github.com/ros2/rviz/issues/752>) (#791 <https://github.com/ros2/rviz/issues/791>)
+  * Make sure not to dereference a null Renderable pointer. (#850 <https://github.com/ros2/rviz/issues/850>)
+  * Contributors: Chris Lalancette, Marcel Zeilinger
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 26 Apr 2022 00:00:00 -0000
+
+ros-rolling-rviz-common (11.2.0-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 08 Apr 2022 00:00:00 -0000
+
+ros-rolling-rviz-common (11.1.1-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 30 Mar 2022 00:00:00 -0000
+
+ros-rolling-rviz-common (11.1.0-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 24 Mar 2022 00:00:00 -0000
+
+ros-rolling-rviz-common (11.0.0-2noble) noble; urgency=high
+
+  * Add implementation for cancel interface (#809 <https://github.com/ros2/rviz/issues/809>)
+  * Contributors: Chen Lihui
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 01 Mar 2022 00:00:00 -0000
+
+ros-rolling-rviz-common (10.0.0-2noble) noble; urgency=high
+
+  * Install headers to include/${PROJECT_NAME} (#829 <https://github.com/ros2/rviz/issues/829>)
+  * Remove definition of PLUGINLIB_DISABLE_BOOST. (#821 <https://github.com/ros2/rviz/issues/821>)
+  * Contributors: Chris Lalancette, Shane Loretz
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 16 Feb 2022 00:00:00 -0000
+
+ros-rolling-rviz-common (9.1.1-2noble) noble; urgency=high
+
+  * Fix support for assimp 5.1.0 (#817 <https://github.com/ros2/rviz/issues/817>)
+  * Contributors: Silvio Traversaro
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 25 Jan 2022 00:00:00 -0000
+
+ros-rolling-rviz-common (9.1.0-2noble) noble; urgency=high
+
+  * Fix cpplint errors (#818 <https://github.com/ros2/rviz/issues/818>)
+  * Set message type for ros topic display (#800 <https://github.com/ros2/rviz/issues/800>)
+  * Contributors: Daisuke Nishimatsu, Jacob Perron
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 13 Jan 2022 00:00:00 -0000
+
+ros-rolling-rviz-common (9.0.1-2noble) noble; urgency=high
+
+  * Fixes for uncrustify 0.72 (#807 <https://github.com/ros2/rviz/issues/807>)
+  * Do not block visualization manager updates when opening the display panel dialog (#795 <https://github.com/ros2/rviz/issues/795>)
+  * Contributors: Chris Lalancette, Ivan Santiago Paunovic
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 17 Dec 2021 00:00:00 -0000
+
+ros-rolling-rviz-common (9.0.0-2noble) noble; urgency=high
+
+  * Switch to using Qt::MiddleButton for RViz. (#802 <https://github.com/ros2/rviz/issues/802>)
+  * Removed traces in renderPanel (#777 <https://github.com/ros2/rviz/issues/777>)
+  * move yaml_config_writer.hpp to public includes (#764 <https://github.com/ros2/rviz/issues/764>)
+  * Update displays_panel.cpp (#745 <https://github.com/ros2/rviz/issues/745>)
+  * Robot: Report mesh loading issues (#744 <https://github.com/ros2/rviz/issues/744>)
+  * Exposed tool_manager header file. (#767 <https://github.com/ros2/rviz/issues/767>)
+  * refactor: make const getter methods const (#756 <https://github.com/ros2/rviz/issues/756>)
+  * Efficiently handle 3-bytes pixel formats (#743 <https://github.com/ros2/rviz/issues/743>)
+  * Report sample lost events (#686 <https://github.com/ros2/rviz/issues/686>)
+  * Contributors: ANDOU Tetsuo, Alejandro Hernández Cordero, Chris Lalancette, Gonzo, Joseph Schornak, davidorchansky
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 18 Nov 2021 00:00:00 -0000
+
+ros-rolling-rviz-common (8.7.0-2noble) noble; urgency=high
+
+  * Update window close icon (#734 <https://github.com/ros2/rviz/issues/734>)
+  * Fix missing "X" icon in panel close button (#731 <https://github.com/ros2/rviz/issues/731>)
+  * Add rviz_rendering dependency to rviz_common (#727 <https://github.com/ros2/rviz/issues/727>)
+  * Remove the word "Alpha" from the splash screen. (#696 <https://github.com/ros2/rviz/issues/696>)
+  * Removed some memory leaks in rviz_rendering and rviz_rendering_tests (#710 <https://github.com/ros2/rviz/issues/710>)
+  * Contributors: Alejandro Hernández Cordero, Chris Lalancette, Rebecca Butler
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 11 Aug 2021 00:00:00 -0000
+
+ros-rolling-rviz-common (8.6.0-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 13 May 2021 00:00:00 -0000
+
+ros-rolling-rviz-common (8.5.0-2noble) noble; urgency=high
+
+  * Add visualization_frame to the public API (#660 <https://github.com/ros2/rviz/issues/660>)
+  * Contributors: Jafar Abdi
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 06 Apr 2021 00:00:00 -0000
+
+ros-rolling-rviz-common (8.4.0-2noble) noble; urgency=high
+
+  * Add ViewPicker::get3DPatch to the public API (#657 <https://github.com/ros2/rviz/issues/657>)
+  * Fix byte indexing for depth patch pixels (#661 <https://github.com/ros2/rviz/issues/661>)
+  * fix toolbar vanishing when pressing escape (#656 <https://github.com/ros2/rviz/issues/656>)
+  * Expose VisualizationManager and YamlConfigReader to the public API (#649 <https://github.com/ros2/rviz/issues/649>)
+  * Use the stack for the classes in the property test. (#644 <https://github.com/ros2/rviz/issues/644>)
+  * Contributors: Chris Lalancette, Joseph Schornak, ipa-fez
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 18 Mar 2021 00:00:00 -0000
+
+ros-rolling-rviz-common (8.3.1-2noble) noble; urgency=high
+
+  * Check that the views_man_ and views_man_->getCurrent() are not nullptr. (#634 <https://github.com/ros2/rviz/issues/634>)
+  * Contributors: Chris Lalancette
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 25 Jan 2021 00:00:00 -0000
+
+ros-rolling-rviz-common (8.3.0-2noble) noble; urgency=high
+
+  * Fix for mousewheel to zoom in/out (#623 <https://github.com/ros2/rviz/issues/623>)
+  * Ensure rviz_common::MessageFilterDisplay processes messages in the main thread (#620 <https://github.com/ros2/rviz/issues/620>)
+  * Fix render window disppearing after saving image (#611 <https://github.com/ros2/rviz/issues/611>)
+  * Add linters and use ament_lint_auto (#608 <https://github.com/ros2/rviz/issues/608>)
+  * Update maintainers (#607 <https://github.com/ros2/rviz/issues/607>)
+  * TimePanel port (#599 <https://github.com/ros2/rviz/issues/599>)
+  * Upgrade to tinyxml2 for rviz (#418 <https://github.com/ros2/rviz/issues/418>)
+  * Fix segfault on changing filter size for non-existent topic (#597 <https://github.com/ros2/rviz/issues/597>)
+  * improve color support for themes (#590 <https://github.com/ros2/rviz/issues/590>)
+  * Fix topic IntProperty number ranges (#596 <https://github.com/ros2/rviz/issues/596>)
+  * Switch to nullptr everywhere. (#592 <https://github.com/ros2/rviz/issues/592>)
+  * Expose MessageFilterDisplay's queue size (#593 <https://github.com/ros2/rviz/issues/593>)
+  * Filter topics in drop down menu (#591 <https://github.com/ros2/rviz/issues/591>)
+  * rviz_common: Remove variadic macro warning check (#421 <https://github.com/ros2/rviz/issues/421>)
+  * Use retriever.hpp (#589 <https://github.com/ros2/rviz/issues/589>)
+  * Fix the order of destructors (#572 <https://github.com/ros2/rviz/issues/572>)
+  * Contributors: Audrow Nash, Chen Lihui, Chris Lalancette, Jacob Perron, Martin Idel, Michael Ferguson, Michael Jeronimo, Michel Hidalgo, Nico Neumann, Rich Mattes, Shane Loretz, spiralray
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 08 Dec 2020 00:00:00 -0000
+
+ros-rolling-rviz-common (8.2.0-2noble) noble; urgency=high
+
+  * Changed to not install test header files in rviz_rendering. (#564 <https://github.com/ros2/rviz/issues/564>)
+  * Fixed alphabetical include order (#563 <https://github.com/ros2/rviz/issues/563>)
+  * Changed to avoid trying to moc generate ``env_config.hpp`` file. (#550 <https://github.com/ros2/rviz/issues/550>)
+  * Contributors: Chris Lalancette, Karsten Knese
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 23 Jun 2020 00:00:00 -0000
+
+ros-rolling-rviz-common (8.1.1-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 03 Jun 2020 00:00:00 -0000
+
+ros-rolling-rviz-common (8.1.0-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 03 Jun 2020 00:00:00 -0000
+
+ros-rolling-rviz-common (8.0.3-2noble) noble; urgency=high
+
+  * Fixed deprecated Qt usage. (#555 <https://github.com/ros2/rviz/issues/555>)
+  * Contributors: Jacob Perron
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 02 Jun 2020 00:00:00 -0000
+
+ros-rolling-rviz-common (8.0.2-2noble) noble; urgency=high
+
+  * Changed to use modern cmake style with pluginlib (#542 <https://github.com/ros2/rviz/issues/542>)
+  * Removed automoc completely. (#545 <https://github.com/ros2/rviz/issues/545>)
+  * Contributors: Chris Lalancette, Karsten Knese
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 21 May 2020 00:00:00 -0000
+
+ros-rolling-rviz-common (8.0.1-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 07 May 2020 00:00:00 -0000
+
+ros-rolling-rviz-common (8.0.0-2noble) noble; urgency=high
+
+  * Note from wjwwood: I've chosen bump the major version this time, even though the API was not broken strictly speaking, partly because of some potentially disruptive build system changes and partially in preparation for ROS Foxy, to allow for new minor/patch versions in the previous ROS release Eloquent.
+  * Removed duplicate include dirs and link libraries. (#533 <https://github.com/ros2/rviz/issues/533>)
+  * Added missing export of urdf. (#529 <https://github.com/ros2/rviz/issues/529>)
+  * Made changes to avoid newly deprecated functions in rclcpp. (#528 <https://github.com/ros2/rviz/issues/528>)
+  * Changed to use ``ament_export_targets()``. (#525 <https://github.com/ros2/rviz/issues/525>)
+  * Updated deprecated enums in rviz_common. (#510 <https://github.com/ros2/rviz/issues/510>)
+  * Solved a compiler warning in Ubuntu Focal. (#503 <https://github.com/ros2/rviz/issues/503>)
+  * Removed an uncessary call to render scene. (#490 <https://github.com/ros2/rviz/issues/490>)
+  * Made some code style changes. (#504 <https://github.com/ros2/rviz/issues/504>)
+  * Fixed a bug encountered when included as a sub-project. (#475 <https://github.com/ros2/rviz/issues/475>)
+  * Contributors: Dan Rose, Dirk Thomas, Ivan Santiago Paunovic, Jacob Perron, William Woodall, brawner
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 01 May 2020 00:00:00 -0000
+
+ros-rolling-rviz-common (7.0.3-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 13 Nov 2019 00:00:00 -0000
+
+ros-rolling-rviz-common (7.0.2-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 23 Oct 2019 00:00:00 -0000
+
+ros-rolling-rviz-common (7.0.1-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 04 Oct 2019 00:00:00 -0000
+
+ros-rolling-rviz-common (7.0.0-2noble) noble; urgency=high
+
+  * Introduce QoS property (#409 <https://github.com/ros2/rviz/issues/409>)
+    A container of properties related to QoS settings. Replaces queue size and unreliable properties.
+  * Migrate InteractiveMarkerDisplay (#457 <https://github.com/ros2/rviz/issues/457>)
+  * Rename 2d Nav Goal to 2d Goal Pose (#455)
+    
+    Rename nav pose tool to goal pose tool
+    
+    Rename topic for goal pose tool from "move_base_simple/goal" to "goal_pose"
+  * Do not select interactive markers when mousing over them (#451 <https://github.com/ros2/rviz/issues/451>)
+  * Migrate Interaction Tool (#423 <https://github.com/ros2/rviz/issues/423>)
+  * Upgrade from Ogre 1.10 to Ogre 1.12.1 (#394 <https://github.com/ros2/rviz/issues/394>)
+  * Re-enable use of tf message filter (#375 <https://github.com/ros2/rviz/issues/375>)
+  * Static analysis cleanup for rviz_common (#431 <https://github.com/ros2/rviz/issues/431>)
+  * Fix deprecation warnings with new Qt (#435 <https://github.com/ros2/rviz/issues/435>)
+  * FrameTransformer implements tf2::BufferCoreInterface and tf2_ros::AsyncBufferInterface (#422 <https://github.com/ros2/rviz/issues/422>)
+  * Use geometry_msgs types instead of custom types (#426 <https://github.com/ros2/rviz/issues/426>)
+  * Remove -Werror from defualt compiler options (#420 <https://github.com/ros2/rviz/issues/420>)
+  * Use node to create clock used to stamp publications (#407 <https://github.com/ros2/rviz/issues/407>)
+  * Remove blank lines that latest uncrustify doesn't like (#411 <https://github.com/ros2/rviz/issues/411>)
+  * Contributors: Emerson Knapp, Hunter L. Allen, Jacob Perron, Martin Idel, Scott K Logan, Shivesh Khaitan, Steven Macenski, William Woodall
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 27 Sep 2019 00:00:00 -0000
+
+ros-rolling-rviz-common (6.1.1-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 29 May 2019 00:00:00 -0000
+
+ros-rolling-rviz-common (6.1.0-2noble) noble; urgency=high
+
+  * Updated to use the new specification for types from the ROS node graph API. (#387 <https://github.com/ros2/rviz/issues/387>)
+  * Contributors: Jacob Perron
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 20 May 2019 00:00:00 -0000
+
+ros-rolling-rviz-common (6.0.0-2noble) noble; urgency=high
+
+  * Made changes to avoid newly deprecated API's related to publishers and subscriptions. (#399 <https://github.com/ros2/rviz/issues/399>)
+  * Updated to be compatible with new QoS settings.  (#392 <https://github.com/ros2/rviz/issues/392>)
+  * Fixed a crash on shutdown by properly freeing the ``transformation_manager``. (#386 <https://github.com/ros2/rviz/issues/386>)
+  * Contributors: M. M, Michael Jeronimo, William Woodall
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 08 May 2019 00:00:00 -0000
+
+ros-rolling-rviz-common (5.1.0-2noble) noble; urgency=high
+
+  * Fix errors from uncrustify v0.68 (#366 <https://github.com/ros2/rviz/issues/366>)
+  * Contributors: Jacob Perron, William Woodall
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 14 Jan 2019 00:00:00 -0000
+
+ros-rolling-rviz-common (5.0.0-2noble) noble; urgency=high
+
+  * Moved rviz_yaml_cpp_vendor into it's own repo (#361 <https://github.com/ros2/rviz/issues/361>)
+  * Exported libraries to trigger hooks. (#358 <https://github.com/ros2/rviz/issues/358>)
+  * Added virtual destructors for WindowManagerInterface and ViewportProjectionFinder (#356 <https://github.com/ros2/rviz/issues/356>)
+  * Changed to use spin_some with max_duration (#354 <https://github.com/ros2/rviz/issues/354>)
+    * spin_once() limits the number of callbacks that can be called based on how quickly the gui updates.
+    * This results in lag when displaying tf frames.
+    * Use spin_some(max_duration) to execute all of the work available.
+  * Made the transformation framework used by rviz pluggable. (#346 <https://github.com/ros2/rviz/issues/346>)
+  * Fixed wrong name of InitialPose plugin in default config (#352 <https://github.com/ros2/rviz/issues/352>)
+  * Added hotkeys (also to help) (#312 <https://github.com/ros2/rviz/issues/312>)
+  * Migrated pose estimate tool (#329 <https://github.com/ros2/rviz/issues/329>)
+  * Changed to now pass clock to tf2_ros::buffer (#340 <https://github.com/ros2/rviz/issues/340>)
+  * Changted to always build all tests and skip execution if not supported (#342 <https://github.com/ros2/rviz/issues/342>)
+  * Reverted workaround for identity transform after geometry2 fix (#343 <https://github.com/ros2/rviz/issues/343>)
+  * Reverted "Add simple mechanism to automatically convert old configs" (#337 <https://github.com/ros2/rviz/issues/337>)
+    * No longer necessary for C-Turtle
+  * Minor cleanup and fixes (#336 <https://github.com/ros2/rviz/issues/336>)
+    * Fix environment for colcon builds (no appends necessary)
+    * Fix warning in visual_test_fixture.cpp and add -Werror option in CMakeLists.txt
+    * Fix Qt moc warning for virtual signal
+  * Fixed missing status in laser scan display (#335 <https://github.com/ros2/rviz/issues/335>)
+    * Show status error when transform failed
+    * Modify logging behaviour
+  * Updates due to uncrustify 0.67 (#333 <https://github.com/ros2/rviz/issues/333>)
+    * fix closing block and tamplete indentation to comply with uncrustify 0.67
+    * add space between reference and variable name
+    * space before opening bracket
+    * fix indend of inherited class
+    * fix indent of code blocks
+    * no space around -> operator
+    * restore original spacing
+  * Contributors: Andreas Greimel, Kartik Mohta, Martin Idel, Michael Carroll, Mikael Arguedas, Shane Loretz, Steven! Ragnarök
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 04 Dec 2018 00:00:00 -0000
+
+ros-rolling-rviz-common (4.0.1-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 28 Jun 2018 00:00:00 -0000
+
+ros-rolling-rviz-common (4.0.0-2noble) noble; urgency=high
+
+  * Polished selection behavior. (#315 <https://github.com/ros2/rviz/issues/315>)
+  * Fixed invalid color profile in PNGs. (#306 <https://github.com/ros2/rviz/issues/306>)
+  * Updated use of tf2 so that it reused the rviz node. (#290 <https://github.com/ros2/rviz/issues/290>)
+  * Made the display status not editable. (#316 <https://github.com/ros2/rviz/issues/316>)
+  * Fixed some bugs causing RViz to crash on macOS. (#319 <https://github.com/ros2/rviz/issues/319>)
+  * Fixed a segfault that could occur on empty frames. (#313 <https://github.com/ros2/rviz/issues/313>)
+  * Moved the selection icon to ``rviz_common``. (#314 <https://github.com/ros2/rviz/issues/314>)
+  * Polished more tests and migrate or delete old tests. (#289 <https://github.com/ros2/rviz/issues/289>)
+  * Migrated the map display. (#267 <https://github.com/ros2/rviz/issues/267>)
+  * Migrated Marker Array Display. (#296 <https://github.com/ros2/rviz/issues/296>)
+  * Migrated 2D Nav Goal tool. (#294 <https://github.com/ros2/rviz/issues/294>)
+  * Fixed a memory leak in shutdown of ros client abstraction. (#301 <https://github.com/ros2/rviz/issues/301>)
+  * Implemented a workaround for the missing identity transform when transforming from a frame to itself. (#298 <https://github.com/ros2/rviz/issues/298>)
+  * Fixed the splash screen and help panel. (#277 <https://github.com/ros2/rviz/issues/277>)
+  * Migrated the Odometry display. (#275 <https://github.com/ros2/rviz/issues/275>)
+  * Homogenized behavior of rviz when a tf transform fails. (#292 <https://github.com/ros2/rviz/issues/292>)
+  * Changed rviz so that only a single ros node is used. (#197 <https://github.com/ros2/rviz/issues/197>)
+  * Migrated the XYOrbit View Controller. (#282 <https://github.com/ros2/rviz/issues/282>)
+  * Fixed select and measure tool behavior on macOS Retina displays. (#283 <https://github.com/ros2/rviz/issues/283>)
+  * Fixed a segfault in the selection manager tests. (#284 <https://github.com/ros2/rviz/issues/284>)
+  * Fixed rviz application so it shows an icon on macOS's toolbar when running. (#272 <https://github.com/ros2/rviz/issues/272>)
+  * Moved the ``rviz_common::Panel`` into a public header. (#265 <https://github.com/ros2/rviz/issues/265>)
+  * Migrated the orthographic view controller. (#270 <https://github.com/ros2/rviz/issues/270>)
+  * Restored most of the command line options for rviz. (#255 <https://github.com/ros2/rviz/issues/255>)
+  * Migrated tool properties panel. (#251 <https://github.com/ros2/rviz/issues/251>)
+  * Finished point cloud refactoring and testing. (#250 <https://github.com/ros2/rviz/issues/250>)
+  * Migrated the select tool. (#256 <https://github.com/ros2/rviz/issues/256>)
+  * Introduced visual testing framework for rviz. (#209 <https://github.com/ros2/rviz/issues/209>)
+  * Fixed "display" tests and enable when the test environment allows. (#186 <https://github.com/ros2/rviz/issues/186>)
+  * Restored use of icons throughout rviz. (#235 <https://github.com/ros2/rviz/issues/235>)
+  * Migrated marker display. (#229 <https://github.com/ros2/rviz/issues/229>)
+  * Changed the default position of the camera in RenderPanel. (#205 <https://github.com/ros2/rviz/issues/205>)
+  * Migrated RobotModelDisplay. (#210 <https://github.com/ros2/rviz/issues/210>)
+  * Fixed a possible null pointer is dereference. (#178 <https://github.com/ros2/rviz/issues/178>)
+    * Signed-off-by: Chris Ye <mailto:chris.ye@intel.com>
+  * Migrated camera display (#183 <https://github.com/ros2/rviz/issues/183>)
+  * Updated Ogre to 1.10.11 (#181 <https://github.com/ros2/rviz/issues/181>)
+  * Migrated TF Display. (#182 <https://github.com/ros2/rviz/issues/182>)
+  * Migrated ImageDisplay. (#164 <https://github.com/ros2/rviz/issues/164>)
+  * Introduced ROS interface abstraction to improve testability. (#156 <https://github.com/ros2/rviz/issues/156>)
+  * Re-enabled and fixed rviz configuration file loading. (#167 <https://github.com/ros2/rviz/issues/167>)
+  * Fixed a bug caused by a missing break in switch statement. (#158 <https://github.com/ros2/rviz/issues/158>)
+  * Migrated code for point cloud displays to ``rviz_default_plugins``. (#153 <https://github.com/ros2/rviz/issues/153>)
+  * Contributors: Alessandro Bottero, Andreas Greimel, Andreas Holzner, Chris Ye, Dirk Thomas, Martin Idel, Mikael Arguedas, Steven! Ragnarök, Tim Rakowski, William Woodall
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 27 Jun 2018 00:00:00 -0000
+
+ros-rolling-rviz-common (3.0.0-2noble) noble; urgency=high
+
+  * Fixed compilation errors and runtime issues on Windows. (#175 <https://github.com/ros2/rviz/issues/175>)
+  * Fixed an issue with docking windows initially.
+  * Fixed a potential memory leak.
+  * Fixed a bug which caused rviz to crash when removing a display. (#191 <https://github.com/ros2/rviz/issues/191>)
+    * The crash occurred when adding a camera display and then deleting any display that was created before adding the camera display.
+  * Contributors: Andreas Greimel, Andreas Holzner, Johannes Jeising, Martin Idel, Steven! Ragnarok, William Woodall
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 07 Feb 2018 00:00:00 -0000
+
+ros-rolling-rviz-common (1.12.11-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 02 Aug 2017 00:00:00 -0000
+
+ros-rolling-rviz-common (1.12.10-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 05 Jun 2017 17:37:00 -0000
+
+ros-rolling-rviz-common (1.12.9-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 05 Jun 2017 14:23:00 -0000
+
+ros-rolling-rviz-common (1.12.8-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 07 May 2017 00:00:00 -0000
+
+ros-rolling-rviz-common (1.12.7-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 05 May 2017 00:00:00 -0000
+
+ros-rolling-rviz-common (1.12.6-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 02 May 2017 00:00:00 -0000
+
+ros-rolling-rviz-common (1.12.5-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 01 May 2017 00:00:00 -0000
+
+ros-rolling-rviz-common (1.12.4-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 27 Oct 2016 00:00:00 -0000
+
+ros-rolling-rviz-common (1.12.3-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 19 Oct 2016 00:00:00 -0000
+
+ros-rolling-rviz-common (1.12.2-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 18 Oct 2016 00:00:00 -0000
+
+ros-rolling-rviz-common (1.12.1-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 20 Apr 2016 00:00:00 -0000
+
+ros-rolling-rviz-common (1.12.0-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 11 Apr 2016 00:00:00 -0000
+
+ros-rolling-rviz-common (1.11.14-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 03 Apr 2016 00:00:00 -0000
+
+ros-rolling-rviz-common (1.11.13-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 23 Mar 2016 00:00:00 -0000
+
+ros-rolling-rviz-common (1.11.12-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 22 Mar 2016 19:58:00 -0000
+
+ros-rolling-rviz-common (1.11.11-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 22 Mar 2016 18:16:00 -0000
+
+ros-rolling-rviz-common (1.11.10-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 13 Oct 2015 00:00:00 -0000
+
+ros-rolling-rviz-common (1.11.9-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 21 Sep 2015 00:00:00 -0000
+
+ros-rolling-rviz-common (1.11.8-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 05 Aug 2015 00:00:00 -0000
+
+ros-rolling-rviz-common (1.11.7-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 02 Mar 2015 00:00:00 -0000
+
+ros-rolling-rviz-common (1.11.6-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 13 Feb 2015 00:00:00 -0000
+
+ros-rolling-rviz-common (1.11.5-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 11 Feb 2015 00:00:00 -0000
+
+ros-rolling-rviz-common (1.11.4-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 30 Oct 2014 00:00:00 -0000
+
+ros-rolling-rviz-common (1.11.3-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 26 Jun 2014 00:00:00 -0000
+
+ros-rolling-rviz-common (1.11.2-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 13 May 2014 00:00:00 -0000
+
+ros-rolling-rviz-common (1.11.1-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 01 May 2014 00:00:00 -0000
+
+ros-rolling-rviz-common (1.11.0-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 04 Mar 2014 21:40:00 -0000
+
+ros-rolling-rviz-common (1.10.14-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 04 Mar 2014 21:35:00 -0000
+
+ros-rolling-rviz-common (1.10.13-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 26 Feb 2014 00:00:00 -0000
+
+ros-rolling-rviz-common (1.10.12-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 25 Feb 2014 00:00:00 -0000
+
+ros-rolling-rviz-common (1.10.11-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 26 Jan 2014 00:00:00 -0000
+
+ros-rolling-rviz-common (1.10.10-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 22 Dec 2013 00:00:00 -0000
+
+ros-rolling-rviz-common (1.10.9-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 15 Oct 2013 00:00:00 -0000
+
+ros-rolling-rviz-common (1.10.7-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 16 Sep 2013 00:00:00 -0000
+
+ros-rolling-rviz-common (1.10.6-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 03 Sep 2013 00:00:00 -0000
+
+ros-rolling-rviz-common (1.10.5-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 28 Aug 2013 03:50:00 -0000
+
+ros-rolling-rviz-common (1.10.4-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 28 Aug 2013 03:13:00 -0000
+
+ros-rolling-rviz-common (1.10.3-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 14 Aug 2013 00:00:00 -0000
+
+ros-rolling-rviz-common (1.10.2-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 26 Jul 2013 00:00:00 -0000
+
+ros-rolling-rviz-common (1.10.1-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 16 Jul 2013 00:00:00 -0000
+
+ros-rolling-rviz-common (1.10.0-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 27 Jun 2013 00:00:00 -0000
+
+ros-rolling-rviz-common (1.9.30-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 30 May 2013 00:00:00 -0000
+
+ros-rolling-rviz-common (1.9.29-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 15 Apr 2013 00:00:00 -0000
+
+ros-rolling-rviz-common (1.9.27-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 15 Mar 2013 13:23:00 -0000
+
+ros-rolling-rviz-common (1.9.26-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 15 Mar 2013 10:38:00 -0000
+
+ros-rolling-rviz-common (1.9.25-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 07 Mar 2013 00:00:00 -0000
+
+ros-rolling-rviz-common (1.9.24-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sat, 16 Feb 2013 00:00:00 -0000
+
+ros-rolling-rviz-common (1.9.23-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 13 Feb 2013 00:00:00 -0000
+
+ros-rolling-rviz-common (1.9.22-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 12 Feb 2013 16:30:00 -0000
+
+ros-rolling-rviz-common (1.9.21-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 12 Feb 2013 14:00:00 -0000
+
+ros-rolling-rviz-common (1.9.20-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 21 Jan 2013 00:00:00 -0000
+
+ros-rolling-rviz-common (1.9.19-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 13 Jan 2013 00:00:00 -0000
+
+ros-rolling-rviz-common (1.9.18-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 18 Dec 2012 00:00:00 -0000
+
+ros-rolling-rviz-common (1.9.17-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 14 Dec 2012 00:00:00 -0000
+
+ros-rolling-rviz-common (1.9.16-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 14 Nov 2012 15:49:00 -0000
+
+ros-rolling-rviz-common (1.9.15-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 13 Nov 2012 00:00:00 -0000
+
+ros-rolling-rviz-common (1.9.14-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 14 Nov 2012 02:20:00 -0000
+
+ros-rolling-rviz-common (1.9.13-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 14 Nov 2012 00:58:00 -0000
+
+ros-rolling-rviz-common (1.9.12-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 06 Nov 2012 00:00:00 -0000
+
+ros-rolling-rviz-common (1.9.11-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 02 Nov 2012 00:00:00 -0000
+
+ros-rolling-rviz-common (1.9.10-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 01 Nov 2012 11:10:00 -0000
+
+ros-rolling-rviz-common (1.9.9-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 01 Nov 2012 11:01:00 -0000
+
+ros-rolling-rviz-common (1.9.8-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 01 Nov 2012 10:52:00 -0000
+
+ros-rolling-rviz-common (1.9.7-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 01 Nov 2012 10:40:00 -0000
+
+ros-rolling-rviz-common (1.9.6-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 31 Oct 2012 00:00:00 -0000
+
+ros-rolling-rviz-common (1.9.5-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 19 Oct 2012 00:00:00 -0000
+
+ros-rolling-rviz-common (1.9.4-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 15 Oct 2012 15:00:00 -0000
+
+ros-rolling-rviz-common (1.9.3-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 15 Oct 2012 10:41:00 -0000
+
+ros-rolling-rviz-common (1.9.2-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 12 Oct 2012 13:38:00 -0000
+
+ros-rolling-rviz-common (1.9.1-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 12 Oct 2012 11:57:00 -0000
+
+ros-rolling-rviz-common (1.9.0-2noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 10 Oct 2012 00:00:00 -0000
+
+
