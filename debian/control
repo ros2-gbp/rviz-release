@@ -1,0 +1,12 @@
+Source: ros-humble-rviz-common
+Section: misc
+Priority: optional
+Maintainer: Jacob Perron <jacob@openrobotics.org>
+Build-Depends: debhelper (>= 9.0.0), libqt5svg5-dev, qtbase5-dev, ros-humble-ament-cmake, ros-humble-ament-cmake-cppcheck <!nocheck>, ros-humble-ament-cmake-cpplint <!nocheck>, ros-humble-ament-cmake-gmock <!nocheck>, ros-humble-ament-cmake-gtest <!nocheck>, ros-humble-ament-cmake-lint-cmake <!nocheck>, ros-humble-ament-cmake-uncrustify <!nocheck>, ros-humble-ament-cmake-xmllint <!nocheck>, ros-humble-ament-lint-auto <!nocheck>, ros-humble-geometry-msgs, ros-humble-message-filters, ros-humble-pluginlib, ros-humble-rclcpp, ros-humble-rcpputils, ros-humble-resource-retriever, ros-humble-rviz-ogre-vendor, ros-humble-rviz-rendering, ros-humble-sensor-msgs, ros-humble-std-msgs, ros-humble-tf2, ros-humble-tf2-geometry-msgs, ros-humble-tf2-ros, ros-humble-tinyxml2-vendor, ros-humble-urdf, ros-humble-yaml-cpp-vendor, ros-humble-ros-workspace
+Homepage: https://github.com/ros2/rviz/blob/ros2/README.md
+Standards-Version: 3.9.2
+
+Package: ros-humble-rviz-common
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libqt5core5a, libqt5gui5, libqt5opengl5, libqt5svg5, libqt5widgets5, qtbase5-dev, ros-humble-geometry-msgs, ros-humble-message-filters, ros-humble-pluginlib, ros-humble-rclcpp, ros-humble-rcpputils, ros-humble-resource-retriever, ros-humble-rviz-ogre-vendor, ros-humble-rviz-rendering, ros-humble-sensor-msgs, ros-humble-std-msgs, ros-humble-tf2, ros-humble-tf2-geometry-msgs, ros-humble-tf2-ros, ros-humble-tinyxml2-vendor, ros-humble-urdf, ros-humble-yaml-cpp-vendor, ros-humble-ros-workspace
+Description: Common rviz API, used by rviz plugins and applications.
