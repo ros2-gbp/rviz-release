@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024, Open Source Robotics Foundation, Inc.
+ * Copyright (c) 2023, Open Source Robotics Foundation, Inc.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -26,54 +26,52 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+#ifndef RVIZ_COMMON__PROPERTIES__REGEX_FILTER_PROPERTY_HPP_
+#define RVIZ_COMMON__PROPERTIES__REGEX_FILTER_PROPERTY_HPP_
 
-#include "accel_display_page_object.hpp"
+#include <QValidator>
+#include <QLineEdit>
+#include <QToolTip>
+#include <QWidget>
 
-#include <QString>
-#include <memory>
-#include <vector>
+#include <regex>
+#include <string>
 
-AccelDisplayPageObject::AccelDisplayPageObject()
-: BasePageObject(0, "AccelStamped")
-{}
+#include "rviz_common/properties/string_property.hpp"
+#include "rviz_common/visibility_control.hpp"
 
-void AccelDisplayPageObject::setTopic(QString topic)
+namespace rviz_common
 {
-  setComboBox("Topic", topic);
-  waitForFirstMessage();
-}
-
-void AccelDisplayPageObject::setAlpha(float alpha)
+namespace properties
 {
-  setFloat("Alpha", alpha);
-}
-
-void AccelDisplayPageObject::setAngularColor(int r, int g, int b)
+class RVIZ_COMMON_PUBLIC RegexValidator : public QValidator
 {
-  setColorCode("Angular Color", r, g, b);
-}
+public:
+  explicit RegexValidator(QLineEdit * editor);
 
-void AccelDisplayPageObject::setLinearColor(int r, int g, int b)
-{
-  setColorCode("Linear Color", r, g, b);
-}
+  QValidator::State validate(QString & input, int & /*pos*/) const override;
 
-void AccelDisplayPageObject::setLinearScale(float scale)
-{
-  setFloat("Linear Arrow Scale", scale);
-}
+private:
+  QLineEdit * editor_;
+};
 
-void AccelDisplayPageObject::setAngularScale(float scale)
+class RVIZ_COMMON_PUBLIC RegexFilterProperty : public StringProperty
 {
-  setFloat("Angular Arrow Scale", scale);
-}
+public:
+  RegexFilterProperty(const QString & name, const std::string regex, Property * parent);
 
-void AccelDisplayPageObject::setWidth(float width)
-{
-  setFloat("Arrow Width", width);
-}
+  const std::regex & regex() const;
+  const std::string & regex_str() const;
 
-void AccelDisplayPageObject::setHistoryLength(int history)
-{
-  setInt("History Length", history);
-}
+  QWidget * createEditor(QWidget * parent, const QStyleOptionViewItem & option) override;
+
+private:
+  std::string default_;
+  std::regex regex_;
+  std::string regex_str_;
+
+  void onValueChanged();
+};
+}  // end namespace properties
+}  // end namespace rviz_common
+#endif  // RVIZ_COMMON__PROPERTIES__REGEX_FILTER_PROPERTY_HPP_
