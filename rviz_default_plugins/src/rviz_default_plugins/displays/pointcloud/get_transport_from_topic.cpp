@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024, Open Source Robotics Foundation, Inc.
+ * Copyright (c) 2023, Open Source Robotics Foundation, Inc.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -10,8 +10,8 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Willow Garage, Inc. nor the names of its
- *       contributors may be used to endorse or promote products derived from
+ *     * Neither the name of the copyright holder nor the names of its contributors
+ *       may be used to endorse or promote products derived from
  *       this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -27,53 +27,37 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "accel_display_page_object.hpp"
+#include <string>
 
-#include <QString>
-#include <memory>
-#include <vector>
+#include "rviz_default_plugins/displays/pointcloud/get_transport_from_topic.hpp"
 
-AccelDisplayPageObject::AccelDisplayPageObject()
-: BasePageObject(0, "AccelStamped")
-{}
-
-void AccelDisplayPageObject::setTopic(QString topic)
+namespace rviz_default_plugins
 {
-  setComboBox("Topic", topic);
-  waitForFirstMessage();
+namespace displays
+{
+
+bool isPointCloud2RawTransport(const std::string & topic)
+{
+  std::string last_subtopic = topic.substr(topic.find_last_of('/') + 1);
+  return last_subtopic != "draco" && last_subtopic != "zlib" &&
+         last_subtopic != "pcl" && last_subtopic != "zstd";
 }
 
-void AccelDisplayPageObject::setAlpha(float alpha)
+std::string getPointCloud2TransportFromTopic(const std::string & topic)
 {
-  setFloat("Alpha", alpha);
+  if (isPointCloud2RawTransport(topic)) {
+    return "raw";
+  }
+  return topic.substr(topic.find_last_of('/') + 1);
 }
 
-void AccelDisplayPageObject::setAngularColor(int r, int g, int b)
+std::string getPointCloud2BaseTopicFromTopic(const std::string & topic)
 {
-  setColorCode("Angular Color", r, g, b);
+  if (isPointCloud2RawTransport(topic)) {
+    return topic;
+  }
+  return topic.substr(0, topic.find_last_of('/'));
 }
 
-void AccelDisplayPageObject::setLinearColor(int r, int g, int b)
-{
-  setColorCode("Linear Color", r, g, b);
-}
-
-void AccelDisplayPageObject::setLinearScale(float scale)
-{
-  setFloat("Linear Arrow Scale", scale);
-}
-
-void AccelDisplayPageObject::setAngularScale(float scale)
-{
-  setFloat("Angular Arrow Scale", scale);
-}
-
-void AccelDisplayPageObject::setWidth(float width)
-{
-  setFloat("Arrow Width", width);
-}
-
-void AccelDisplayPageObject::setHistoryLength(int history)
-{
-  setInt("History Length", history);
-}
+}  //  end namespace displays
+}  //  end namespace rviz_default_plugins
