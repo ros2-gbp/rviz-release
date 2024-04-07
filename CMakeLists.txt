@@ -61,8 +61,8 @@ find_package(Qt5 REQUIRED COMPONENTS Widgets Test)
 
 find_package(geometry_msgs REQUIRED)
 
-find_package(ignition_math6_vendor REQUIRED)
-find_package(ignition-math6 REQUIRED)
+find_package(gz_math_vendor REQUIRED)
+find_package(gz-math REQUIRED)
 
 find_package(image_transport REQUIRED)
 find_package(interactive_markers REQUIRED)
@@ -265,7 +265,7 @@ target_link_libraries(rviz_default_plugins PUBLIC
 )
 
 target_link_libraries(rviz_default_plugins PRIVATE
-  ignition-math6
+  gz-math::core
   resource_retriever::resource_retriever
 )
 
@@ -288,9 +288,11 @@ ament_export_dependencies(
   laser_geometry
   map_msgs
   nav_msgs
+  point_cloud_transport
   rclcpp
   rviz_common
   rviz_ogre_vendor
+  rviz_rendering
   sensor_msgs
   tf2
   tf2_geometry_msgs
@@ -1205,3 +1207,7 @@ endif()
 ament_package(
   CONFIG_EXTRAS "rviz_default_plugins-extras.cmake"
 )
+
+if(TEST cpplint)
+  set_tests_properties(cpplint PROPERTIES TIMEOUT 180)
+endif()
