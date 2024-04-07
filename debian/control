@@ -1,0 +1,12 @@
+Source: ros-rolling-rviz-visual-testing-framework
+Section: misc
+Priority: optional
+Maintainer: Alejandro Hernandez Cordero <alejandro@openrobotics.org>
+Build-Depends: debhelper (>= 9.0.0), qtbase5-dev, ros-rolling-ament-cmake, ros-rolling-ament-cmake-cppcheck <!nocheck>, ros-rolling-ament-cmake-cpplint <!nocheck>, ros-rolling-ament-cmake-gmock <!nocheck>, ros-rolling-ament-cmake-gtest, ros-rolling-ament-cmake-lint-cmake <!nocheck>, ros-rolling-ament-cmake-uncrustify <!nocheck>, ros-rolling-ament-cmake-xmllint <!nocheck>, ros-rolling-ament-lint-auto <!nocheck>, ros-rolling-geometry-msgs, ros-rolling-rclcpp, ros-rolling-rcutils, ros-rolling-rviz-common, ros-rolling-rviz-ogre-vendor, ros-rolling-rviz-rendering, ros-rolling-std-msgs, ros-rolling-tf2, ros-rolling-tf2-ros, ros-rolling-ros-workspace
+Homepage: http://ros.org/wiki/rviz2
+Standards-Version: 3.9.2
+
+Package: ros-rolling-rviz-visual-testing-framework
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-rolling-ament-cmake-gtest, ros-rolling-geometry-msgs, ros-rolling-rclcpp, ros-rolling-rcutils, ros-rolling-rviz-common, ros-rolling-rviz-ogre-vendor, ros-rolling-rviz-rendering, ros-rolling-std-msgs, ros-rolling-tf2, ros-rolling-tf2-ros, ros-rolling-ros-workspace
+Description: 3D testing framework for RViz.
