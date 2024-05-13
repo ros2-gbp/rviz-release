@@ -2,6 +2,9 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+14.1.1 (2024-05-13)
+-------------------
+
 14.1.0 (2024-04-16)
 -------------------
 * Update to yaml-cpp 0.8.0 (`#1183 <https://github.com/ros2/rviz/issues/1183>`_)
