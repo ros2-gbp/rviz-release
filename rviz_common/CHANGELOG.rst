@@ -2,7 +2,16 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-14.1.1 (2024-05-13)
+14.2.2 (2024-06-17)
+-------------------
+* Prepping for qos deprecation (`#1214 <https://github.com/ros2/rviz/issues/1214>`_)
+* Replace ESC shortcut for exiting full screen with solution from https://github.com/ros-visualization/rviz/pull/1416 (`#1205 <https://github.com/ros2/rviz/issues/1205>`_)
+* Contributors: Lucas Wendland, Michael Ripperger
+
+14.2.1 (2024-05-24)
+-------------------
+
+14.2.0 (2024-04-26)
 -------------------
 
 14.1.0 (2024-04-16)
