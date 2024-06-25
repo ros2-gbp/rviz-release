@@ -2,6 +2,9 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+14.2.3 (2024-06-25)
+-------------------
+
 14.2.2 (2024-06-17)
 -------------------
 * Prepping for qos deprecation (`#1214 <https://github.com/ros2/rviz/issues/1214>`_)
