@@ -2,18 +2,20 @@
 Changelog for package rviz_ogre_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-14.2.3 (2024-06-25)
+14.1.2 (2024-06-27)
 -------------------
-* Fix flags for both clang and gcc. (`#1219 <https://github.com/ros2/rviz/issues/1219>`_)
-* Update freetype lib (`#1216 <https://github.com/ros2/rviz/issues/1216>`_)
-* Contributors: Chris Lalancette, mosfet80
+* Fix flags for both clang and gcc. (`#1219 <https://github.com/ros2/rviz/issues/1219>`_) (`#1223 <https://github.com/ros2/rviz/issues/1223>`_)
+  In particular, make sure that a clang-only flag
+  (-Wno-implicit-const-int-float-conversion) is only
+  set for clang, and also add in another suppression
+  for g++ 13 (where there are false warnings for stringop-overflow).
+  (cherry picked from commit 0707355430b5a1c915c8a57961099155bb40cef8)
+  Co-authored-by: Chris Lalancette <clalancette@gmail.com>
+* Contributors: mergify[bot]
 
-14.2.2 (2024-06-17)
+14.1.1 (2024-05-13)
 -------------------
-
-14.2.1 (2024-05-24)
--------------------
-* Update zlib into CMakeLists.txt (`#1128 <https://github.com/ros2/rviz/issues/1128>`_)
+* Update zlib into CMakeLists.txt (`#1128 <https://github.com/ros2/rviz/issues/1128>`_) (`#1195 <https://github.com/ros2/rviz/issues/1195>`_)
   Changes in 1.3 (18 Aug 2023)
   - Remove K&R function definitions and zlib2ansi
   - Fix bug in deflateBound() for level 0 and memLevel 9
@@ -32,10 +34,9 @@ Changelog for package rviz_ogre_vendor
   - Various documentation improvements
   - Various spelling and typo corrections
   Co-authored-by: Chris Lalancette <clalancette@gmail.com>
-* Contributors: mosfet80
-
-14.2.0 (2024-04-26)
--------------------
+  (cherry picked from commit 32eb8b9404927883247e868ab0c7d62b80df2ed1)
+  Co-authored-by: mosfet80 <realeandrea@yahoo.it>
+* Contributors: mergify[bot]
 
 14.1.0 (2024-04-16)
 -------------------
