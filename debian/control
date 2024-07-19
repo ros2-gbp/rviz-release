@@ -1,0 +1,12 @@
+Source: ros-jazzy-rviz-common
+Section: misc
+Priority: optional
+Maintainer: Alejandro Hernandez Cordero <alejandro@openrobotics.org>
+Build-Depends: debhelper (>= 9.0.0), libqt5svg5-dev, qtbase5-dev, ros-jazzy-ament-cmake, ros-jazzy-ament-cmake-cppcheck <!nocheck>, ros-jazzy-ament-cmake-cpplint <!nocheck>, ros-jazzy-ament-cmake-gmock <!nocheck>, ros-jazzy-ament-cmake-gtest <!nocheck>, ros-jazzy-ament-cmake-lint-cmake <!nocheck>, ros-jazzy-ament-cmake-uncrustify <!nocheck>, ros-jazzy-ament-cmake-xmllint <!nocheck>, ros-jazzy-ament-lint-auto <!nocheck>, ros-jazzy-geometry-msgs, ros-jazzy-message-filters, ros-jazzy-pluginlib, ros-jazzy-rclcpp, ros-jazzy-resource-retriever, ros-jazzy-rviz-ogre-vendor, ros-jazzy-rviz-rendering, ros-jazzy-sensor-msgs, ros-jazzy-std-msgs, ros-jazzy-std-srvs, ros-jazzy-tf2, ros-jazzy-tf2-ros, ros-jazzy-tinyxml2-vendor, ros-jazzy-urdf, ros-jazzy-yaml-cpp-vendor, ros-jazzy-ros-workspace
+Homepage: https://github.com/ros2/rviz/blob/ros2/README.md
+Standards-Version: 3.9.2
+
+Package: ros-jazzy-rviz-common
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libqt5core5a, libqt5gui5, libqt5opengl5, libqt5svg5, libqt5widgets5, qtbase5-dev, ros-jazzy-geometry-msgs, ros-jazzy-message-filters, ros-jazzy-pluginlib, ros-jazzy-rclcpp, ros-jazzy-resource-retriever, ros-jazzy-rviz-ogre-vendor, ros-jazzy-rviz-rendering, ros-jazzy-sensor-msgs, ros-jazzy-std-msgs, ros-jazzy-std-srvs, ros-jazzy-tf2, ros-jazzy-tf2-ros, ros-jazzy-tinyxml2-vendor, ros-jazzy-urdf, ros-jazzy-yaml-cpp-vendor, ros-jazzy-ros-workspace
+Description: Common rviz API, used by rviz plugins and applications.
