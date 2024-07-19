@@ -95,13 +95,6 @@ public:
   void
   setApp(QApplication * app);
 
-  // TODO(wjwwood): figure out how to preserve the "choost new master" feature
-#if 0
-  /// Call this before initialize() to have it take effect.
-  void
-  setShowChooseNewMaster(bool show);
-#endif
-
   /// Set the path to the html help file.
   /**
    * Default is a file within the rviz_common package.
@@ -245,6 +238,14 @@ public Q_SLOTS:
   void
   setStatus(const QString & message) override;
 
+  /// Set full screen mode.
+  void
+  setFullScreen(bool full_screen);
+
+  /// Exit full screen mode.
+  void
+  exitFullScreen();
+
 Q_SIGNALS:
   /// Emitted during file-loading and initialization to indicate progress.
   void
@@ -274,10 +275,6 @@ protected Q_SLOTS:
   /// Handle QActions, often fired when panels are added or removed.
   void
   onRecentConfigSelected();
-
-  /// Handle event to display the help on the ROS wiki.
-  void
-  onHelpWiki();
 
   /// Handle event to show the about dialog.
   void
@@ -335,17 +332,6 @@ protected Q_SLOTS:
   void
   indicateToolIsCurrent(Tool * tool);
 
-  // TODO(wjwwood): figure out how to reenable this, or how it might be useful in ROS 2
-#if 0
-  /// Restart rviz with a new master.
-  /**
-   * Save the current state and quit with exit code 255 to signal the wrapper
-   * that we would like to restart with a different ROS master URI.
-   */
-  void
-  changeMaster();
-#endif
-
   /// Delete a panel widget.
   /**
    * The sender() of the signal should be a QAction whose text() is
@@ -353,14 +339,6 @@ protected Q_SLOTS:
    */
   void
   onDeletePanel();
-
-  /// Set full screen mode.
-  void
-  setFullScreen(bool full_screen);
-
-  /// Exit full screen mode.
-  void
-  exitFullScreen();
 
   /// Indicate that loading is done.
   void

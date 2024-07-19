@@ -1,6 +1,5 @@
 /*
- * Copyright (c) 2008, Willow Garage, Inc.
- * Copyright (c) 2018, Bosch Software Innovations GmbH.
+ * Copyright (c) 2023, Open Source Robotics Foundation, Inc.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,43 +26,52 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+#ifndef RVIZ_COMMON__PROPERTIES__REGEX_FILTER_PROPERTY_HPP_
+#define RVIZ_COMMON__PROPERTIES__REGEX_FILTER_PROPERTY_HPP_
 
-#ifndef RVIZ_RENDERING__MESH_LOADER_HELPERS__STL_LOADER_HPP_
-#define RVIZ_RENDERING__MESH_LOADER_HELPERS__STL_LOADER_HPP_
+#include <QValidator>
+#include <QLineEdit>
+#include <QToolTip>
+#include <QWidget>
 
+#include <regex>
 #include <string>
-#include <vector>
 
-#include <OgreVector.h>
-#include <OgreMesh.h>
+#include "rviz_common/properties/string_property.hpp"
+#include "rviz_common/visibility_control.hpp"
 
-namespace rviz_rendering
+namespace rviz_common
 {
-
-class STLLoader
+namespace properties
+{
+class RVIZ_COMMON_PUBLIC RegexValidator : public QValidator
 {
 public:
-  STLLoader() = default;
-  ~STLLoader() = default;
+  explicit RegexValidator(QLineEdit * editor);
 
-  bool load(uint8_t * buffer, size_t num_bytes, const std::string & origin);
+  QValidator::State validate(QString & input, int & /*pos*/) const override;
 
-  Ogre::MeshPtr toMesh(const std::string & name);
-
-  struct Triangle
-  {
-    Ogre::Vector3 vertices_[3];
-    Ogre::Vector3 normal_;
-  };
-
-  typedef std::vector<Triangle> V_Triangle;
-  V_Triangle triangles_;
-
-protected:
-  //! Load a binary STL file
-  bool loadBinary(uint8_t * buffer);
+private:
+  QLineEdit * editor_;
 };
 
-}  // namespace rviz_rendering
+class RVIZ_COMMON_PUBLIC RegexFilterProperty : public StringProperty
+{
+public:
+  RegexFilterProperty(const QString & name, const std::string regex, Property * parent);
 
-#endif  // RVIZ_RENDERING__MESH_LOADER_HELPERS__STL_LOADER_HPP_
+  const std::regex & regex() const;
+  const std::string & regex_str() const;
+
+  QWidget * createEditor(QWidget * parent, const QStyleOptionViewItem & option) override;
+
+private:
+  std::string default_;
+  std::regex regex_;
+  std::string regex_str_;
+
+  void onValueChanged();
+};
+}  // end namespace properties
+}  // end namespace rviz_common
+#endif  // RVIZ_COMMON__PROPERTIES__REGEX_FILTER_PROPERTY_HPP_
