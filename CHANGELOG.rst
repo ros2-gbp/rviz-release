@@ -2,6 +2,11 @@
 Changelog for package rviz_default_plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+14.2.5 (2024-07-29)
+-------------------
+* Added more time to copyright on Windwos (`#1252 <https://github.com/ros2/rviz/issues/1252>`_)
+* Contributors: Alejandro Hernández Cordero
+
 14.2.4 (2024-07-19)
 -------------------
 * Updated deprecated message filter headers (`#1239 <https://github.com/ros2/rviz/issues/1239>`_)
