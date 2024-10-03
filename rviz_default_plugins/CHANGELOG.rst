@@ -2,23 +2,38 @@
 Changelog for package rviz_default_plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-14.1.5 (2024-09-06)
+14.3.0 (2024-10-03)
 -------------------
-* Enabling manual space width for TextViewFacingMarker (`#1261 <https://github.com/ros2/rviz/issues/1261>`_) (`#1267 <https://github.com/ros2/rviz/issues/1267>`_)
-  (cherry picked from commit db7e7f8e8e3e1d848c24d8430bb66e3d79a1e50f)
-  Co-authored-by: Tom Moore <tmoore@locusrobotics.com>
-* Contributors: mergify[bot]
+* replace deprecated encodings 'yuv422' and 'yuv422_yuy2' (`#1276 <https://github.com/ros2/rviz/issues/1276>`_)
+* Contributors: Christian Rauch
 
-14.1.4 (2024-08-19)
+14.2.6 (2024-08-28)
+-------------------
+* Update urdf model.h deprecation (`#1266 <https://github.com/ros2/rviz/issues/1266>`_)
+* Enabling manual space width for TextViewFacingMarker (`#1261 <https://github.com/ros2/rviz/issues/1261>`_)
+* Contributors: Alejandro Hernández Cordero, Tom Moore
+
+14.2.5 (2024-07-29)
+-------------------
+* Added more time to copyright on Windwos (`#1252 <https://github.com/ros2/rviz/issues/1252>`_)
+* Contributors: Alejandro Hernández Cordero
+
+14.2.4 (2024-07-19)
+-------------------
+* Updated deprecated message filter headers (`#1239 <https://github.com/ros2/rviz/issues/1239>`_)
+* Fixed RViz default plugin license linter (`#1230 <https://github.com/ros2/rviz/issues/1230>`_)
+* Contributors: Alejandro Hernández Cordero
+
+14.2.3 (2024-06-25)
 -------------------
 
-14.1.3 (2024-07-19)
+14.2.2 (2024-06-17)
 -------------------
 
-14.1.2 (2024-06-27)
+14.2.1 (2024-05-24)
 -------------------
 
-14.1.1 (2024-05-13)
+14.2.0 (2024-04-26)
 -------------------
 
 14.1.0 (2024-04-16)

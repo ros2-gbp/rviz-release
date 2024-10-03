@@ -2,24 +2,36 @@
 Changelog for package rviz_rendering
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-14.1.5 (2024-09-06)
+14.3.0 (2024-10-03)
+-------------------
+* Avoid redefinition of default color materials (`#1281 <https://github.com/ros2/rviz/issues/1281>`_)
+* Contributors: Masayoshi Dohi
+
+14.2.6 (2024-08-28)
 -------------------
 
-14.1.4 (2024-08-19)
+14.2.5 (2024-07-29)
 -------------------
+* Added more time to copyright on Windwos (`#1252 <https://github.com/ros2/rviz/issues/1252>`_)
+* Contributors: Alejandro Hernández Cordero
 
-14.1.3 (2024-07-19)
+14.2.4 (2024-07-19)
 -------------------
-* Fix: issue `#1220 <https://github.com/ros2/rviz/issues/1220>`_. (`#1237 <https://github.com/ros2/rviz/issues/1237>`_) (`#1246 <https://github.com/ros2/rviz/issues/1246>`_)
+* Fix: issue `#1220 <https://github.com/ros2/rviz/issues/1220>`_. (`#1237 <https://github.com/ros2/rviz/issues/1237>`_)
   Co-authored-by: Alejandro Hernández Cordero <ahcorde@gmail.com>
-  (cherry picked from commit 85dfbef6d96956960b48115f046dbb2539aa0f36)
-  Co-authored-by: chama1176 <kaede6120@gmail.com>
-* Contributors: mergify[bot]
+* Added common test: rviz_rendering (`#1233 <https://github.com/ros2/rviz/issues/1233>`_)
+* Contributors: Alejandro Hernández Cordero, chama1176
 
-14.1.2 (2024-06-27)
+14.2.3 (2024-06-25)
 -------------------
 
-14.1.1 (2024-05-13)
+14.2.2 (2024-06-17)
+-------------------
+
+14.2.1 (2024-05-24)
+-------------------
+
+14.2.0 (2024-04-26)
 -------------------
 
 14.1.0 (2024-04-16)

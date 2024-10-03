@@ -1,31 +1,32 @@
-/*
- * Copyright (c) 2009, Willow Garage, Inc.
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Willow Garage, Inc. nor the names of its
- *       contributors may be used to endorse or promote products derived from
- *       this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
+// Copyright (c) 2009, Willow Garage, Inc.
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+//
+//    * Redistributions of source code must retain the above copyright
+//      notice, this list of conditions and the following disclaimer.
+//
+//    * Redistributions in binary form must reproduce the above copyright
+//      notice, this list of conditions and the following disclaimer in the
+//      documentation and/or other materials provided with the distribution.
+//
+//    * Neither the name of the copyright holder nor the names of its
+//      contributors may be used to endorse or promote products derived from
+//      this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
+
 
 #include "rviz_default_plugins/displays/image/ros_image_texture.hpp"
 
@@ -205,8 +206,8 @@ struct uyvy
   uint8_t y1;
 };
 
-// Function converts src_img from yuv422 format to rgb
-static void imageConvertYUV422ToRGB(
+// Function converts src_img from UYVY format to rgb
+static void imageConvertUYVYToRGB(
   uint8_t * dst_img, uint8_t * src_img,
   int dst_start_row, int dst_end_row,
   int dst_num_cols, uint32_t stride_in_bytes)
@@ -265,8 +266,8 @@ static void imageConvertYUV422ToRGB(
   }
 }
 
-// Function converts src_img from yuv422_yuy2 format to rgb
-static void imageConvertYUV422_YUY2ToRGB(
+// Function converts src_img from YUYV format to rgb
+static void imageConvertYUYVToRGB(
   uint8_t * dst_img, uint8_t * src_img,
   int dst_start_row, int dst_end_row,
   int dst_num_cols, uint32_t stride_in_bytes)
@@ -410,13 +411,13 @@ ROSImageTexture::convertTo8bit(const uint8_t * data_ptr, size_t data_size_in_byt
 }
 
 ImageData
-ROSImageTexture::convertYUV422ToRGBData(const uint8_t * data_ptr, size_t data_size_in_bytes)
+ROSImageTexture::convertUYVYToRGBData(const uint8_t * data_ptr, size_t data_size_in_bytes)
 {
   size_t new_size_in_bytes = data_size_in_bytes * 3 / 2;
 
   uint8_t * new_data = new uint8_t[new_size_in_bytes];
 
-  imageConvertYUV422ToRGB(
+  imageConvertUYVYToRGB(
     new_data, const_cast<uint8_t *>(data_ptr),
     0, height_, width_, stride_);
 
@@ -424,13 +425,13 @@ ROSImageTexture::convertYUV422ToRGBData(const uint8_t * data_ptr, size_t data_si
 }
 
 ImageData
-ROSImageTexture::convertYUV422_YUY2ToRGBData(const uint8_t * data_ptr, size_t data_size_in_bytes)
+ROSImageTexture::convertYUYVToRGBData(const uint8_t * data_ptr, size_t data_size_in_bytes)
 {
   size_t new_size_in_bytes = data_size_in_bytes * 3 / 2;
 
   uint8_t * new_data = new uint8_t[new_size_in_bytes];
 
-  imageConvertYUV422_YUY2ToRGB(
+  imageConvertYUYVToRGB(
     new_data, const_cast<uint8_t *>(data_ptr),
     0, height_, width_, stride_);
 
@@ -473,10 +474,10 @@ ROSImageTexture::setFormatAndNormalizeDataIfNecessary(
     return ImageData(Ogre::PF_BYTE_L, data_ptr, data_size_in_bytes, false);
   } else if (encoding == sensor_msgs::image_encodings::TYPE_32FC1) {
     return convertTo8bit<float>(data_ptr, data_size_in_bytes);
-  } else if (encoding == sensor_msgs::image_encodings::YUV422) {
-    return convertYUV422ToRGBData(data_ptr, data_size_in_bytes);
-  } else if (encoding == sensor_msgs::image_encodings::YUV422_YUY2) {
-    return convertYUV422_YUY2ToRGBData(data_ptr, data_size_in_bytes);
+  } else if (encoding == sensor_msgs::image_encodings::UYVY) {
+    return convertUYVYToRGBData(data_ptr, data_size_in_bytes);
+  } else if (encoding == sensor_msgs::image_encodings::YUYV) {
+    return convertYUYVToRGBData(data_ptr, data_size_in_bytes);
   } else {
     throw UnsupportedImageEncoding(encoding);
   }
