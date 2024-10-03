@@ -2,6 +2,9 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+14.3.0 (2024-10-03)
+-------------------
+
 14.2.6 (2024-08-28)
 -------------------
 * Fully handle `Tool::processKeyEvent` return value (`#1270 <https://github.com/ros2/rviz/issues/1270>`_)
