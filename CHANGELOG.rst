@@ -2,6 +2,12 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+12.4.9 (2024-11-09)
+-------------------
+* Handle `Tool::Finished` returned by `processKeyEvent` (`#1264 <https://github.com/ros2/rviz/issues/1264>`_)
+* Correclty load icons of panels with whitespaces in their name (`#1244 <https://github.com/ros2/rviz/issues/1244>`_)
+* Contributors: Patrick Roncagliolo
+
 12.4.8 (2024-07-11)
 -------------------
 * Replace ESC shortcut for exiting full screen with solution from https://github.com/ros-visualization/rviz/pull/1416 (`#1211 <https://github.com/ros2/rviz/issues/1211>`_)
