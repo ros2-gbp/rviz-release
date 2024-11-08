@@ -1,7 +1,7 @@
-From 820bf282f9324f7a6edd457f2adcac2a02e6c656 Mon Sep 17 00:00:00 2001
+From 69858f4c6f752f13426ead9ffd350fca09f9e976 Mon Sep 17 00:00:00 2001
 From: Michel Hidalgo <michel@ekumenlabs.com>
 Date: Thu, 20 May 2021 14:04:38 -0300
-Subject: [PATCH 1/2] Tell dh_shlibdeps where to find rviz_ogre_vendor plugin
+Subject: [PATCH] Tell dh_shlibdeps where to find rviz_ogre_vendor plugin
  libraries
 
 Signed-off-by: Michel Hidalgo <michel@ekumenlabs.com>
@@ -10,15 +10,15 @@ Signed-off-by: Michel Hidalgo <michel@ekumenlabs.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/debian/rules.em b/debian/rules.em
-index 2ab7b14af..234822e2f 100755
+index a856369d1..922e5cc68 100755
 --- a/debian/rules.em
 +++ b/debian/rules.em
 @@ -57,7 +57,7 @@ override_dh_shlibdeps:
  	# in the install tree and source it.  It will set things like
  	# CMAKE_PREFIX_PATH, PKG_CONFIG_PATH, and PYTHONPATH.
  	if [ -f "@(InstallationPrefix)/setup.sh" ]; then . "@(InstallationPrefix)/setup.sh"; fi && \
--	dh_shlibdeps -l$(CURDIR)/debian/@(Package)/@(InstallationPrefix)/lib/
-+	dh_shlibdeps -l$(CURDIR)/debian/@(Package)/@(InstallationPrefix)/lib/:$(CURDIR)/debian/@(Package)/@(InstallationPrefix)/opt/rviz_ogre_vendor/lib/OGRE/
+-	dh_shlibdeps -l$(CURDIR)/debian/@(Package)/@(InstallationPrefix)/lib/:$(CURDIR)/debian/@(Package)/@(InstallationPrefix)/opt/@(Name)/lib/
++	dh_shlibdeps -l$(CURDIR)/debian/@(Package)/@(InstallationPrefix)/lib/:$(CURDIR)/debian/@(Package)/@(InstallationPrefix)/opt/@(Name)/lib/:$(CURDIR)/debian/@(Package)/@(InstallationPrefix)/opt/@(Name)/lib/OGRE/
  
  override_dh_auto_install:
  	# In case we're installing to a non-standard location, look for a setup.sh
