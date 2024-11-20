@@ -2,6 +2,11 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+14.3.2 (2024-11-20)
+-------------------
+* include QString (`#1298 <https://github.com/ros2/rviz/issues/1298>`_)
+* Contributors: Matthew Foran
+
 14.3.1 (2024-10-11)
 -------------------
 * Handle time source exception (`#1285 <https://github.com/ros2/rviz/issues/1285>`_)
