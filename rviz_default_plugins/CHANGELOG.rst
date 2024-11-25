@@ -2,6 +2,11 @@
 Changelog for package rviz_default_plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+14.3.3 (2024-11-25)
+-------------------
+* remove unused variable (`#1301 <https://github.com/ros2/rviz/issues/1301>`_)
+* Contributors: Alejandro Hernández Cordero
+
 14.3.2 (2024-11-20)
 -------------------
 * include QString (`#1298 <https://github.com/ros2/rviz/issues/1298>`_)
