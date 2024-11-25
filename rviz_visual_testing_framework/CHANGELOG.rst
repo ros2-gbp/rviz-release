@@ -2,6 +2,9 @@
 Changelog for package rviz_visual_testing_framework
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+14.3.3 (2024-11-25)
+-------------------
+
 14.3.2 (2024-11-20)
 -------------------
 * include QString (`#1298 <https://github.com/ros2/rviz/issues/1298>`_)
