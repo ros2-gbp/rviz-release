@@ -2,6 +2,13 @@
 Changelog for package rviz_default_plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+11.2.14 (2024-11-25)
+--------------------
+* remove unused variable (`#1301 <https://github.com/ros2/rviz/issues/1301>`_) (`#1304 <https://github.com/ros2/rviz/issues/1304>`_)
+* Enabling manual space width for TextViewFacingMarker (`#1261 <https://github.com/ros2/rviz/issues/1261>`_) (`#1268 <https://github.com/ros2/rviz/issues/1268>`_)
+* Show link names in inertia error message (`#874 <https://github.com/ros2/rviz/issues/874>`_) (`#1259 <https://github.com/ros2/rviz/issues/1259>`_)
+* Contributors: mergify[bot]
+
 11.2.13 (2024-07-26)
 --------------------
 
