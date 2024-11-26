@@ -2,6 +2,9 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+12.4.10 (2024-11-27)
+--------------------
+
 12.4.9 (2024-11-09)
 -------------------
 * Handle `Tool::Finished` returned by `processKeyEvent` (`#1264 <https://github.com/ros2/rviz/issues/1264>`_)
