@@ -32,6 +32,7 @@
 #include "rviz_common/visualization_frame.hpp"
 
 #include <exception>
+#include <filesystem>
 #include <fstream>
 #include <memory>
 #include <string>
@@ -59,7 +60,6 @@
 #include <QToolButton>  // NOLINT cpplint cannot handle include order here
 
 #include "rclcpp/clock.hpp"
-#include "rcpputils/filesystem_helper.hpp"
 #include "tf2_ros/buffer.h"
 #include "tf2_ros/transform_listener.h"
 
@@ -778,7 +778,7 @@ void VisualizationFrame::setDisplayConfigFile(const std::string & path)
         }
       };
     title = display_title_format_;
-    rcpputils::fs::path full_filename(path.c_str());
+    std::filesystem::path full_filename(path.c_str());
     find_and_replace_token(
       title, "{NAMESPACE}",
       rviz_ros_node_.lock()->get_raw_node()->get_namespace());

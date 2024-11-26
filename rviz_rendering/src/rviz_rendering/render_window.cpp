@@ -229,10 +229,34 @@ RenderWindowOgreAdapter::setOgreCamera(RenderWindow * render_window, Ogre::Camer
   render_window->impl_->setCamera(ogre_camera);
 }
 
+void
+RenderWindowOgreAdapter::setSceneNodeCamera(
+  RenderWindow * render_window,
+  Ogre::SceneNode * ogre_camera)
+{
+  render_window->impl_->setSceneNodeCamera(ogre_camera);
+}
+
 Ogre::Camera *
 RenderWindowOgreAdapter::getOgreCamera(RenderWindow * render_window)
 {
   return render_window->impl_->getCamera();
+}
+
+void
+RenderWindowOgreAdapter::setOgreCameraPosition(
+  RenderWindow * render_window,
+  const Ogre::Vector3 & vec)
+{
+  render_window->impl_->setCameraPosition(vec);
+}
+
+void
+RenderWindowOgreAdapter::setOgreCameraOrientation(
+  RenderWindow * render_window,
+  const Ogre::Quaternion & quat)
+{
+  render_window->impl_->setCameraOrientation(quat);
 }
 
 Ogre::Viewport *
@@ -247,6 +271,14 @@ RenderWindowOgreAdapter::setBackgroundColor(
   const Ogre::ColourValue * color)
 {
   render_window->impl_->setBackgroundColor(*color);
+}
+
+void
+RenderWindowOgreAdapter::setDirectionalLightDirection(
+  RenderWindow * render_window,
+  const Ogre::Vector3 & vec)
+{
+  return render_window->impl_->setDirectionalLightDirection(vec);
 }
 
 Ogre::Light *
