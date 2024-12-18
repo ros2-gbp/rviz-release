@@ -2,34 +2,92 @@
 Changelog for package rviz_assimp_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-12.4.10 (2024-11-27)
---------------------
-
-12.4.9 (2024-11-09)
+14.1.6 (2024-12-18)
 -------------------
 
-12.4.8 (2024-07-11)
+14.1.5 (2024-09-06)
 -------------------
 
-12.4.7 (2024-03-26)
+14.1.4 (2024-08-19)
 -------------------
 
-12.4.6 (2024-02-07)
+14.1.3 (2024-07-19)
 -------------------
 
-12.4.5 (2023-11-17)
+14.1.2 (2024-06-27)
 -------------------
 
-12.4.4 (2023-09-08)
+14.1.1 (2024-05-13)
+-------------------
+* Removed assimp warnings (`#1191 <https://github.com/ros2/rviz/issues/1191>`_) (`#1192 <https://github.com/ros2/rviz/issues/1192>`_)
+  (cherry picked from commit e8dd485d19a35d3abba905020741973e613334e3)
+  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
+* Contributors: mergify[bot]
+
+14.1.0 (2024-04-16)
+-------------------
+* Update the vendored package path. (`#1184 <https://github.com/ros2/rviz/issues/1184>`_)
+  Since we just updated to assimp 5.3, we also need to
+  update the path we look for it.
+  This should fix the build with clang which is currently
+  failing.
+* Update assimp vendor to 5.3.1 (`#1182 <https://github.com/ros2/rviz/issues/1182>`_)
+  This matches what is in Ubuntu 24.04.
+* Contributors: Chris Lalancette
+
+14.0.0 (2024-04-07)
 -------------------
 
-12.4.3 (2023-08-21)
+13.4.2 (2024-03-27)
 -------------------
 
-12.4.2 (2023-07-27)
+13.4.1 (2024-03-26)
 -------------------
 
-12.4.1 (2023-07-14)
+13.4.0 (2024-03-09)
+-------------------
+
+13.3.1 (2024-01-24)
+-------------------
+
+13.3.0 (2023-12-26)
+-------------------
+
+13.2.0 (2023-11-06)
+-------------------
+
+13.1.2 (2023-10-09)
+-------------------
+
+13.1.1 (2023-10-04)
+-------------------
+
+13.1.0 (2023-09-07)
+-------------------
+
+13.0.0 (2023-08-21)
+-------------------
+
+12.8.0 (2023-08-27)
+-------------------
+
+12.7.0 (2023-07-11)
+-------------------
+* Update to assimp 5.2.2 (`#968 <https://github.com/ros2/rviz/issues/968>`_)
+* Fix the vendoring flags for clang compilation. (`#1003 <https://github.com/ros2/rviz/issues/1003>`_)
+* Switch to ament_cmake_vendor_package (`#995 <https://github.com/ros2/rviz/issues/995>`_)
+* Contributors: Chris Lalancette, Scott K Logan
+
+12.6.1 (2023-06-12)
+-------------------
+
+12.6.0 (2023-06-07)
+-------------------
+
+12.5.1 (2023-05-11)
+-------------------
+
+12.5.0 (2023-04-28)
 -------------------
 
 12.4.0 (2023-04-18)

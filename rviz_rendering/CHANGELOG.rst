@@ -2,61 +2,133 @@
 Changelog for package rviz_rendering
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-12.4.10 (2024-11-27)
---------------------
-* Use consistent conditionals in render_system.hpp (`#1297 <https://github.com/ros2/rviz/issues/1297>`_)
-* Contributors: Scott K Logan
-
-12.4.9 (2024-11-09)
+14.1.6 (2024-12-18)
 -------------------
-
-12.4.8 (2024-07-11)
--------------------
-
-12.4.7 (2024-03-26)
--------------------
-* Fix camera display overlay (`#1151 <https://github.com/ros2/rviz/issues/1151>`_) (`#1158 <https://github.com/ros2/rviz/issues/1158>`_)
-  (cherry picked from commit c7bf4c99b5f888d2dc200041994ed5c8fe16d3ce)
-  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
-* [backport Humble] load glb meshes (`#1154 <https://github.com/ros2/rviz/issues/1154>`_) (`#1157 <https://github.com/ros2/rviz/issues/1157>`_)
-  (cherry picked from commit 0722bd0dc1e8d7948a8fa0a15364a48fb9c5afc9)
-  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
+* Use consistent conditionals in render_system.hpp (`#1294 <https://github.com/ros2/rviz/issues/1294>`_) (`#1295 <https://github.com/ros2/rviz/issues/1295>`_)
+  These header files define the XVisualInfo type, which is used later in
+  this header based on different conditionals. In particular, the
+  evaluation of these conditionals differ on BSD, which appears to have
+  the headers needed so I don't believe that __linux_\_ is the correct
+  conditional to use.
+  (cherry picked from commit 0d95ae1f1227ab9aa0327d0945d9aec8ed9f88e1)
+  Co-authored-by: Scott K Logan <logans@cottsay.net>
+* Avoid redefinition of default color materials (`#1281 <https://github.com/ros2/rviz/issues/1281>`_) (`#1282 <https://github.com/ros2/rviz/issues/1282>`_)
+  (cherry picked from commit 8e757c2c39e382a0523e4ce230e5719ea450f483)
+  Co-authored-by: Masayoshi Dohi <66519864+Masa0u0@users.noreply.github.com>
 * Contributors: mergify[bot]
 
-12.4.6 (2024-02-07)
+14.1.5 (2024-09-06)
 -------------------
 
-12.4.5 (2023-11-17)
+14.1.4 (2024-08-19)
 -------------------
-* Removed warning when building in release mode (`#1060 <https://github.com/ros2/rviz/issues/1060>`_)
+
+14.1.3 (2024-07-19)
+-------------------
+* Fix: issue `#1220 <https://github.com/ros2/rviz/issues/1220>`_. (`#1237 <https://github.com/ros2/rviz/issues/1237>`_) (`#1246 <https://github.com/ros2/rviz/issues/1246>`_)
+  Co-authored-by: Alejandro Hernández Cordero <ahcorde@gmail.com>
+  (cherry picked from commit 85dfbef6d96956960b48115f046dbb2539aa0f36)
+  Co-authored-by: chama1176 <kaede6120@gmail.com>
+* Contributors: mergify[bot]
+
+14.1.2 (2024-06-27)
+-------------------
+
+14.1.1 (2024-05-13)
+-------------------
+
+14.1.0 (2024-04-16)
+-------------------
+
+14.0.0 (2024-04-07)
+-------------------
+
+13.4.2 (2024-03-27)
+-------------------
+
+13.4.1 (2024-03-26)
+-------------------
+* Added CameraInfo display (`#1166 <https://github.com/ros2/rviz/issues/1166>`_)
 * Contributors: Alejandro Hernández Cordero
 
-12.4.4 (2023-09-08)
+13.4.0 (2024-03-09)
 -------------------
-* Fixed low FPS when sending point markers (`#1056 <https://github.com/ros2/rviz/issues/1056>`_)
-* Fixed camera default plugin crash (`#1054 <https://github.com/ros2/rviz/issues/1054>`_)
-* Fix the flakey rviz_rendering tests (`#1031 <https://github.com/ros2/rviz/issues/1031>`_)
-* Added TwistStamped and AccelStamped default plugins (`#1015 <https://github.com/ros2/rviz/issues/1015>`_)
-* Added Effort plugin (`#1011 <https://github.com/ros2/rviz/issues/1011>`_)
+* Fix camera display overlay (`#1151 <https://github.com/ros2/rviz/issues/1151>`_)
+* Fixes for uncrustify 0.78. (`#1155 <https://github.com/ros2/rviz/issues/1155>`_)
+  Mostly what we do here is to disable the indentation on
+  certain constructs that are different between 0.72 and
+  0.78.  It isn't my preferred solution, but since it only
+  affects a small amount of code (and most of that in macros),
+  this seems acceptable to me.
 * Contributors: Alejandro Hernández Cordero, Chris Lalancette
 
-12.4.3 (2023-08-21)
+13.3.1 (2024-01-24)
 -------------------
-* Fix the flakey rviz_rendering tests (`#1026 <https://github.com/ros2/rviz/issues/1026>`_) (`#1031 <https://github.com/ros2/rviz/issues/1031>`_)
-* Contributors: mergify[bot]
+* fixed MovableText::getWorldTransforms transform (`#1118 <https://github.com/ros2/rviz/issues/1118>`_)
+* Contributors: Yaswanth
 
-12.4.2 (2023-07-27)
+13.3.0 (2023-12-26)
 -------------------
-* Added TwistStamped and AccelStamped default plugins (`#991 <https://github.com/ros2/rviz/issues/991>`_) (`#1015 <https://github.com/ros2/rviz/issues/1015>`_)
-  (cherry picked from commit 9599dd488d543671121c40df9aec5533064e86fb)
-  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
-* Added Effort plugin (`#990 <https://github.com/ros2/rviz/issues/990>`_) (`#1011 <https://github.com/ros2/rviz/issues/1011>`_)
-  * Added Effort plugin
-  (cherry picked from commit e3b56ed7058502d94fe3d1c27948d4f4e9be58a8)
-  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
+* Switch to target_link_libraries. (`#1098 <https://github.com/ros2/rviz/issues/1098>`_)
+* Update rviz_rendering and rviz_rendering_tests to C++17. (`#1096 <https://github.com/ros2/rviz/issues/1096>`_)
+* Contributors: Chris Lalancette
+
+13.2.0 (2023-11-06)
+-------------------
+* Include MeshShape class (`#1064 <https://github.com/ros2/rviz/issues/1064>`_)
+* Use assimp to load stl (`#1063 <https://github.com/ros2/rviz/issues/1063>`_)
 * Contributors: Alejandro Hernández Cordero
 
-12.4.1 (2023-07-14)
+13.1.2 (2023-10-09)
+-------------------
+* RVIZ_RENDERING_PUBLIC to export class RenderSystem (`#1072 <https://github.com/ros2/rviz/issues/1072>`_)
+* Restore the maybe-uninitialized flag in covariance_visual.hpp (`#1071 <https://github.com/ros2/rviz/issues/1071>`_)
+* Fix up warnings when building with clang. (`#1070 <https://github.com/ros2/rviz/issues/1070>`_)
+* Contributors: Chris Lalancette, Felix F Xu
+
+13.1.1 (2023-10-04)
+-------------------
+* Use buildsystem info to get the ros_package_name (`#1062 <https://github.com/ros2/rviz/issues/1062>`_)
+* Contributors: Alejandro Hernández Cordero
+
+13.1.0 (2023-09-07)
+-------------------
+* make box-mode point cloud shader lighter on top than bottom (`#1058 <https://github.com/ros2/rviz/issues/1058>`_)
+* Removed warning when building in release mode (`#1057 <https://github.com/ros2/rviz/issues/1057>`_)
+* Fixed low FPS when sending point markers (`#1049 <https://github.com/ros2/rviz/issues/1049>`_)
+* Removed unused code (`#1044 <https://github.com/ros2/rviz/issues/1044>`_)
+* Contributors: Alejandro Hernández Cordero, Morgan Quigley
+
+13.0.0 (2023-08-21)
+-------------------
+* Fix the flakey rviz_rendering tests (`#1026 <https://github.com/ros2/rviz/issues/1026>`_)
+* Contributors: Chris Lalancette
+
+12.8.0 (2023-08-27)
+-------------------
+* Added TwistStamped and AccelStamped default plugins (`#991 <https://github.com/ros2/rviz/issues/991>`_)
+* Contributors: Alejandro Hernández Cordero
+
+12.7.0 (2023-07-11)
+-------------------
+* Added Effort plugin (`#990 <https://github.com/ros2/rviz/issues/990>`_)
+* load GLB meshes (`#1001 <https://github.com/ros2/rviz/issues/1001>`_)
+* Fixed camera default plusin crash (`#999 <https://github.com/ros2/rviz/issues/999>`_)
+* Contributors: Alejandro Hernández Cordero, Morgan Quigley
+
+12.6.1 (2023-06-12)
+-------------------
+
+12.6.0 (2023-06-07)
+-------------------
+
+12.5.1 (2023-05-11)
+-------------------
+* Clean Code (`#975 <https://github.com/ros2/rviz/issues/975>`_)
+  * Clean Code
+* Contributors: mosfet80
+
+12.5.0 (2023-04-28)
 -------------------
 
 12.4.0 (2023-04-18)

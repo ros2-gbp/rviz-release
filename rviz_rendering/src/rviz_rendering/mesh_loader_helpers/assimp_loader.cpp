@@ -30,6 +30,9 @@
 
 #include "assimp_loader.hpp"
 
+#include <algorithm>
+#include <cctype>
+#include <filesystem>
 #include <memory>
 #include <string>
 #include <vector>
@@ -245,6 +248,18 @@ std::vector<Ogre::MaterialPtr> AssimpLoader::loadMaterials(
   const std::string & resource_path, const aiScene * scene)
 {
   std::vector<Ogre::MaterialPtr> material_table_out;
+
+  std::string ext = std::filesystem::path(resource_path).extension().string();
+  std::transform(ext.begin(), ext.end(), ext.begin(),
+    [](unsigned char c) {return std::tolower(c);});
+  // STL meshes don't support proper
+  // materials: use Ogre's default material
+  if (ext == ".stl" || ext == ".stlb") {
+    material_table_out.push_back(
+      Ogre::MaterialManager::getSingleton().getByName("BaseWhiteNoLighting"));
+    return material_table_out;
+  }
+
   for (uint32_t i = 0; i < scene->mNumMaterials; i++) {
     std::string material_name;
     material_name = resource_path + "Material" + std::to_string(i);
@@ -262,8 +277,7 @@ std::vector<Ogre::MaterialPtr> AssimpLoader::loadMaterials(
       Ogre::ColourValue(0, 0, 0, 1.0));
 
 
-    SetScene(scene);
-    setLightColorsFromAssimp(resource_path, mat, ai_material, material_internals);
+    setLightColorsFromAssimp(resource_path, mat, ai_material, material_internals, scene);
 
     setBlending(mat, ai_material, material_internals);
 
@@ -275,16 +289,12 @@ std::vector<Ogre::MaterialPtr> AssimpLoader::loadMaterials(
   return material_table_out;
 }
 
-void AssimpLoader::SetScene(const aiScene * ai_scene)
-{
-  this->ai_scene_ = ai_scene;
-}
-
 void AssimpLoader::setLightColorsFromAssimp(
   const std::string & resource_path,
   Ogre::MaterialPtr & mat,
   const aiMaterial * ai_material,
-  MaterialInternals & material_internals)
+  MaterialInternals & material_internals,
+  const aiScene * ai_scene)
 {
   for (uint32_t j = 0; j < ai_material->mNumProperties; j++) {
     aiMaterialProperty * prop = ai_material->mProperties[j];
@@ -295,25 +305,20 @@ void AssimpLoader::setLightColorsFromAssimp(
       aiTextureMapping mapping;
       uint32_t uv_index;
       ai_material->GetTexture(aiTextureType_DIFFUSE, 0, &texture_name, &mapping, &uv_index);
-
       std::string texture_path;
-#ifdef ASSIMP_VERSION_5
-      const aiTexture * texture = this->ai_scene_->GetEmbeddedTexture(texture_name.C_Str());
+      const aiTexture * texture = ai_scene->GetEmbeddedTexture(texture_name.C_Str());
       if (texture == nullptr) {
-#endif
-      // It's not an embedded texture. We have to go find it.
-      // Assume textures are in paths relative to the mesh
-      QFileInfo resource_path_finfo(QString::fromStdString(resource_path));
-      QDir resource_path_qdir = resource_path_finfo.dir();
-      texture_path = resource_path_qdir.path().toStdString() + "/" + texture_name.data;
-      loadTexture(texture_path);
-#ifdef ASSIMP_VERSION_5
-    } else {
-      // it's an embedded texture, like in GLB / glTF
-      texture_path = resource_path + texture_name.data;
-      loadEmbeddedTexture(texture, texture_path);
-    }
-#endif
+        // It's not an embedded texture. We have to go find it.
+        // Assume textures are in paths relative to the mesh
+        QFileInfo resource_path_finfo(QString::fromStdString(resource_path));
+        QDir resource_path_qdir = resource_path_finfo.dir();
+        texture_path = resource_path_qdir.path().toStdString() + "/" + texture_name.data;
+        loadTexture(texture_path);
+      } else {
+        // it's an embedded texture, like in GLB / glTF
+        texture_path = resource_path + texture_name.data;
+        loadEmbeddedTexture(texture, texture_path);
+      }
       Ogre::TextureUnitState * tu = material_internals.pass_->createTextureUnitState();
       tu->setTextureName(texture_path);
     } else if (propKey == "$clr.diffuse") {

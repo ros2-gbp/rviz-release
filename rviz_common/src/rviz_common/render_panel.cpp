@@ -77,6 +77,7 @@ RenderPanel::RenderPanel(QWidget * parent)
   setFocus(Qt::OtherFocusReason);
   render_window_container_widget_ = QWidget::createWindowContainer(render_window_, this);
   layout_ = new QGridLayout(this);
+  layout_->setContentsMargins(0, 0, 0, 0);
   layout_->addWidget(render_window_container_widget_);
   this->setLayout(layout_);
   render_window_->setOnRenderWindowMouseEventsCallback(
@@ -336,16 +337,4 @@ void RenderPanel::contextMenuEvent(QContextMenuEvent * event)
     context_menu->exec(QCursor::pos());
   }
 }
-
-#if 0
-void RenderPanel::sceneManagerDestroyed(Ogre::SceneManager * destroyed_scene_manager)
-{
-  if (destroyed_scene_manager == scene_manager_) {
-    scene_manager_ = nullptr;
-    default_camera_ = nullptr;
-    setCamera(nullptr);
-  }
-}
-#endif
-
 }  // namespace rviz_common

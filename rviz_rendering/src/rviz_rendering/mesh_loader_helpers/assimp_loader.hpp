@@ -54,7 +54,6 @@
 
 #include "rviz_rendering/logging.hpp"
 
-#define ROS_PACKAGE_NAME "rviz_rendering"
 namespace rviz_rendering
 {
 class AssimpLoader
@@ -103,20 +102,16 @@ private:
 
   std::vector<Ogre::MaterialPtr> loadMaterials(
     const std::string & resource_path, const aiScene * scene);
-
-  void SetScene(const aiScene * ai_scene);
-  const aiScene * ai_scene_;
-
-  void loadEmbeddedTexture(
-    const aiTexture * ai_texture,
-    const std::string & resource_path);
-
   void setLightColorsFromAssimp(
     const std::string & resource_path,
     Ogre::MaterialPtr & mat,
     const aiMaterial * ai_material,
-    MaterialInternals & material_internals);
+    MaterialInternals & material_internals,
+    const aiScene * ai_scene);
   void loadTexture(const std::string & resource_path);
+  void loadEmbeddedTexture(
+    const aiTexture * ai_texture,
+    const std::string & resource_path);
   void setBlending(
     Ogre::MaterialPtr & mat, const aiMaterial * ai_material,
     const MaterialInternals & material_internals);
