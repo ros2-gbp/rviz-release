@@ -1,4 +1,4 @@
-From a47c463cbeb625aa0cc22ffc73e36cb1ad2ffacd Mon Sep 17 00:00:00 2001
+From 4aafb7a10c76250b745558ca66ff0693b74fc548 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Steven!=20Ragnaro=CC=88k?= <steven@nuclearsandwich.com>
 Date: Sat, 9 Mar 2024 17:52:35 -0800
 Subject: [PATCH] Restore clobbered dh_shlibdeps patches to debian/rules.
@@ -9,14 +9,14 @@ This package requires patches to the override_dh_shlibdeps rule which were clobb
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/debian/rules.em b/debian/rules.em
-index 2ab7b14af..73c0c7805 100755
+index a856369d1..73c0c7805 100755
 --- a/debian/rules.em
 +++ b/debian/rules.em
 @@ -57,7 +57,7 @@ override_dh_shlibdeps:
  	# in the install tree and source it.  It will set things like
  	# CMAKE_PREFIX_PATH, PKG_CONFIG_PATH, and PYTHONPATH.
  	if [ -f "@(InstallationPrefix)/setup.sh" ]; then . "@(InstallationPrefix)/setup.sh"; fi && \
--	dh_shlibdeps -l$(CURDIR)/debian/@(Package)/@(InstallationPrefix)/lib/
+-	dh_shlibdeps -l$(CURDIR)/debian/@(Package)/@(InstallationPrefix)/lib/:$(CURDIR)/debian/@(Package)/@(InstallationPrefix)/opt/@(Name)/lib/
 +	dh_shlibdeps -l$(CURDIR)/debian/@(Package)/@(InstallationPrefix)/lib/:$(CURDIR)/debian/@(Package)/@(InstallationPrefix)/opt/@(Name)/lib/:$(CURDIR)/debian/@(Package)/@(InstallationPrefix)/opt/rviz_ogre_vendor/lib/OGRE/
  
  override_dh_auto_install:
