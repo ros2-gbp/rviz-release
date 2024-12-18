@@ -2,6 +2,21 @@
 Changelog for package rviz_rendering
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+14.1.6 (2024-12-18)
+-------------------
+* Use consistent conditionals in render_system.hpp (`#1294 <https://github.com/ros2/rviz/issues/1294>`_) (`#1295 <https://github.com/ros2/rviz/issues/1295>`_)
+  These header files define the XVisualInfo type, which is used later in
+  this header based on different conditionals. In particular, the
+  evaluation of these conditionals differ on BSD, which appears to have
+  the headers needed so I don't believe that __linux_\_ is the correct
+  conditional to use.
+  (cherry picked from commit 0d95ae1f1227ab9aa0327d0945d9aec8ed9f88e1)
+  Co-authored-by: Scott K Logan <logans@cottsay.net>
+* Avoid redefinition of default color materials (`#1281 <https://github.com/ros2/rviz/issues/1281>`_) (`#1282 <https://github.com/ros2/rviz/issues/1282>`_)
+  (cherry picked from commit 8e757c2c39e382a0523e4ce230e5719ea450f483)
+  Co-authored-by: Masayoshi Dohi <66519864+Masa0u0@users.noreply.github.com>
+* Contributors: mergify[bot]
+
 14.1.5 (2024-09-06)
 -------------------
 
