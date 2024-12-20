@@ -2,6 +2,11 @@
 Changelog for package rviz_visual_testing_framework
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+14.4.0 (2024-12-20)
+-------------------
+* Fix Deprecated tf2 headers (`#1289 <https://github.com/ros2/rviz/issues/1289>`_)
+* Contributors: Lucas Wendland
+
 14.3.3 (2024-11-25)
 -------------------
 
