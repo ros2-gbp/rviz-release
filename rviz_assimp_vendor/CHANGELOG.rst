@@ -2,27 +2,51 @@
 Changelog for package rviz_assimp_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-14.1.6 (2024-12-18)
+14.4.0 (2024-12-20)
 -------------------
 
-14.1.5 (2024-09-06)
+14.3.3 (2024-11-25)
 -------------------
 
-14.1.4 (2024-08-19)
+14.3.2 (2024-11-20)
 -------------------
 
-14.1.3 (2024-07-19)
+14.3.1 (2024-10-11)
 -------------------
 
-14.1.2 (2024-06-27)
+14.3.0 (2024-10-03)
 -------------------
 
-14.1.1 (2024-05-13)
+14.2.6 (2024-08-28)
 -------------------
-* Removed assimp warnings (`#1191 <https://github.com/ros2/rviz/issues/1191>`_) (`#1192 <https://github.com/ros2/rviz/issues/1192>`_)
-  (cherry picked from commit e8dd485d19a35d3abba905020741973e613334e3)
-  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
-* Contributors: mergify[bot]
+
+14.2.5 (2024-07-29)
+-------------------
+* Revert "Update ASSIMP_VENDOR CMakeLists.txt (`#1226 <https://github.com/ros2/rviz/issues/1226>`_)" (`#1249 <https://github.com/ros2/rviz/issues/1249>`_)
+* Contributors: Chris Lalancette
+
+14.2.4 (2024-07-19)
+-------------------
+* Update ASSIMP_VENDOR CMakeLists.txt (`#1226 <https://github.com/ros2/rviz/issues/1226>`_)
+  CLEAN UNUSED CHECK
+  SE MIN ASSIMP VERSION TO 5.3.1
+  SET C++ VERSION TO 17
+* Contributors: mosfet80
+
+14.2.3 (2024-06-25)
+-------------------
+
+14.2.2 (2024-06-17)
+-------------------
+
+14.2.1 (2024-05-24)
+-------------------
+
+14.2.0 (2024-04-26)
+-------------------
+* Removed assimp warnings (`#1191 <https://github.com/ros2/rviz/issues/1191>`_)
+* Don't treat warnings as errors when building Assimp (`#1174 <https://github.com/ros2/rviz/issues/1174>`_)
+* Contributors: Alejandro Hernández Cordero, Scott K Logan
 
 14.1.0 (2024-04-16)
 -------------------

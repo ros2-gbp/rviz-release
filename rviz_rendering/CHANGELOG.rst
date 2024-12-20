@@ -2,39 +2,51 @@
 Changelog for package rviz_rendering
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-14.1.6 (2024-12-18)
--------------------
-* Use consistent conditionals in render_system.hpp (`#1294 <https://github.com/ros2/rviz/issues/1294>`_) (`#1295 <https://github.com/ros2/rviz/issues/1295>`_)
-  These header files define the XVisualInfo type, which is used later in
-  this header based on different conditionals. In particular, the
-  evaluation of these conditionals differ on BSD, which appears to have
-  the headers needed so I don't believe that __linux_\_ is the correct
-  conditional to use.
-  (cherry picked from commit 0d95ae1f1227ab9aa0327d0945d9aec8ed9f88e1)
-  Co-authored-by: Scott K Logan <logans@cottsay.net>
-* Avoid redefinition of default color materials (`#1281 <https://github.com/ros2/rviz/issues/1281>`_) (`#1282 <https://github.com/ros2/rviz/issues/1282>`_)
-  (cherry picked from commit 8e757c2c39e382a0523e4ce230e5719ea450f483)
-  Co-authored-by: Masayoshi Dohi <66519864+Masa0u0@users.noreply.github.com>
-* Contributors: mergify[bot]
-
-14.1.5 (2024-09-06)
+14.4.0 (2024-12-20)
 -------------------
 
-14.1.4 (2024-08-19)
+14.3.3 (2024-11-25)
 -------------------
 
-14.1.3 (2024-07-19)
+14.3.2 (2024-11-20)
 -------------------
-* Fix: issue `#1220 <https://github.com/ros2/rviz/issues/1220>`_. (`#1237 <https://github.com/ros2/rviz/issues/1237>`_) (`#1246 <https://github.com/ros2/rviz/issues/1246>`_)
+* include QString (`#1298 <https://github.com/ros2/rviz/issues/1298>`_)
+* Use consistent conditionals in render_system.hpp (`#1294 <https://github.com/ros2/rviz/issues/1294>`_)
+* Contributors: Matthew Foran, Scott K Logan
+
+14.3.1 (2024-10-11)
+-------------------
+
+14.3.0 (2024-10-03)
+-------------------
+* Avoid redefinition of default color materials (`#1281 <https://github.com/ros2/rviz/issues/1281>`_)
+* Contributors: Masayoshi Dohi
+
+14.2.6 (2024-08-28)
+-------------------
+
+14.2.5 (2024-07-29)
+-------------------
+* Added more time to copyright on Windwos (`#1252 <https://github.com/ros2/rviz/issues/1252>`_)
+* Contributors: Alejandro Hernández Cordero
+
+14.2.4 (2024-07-19)
+-------------------
+* Fix: issue `#1220 <https://github.com/ros2/rviz/issues/1220>`_. (`#1237 <https://github.com/ros2/rviz/issues/1237>`_)
   Co-authored-by: Alejandro Hernández Cordero <ahcorde@gmail.com>
-  (cherry picked from commit 85dfbef6d96956960b48115f046dbb2539aa0f36)
-  Co-authored-by: chama1176 <kaede6120@gmail.com>
-* Contributors: mergify[bot]
+* Added common test: rviz_rendering (`#1233 <https://github.com/ros2/rviz/issues/1233>`_)
+* Contributors: Alejandro Hernández Cordero, chama1176
 
-14.1.2 (2024-06-27)
+14.2.3 (2024-06-25)
 -------------------
 
-14.1.1 (2024-05-13)
+14.2.2 (2024-06-17)
+-------------------
+
+14.2.1 (2024-05-24)
+-------------------
+
+14.2.0 (2024-04-26)
 -------------------
 
 14.1.0 (2024-04-16)
