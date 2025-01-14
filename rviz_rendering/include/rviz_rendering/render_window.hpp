@@ -159,8 +159,20 @@ public:
   setOgreCamera(RenderWindow * render_window, Ogre::Camera * ogre_camera);
 
   static
+  void
+  setSceneNodeCamera(RenderWindow * render_window, Ogre::SceneNode * ogre_camera);
+
+  static
   Ogre::Camera *
   getOgreCamera(RenderWindow * render_window);
+
+  static
+  void
+  setOgreCameraPosition(RenderWindow * render_window, const Ogre::Vector3 & vec);
+
+  static
+  void
+  setOgreCameraOrientation(RenderWindow * render_window, const Ogre::Quaternion & quat);
 
   static
   Ogre::Viewport *
@@ -169,6 +181,10 @@ public:
   static
   void
   setBackgroundColor(RenderWindow * render_window, const Ogre::ColourValue * color);
+
+  static
+  void
+  setDirectionalLightDirection(RenderWindow * render_window, const Ogre::Vector3 & vec);
 
   static
   Ogre::Light *
