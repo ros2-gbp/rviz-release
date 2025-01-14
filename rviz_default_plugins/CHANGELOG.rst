@@ -2,6 +2,9 @@
 Changelog for package rviz_default_plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+14.1.7 (2025-01-14)
+-------------------
+
 14.1.6 (2024-12-18)
 -------------------
 * remove unused variable (`#1301 <https://github.com/ros2/rviz/issues/1301>`_) (`#1303 <https://github.com/ros2/rviz/issues/1303>`_)
