@@ -2,6 +2,16 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+11.2.16 (2025-01-14)
+--------------------
+* Add RVIZ_COMMON_PUBLIC macro to ToolManager (`#1323 <https://github.com/ros2/rviz/issues/1323>`_) (`#1326 <https://github.com/ros2/rviz/issues/1326>`_)
+  (cherry picked from commit ad4813f819e09d05096515045f1688989fb00b81)
+  Co-authored-by: Silvio Traversaro <silvio@traversaro.it>
+* Add RVIZ_COMMON_PUBLIC macro (`#865 <https://github.com/ros2/rviz/issues/865>`_) (`#1324 <https://github.com/ros2/rviz/issues/1324>`_)
+  (cherry picked from commit 3584a2981d9b49a53d03dc243ce7be8dc142b758)
+  Co-authored-by: juchajam <79612680+msjunechang21@users.noreply.github.com>
+* Contributors: mergify[bot]
+
 11.2.15 (2024-12-26)
 --------------------
 
