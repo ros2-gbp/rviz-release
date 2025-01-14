@@ -2,6 +2,9 @@
 Changelog for package rviz_rendering
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+14.1.7 (2025-01-14)
+-------------------
+
 14.1.6 (2024-12-18)
 -------------------
 * Use consistent conditionals in render_system.hpp (`#1294 <https://github.com/ros2/rviz/issues/1294>`_) (`#1295 <https://github.com/ros2/rviz/issues/1295>`_)
