@@ -2,6 +2,9 @@
 Changelog for package rviz_default_plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+11.2.16 (2025-01-14)
+--------------------
+
 11.2.15 (2024-12-26)
 --------------------
 * apply origin rotation to inertia box visualization (`#1171 <https://github.com/ros2/rviz/issues/1171>`_) (`#1316 <https://github.com/ros2/rviz/issues/1316>`_)
