@@ -2,6 +2,13 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+14.4.1 (2025-01-15)
+-------------------
+* Fix preferred tools loading names (`#1321 <https://github.com/ros2/rviz/issues/1321>`_)
+* Add RVIZ_COMMON_PUBLIC macro to ToolManager (`#1323 <https://github.com/ros2/rviz/issues/1323>`_)
+* Clean visualization_manager.cpp (`#1317 <https://github.com/ros2/rviz/issues/1317>`_)
+* Contributors: RaduPopescu, Silvio Traversaro, mosfet80
+
 14.4.0 (2024-12-20)
 -------------------
 * Fix Deprecated tf2 headers (`#1289 <https://github.com/ros2/rviz/issues/1289>`_)
