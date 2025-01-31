@@ -2,6 +2,12 @@
 Changelog for package rviz_default_plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+14.4.2 (2025-01-31)
+-------------------
+* Initialize lookup table only once at compile time (`#1330 <https://github.com/ros2/rviz/issues/1330>`_)
+  Co-authored-by: Alejandro Hernández Cordero <ahcorde@gmail.com>
+* Contributors: Patrick Roncagliolo
+
 14.4.1 (2025-01-15)
 -------------------
 * Fixed the XY Orbit controller move (`#1327 <https://github.com/ros2/rviz/issues/1327>`_)
