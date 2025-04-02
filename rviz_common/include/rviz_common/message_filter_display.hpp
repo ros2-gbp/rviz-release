@@ -1,43 +1,39 @@
-// Copyright (c) 2012, Willow Garage, Inc.
-// Copyright (c) 2017, Bosch Software Innovations GmbH.
-// All rights reserved.
-//
-// Redistribution and use in source and binary forms, with or without
-// modification, are permitted provided that the following conditions are met:
-//
-//    * Redistributions of source code must retain the above copyright
-//      notice, this list of conditions and the following disclaimer.
-//
-//    * Redistributions in binary form must reproduce the above copyright
-//      notice, this list of conditions and the following disclaimer in the
-//      documentation and/or other materials provided with the distribution.
-//
-//    * Neither the name of the copyright holder nor the names of its
-//      contributors may be used to endorse or promote products derived from
-//      this software without specific prior written permission.
-//
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
-// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-// POSSIBILITY OF SUCH DAMAGE.
-
+/*
+ * Copyright (c) 2012, Willow Garage, Inc.
+ * Copyright (c) 2017, Bosch Software Innovations GmbH.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the Willow Garage, Inc. nor the names of its
+ *       contributors may be used to endorse or promote products derived from
+ *       this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
 #ifndef RVIZ_COMMON__MESSAGE_FILTER_DISPLAY_HPP_
 #define RVIZ_COMMON__MESSAGE_FILTER_DISPLAY_HPP_
 
+#include <message_filters/subscriber.h>
 #include <tf2_ros/message_filter.h>
+
 #include <memory>
-#include <string>
-
-#include <QString>  // NOLINT: cpplint is unable to handle the include order here
-
-#include <message_filters/subscriber.hpp>
 
 #include "rviz_common/ros_topic_display.hpp"
 #include "rviz_common/properties/int_property.hpp"
@@ -127,7 +123,7 @@ protected:
       subscription_ = std::make_shared<message_filters::Subscriber<MessageType>>(
         node,
         topic_property_->getTopicStd(),
-        qos_profile);
+        qos_profile.get_rmw_qos_profile());
       subscription_start_time_ = node->now();
       tf_filter_ =
         std::make_shared<tf2_ros::MessageFilter<MessageType, transformation::FrameTransformer>>(
@@ -210,33 +206,19 @@ protected:
     auto msg = std::static_pointer_cast<const MessageType>(type_erased_msg);
 
     ++messages_received_;
-    rviz_common::properties::StatusProperty::Level topic_status_level =
-      rviz_common::properties::StatusProperty::Ok;
     QString topic_str = QString::number(messages_received_) + " messages received";
     // Append topic subscription frequency if we can lock rviz_ros_node_.
     std::shared_ptr<ros_integration::RosNodeAbstractionIface> node_interface =
       rviz_ros_node_.lock();
     if (node_interface != nullptr) {
-      try {
-        const double duration =
-          (node_interface->get_raw_node()->now() - subscription_start_time_).seconds();
-        const double subscription_frequency =
-          static_cast<double>(messages_received_) / duration;
-        topic_str += " at " + QString::number(subscription_frequency, 'f', 1) + " hz.";
-      } catch (const std::runtime_error & e) {
-        if (std::string(e.what()).find("can't subtract times with different time sources") !=
-          std::string::npos)
-        {
-          topic_status_level = rviz_common::properties::StatusProperty::Warn;
-          topic_str += ". ";
-          topic_str += e.what();
-        } else {
-          throw;
-        }
-      }
+      const double duration =
+        (node_interface->get_raw_node()->now() - subscription_start_time_).seconds();
+      const double subscription_frequency =
+        static_cast<double>(messages_received_) / duration;
+      topic_str += " at " + QString::number(subscription_frequency, 'f', 1) + " hz.";
     }
     setStatus(
-      topic_status_level,
+      properties::StatusProperty::Ok,
       "Topic",
       topic_str);
 
