@@ -1,4 +1,4 @@
-From 254438c8531a6e0ed04c75bea1c2f0e624c2360c Mon Sep 17 00:00:00 2001
+From f1567a953e5b134c0fe0c749218234508ae9cd3c Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Steven!=20Ragnaro=CC=88k?= <steven@nuclearsandwich.com>
 Date: Sat, 9 Mar 2024 17:52:35 -0800
 Subject: [PATCH] Restore clobbered dh_shlibdeps patches to debian/rules.
@@ -22,5 +22,5 @@ index a856369d1..73c0c7805 100755
  override_dh_auto_install:
  	# In case we're installing to a non-standard location, look for a setup.sh
 -- 
-2.34.1
+2.43.0
 
