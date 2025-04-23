@@ -1,4 +1,5 @@
-// Copyright (c) 2023, Open Source Robotics Foundation, Inc.
+// Copyright (c) 2012, Willow Garage, Inc.
+// Copyright (c) 2017, Bosch Software Innovations GmbH.
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,36 +28,46 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+#ifndef RVIZ_COMMON__ROS_ADAPTER_DISPLAY_HPP_
+#define RVIZ_COMMON__ROS_ADAPTER_DISPLAY_HPP_
 
-#ifndef RVIZ_DEFAULT_PLUGINS__DISPLAYS__POINTCLOUD__POINT_CLOUD_TRANSPORT_DISPLAY_HPP_
-#define RVIZ_DEFAULT_PLUGINS__DISPLAYS__POINTCLOUD__POINT_CLOUD_TRANSPORT_DISPLAY_HPP_
-
+#include <cstdint>
+#include <functional>
 #include <memory>
+#include <sstream>
+#include <stdexcept>
 #include <string>
 
 #include <QString>  // NOLINT: cpplint is unable to handle the include order here
 
-#include "get_transport_from_topic.hpp"
-#include "point_cloud_transport/point_cloud_transport.hpp"
-#include "point_cloud_transport/subscriber_filter.hpp"
 #include "rviz_common/ros_topic_display.hpp"
 
-namespace rviz_default_plugins
-{
-namespace displays
+#include "rclcpp/qos.hpp"
+#include "rclcpp/node.hpp"
+#include "rclcpp/subscription_options.hpp"
+#include "rclcpp/time.hpp"
+#include "rclcpp/type_adapter.hpp"
+
+namespace rviz_common
 {
 
-template<class MessageType>
-class PointCloud2TransportDisplay : public rviz_common::_RosTopicDisplay
+/** @brief Display subclass using a rclcpp::subscription,
+ * templated on the ROS message type and a custom type, to support REP 2007
+ *
+ * This class handles subscribing and unsubscribing to a ROS node when the display is
+ * enabled or disabled. */
+template<class MessageType, class AdaptedType>
+class RosAdapterDisplay : public rviz_common::_RosTopicDisplay
 {
 // No Q_OBJECT macro here, moc does not support Q_OBJECT in a templated class.
 
 public:
-/// Convenience typedef so subclasses don't have to use
-/// the long templated class name to refer to their super class.
-  typedef PointCloud2TransportDisplay<MessageType> PC2RDClass;
+  /** @brief Convenience typedef so subclasses don't have to use
+   * the long templated class name to refer to their super class. */
+  typedef RosAdapterDisplay<MessageType, AdaptedType> RADClass;
+  using Adapter = typename rclcpp::adapt_type<AdaptedType>::as<MessageType>;
 
-  PointCloud2TransportDisplay()
+  RosAdapterDisplay()
   : messages_received_(0)
   {
     QString message_type = QString::fromStdString(rosidl_generator_traits::name<MessageType>());
@@ -64,16 +75,7 @@ public:
     topic_property_->setDescription(message_type + " topic to subscribe to.");
   }
 
-/**
-* When overriding this method, the onInitialize() method of this superclass has to be called.
-* Otherwise, the ros node will not be initialized.
-*/
-  void onInitialize() override
-  {
-    _RosTopicDisplay::onInitialize();
-  }
-
-  ~PointCloud2TransportDisplay() override
+  ~RosAdapterDisplay() override
   {
     unsubscribe();
   }
@@ -93,52 +95,54 @@ public:
 protected:
   void updateTopic() override
   {
-    resetSubscription();
+    unsubscribe();
+    reset();
+    subscribe();
+    context_->queueRender();
   }
 
   virtual void subscribe()
   {
-    if (!isEnabled()) {
+    if (!isEnabled() ) {
       return;
     }
 
     if (topic_property_->isEmpty()) {
       setStatus(
-        rviz_common::properties::StatusProperty::Error, "Topic",
+        properties::StatusProperty::Error,
+        "Topic",
         QString("Error subscribing: Empty topic name"));
       return;
     }
 
     try {
-      subscription_ = std::make_shared<point_cloud_transport::SubscriberFilter>();
-      subscription_->subscribe(
-        rviz_ros_node_.lock()->get_raw_node(),
-        getPointCloud2BaseTopicFromTopic(topic_property_->getTopicStd()),
-        getPointCloud2TransportFromTopic(topic_property_->getTopicStd()),
-        qos_profile.get_rmw_qos_profile());
-      subscription_start_time_ = rviz_ros_node_.lock()->get_raw_node()->now();
-      subscription_callback_ = subscription_->registerCallback(
+      rclcpp::SubscriptionOptions sub_opts;
+      sub_opts.event_callbacks.message_lost_callback =
+        [&](rclcpp::QOSMessageLostInfo & info)
+        {
+          std::ostringstream sstm;
+          sstm << "Some messages were lost:\n>\tNumber of new lost messages: " <<
+            info.total_count_change << " \n>\tTotal number of messages lost: " <<
+            info.total_count;
+          setStatus(properties::StatusProperty::Warn, "Topic", QString(sstm.str().c_str()));
+        };
+
+      rclcpp::Node::SharedPtr node = rviz_ros_node_.lock()->get_raw_node();
+      subscription_ =
+        node->template create_subscription<Adapter>(
+        topic_property_->getTopicStd(),
+        qos_profile,
         std::bind(
-          &PointCloud2TransportDisplay<MessageType>::incomingMessage, this, std::placeholders::_1));
+          &RosAdapterDisplay<MessageType, AdaptedType>::incomingMessage, this,
+          std::placeholders::_1),
+        sub_opts);
+      subscription_start_time_ = node->now();
       setStatus(rviz_common::properties::StatusProperty::Ok, "Topic", "OK");
     } catch (rclcpp::exceptions::InvalidTopicNameError & e) {
       setStatus(
         rviz_common::properties::StatusProperty::Error, "Topic",
         QString("Error subscribing: ") + e.what());
     }
-  }
-
-  void transformerChangedCallback() override
-  {
-    resetSubscription();
-  }
-
-  void resetSubscription()
-  {
-    unsubscribe();
-    reset();
-    subscribe();
-    context_->queueRender();
   }
 
   virtual void unsubscribe()
@@ -157,13 +161,15 @@ protected:
     reset();
   }
 
-/// Incoming message callback.
-/**
-* Checks if the message pointer
-* is valid, increments messages_received_, then calls
-* processMessage().
-*/
-  void incomingMessage(const typename MessageType::ConstSharedPtr msg)
+  void fixedFrameChanged() override
+  {
+    reset();
+  }
+
+  /** @brief Incoming message callback.  Checks if the message pointer
+   * is valid, increments messages_received_, then calls
+   * processMessage(). */
+  void incomingMessage(const typename std::shared_ptr<const AdaptedType> msg)
   {
     if (!msg) {
       return;
@@ -174,7 +180,7 @@ protected:
     rviz_common::properties::StatusProperty::Level topic_status_level =
       rviz_common::properties::StatusProperty::Ok;
     // Append topic subscription frequency if we can lock rviz_ros_node_.
-    std::shared_ptr<rviz_common::ros_integration::RosNodeAbstractionIface> node_interface =
+    std::shared_ptr<ros_integration::RosNodeAbstractionIface> node_interface =
       rviz_ros_node_.lock();
     if (node_interface != nullptr) {
       try {
@@ -203,22 +209,16 @@ protected:
     processMessage(msg);
   }
 
+  /** @brief Implement this to process the contents of a message.
+   *
+   * This is called by incomingMessage(). */
+  virtual void processMessage(const typename std::shared_ptr<const AdaptedType> msg) = 0;
 
-/// Implement this to process the contents of a message.
-/**
-* This is called by incomingMessage().
-*/
-  virtual void processMessage(typename MessageType::ConstSharedPtr msg) = 0;
-
-  uint32_t messages_received_;
+  typename rclcpp::Subscription<Adapter>::SharedPtr subscription_;
   rclcpp::Time subscription_start_time_;
-
-  std::shared_ptr<point_cloud_transport::SubscriberFilter> subscription_;
-  message_filters::Connection subscription_callback_;
+  uint32_t messages_received_;
 };
 
-}  //  end namespace displays
-}  // end namespace rviz_default_plugins
+}  // end namespace rviz_common
 
-
-#endif  // RVIZ_DEFAULT_PLUGINS__DISPLAYS__POINTCLOUD__POINT_CLOUD_TRANSPORT_DISPLAY_HPP_
+#endif  // RVIZ_COMMON__ROS_ADAPTER_DISPLAY_HPP_
