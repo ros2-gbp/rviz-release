@@ -1,1 +1,1 @@
-{"base": "c1af87781", "parent": "debian/rolling/rviz_assimp_vendor", "previous": "c8bdf8077", "trim": "", "trimbase": ""}
+{"base": "ad3aedb65b65", "parent": "debian/kilted/rviz_assimp_vendor", "previous": "1fab90a49b65", "trim": "", "trimbase": ""}
