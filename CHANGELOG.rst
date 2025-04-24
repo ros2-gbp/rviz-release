@@ -2,6 +2,32 @@
 Changelog for package rviz_rendering
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+14.1.9 (2025-04-24)
+-------------------
+* Removed Windows warnings (`#1413 <https://github.com/ros2/rviz/issues/1413>`_) (`#1414 <https://github.com/ros2/rviz/issues/1414>`_)
+  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
+* MovableText constructor does not validate invalid character height, default fallback missing (`#1398 <https://github.com/ros2/rviz/issues/1398>`_) (`#1424 <https://github.com/ros2/rviz/issues/1424>`_)
+  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
+* Invalid Parameter Handling in CovarianceVisual::CovarianceVisual Constructor (`#1396 <https://github.com/ros2/rviz/issues/1396>`_) (`#1416 <https://github.com/ros2/rviz/issues/1416>`_)
+  (cherry picked from commit 6870dc2d5538570a0d04ee30b242a6446ebea4b4)
+  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
+* Memory Access Error When Handling Empty Strings in splitStringIntoTrimmedItems Function (`#1412 <https://github.com/ros2/rviz/issues/1412>`_) (`#1428 <https://github.com/ros2/rviz/issues/1428>`_)
+  (cherry picked from commit d87b5a514fe5ebd5028ceb8fdee36b3c7fb2fb50)
+  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
+* Crash due to Unhandled Null Pointer in ParameterEventsFilter Constructor (`#1411 <https://github.com/ros2/rviz/issues/1411>`_) (`#1426 <https://github.com/ros2/rviz/issues/1426>`_)
+  (cherry picked from commit b64a03c0c43f07feada7bcdf809d11dfc8d753d1)
+  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
+* Grid Class Constructor Does Not Handle Null Pointer, Leading to Program Crash (`#1394 <https://github.com/ros2/rviz/issues/1394>`_) (`#1422 <https://github.com/ros2/rviz/issues/1422>`_)
+  (cherry picked from commit 30ffc518cc5472e91c026ba075d3328d1f983548)
+  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
+* Crash in MovableText::update() when caption is an empty string due to uninitialized resource usage (`#1393 <https://github.com/ros2/rviz/issues/1393>`_) (`#1420 <https://github.com/ros2/rviz/issues/1420>`_)
+  (cherry picked from commit d6f13b7cda10b6f27dca4466ac9b25f404b6bd2c)
+  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
+* Lack of Validity Check for Invalid Parameters in EffortVisual::EffortVisual Constructor (`#1395 <https://github.com/ros2/rviz/issues/1395>`_) (`#1418 <https://github.com/ros2/rviz/issues/1418>`_)
+  (cherry picked from commit 157fabdde99dd7e6bfb4a8ab61de6c445fdcb851)
+  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
+* Contributors: mergify[bot]
+
 14.1.8 (2025-04-02)
 -------------------
 
