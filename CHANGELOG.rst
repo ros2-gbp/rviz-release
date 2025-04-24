@@ -2,6 +2,23 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+14.1.9 (2025-04-24)
+-------------------
+* addTrackedObject Function Fails to Handle Null Pointer, Causing Crash When nullptr is Passed (`#1375 <https://github.com/ros2/rviz/issues/1375>`_) (`#1378 <https://github.com/ros2/rviz/issues/1378>`_)
+  (cherry picked from commit a657981d9fc816900688663bfcb6e7f3c50a0acc)
+  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
+* Fix Potential Null Pointer Dereference in VisualizerApp::getRenderWindow() to Prevent Crashes (`#1359 <https://github.com/ros2/rviz/issues/1359>`_) (`#1365 <https://github.com/ros2/rviz/issues/1365>`_)
+  (cherry picked from commit c2118276a21db73752cbe468ea9a0c052f6a3502)
+  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
+* UniformStringStream::parseFloat Fails to Handle Invalid Float Formats Correctly (`#1360 <https://github.com/ros2/rviz/issues/1360>`_) (`#1367 <https://github.com/ros2/rviz/issues/1367>`_)
+  Co-authored-by: Christophe Bedard <bedard.christophe@gmail.com>
+  (cherry picked from commit 2e6fd001b25b02314c5785b5e74e68fcc193e1d8)
+  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
+* Add test to check mapGetString when key is missing (`#1361 <https://github.com/ros2/rviz/issues/1361>`_) (`#1369 <https://github.com/ros2/rviz/issues/1369>`_)
+  (cherry picked from commit 98225aaaf5be04a35cc30b275c38c43cf1baede9)
+  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
+* Contributors: mergify[bot]
+
 14.1.8 (2025-04-02)
 -------------------
 
