@@ -2,6 +2,9 @@
 Changelog for package rviz_default_plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+14.1.9 (2025-04-24)
+-------------------
+
 14.1.8 (2025-04-02)
 -------------------
 * fix: add rclcpp::shutdown (`#1343 <https://github.com/ros2/rviz/issues/1343>`_) (`#1344 <https://github.com/ros2/rviz/issues/1344>`_)
