@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.5)
 
 project(rviz_default_plugins)
 
@@ -1210,8 +1210,4 @@ ament_package(
 
 if(TEST cpplint)
   set_tests_properties(cpplint PROPERTIES TIMEOUT 180)
-endif()
-
-if(TEST copyright)
-  set_tests_properties(copyright PROPERTIES TIMEOUT 600)
 endif()
