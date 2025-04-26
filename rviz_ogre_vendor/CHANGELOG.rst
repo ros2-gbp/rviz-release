@@ -2,6 +2,11 @@
 Changelog for package rviz_ogre_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+15.0.0 (2025-04-25)
+-------------------
+* Add missing glew dependency for ogre vendor package (`#1350 <https://github.com/ros2/rviz/issues/1350>`_)
+* Contributors: Stefan Fabian
+
 14.4.4 (2025-03-20)
 -------------------
 * Use official freetype github mirror instead of savannah (`#1348 <https://github.com/ros2/rviz/issues/1348>`_)
