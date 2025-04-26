@@ -2,6 +2,19 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+15.1.0 (2025-04-25)
+-------------------
+
+15.0.0 (2025-04-25)
+-------------------
+* Work in progress using the new resource retriever apis (`#1262 <https://github.com/ros2/rviz/issues/1262>`_)
+* addTrackedObject Function Fails to Handle Null Pointer, Causing Crash When nullptr is Passed (`#1375 <https://github.com/ros2/rviz/issues/1375>`_)
+* Add test to check mapGetString when key is missing (`#1361 <https://github.com/ros2/rviz/issues/1361>`_)
+* UniformStringStream::parseFloat Fails to Handle Invalid Float Formats Correctly (`#1360 <https://github.com/ros2/rviz/issues/1360>`_)
+* Fix Potential Null Pointer Dereference in VisualizerApp::getRenderWindow() to Prevent Crashes (`#1359 <https://github.com/ros2/rviz/issues/1359>`_)
+* Extend support for type adaptation (REP 2007) in rviz_common for TF-filtered displays (`#1346 <https://github.com/ros2/rviz/issues/1346>`_)
+* Contributors: Alejandro Hernández Cordero, Michael Carroll, Patrick Roncagliolo
+
 14.4.4 (2025-03-20)
 -------------------
 * Expose the possibility to create ROS node with custom `NodeOptions` (`#1347 <https://github.com/ros2/rviz/issues/1347>`_)
