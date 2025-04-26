@@ -1,0 +1,12 @@
+Source: ros-kilted-rviz-default-plugins
+Section: misc
+Priority: optional
+Maintainer: Alejandro Hernandez Cordero <alejandro@openrobotics.org>
+Build-Depends: debhelper (>= 9.0.0), qtbase5-dev, ros-kilted-ament-cmake-gmock <!nocheck>, ros-kilted-ament-cmake-gtest <!nocheck>, ros-kilted-ament-cmake-lint-cmake <!nocheck>, ros-kilted-ament-cmake-ros, ros-kilted-ament-index-cpp <!nocheck>, ros-kilted-ament-lint-auto <!nocheck>, ros-kilted-ament-lint-common <!nocheck>, ros-kilted-geometry-msgs, ros-kilted-gz-math-vendor, ros-kilted-image-transport, ros-kilted-interactive-markers, ros-kilted-laser-geometry, ros-kilted-map-msgs, ros-kilted-nav-msgs, ros-kilted-pluginlib, ros-kilted-point-cloud-transport, ros-kilted-rclcpp, ros-kilted-resource-retriever, ros-kilted-rviz-common, ros-kilted-rviz-ogre-vendor, ros-kilted-rviz-rendering, ros-kilted-rviz-rendering-tests <!nocheck>, ros-kilted-rviz-resource-interfaces, ros-kilted-rviz-visual-testing-framework <!nocheck>, ros-kilted-tf2, ros-kilted-tf2-geometry-msgs, ros-kilted-tf2-ros, ros-kilted-urdf, ros-kilted-visualization-msgs, ros-kilted-ros-workspace
+Homepage: https://github.com/ros2/rviz/blob/ros2/README.md
+Standards-Version: 3.9.2
+
+Package: ros-kilted-rviz-default-plugins
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libqt5core5a, libqt5gui5, libqt5opengl5, libqt5widgets5, ros-kilted-geometry-msgs, ros-kilted-gz-math-vendor, ros-kilted-image-transport, ros-kilted-interactive-markers, ros-kilted-laser-geometry, ros-kilted-map-msgs, ros-kilted-nav-msgs, ros-kilted-pluginlib, ros-kilted-point-cloud-transport, ros-kilted-rclcpp, ros-kilted-resource-retriever, ros-kilted-rviz-common, ros-kilted-rviz-ogre-vendor, ros-kilted-rviz-rendering, ros-kilted-rviz-resource-interfaces, ros-kilted-tf2, ros-kilted-tf2-geometry-msgs, ros-kilted-tf2-ros, ros-kilted-urdf, ros-kilted-visualization-msgs, ros-kilted-ros-workspace
+Description: Several default plugins for rviz to cover the basic functionality.
