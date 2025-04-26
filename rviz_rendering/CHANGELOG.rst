@@ -2,6 +2,21 @@
 Changelog for package rviz_rendering
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+15.0.0 (2025-04-25)
+-------------------
+* BillboardLine::addPoint() does not throw an exception when exceeding max_points_per_line limit (`#1436 <https://github.com/ros2/rviz/issues/1436>`_)
+* Constructor ScrewVisual::ScrewVisual does not handle null pointers, leading to crashes (`#1435 <https://github.com/ros2/rviz/issues/1435>`_)
+* Removed Windows warnings (`#1413 <https://github.com/ros2/rviz/issues/1413>`_)
+* Memory Access Error When Handling Empty Strings in splitStringIntoTrimmedItems Function (`#1412 <https://github.com/ros2/rviz/issues/1412>`_)
+* Crash due to Unhandled Null Pointer in ParameterEventsFilter Constructor (`#1411 <https://github.com/ros2/rviz/issues/1411>`_)
+* MovableText constructor does not validate invalid character height, default fallback missing (`#1398 <https://github.com/ros2/rviz/issues/1398>`_)
+* Invalid Parameter Handling in CovarianceVisual::CovarianceVisual Constructor (`#1396 <https://github.com/ros2/rviz/issues/1396>`_)
+* Lack of Validity Check for Invalid Parameters in EffortVisual::EffortVisual Constructor (`#1395 <https://github.com/ros2/rviz/issues/1395>`_)
+* Grid Class Constructor Does Not Handle Null Pointer, Leading to Program Crash (`#1394 <https://github.com/ros2/rviz/issues/1394>`_)
+* Crash in MovableText::update() when caption is an empty string due to uninitialized resource usage (`#1393 <https://github.com/ros2/rviz/issues/1393>`_)
+* Work in progress using the new resource retriever apis (`#1262 <https://github.com/ros2/rviz/issues/1262>`_)
+* Contributors: Alejandro Hernández Cordero, Michael Carroll
+
 14.4.4 (2025-03-20)
 -------------------
 
