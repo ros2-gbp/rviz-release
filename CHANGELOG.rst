@@ -2,6 +2,13 @@
 Changelog for package rviz_default_plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+14.1.10 (2025-04-29)
+--------------------
+* PointCloudDisplay: Fix decay time 0 keeping more than the last message. (`#1400 <https://github.com/ros2/rviz/issues/1400>`_) (`#1432 <https://github.com/ros2/rviz/issues/1432>`_)
+  (cherry picked from commit 68c764528a5910c56e0bda683bbd3feacf5f9e89)
+  Co-authored-by: Stefan Fabian <fabian@sim.tu-darmstadt.de>
+* Contributors: mergify[bot]
+
 14.1.9 (2025-04-24)
 -------------------
 
