@@ -2,84 +2,84 @@
 Changelog for package rviz_rendering
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-15.1.0 (2025-04-25)
+14.1.10 (2025-04-29)
+--------------------
+* Missing Null Pointer Check in TrianglePolygon Constructor Leads to Crash (`#1434 <https://github.com/ros2/rviz/issues/1434>`_) (`#1442 <https://github.com/ros2/rviz/issues/1442>`_)
+  (cherry picked from commit 473e0cede8de962d317bf0f47dcc28191589d4a2)
+  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
+* BillboardLine::addPoint() does not throw an exception when exceeding max_points_per_line limit (`#1436 <https://github.com/ros2/rviz/issues/1436>`_) (`#1439 <https://github.com/ros2/rviz/issues/1439>`_)
+  (cherry picked from commit a79df9cc098f4b373e947daf915fd0f941827c3b)
+  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
+* Constructor ScrewVisual::ScrewVisual does not handle null pointers, leading to crashes (`#1435 <https://github.com/ros2/rviz/issues/1435>`_) (`#1438 <https://github.com/ros2/rviz/issues/1438>`_)
+  (cherry picked from commit 01b531e144ebddcfa4d3b21dfe5a79b886cc8bfc)
+  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
+* Contributors: mergify[bot]
+
+14.1.9 (2025-04-24)
+-------------------
+* Removed Windows warnings (`#1413 <https://github.com/ros2/rviz/issues/1413>`_) (`#1414 <https://github.com/ros2/rviz/issues/1414>`_)
+  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
+* MovableText constructor does not validate invalid character height, default fallback missing (`#1398 <https://github.com/ros2/rviz/issues/1398>`_) (`#1424 <https://github.com/ros2/rviz/issues/1424>`_)
+  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
+* Invalid Parameter Handling in CovarianceVisual::CovarianceVisual Constructor (`#1396 <https://github.com/ros2/rviz/issues/1396>`_) (`#1416 <https://github.com/ros2/rviz/issues/1416>`_)
+  (cherry picked from commit 6870dc2d5538570a0d04ee30b242a6446ebea4b4)
+  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
+* Memory Access Error When Handling Empty Strings in splitStringIntoTrimmedItems Function (`#1412 <https://github.com/ros2/rviz/issues/1412>`_) (`#1428 <https://github.com/ros2/rviz/issues/1428>`_)
+  (cherry picked from commit d87b5a514fe5ebd5028ceb8fdee36b3c7fb2fb50)
+  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
+* Crash due to Unhandled Null Pointer in ParameterEventsFilter Constructor (`#1411 <https://github.com/ros2/rviz/issues/1411>`_) (`#1426 <https://github.com/ros2/rviz/issues/1426>`_)
+  (cherry picked from commit b64a03c0c43f07feada7bcdf809d11dfc8d753d1)
+  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
+* Grid Class Constructor Does Not Handle Null Pointer, Leading to Program Crash (`#1394 <https://github.com/ros2/rviz/issues/1394>`_) (`#1422 <https://github.com/ros2/rviz/issues/1422>`_)
+  (cherry picked from commit 30ffc518cc5472e91c026ba075d3328d1f983548)
+  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
+* Crash in MovableText::update() when caption is an empty string due to uninitialized resource usage (`#1393 <https://github.com/ros2/rviz/issues/1393>`_) (`#1420 <https://github.com/ros2/rviz/issues/1420>`_)
+  (cherry picked from commit d6f13b7cda10b6f27dca4466ac9b25f404b6bd2c)
+  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
+* Lack of Validity Check for Invalid Parameters in EffortVisual::EffortVisual Constructor (`#1395 <https://github.com/ros2/rviz/issues/1395>`_) (`#1418 <https://github.com/ros2/rviz/issues/1418>`_)
+  (cherry picked from commit 157fabdde99dd7e6bfb4a8ab61de6c445fdcb851)
+  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
+* Contributors: mergify[bot]
+
+14.1.8 (2025-04-02)
 -------------------
 
-15.0.0 (2025-04-25)
--------------------
-* BillboardLine::addPoint() does not throw an exception when exceeding max_points_per_line limit (`#1436 <https://github.com/ros2/rviz/issues/1436>`_)
-* Constructor ScrewVisual::ScrewVisual does not handle null pointers, leading to crashes (`#1435 <https://github.com/ros2/rviz/issues/1435>`_)
-* Removed Windows warnings (`#1413 <https://github.com/ros2/rviz/issues/1413>`_)
-* Memory Access Error When Handling Empty Strings in splitStringIntoTrimmedItems Function (`#1412 <https://github.com/ros2/rviz/issues/1412>`_)
-* Crash due to Unhandled Null Pointer in ParameterEventsFilter Constructor (`#1411 <https://github.com/ros2/rviz/issues/1411>`_)
-* MovableText constructor does not validate invalid character height, default fallback missing (`#1398 <https://github.com/ros2/rviz/issues/1398>`_)
-* Invalid Parameter Handling in CovarianceVisual::CovarianceVisual Constructor (`#1396 <https://github.com/ros2/rviz/issues/1396>`_)
-* Lack of Validity Check for Invalid Parameters in EffortVisual::EffortVisual Constructor (`#1395 <https://github.com/ros2/rviz/issues/1395>`_)
-* Grid Class Constructor Does Not Handle Null Pointer, Leading to Program Crash (`#1394 <https://github.com/ros2/rviz/issues/1394>`_)
-* Crash in MovableText::update() when caption is an empty string due to uninitialized resource usage (`#1393 <https://github.com/ros2/rviz/issues/1393>`_)
-* Work in progress using the new resource retriever apis (`#1262 <https://github.com/ros2/rviz/issues/1262>`_)
-* Contributors: Alejandro Hernández Cordero, Michael Carroll
-
-14.4.4 (2025-03-20)
+14.1.7 (2025-01-14)
 -------------------
 
-14.4.3 (2025-02-27)
+14.1.6 (2024-12-18)
 -------------------
-* uniform CMAKE requirement (`#1335 <https://github.com/ros2/rviz/issues/1335>`_)
-* Clean ogre_render_window_impl.cpp (`#1334 <https://github.com/ros2/rviz/issues/1334>`_)
-* Contributors: mosfet80
+* Use consistent conditionals in render_system.hpp (`#1294 <https://github.com/ros2/rviz/issues/1294>`_) (`#1295 <https://github.com/ros2/rviz/issues/1295>`_)
+  These header files define the XVisualInfo type, which is used later in
+  this header based on different conditionals. In particular, the
+  evaluation of these conditionals differ on BSD, which appears to have
+  the headers needed so I don't believe that __linux_\_ is the correct
+  conditional to use.
+  (cherry picked from commit 0d95ae1f1227ab9aa0327d0945d9aec8ed9f88e1)
+  Co-authored-by: Scott K Logan <logans@cottsay.net>
+* Avoid redefinition of default color materials (`#1281 <https://github.com/ros2/rviz/issues/1281>`_) (`#1282 <https://github.com/ros2/rviz/issues/1282>`_)
+  (cherry picked from commit 8e757c2c39e382a0523e4ce230e5719ea450f483)
+  Co-authored-by: Masayoshi Dohi <66519864+Masa0u0@users.noreply.github.com>
+* Contributors: mergify[bot]
 
-14.4.2 (2025-01-31)
--------------------
-
-14.4.1 (2025-01-15)
--------------------
-
-14.4.0 (2024-12-20)
--------------------
-
-14.3.3 (2024-11-25)
--------------------
-
-14.3.2 (2024-11-20)
--------------------
-* include QString (`#1298 <https://github.com/ros2/rviz/issues/1298>`_)
-* Use consistent conditionals in render_system.hpp (`#1294 <https://github.com/ros2/rviz/issues/1294>`_)
-* Contributors: Matthew Foran, Scott K Logan
-
-14.3.1 (2024-10-11)
+14.1.5 (2024-09-06)
 -------------------
 
-14.3.0 (2024-10-03)
--------------------
-* Avoid redefinition of default color materials (`#1281 <https://github.com/ros2/rviz/issues/1281>`_)
-* Contributors: Masayoshi Dohi
-
-14.2.6 (2024-08-28)
+14.1.4 (2024-08-19)
 -------------------
 
-14.2.5 (2024-07-29)
+14.1.3 (2024-07-19)
 -------------------
-* Added more time to copyright on Windwos (`#1252 <https://github.com/ros2/rviz/issues/1252>`_)
-* Contributors: Alejandro Hernández Cordero
-
-14.2.4 (2024-07-19)
--------------------
-* Fix: issue `#1220 <https://github.com/ros2/rviz/issues/1220>`_. (`#1237 <https://github.com/ros2/rviz/issues/1237>`_)
+* Fix: issue `#1220 <https://github.com/ros2/rviz/issues/1220>`_. (`#1237 <https://github.com/ros2/rviz/issues/1237>`_) (`#1246 <https://github.com/ros2/rviz/issues/1246>`_)
   Co-authored-by: Alejandro Hernández Cordero <ahcorde@gmail.com>
-* Added common test: rviz_rendering (`#1233 <https://github.com/ros2/rviz/issues/1233>`_)
-* Contributors: Alejandro Hernández Cordero, chama1176
+  (cherry picked from commit 85dfbef6d96956960b48115f046dbb2539aa0f36)
+  Co-authored-by: chama1176 <kaede6120@gmail.com>
+* Contributors: mergify[bot]
 
-14.2.3 (2024-06-25)
+14.1.2 (2024-06-27)
 -------------------
 
-14.2.2 (2024-06-17)
--------------------
-
-14.2.1 (2024-05-24)
--------------------
-
-14.2.0 (2024-04-26)
+14.1.1 (2024-05-13)
 -------------------
 
 14.1.0 (2024-04-16)
