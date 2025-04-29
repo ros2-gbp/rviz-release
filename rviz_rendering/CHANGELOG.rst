@@ -2,6 +2,19 @@
 Changelog for package rviz_rendering
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+14.1.10 (2025-04-29)
+--------------------
+* Missing Null Pointer Check in TrianglePolygon Constructor Leads to Crash (`#1434 <https://github.com/ros2/rviz/issues/1434>`_) (`#1442 <https://github.com/ros2/rviz/issues/1442>`_)
+  (cherry picked from commit 473e0cede8de962d317bf0f47dcc28191589d4a2)
+  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
+* BillboardLine::addPoint() does not throw an exception when exceeding max_points_per_line limit (`#1436 <https://github.com/ros2/rviz/issues/1436>`_) (`#1439 <https://github.com/ros2/rviz/issues/1439>`_)
+  (cherry picked from commit a79df9cc098f4b373e947daf915fd0f941827c3b)
+  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
+* Constructor ScrewVisual::ScrewVisual does not handle null pointers, leading to crashes (`#1435 <https://github.com/ros2/rviz/issues/1435>`_) (`#1438 <https://github.com/ros2/rviz/issues/1438>`_)
+  (cherry picked from commit 01b531e144ebddcfa4d3b21dfe5a79b886cc8bfc)
+  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
+* Contributors: mergify[bot]
+
 14.1.9 (2025-04-24)
 -------------------
 * Removed Windows warnings (`#1413 <https://github.com/ros2/rviz/issues/1413>`_) (`#1414 <https://github.com/ros2/rviz/issues/1414>`_)
