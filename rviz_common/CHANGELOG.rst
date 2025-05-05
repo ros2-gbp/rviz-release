@@ -2,13 +2,10 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-15.1.1 (2025-05-05)
+15.0.1 (2025-05-05)
 -------------------
-* Fixed crash when a resource is not available (`#1455 <https://github.com/ros2/rviz/issues/1455>`_)
-* Contributors: Alejandro Hernández Cordero
-
-15.1.0 (2025-04-25)
--------------------
+* Fixed crash when a resource is not available (`#1455 <https://github.com/ros2/rviz/issues/1455>`_) (`#1456 <https://github.com/ros2/rviz/issues/1456>`_)
+* Contributors: mergify[bot]
 
 15.0.0 (2025-04-25)
 -------------------
