@@ -1,4 +1,4 @@
-From 440c4a4fb2f95154264d9e4e7e9a016f02cc04f3 Mon Sep 17 00:00:00 2001
+From 53e547184a0d99d0350e37409cc73a72a52b5289 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Steven!=20Ragnaro=CC=88k?= <steven@nuclearsandwich.com>
 Date: Sat, 9 Mar 2024 17:52:35 -0800
 Subject: [PATCH] Restore clobbered dh_shlibdeps patches to debian/rules.
@@ -9,7 +9,7 @@ This package requires patches to the override_dh_shlibdeps rule which were clobb
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/debian/rules.em b/debian/rules.em
-index a856369d18c3..73c0c7805ac4 100755
+index a856369d1..73c0c7805 100755
 --- a/debian/rules.em
 +++ b/debian/rules.em
 @@ -57,7 +57,7 @@ override_dh_shlibdeps:
@@ -22,5 +22,5 @@ index a856369d18c3..73c0c7805ac4 100755
  override_dh_auto_install:
  	# In case we're installing to a non-standard location, look for a setup.sh
 -- 
-2.49.0
+2.43.0
 
