@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 
 project(rviz_default_plugins)
 
@@ -73,6 +73,7 @@ find_package(pluginlib REQUIRED)
 find_package(point_cloud_transport REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(resource_retriever REQUIRED)
+find_package(rviz_resource_interfaces REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
@@ -230,6 +231,7 @@ set(rviz_default_plugins_source_files
   src/rviz_default_plugins/view_controllers/orbit/orbit_view_controller.cpp
   src/rviz_default_plugins/view_controllers/ortho/fixed_orientation_ortho_view_controller.cpp
   src/rviz_default_plugins/view_controllers/xy_orbit/xy_orbit_view_controller.cpp
+  src/rviz_default_plugins/ros_resource_retriever.cpp
 )
 
 add_library(rviz_default_plugins SHARED
@@ -240,7 +242,6 @@ add_library(rviz_default_plugins SHARED
 target_include_directories(rviz_default_plugins PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
-  ${Qt5Widgets_INCLUDE_DIRS}
 )
 
 target_link_libraries(rviz_default_plugins PUBLIC
@@ -262,11 +263,13 @@ target_link_libraries(rviz_default_plugins PUBLIC
   tf2_ros::tf2_ros
   urdf::urdf
   ${visualization_msgs_TARGETS}
+  resource_retriever::resource_retriever
+  ${rviz_resource_interfaces_TARGETS}
+  Qt5::Widgets
 )
 
 target_link_libraries(rviz_default_plugins PRIVATE
   gz-math::core
-  resource_retriever::resource_retriever
 )
 
 # Causes the visibility macros to use dllexport rather than dllimport,
@@ -1210,4 +1213,8 @@ ament_package(
 
 if(TEST cpplint)
   set_tests_properties(cpplint PROPERTIES TIMEOUT 180)
+endif()
+
+if(TEST copyright)
+  set_tests_properties(copyright PROPERTIES TIMEOUT 600)
 endif()

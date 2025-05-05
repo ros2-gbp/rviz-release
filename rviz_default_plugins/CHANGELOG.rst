@@ -2,50 +2,101 @@
 Changelog for package rviz_default_plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-14.1.10 (2025-04-29)
---------------------
-* PointCloudDisplay: Fix decay time 0 keeping more than the last message. (`#1400 <https://github.com/ros2/rviz/issues/1400>`_) (`#1432 <https://github.com/ros2/rviz/issues/1432>`_)
-  (cherry picked from commit 68c764528a5910c56e0bda683bbd3feacf5f9e89)
-  Co-authored-by: Stefan Fabian <fabian@sim.tu-darmstadt.de>
-* Contributors: mergify[bot]
+15.1.1 (2025-05-05)
+-------------------
+* Changed Marker Displays to allow toggling visibility of namespaces (`#1402 <https://github.com/ros2/rviz/issues/1402>`_)
+* Do not use ${Qt5Widgets_INCLUDE_DIRS} to avoid creating non-relocatable CMake config files (`#1450 <https://github.com/ros2/rviz/issues/1450>`_)
+* Contributors: Silvio Traversaro, Stefan Fabian
 
-14.1.9 (2025-04-24)
+15.1.0 (2025-04-25)
 -------------------
 
-14.1.8 (2025-04-02)
+15.0.0 (2025-04-25)
 -------------------
-* fix: add rclcpp::shutdown (`#1343 <https://github.com/ros2/rviz/issues/1343>`_) (`#1344 <https://github.com/ros2/rviz/issues/1344>`_)
-  (cherry picked from commit dcbcdd6cf483acf7682414f25cbad32670622dfc)
-  Co-authored-by: Yuyuan Yuan <az6980522@gmail.com>
-* Contributors: mergify[bot]
+* PointCloudDisplay: Fix decay time 0 keeping more than the last message (`#1400 <https://github.com/ros2/rviz/issues/1400>`_)
+* Work in progress using the new resource retriever apis (`#1262 <https://github.com/ros2/rviz/issues/1262>`_)
+* Include chrono (`#1353 <https://github.com/ros2/rviz/issues/1353>`_)
+* Contributors: Matthew Foran, Michael Carroll, Stefan Fabian
 
-14.1.7 (2025-01-14)
+14.4.4 (2025-03-20)
+-------------------
+* fix: add rclcpp::shutdown (`#1343 <https://github.com/ros2/rviz/issues/1343>`_)
+* Contributors: Yuyuan Yuan
+
+14.4.3 (2025-02-27)
+-------------------
+* Nv12 color format (`#1318 <https://github.com/ros2/rviz/issues/1318>`_)
+  Co-authored-by: zycczy <zycczyby@gmail.com>
+* uniform CMAKE requirement (`#1335 <https://github.com/ros2/rviz/issues/1335>`_)
+* Contributors: mosfet80, quic-zhaoyuan
+
+14.4.2 (2025-01-31)
+-------------------
+* Initialize lookup table only once at compile time (`#1330 <https://github.com/ros2/rviz/issues/1330>`_)
+  Co-authored-by: Alejandro Hernández Cordero <ahcorde@gmail.com>
+* Contributors: Patrick Roncagliolo
+
+14.4.1 (2025-01-15)
+-------------------
+* Fixed the XY Orbit controller move (`#1327 <https://github.com/ros2/rviz/issues/1327>`_)
+  Co-authored-by: Terry Scott <tscott@seegrid.com>
+* Contributors: Terry Scott
+
+14.4.0 (2024-12-20)
+-------------------
+* Fix Deprecated tf2 headers (`#1289 <https://github.com/ros2/rviz/issues/1289>`_)
+* Change EffortDisplay superclass from MessageFilterDisplay to RosTopicDisplay to avoid dropping messages with empty frame_id. (`#1312 <https://github.com/ros2/rviz/issues/1312>`_)
+* Fix access control for Accel, Effort and Twist displays (`#1311 <https://github.com/ros2/rviz/issues/1311>`_)
+* Contributors: Lucas Wendland, disRecord, suchetanrs
+
+14.3.3 (2024-11-25)
+-------------------
+* remove unused variable (`#1301 <https://github.com/ros2/rviz/issues/1301>`_)
+* Contributors: Alejandro Hernández Cordero
+
+14.3.2 (2024-11-20)
+-------------------
+* include QString (`#1298 <https://github.com/ros2/rviz/issues/1298>`_)
+* Clean code for Image display (`#1271 <https://github.com/ros2/rviz/issues/1271>`_)
+* Contributors: Matthew Foran, Peng Wang
+
+14.3.1 (2024-10-11)
+-------------------
+* Handle time source exception (`#1285 <https://github.com/ros2/rviz/issues/1285>`_)
+* Contributors: Matthew Foran
+
+14.3.0 (2024-10-03)
+-------------------
+* replace deprecated encodings 'yuv422' and 'yuv422_yuy2' (`#1276 <https://github.com/ros2/rviz/issues/1276>`_)
+* Contributors: Christian Rauch
+
+14.2.6 (2024-08-28)
+-------------------
+* Update urdf model.h deprecation (`#1266 <https://github.com/ros2/rviz/issues/1266>`_)
+* Enabling manual space width for TextViewFacingMarker (`#1261 <https://github.com/ros2/rviz/issues/1261>`_)
+* Contributors: Alejandro Hernández Cordero, Tom Moore
+
+14.2.5 (2024-07-29)
+-------------------
+* Added more time to copyright on Windwos (`#1252 <https://github.com/ros2/rviz/issues/1252>`_)
+* Contributors: Alejandro Hernández Cordero
+
+14.2.4 (2024-07-19)
+-------------------
+* Updated deprecated message filter headers (`#1239 <https://github.com/ros2/rviz/issues/1239>`_)
+* Fixed RViz default plugin license linter (`#1230 <https://github.com/ros2/rviz/issues/1230>`_)
+* Contributors: Alejandro Hernández Cordero
+
+14.2.3 (2024-06-25)
 -------------------
 
-14.1.6 (2024-12-18)
--------------------
-* remove unused variable (`#1301 <https://github.com/ros2/rviz/issues/1301>`_) (`#1303 <https://github.com/ros2/rviz/issues/1303>`_)
-  (cherry picked from commit f1bb35318e4d3efe6443e30e75c7bc78b505ed17)
-  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
-* Contributors: mergify[bot]
-
-14.1.5 (2024-09-06)
--------------------
-* Enabling manual space width for TextViewFacingMarker (`#1261 <https://github.com/ros2/rviz/issues/1261>`_) (`#1267 <https://github.com/ros2/rviz/issues/1267>`_)
-  (cherry picked from commit db7e7f8e8e3e1d848c24d8430bb66e3d79a1e50f)
-  Co-authored-by: Tom Moore <tmoore@locusrobotics.com>
-* Contributors: mergify[bot]
-
-14.1.4 (2024-08-19)
+14.2.2 (2024-06-17)
 -------------------
 
-14.1.3 (2024-07-19)
+14.2.1 (2024-05-24)
 -------------------
 
-14.1.2 (2024-06-27)
--------------------
-
-14.1.1 (2024-05-13)
+14.2.0 (2024-04-26)
 -------------------
 
 14.1.0 (2024-04-16)
