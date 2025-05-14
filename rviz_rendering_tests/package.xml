@@ -4,20 +4,17 @@
   schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="2">
   <name>rviz_rendering_tests</name>
-  <version>14.1.11</version>
+  <version>11.2.17</version>
   <description>
     Example plugin for RViz - documents and tests RViz plugin development
   </description>
-
-  <maintainer email="alejandro@openrobotics.org">Alejandro Hernandez Cordero</maintainer>
-
+  <maintainer email="jacob@openrobotics.org">Jacob Perron</maintainer>
+  <maintainer email="michael.jeronimo@openrobotics.org">Michael Jeronimo</maintainer>
   <license>BSD</license>
 
   <url type="repository">https://github.com/ros2/rviz</url>
   <url type="bugtracker">https://github.com/ros2/rviz/issues</url>
 
-  <author email="jacob@openrobotics.org">Jacob Perron</author>
-  <author email="michael.jeronimo@openrobotics.org">Michael Jeronimo</author>
   <author email="william@openrobotics.org">William Woodall</author>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
