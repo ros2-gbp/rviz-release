@@ -1,4 +1,4 @@
-From 27ed5fb9701dbe8d290fe29c4cb390e2f99d6aa7 Mon Sep 17 00:00:00 2001
+From 59592ed9e0d86614237f1630d0add296b2cf6b7b Mon Sep 17 00:00:00 2001
 From: Audrow Nash <audrow@intrinsic.ai>
 Date: Mon, 29 Jul 2024 16:41:03 -0500
 Subject: [PATCH 3/3] Placing debian template files
@@ -106,5 +106,5 @@ index 000000000..8c4c78b06
 +auto-commit
 +@[end if]
 -- 
-2.34.1
+2.43.0
 
