@@ -2,6 +2,14 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+11.2.17 (2025-05-14)
+--------------------
+* addTrackedObject Function Fails to Handle Null Pointer, Causing Crash When nullptr is Passed (`#1375 <https://github.com/ros2/rviz/issues/1375>`_) (`#1379 <https://github.com/ros2/rviz/issues/1379>`_)
+* Fix Potential Null Pointer Dereference in VisualizerApp::getRenderWindow() to Prevent Crashes (`#1359 <https://github.com/ros2/rviz/issues/1359>`_) (`#1366 <https://github.com/ros2/rviz/issues/1366>`_)
+* UniformStringStream::parseFloat Fails to Handle Invalid Float Formats Correctly (`#1360 <https://github.com/ros2/rviz/issues/1360>`_) (`#1368 <https://github.com/ros2/rviz/issues/1368>`_)
+* Add test to check mapGetString when key is missing (`#1361 <https://github.com/ros2/rviz/issues/1361>`_) (`#1370 <https://github.com/ros2/rviz/issues/1370>`_)
+* Contributors: mergify[bot]
+
 11.2.16 (2025-01-14)
 --------------------
 * Add RVIZ_COMMON_PUBLIC macro to ToolManager (`#1323 <https://github.com/ros2/rviz/issues/1323>`_) (`#1326 <https://github.com/ros2/rviz/issues/1326>`_)
