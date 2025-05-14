@@ -2,6 +2,12 @@
 Changelog for package rviz_default_plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+14.1.11 (2025-05-14)
+--------------------
+* Backported FrameAligned camera (`#1453 <https://github.com/ros2/rviz/issues/1453>`_) (`#1459 <https://github.com/ros2/rviz/issues/1459>`_)
+* Do not use ${Qt5Widgets_INCLUDE_DIRS} to avoid creating non-relocatable config files (backport `#1450 <https://github.com/ros2/rviz/issues/1450>`_) (`#1452 <https://github.com/ros2/rviz/issues/1452>`_)
+* Contributors: mergify[bot]
+
 14.1.10 (2025-04-29)
 --------------------
 * PointCloudDisplay: Fix decay time 0 keeping more than the last message. (`#1400 <https://github.com/ros2/rviz/issues/1400>`_) (`#1432 <https://github.com/ros2/rviz/issues/1432>`_)
