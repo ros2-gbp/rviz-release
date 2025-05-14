@@ -2,6 +2,9 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+15.1.2 (2025-05-14)
+-------------------
+
 15.1.1 (2025-05-05)
 -------------------
 * Fixed crash when a resource is not available (`#1455 <https://github.com/ros2/rviz/issues/1455>`_)
