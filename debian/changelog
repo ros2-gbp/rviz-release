@@ -1,0 +1,934 @@
+ros-kilted-rviz-rendering-tests (15.0.2-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 13 May 2025 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (15.0.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 04 May 2025 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (15.0.0-1bookworm) bookworm; urgency=high
+
+  * Work in progress using the new resource retriever apis (#1262 <https://github.com/ros2/rviz/issues/1262>)
+  * Contributors: Michael Carroll
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 24 Apr 2025 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (14.4.4-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 19 Mar 2025 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (14.4.3-1bookworm) bookworm; urgency=high
+
+  * uniform CMAKE requirement (#1335 <https://github.com/ros2/rviz/issues/1335>)
+  * Contributors: mosfet80
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 26 Feb 2025 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (14.4.2-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 30 Jan 2025 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (14.4.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 14 Jan 2025 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (14.4.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 19 Dec 2024 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (14.3.3-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 24 Nov 2024 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (14.3.2-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 19 Nov 2024 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (14.3.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 10 Oct 2024 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (14.3.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 02 Oct 2024 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (14.2.6-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 27 Aug 2024 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (14.2.5-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 28 Jul 2024 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (14.2.4-1bookworm) bookworm; urgency=high
+
+  * Added common test to rviz_rendering_tests (#1234 <https://github.com/ros2/rviz/issues/1234>)
+  * Contributors: Alejandro Hernández Cordero
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 18 Jul 2024 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (14.2.3-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 24 Jun 2024 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (14.2.2-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 16 Jun 2024 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (14.2.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 23 May 2024 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (14.2.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 25 Apr 2024 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (14.1.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 15 Apr 2024 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (14.0.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sat, 06 Apr 2024 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (13.4.2-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 26 Mar 2024 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (13.4.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 25 Mar 2024 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (13.4.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 08 Mar 2024 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (13.3.1-1bookworm) bookworm; urgency=high
+
+  * Remove the loading_ascii_stl_files_fail (#1125 <https://github.com/ros2/rviz/issues/1125>)
+  * Contributors: Chris Lalancette
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 23 Jan 2024 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (13.3.0-1bookworm) bookworm; urgency=high
+
+  * Update rviz_rendering and rviz_rendering_tests to C++17. (#1096 <https://github.com/ros2/rviz/issues/1096>)
+  * Contributors: Chris Lalancette
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 25 Dec 2023 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (13.2.0-1bookworm) bookworm; urgency=high
+
+  * Use assimp to load stl (#1063 <https://github.com/ros2/rviz/issues/1063>)
+  * Contributors: Alejandro Hernández Cordero
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 05 Nov 2023 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (13.1.2-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 08 Oct 2023 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (13.1.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 03 Oct 2023 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (13.1.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 06 Sep 2023 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (13.0.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 20 Aug 2023 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (12.8.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sat, 26 Aug 2023 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (12.7.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 10 Jul 2023 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (12.6.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 11 Jun 2023 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (12.6.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 06 Jun 2023 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (12.5.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 10 May 2023 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (12.5.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 27 Apr 2023 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (12.4.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 17 Apr 2023 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (12.3.2-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 10 Apr 2023 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (12.3.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 28 Feb 2023 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (12.3.0-1bookworm) bookworm; urgency=high
+
+  * [rolling] Update maintainers - 2022-11-07 (#923 <https://github.com/ros2/rviz/issues/923>)
+  * Contributors: Audrow Nash
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 13 Feb 2023 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (12.2.0-1bookworm) bookworm; urgency=high
+
+  * add test to ensure binary STL files from SOLIDWORKS get imported without a warning (#917 <https://github.com/ros2/rviz/issues/917>)
+  * Contributors: Kenji Brameld
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 06 Nov 2022 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (12.1.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 01 Nov 2022 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (12.0.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 12 Sep 2022 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (11.3.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 25 Apr 2022 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (11.2.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 07 Apr 2022 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (11.1.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 29 Mar 2022 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (11.1.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 23 Mar 2022 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (11.0.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 28 Feb 2022 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (10.0.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 15 Feb 2022 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (9.1.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 24 Jan 2022 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (9.1.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 12 Jan 2022 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (9.0.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 16 Dec 2021 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (9.0.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 17 Nov 2021 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (8.7.0-1bookworm) bookworm; urgency=high
+
+  * Removed some memory leaks in rviz_rendering and rviz_rendering_tests (#710 <https://github.com/ros2/rviz/issues/710>)
+  * Contributors: Alejandro Hernández Cordero
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 10 Aug 2021 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (8.6.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 12 May 2021 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (8.5.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 05 Apr 2021 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (8.4.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 17 Mar 2021 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (8.3.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 24 Jan 2021 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (8.3.0-1bookworm) bookworm; urgency=high
+
+  * Add linters and use ament_lint_auto (#608 <https://github.com/ros2/rviz/issues/608>)
+  * Update maintainers (#607 <https://github.com/ros2/rviz/issues/607>)
+  * Use retriever.hpp (#589 <https://github.com/ros2/rviz/issues/589>)
+  * Contributors: Jacob Perron, Shane Loretz
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 07 Dec 2020 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (8.2.0-1bookworm) bookworm; urgency=high
+
+  * Changed to not install test header files in rviz_rendering. (#564 <https://github.com/ros2/rviz/issues/564>)
+  * Contributors: Chris Lalancette
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 22 Jun 2020 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (8.1.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 02 Jun 2020 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (8.1.0-1bookworm) bookworm; urgency=high
+
+  * Added missing virtual destructors (#553 <https://github.com/ros2/rviz/issues/553>)
+  * Contributors: Ivan Santiago Paunovic
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 02 Jun 2020 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (8.0.3-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 01 Jun 2020 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (8.0.2-1bookworm) bookworm; urgency=high
+
+  * Removed automoc completely. (#545 <https://github.com/ros2/rviz/issues/545>)
+  * Contributors: Chris Lalancette
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 20 May 2020 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (8.0.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 06 May 2020 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (8.0.0-1bookworm) bookworm; urgency=high
+
+  * Note from wjwwood: I've chosen bump the major version this time, even though the API was not broken strictly speaking, partly because of some potentially disruptive build system changes and partially in preparation for ROS Foxy, to allow for new minor/patch versions in the previous ROS release Eloquent.
+  * Made some code style changes. (#504 <https://github.com/ros2/rviz/issues/504>)
+  * Fixed the build when included as a sub-project. (#475 <https://github.com/ros2/rviz/issues/475>)
+  * Contributors: Dan Rose, Dirk Thomas
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 30 Apr 2020 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (7.0.3-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 12 Nov 2019 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (7.0.2-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 22 Oct 2019 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (7.0.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 03 Oct 2019 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (7.0.0-1bookworm) bookworm; urgency=high
+
+  * Fix assert in mesh_loader_test (#446 <https://github.com/ros2/rviz/issues/446>)
+  * Remove non-package from ament_target_dependencies() (#428 <https://github.com/ros2/rviz/issues/428>)
+  * Remove -Werror from defualt compiler options (#420 <https://github.com/ros2/rviz/issues/420>)
+  * Fix STL loader (#410 <https://github.com/ros2/rviz/issues/410>)
+  * Contributors: Hunter L. Allen, Martin Idel, Shane Loretz, Zachary Michaels
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 26 Sep 2019 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (6.1.1-1bookworm) bookworm; urgency=high
+
+  * Updated test to match changes from #404 <https://github.com/ros2/rviz/issues/404>
+  * Contributors: Dirk Thomas
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 28 May 2019 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (6.1.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 19 May 2019 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (6.0.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 07 May 2019 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (5.1.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 13 Jan 2019 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (5.0.0-1bookworm) bookworm; urgency=high
+
+  * Changed to always build all tests and skip execution if not supported (#342 <https://github.com/ros2/rviz/issues/342>)
+  * Contributors: Andreas Greimel
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 03 Dec 2018 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (4.0.1-1bookworm) bookworm; urgency=high
+
+  * Add Qt dependency to testing packages. (#330 <https://github.com/ros2/rviz/issues/330>)
+  * Contributors: Steven! Ragnarök
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 27 Jun 2018 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (4.0.0-1bookworm) bookworm; urgency=high
+
+  * Added tests for various displays and other features.
+  * Contributors: Alessandro Bottero, Martin Idel, Steven! Ragnarök
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 26 Jun 2018 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (3.0.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 06 Feb 2018 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (2.0.0-1bookworm) bookworm; urgency=high
+
+  * First version for ROS 2.
+  * Contributors: Martin Idel, Steven! Ragnarok, William Woodall
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 07 Dec 2017 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.12.11-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 01 Aug 2017 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.12.10-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 05 Jun 2017 15:37:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.12.9-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 05 Jun 2017 12:23:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.12.8-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sat, 06 May 2017 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.12.7-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 04 May 2017 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.12.6-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 01 May 2017 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.12.5-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 30 Apr 2017 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.12.4-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 26 Oct 2016 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.12.3-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 18 Oct 2016 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.12.2-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 17 Oct 2016 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.12.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 19 Apr 2016 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.12.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 10 Apr 2016 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.11.14-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sat, 02 Apr 2016 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.11.13-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 22 Mar 2016 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.11.12-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 22 Mar 2016 18:58:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.11.11-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 22 Mar 2016 17:16:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.11.10-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 12 Oct 2015 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.11.9-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 20 Sep 2015 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.11.8-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 04 Aug 2015 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.11.7-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 01 Mar 2015 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.11.6-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 12 Feb 2015 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.11.5-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 10 Feb 2015 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.11.4-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 29 Oct 2014 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.11.3-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 25 Jun 2014 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.11.2-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 12 May 2014 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.11.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 30 Apr 2014 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.11.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 04 Mar 2014 20:40:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.10.14-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 04 Mar 2014 20:35:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.10.13-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 25 Feb 2014 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.10.12-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 24 Feb 2014 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.10.11-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sat, 25 Jan 2014 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.10.10-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sat, 21 Dec 2013 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.10.9-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 14 Oct 2013 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.10.7-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 15 Sep 2013 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.10.6-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 02 Sep 2013 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.10.5-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 28 Aug 2013 01:50:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.10.4-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 28 Aug 2013 01:13:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.10.3-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 13 Aug 2013 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.10.2-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 25 Jul 2013 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.10.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 15 Jul 2013 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.10.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 26 Jun 2013 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.9.30-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 29 May 2013 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.9.29-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 14 Apr 2013 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.9.27-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 15 Mar 2013 12:23:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.9.26-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 15 Mar 2013 09:38:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.9.25-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 06 Mar 2013 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.9.24-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 15 Feb 2013 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.9.23-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 12 Feb 2013 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.9.22-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 12 Feb 2013 15:30:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.9.21-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 12 Feb 2013 13:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.9.20-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 20 Jan 2013 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.9.19-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sat, 12 Jan 2013 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.9.18-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 17 Dec 2012 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.9.17-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 13 Dec 2012 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.9.16-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 14 Nov 2012 14:49:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.9.15-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 12 Nov 2012 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.9.14-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 14 Nov 2012 01:20:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.9.13-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 13 Nov 2012 23:58:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.9.12-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 05 Nov 2012 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.9.11-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 01 Nov 2012 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.9.10-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 01 Nov 2012 10:10:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.9.9-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 01 Nov 2012 10:01:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.9.8-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 01 Nov 2012 09:52:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.9.7-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 01 Nov 2012 09:40:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.9.6-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 30 Oct 2012 23:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.9.5-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 18 Oct 2012 22:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.9.4-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 15 Oct 2012 13:00:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.9.3-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 15 Oct 2012 08:41:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.9.2-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 12 Oct 2012 11:38:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.9.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 12 Oct 2012 09:57:00 -0000
+
+ros-kilted-rviz-rendering-tests (1.9.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 09 Oct 2012 22:00:00 -0000
+
+
