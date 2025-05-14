@@ -2,6 +2,9 @@
 Changelog for package rviz_assimp_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+14.1.11 (2025-05-14)
+--------------------
+
 14.1.10 (2025-04-29)
 --------------------
 * Clean ogre CMakeLists.txt (`#1251 <https://github.com/ros2/rviz/issues/1251>`_) (`#1446 <https://github.com/ros2/rviz/issues/1446>`_)

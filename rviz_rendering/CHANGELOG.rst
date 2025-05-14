@@ -2,6 +2,11 @@
 Changelog for package rviz_rendering
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+14.1.11 (2025-05-14)
+--------------------
+* WrenchVisual::setForceColor and setTorqueColor clamp values (`#1437 <https://github.com/ros2/rviz/issues/1437>`_) (`#1448 <https://github.com/ros2/rviz/issues/1448>`_)
+* Contributors: mergify[bot]
+
 14.1.10 (2025-04-29)
 --------------------
 * Missing Null Pointer Check in TrianglePolygon Constructor Leads to Crash (`#1434 <https://github.com/ros2/rviz/issues/1434>`_) (`#1442 <https://github.com/ros2/rviz/issues/1442>`_)
