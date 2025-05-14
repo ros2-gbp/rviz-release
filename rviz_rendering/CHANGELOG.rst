@@ -2,6 +2,20 @@
 Changelog for package rviz_rendering
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+11.2.17 (2025-05-14)
+--------------------
+* BillboardLine::addPoint() does not throw an exception when exceeding max_points_per_line limit (backport `#1436 <https://github.com/ros2/rviz/issues/1436>`_) (`#1441 <https://github.com/ros2/rviz/issues/1441>`_)
+* Constructor ScrewVisual::ScrewVisual does not handle null pointers, leading to crashes (`#1435 <https://github.com/ros2/rviz/issues/1435>`_) (`#1440 <https://github.com/ros2/rviz/issues/1440>`_)
+* Removed Windows warnings (`#1413 <https://github.com/ros2/rviz/issues/1413>`_) (`#1415 <https://github.com/ros2/rviz/issues/1415>`_)
+* MovableText constructor does not validate invalid character height, default fallback missing (`#1398 <https://github.com/ros2/rviz/issues/1398>`_) (`#1425 <https://github.com/ros2/rviz/issues/1425>`_)
+* Memory Access Error When Handling Empty Strings in splitStringIntoTrimmedItems Function (backport `#1412 <https://github.com/ros2/rviz/issues/1412>`_) (`#1429 <https://github.com/ros2/rviz/issues/1429>`_)
+* Invalid Parameter Handling in CovarianceVisual::CovarianceVisual Constructor (backport `#1396 <https://github.com/ros2/rviz/issues/1396>`_) (`#1417 <https://github.com/ros2/rviz/issues/1417>`_)
+* Crash due to Unhandled Null Pointer in ParameterEventsFilter Constructor (backport `#1411 <https://github.com/ros2/rviz/issues/1411>`_) (`#1427 <https://github.com/ros2/rviz/issues/1427>`_)
+* Grid Class Constructor Does Not Handle Null Pointer, Leading to Program Crash (backport `#1394 <https://github.com/ros2/rviz/issues/1394>`_) (`#1423 <https://github.com/ros2/rviz/issues/1423>`_)
+* Lack of Validity Check for Invalid Parameters in EffortVisual::Effort Visual Constructor (backport `#1395 <https://github.com/ros2/rviz/issues/1395>`_) (`#1419 <https://github.com/ros2/rviz/issues/1419>`_)
+* Crash in MovableText::update() when caption is an empty string due to uninitialized resource usage (`#1393 <https://github.com/ros2/rviz/issues/1393>`_) (`#1421 <https://github.com/ros2/rviz/issues/1421>`_)
+* Contributors: mergify[bot]
+
 11.2.16 (2025-01-14)
 --------------------
 
