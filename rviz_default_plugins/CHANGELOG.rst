@@ -2,20 +2,16 @@
 Changelog for package rviz_default_plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-15.1.2 (2025-05-14)
+15.0.2 (2025-05-14)
 -------------------
-* [rviz_default_plugins] Add missing export dependencies (`#1461 <https://github.com/ros2/rviz/issues/1461>`_)
-* Backported FrameAligned camera (`#1453 <https://github.com/ros2/rviz/issues/1453>`_)
-* Contributors: Felix Exner (fexner), Georg Flick
+* [rviz_default_plugins] Add missing export dependencies (`#1461 <https://github.com/ros2/rviz/issues/1461>`_) (`#1462 <https://github.com/ros2/rviz/issues/1462>`_)
+* Backported FrameAligned camera (`#1453 <https://github.com/ros2/rviz/issues/1453>`_) (`#1458 <https://github.com/ros2/rviz/issues/1458>`_)
+* Contributors: mergify[bot]
 
-15.1.1 (2025-05-05)
+15.0.1 (2025-05-05)
 -------------------
-* Changed Marker Displays to allow toggling visibility of namespaces (`#1402 <https://github.com/ros2/rviz/issues/1402>`_)
-* Do not use ${Qt5Widgets_INCLUDE_DIRS} to avoid creating non-relocatable CMake config files (`#1450 <https://github.com/ros2/rviz/issues/1450>`_)
-* Contributors: Silvio Traversaro, Stefan Fabian
-
-15.1.0 (2025-04-25)
--------------------
+* Do not use ${Qt5Widgets_INCLUDE_DIRS} to avoid creating non-relocatable CMake config files (`#1450 <https://github.com/ros2/rviz/issues/1450>`_) (`#1451 <https://github.com/ros2/rviz/issues/1451>`_)
+* Contributors: mergify[bot]
 
 15.0.0 (2025-04-25)
 -------------------

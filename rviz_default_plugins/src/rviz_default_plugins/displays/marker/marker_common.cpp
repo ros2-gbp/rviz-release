@@ -60,8 +60,8 @@ namespace displays
 MarkerCommon::MarkerCommon(rviz_common::Display * display)
 : display_(display)
 {
-  namespaces_category_ = new rviz_common::properties::BoolProperty(
-    "Namespaces", true, "Toggle to toggle all namespaces", display_);
+  namespaces_category_ = new rviz_common::properties::Property(
+    "Namespaces", QVariant(), "", display_);
   marker_factory_ = std::make_unique<markers::MarkerFactory>();
 }
 
@@ -115,15 +115,6 @@ void MarkerCommon::deleteMarker(MarkerID id)
     markers_with_expiration_.erase(it->second);
     frame_locked_markers_.erase(it->second);
     markers_.erase(it);
-  }
-}
-
-void MarkerCommon::setVisibilityForMarkersInNamespace(const std::string & ns, bool visible)
-{
-  for (auto const & marker : markers_) {
-    if (marker.first.first == ns) {
-      marker.second->setVisible(visible);
-    }
   }
 }
 
@@ -282,6 +273,12 @@ QHash<QString, MarkerNamespace *>::const_iterator MarkerCommon::getMarkerNamespa
 
 void MarkerCommon::processAdd(const visualization_msgs::msg::Marker::ConstSharedPtr message)
 {
+  auto ns_it = getMarkerNamespace(message);
+
+  if (!ns_it.value()->isEnabled() ) {
+    return;
+  }
+
   deleteMarkerStatus(MarkerID(message->ns, message->id));
 
   MarkerBasePtr marker = createOrGetOldMarker(message);
@@ -323,10 +320,6 @@ void MarkerCommon::configureMarker(
 {
   marker->setMessage(message);
 
-  // Visibility needs to be set after changes to the marker as they might make it visible again
-  auto ns_it = getMarkerNamespace(message);
-  marker->setVisible(ns_it.value()->isEnabled());
-
   if (rclcpp::Duration(message->lifetime).nanoseconds() > 100000) {
     markers_with_expiration_.insert(marker);
   }
@@ -354,14 +347,6 @@ void MarkerCommon::update(float wall_dt, float ros_dt)
   processNewMessages(local_queue);
   removeExpiredMarkers();
   updateMarkersWithLockedFrame();
-
-  // Workaround because this is not a QObject
-  if (all_namespaces_enabled_ != namespaces_category_->getBool()) {
-    all_namespaces_enabled_ = namespaces_category_->getBool();
-    for (auto const & ns : namespaces_) {
-      ns->setValue(all_namespaces_enabled_);
-    }
-  }
 }
 
 MarkerCommon::V_MarkerMessage MarkerCommon::takeSnapshotOfMessageQueue()
@@ -416,7 +401,9 @@ MarkerNamespace::MarkerNamespace(
 
 void MarkerNamespace::onEnableChanged()
 {
-  owner_->setVisibilityForMarkersInNamespace(getName().toStdString(), isEnabled());
+  if (!isEnabled()) {
+    owner_->deleteMarkersInNamespace(getName().toStdString());
+  }
 
   // Update the configuration that stores the enabled state of all markers
   owner_->namespace_config_enabled_state_[getName()] = isEnabled();
