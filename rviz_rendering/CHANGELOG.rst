@@ -2,6 +2,9 @@
 Changelog for package rviz_rendering
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+15.1.2 (2025-05-14)
+-------------------
+
 15.1.1 (2025-05-05)
 -------------------
 * WrenchVisual::setForceColor and setTorqueColor clamp values (`#1437 <https://github.com/ros2/rviz/issues/1437>`_)
