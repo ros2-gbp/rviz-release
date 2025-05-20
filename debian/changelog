@@ -1,0 +1,528 @@
+ros-rolling-rviz-visual-testing-framework (15.1.3-1bookworm) bookworm; urgency=high
+
+  * feat: support both qt5 and qt6 (#1187 <https://github.com/ros2/rviz/issues/1187>)
+  * Contributors: Daisuke Nishimatsu
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 19 May 2025 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (15.1.2-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 13 May 2025 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (15.1.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 04 May 2025 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (15.1.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 24 Apr 2025 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (15.0.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 24 Apr 2025 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (14.4.4-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 19 Mar 2025 23:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (14.4.3-1bookworm) bookworm; urgency=high
+
+  * uniform CMAKE requirement (#1335 <https://github.com/ros2/rviz/issues/1335>)
+  * Contributors: mosfet80
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 26 Feb 2025 23:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (14.4.2-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 30 Jan 2025 23:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (14.4.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 14 Jan 2025 23:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (14.4.0-1bookworm) bookworm; urgency=high
+
+  * Fix Deprecated tf2 headers (#1289 <https://github.com/ros2/rviz/issues/1289>)
+  * Contributors: Lucas Wendland
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 19 Dec 2024 23:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (14.3.3-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 24 Nov 2024 23:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (14.3.2-1bookworm) bookworm; urgency=high
+
+  * include QString (#1298 <https://github.com/ros2/rviz/issues/1298>)
+  * Contributors: Matthew Foran
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 19 Nov 2024 23:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (14.3.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 10 Oct 2024 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (14.3.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 02 Oct 2024 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (14.2.6-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 27 Aug 2024 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (14.2.5-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 28 Jul 2024 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (14.2.4-1bookworm) bookworm; urgency=high
+
+  * Added common test to rviz_visual_testing_framework (#1235 <https://github.com/ros2/rviz/issues/1235>)
+  * Contributors: Alejandro Hernández Cordero
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 18 Jul 2024 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (14.2.3-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 24 Jun 2024 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (14.2.2-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 16 Jun 2024 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (14.2.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 23 May 2024 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (14.2.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 25 Apr 2024 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (14.1.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 15 Apr 2024 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (14.0.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sat, 06 Apr 2024 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (13.4.2-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 26 Mar 2024 23:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (13.4.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 25 Mar 2024 23:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (13.4.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 08 Mar 2024 23:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (13.3.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 23 Jan 2024 23:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (13.3.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 25 Dec 2023 23:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (13.2.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 05 Nov 2023 23:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (13.1.2-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 08 Oct 2023 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (13.1.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 03 Oct 2023 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (13.1.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 06 Sep 2023 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (13.0.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 20 Aug 2023 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (12.8.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sat, 26 Aug 2023 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (12.7.0-1bookworm) bookworm; urgency=high
+
+  * Improve the compilation time of rviz_default_plugins (#1007 <https://github.com/ros2/rviz/issues/1007>)
+  * Contributors: Chris Lalancette
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 10 Jul 2023 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (12.6.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 11 Jun 2023 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (12.6.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 06 Jun 2023 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (12.5.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 10 May 2023 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (12.5.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 27 Apr 2023 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (12.4.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 17 Apr 2023 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (12.3.2-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 10 Apr 2023 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (12.3.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 28 Feb 2023 23:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (12.3.0-1bookworm) bookworm; urgency=high
+
+  * Update rviz to C++17. (#939 <https://github.com/ros2/rviz/issues/939>)
+  * [rolling] Update maintainers - 2022-11-07 (#923 <https://github.com/ros2/rviz/issues/923>)
+  * Contributors: Audrow Nash, Chris Lalancette
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 13 Feb 2023 23:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (12.2.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 06 Nov 2022 23:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (12.1.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 01 Nov 2022 23:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (12.0.0-1bookworm) bookworm; urgency=high
+
+  * Ogre 1.12.10 upgrade (#878 <https://github.com/ros2/rviz/issues/878>)
+  * Contributors: Kenji Brameld
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 12 Sep 2022 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (11.3.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 25 Apr 2022 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (11.2.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 07 Apr 2022 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (11.1.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 29 Mar 2022 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (11.1.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 23 Mar 2022 23:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (11.0.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 28 Feb 2022 23:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (10.0.0-1bookworm) bookworm; urgency=high
+
+  * Install headers to include/${PROJECT_NAME} (#829 <https://github.com/ros2/rviz/issues/829>)
+  * Contributors: Shane Loretz
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 15 Feb 2022 23:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (9.1.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 24 Jan 2022 23:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (9.1.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 12 Jan 2022 23:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (9.0.1-1bookworm) bookworm; urgency=high
+
+  * Fixes for uncrustify 0.72 (#807 <https://github.com/ros2/rviz/issues/807>)
+  * Contributors: Chris Lalancette
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 16 Dec 2021 23:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (9.0.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 17 Nov 2021 23:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (8.7.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 10 Aug 2021 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (8.6.0-1bookworm) bookworm; urgency=high
+
+  * Update includes after rcutils/get_env.h deprecation (#677 <https://github.com/ros2/rviz/issues/677>)
+  * Contributors: Christophe Bedard
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 12 May 2021 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (8.5.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 05 Apr 2021 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (8.4.0-1bookworm) bookworm; urgency=high
+
+  * Quiet a clang warning about a Qt memory leak. (#651 <https://github.com/ros2/rviz/issues/651>)
+  * Contributors: Chris Lalancette
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 17 Mar 2021 23:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (8.3.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 24 Jan 2021 23:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (8.3.0-1bookworm) bookworm; urgency=high
+
+  * use rcutils_get_env. (#609 <https://github.com/ros2/rviz/issues/609>)
+  * Add linters and use ament_lint_auto (#608 <https://github.com/ros2/rviz/issues/608>)
+  * Update maintainers (#607 <https://github.com/ros2/rviz/issues/607>)
+  * Contributors: Jacob Perron, tomoya
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 07 Dec 2020 23:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (8.2.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 22 Jun 2020 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (8.1.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 02 Jun 2020 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (8.1.0-1bookworm) bookworm; urgency=high
+
+  * Added missing virtual destructors (#553 <https://github.com/ros2/rviz/issues/553>)
+  * Contributors: Ivan Santiago Paunovic
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 02 Jun 2020 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (8.0.3-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 01 Jun 2020 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (8.0.2-1bookworm) bookworm; urgency=high
+
+  * Removed automoc completely. (#545 <https://github.com/ros2/rviz/issues/545>)
+  * Contributors: Chris Lalancette
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 20 May 2020 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (8.0.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 06 May 2020 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (8.0.0-1bookworm) bookworm; urgency=high
+
+  * Note from wjwwood: I've chosen bump the major version this time, even though the API was not broken strictly speaking, partly because of some potentially disruptive build system changes and partially in preparation for ROS Foxy, to allow for new minor/patch versions in the previous ROS release Eloquent.
+  * Changed to use ``ament_export_targets()``. (#525 <https://github.com/ros2/rviz/issues/525>)
+  * Made some code style changes. (#504 <https://github.com/ros2/rviz/issues/504>)
+  * Changed to install RViz configs for visual tests. (#487 <https://github.com/ros2/rviz/issues/487>) (#498 <https://github.com/ros2/rviz/issues/498>)
+  * Contributors: Alejandro Hernández Cordero, Dirk Thomas
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 30 Apr 2020 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (7.0.3-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 12 Nov 2019 23:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (7.0.2-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 22 Oct 2019 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (7.0.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 03 Oct 2019 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (7.0.0-1bookworm) bookworm; urgency=high
+
+  * Fix typos in visual testing framework documentation (#416 <https://github.com/ros2/rviz/issues/416>)
+  * Remove -Werror from defualt compiler options (#420 <https://github.com/ros2/rviz/issues/420>)
+  * Contributors: Hunter L. Allen, Jacob Perron
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 26 Sep 2019 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (6.1.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 28 May 2019 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (6.1.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 19 May 2019 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (6.0.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 07 May 2019 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (5.1.0-1bookworm) bookworm; urgency=high
+
+  * Migrate scalar displays, i.e. temperature, illuminance, relative humidity, and fluid pressure (#367 <https://github.com/ros2/rviz/issues/367>)
+  * Contributors: GW1708
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 13 Jan 2019 23:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (5.0.0-1bookworm) bookworm; urgency=high
+
+  * Made the transformation framework used by rviz pluggable. (#346 <https://github.com/ros2/rviz/issues/346>)
+  * Increased visual testing stability (#344 <https://github.com/ros2/rviz/issues/344>)
+  * Minor cleanup and fixes (#336 <https://github.com/ros2/rviz/issues/336>)
+    * Fix environment for colcon builds (no appends necessary)
+    * Fix warning in visual_test_fixture.cpp and add -Werror option in CMakeLists.txt
+    * Fix Qt moc warning for virtual signal
+  * Changed to support uncrustify 0.67 (#333 <https://github.com/ros2/rviz/issues/333>)
+    * fix closing block and tamplete indentation to comply with uncrustify 0.67
+    * add space between reference and variable name
+    * space before opening bracket
+    * fix indend of inherited class
+    * fix indent of code blocks
+    * no space around -> operator
+    * restore original spacing
+  * Contributors: Andreas Greimel, Martin Idel, Mikael Arguedas
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 03 Dec 2018 23:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (4.0.1-1bookworm) bookworm; urgency=high
+
+  * Add Qt dependency to testing packages. (#330 <https://github.com/ros2/rviz/issues/330>)
+  * Contributors: Steven! Ragnarök
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 27 Jun 2018 22:00:00 -0000
+
+ros-rolling-rviz-visual-testing-framework (4.0.0-1bookworm) bookworm; urgency=high
+
+  * Fixed some failing tests. (#299 <https://github.com/ros2/rviz/issues/299>)
+    * Fixed moved include files.
+    * Fixed problem with TF visual test on Windows.
+  * Finished point cloud refactoring and testing. (#250 <https://github.com/ros2/rviz/issues/250>)
+  * Improved visual testing framework and added more visual tests. (#259 <https://github.com/ros2/rviz/issues/259>)
+  * Generalized the visual testing post build command (#244 <https://github.com/ros2/rviz/issues/244>)
+  * Introduced visual testing framework for rviz. (#209 <https://github.com/ros2/rviz/issues/209>)
+  * Contributors: Alessandro Bottero, Andreas Greimel, Martin Idel
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 26 Jun 2018 22:00:00 -0000
+
+
