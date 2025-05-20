@@ -1,32 +1,33 @@
-/*
- * Copyright (c) 2008, Willow Garage, Inc.
- * Copyright (c) 2017, Open Source Robotics Foundation, Inc.
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Willow Garage, Inc. nor the names of its
- *       contributors may be used to endorse or promote products derived from
- *       this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
+// Copyright (c) 2008, Willow Garage, Inc.
+// Copyright (c) 2017, Open Source Robotics Foundation, Inc.
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+//
+//    * Redistributions of source code must retain the above copyright
+//      notice, this list of conditions and the following disclaimer.
+//
+//    * Redistributions in binary form must reproduce the above copyright
+//      notice, this list of conditions and the following disclaimer in the
+//      documentation and/or other materials provided with the distribution.
+//
+//    * Neither the name of the copyright holder nor the names of its
+//      contributors may be used to endorse or promote products derived from
+//      this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
+
 
 #include "rviz_common/render_panel.hpp"
 
@@ -40,6 +41,7 @@
 #include <QGridLayout>  // NOLINT: cpplint is unable to handle the include order here
 #include <QMenu>  // NOLINT: cpplint is unable to handle the include order here
 #include <QMouseEvent>  // NOLINT: cpplint is unable to handle the include order here
+#include <QString>  // NOLINT: cpplint is unable to handle the include order here
 #include <QTimer>  // NOLINT: cpplint is unable to handle the include order here
 #include <QWidget>  // NOLINT: cpplint is unable to handle the include order here
 // TODO(wjwwood): remove
@@ -77,6 +79,7 @@ RenderPanel::RenderPanel(QWidget * parent)
   setFocus(Qt::OtherFocusReason);
   render_window_container_widget_ = QWidget::createWindowContainer(render_window_, this);
   layout_ = new QGridLayout(this);
+  layout_->setContentsMargins(0, 0, 0, 0);
   layout_->addWidget(render_window_container_widget_);
   this->setLayout(layout_);
   render_window_->setOnRenderWindowMouseEventsCallback(
@@ -102,17 +105,22 @@ void RenderPanel::initialize(DisplayContext * context, bool use_main_scene)
   context_ = context;
 
   if (use_main_scene) {
+    Ogre::SceneManager * scene_manager = context_->getSceneManager();
+
     rviz_rendering::RenderWindowOgreAdapter::setSceneManager(
-      render_window_, context_->getSceneManager());
+      render_window_, scene_manager);
     std::string camera_name;
     static int count = 0;
     camera_name = "RenderPanelCamera" + std::to_string(count++);
-    auto default_camera_ = context_->getSceneManager()->createCamera(camera_name);
-    default_camera_->setNearClipDistance(0.01f);
-    default_camera_->setPosition(default_camera_pose_);
-    default_camera_->lookAt(Ogre::Vector3(0, 0, 0));
+    auto default_camera = scene_manager->createCamera(camera_name);
+    default_camera->setNearClipDistance(0.01f);
 
-    rviz_rendering::RenderWindowOgreAdapter::setOgreCamera(render_window_, default_camera_);
+    auto camera_node = scene_manager->getRootSceneNode()->createChildSceneNode();
+    camera_node->attachObject(default_camera);
+    camera_node->setPosition(default_camera_pose_);
+    camera_node->lookAt(Ogre::Vector3(0, 0, 0), Ogre::Node::TS_WORLD);
+    rviz_rendering::RenderWindowOgreAdapter::setSceneNodeCamera(render_window_, camera_node);
+    rviz_rendering::RenderWindowOgreAdapter::setOgreCamera(render_window_, default_camera);
   }
   // scene_manager_ = scene_manager;
   // scene_manager_->addListener(this);
@@ -331,16 +339,4 @@ void RenderPanel::contextMenuEvent(QContextMenuEvent * event)
     context_menu->exec(QCursor::pos());
   }
 }
-
-#if 0
-void RenderPanel::sceneManagerDestroyed(Ogre::SceneManager * destroyed_scene_manager)
-{
-  if (destroyed_scene_manager == scene_manager_) {
-    scene_manager_ = nullptr;
-    default_camera_ = nullptr;
-    setCamera(nullptr);
-  }
-}
-#endif
-
 }  // namespace rviz_common

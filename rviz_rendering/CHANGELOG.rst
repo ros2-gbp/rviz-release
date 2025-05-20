@@ -2,82 +2,223 @@
 Changelog for package rviz_rendering
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-11.2.17 (2025-05-14)
---------------------
-* BillboardLine::addPoint() does not throw an exception when exceeding max_points_per_line limit (backport `#1436 <https://github.com/ros2/rviz/issues/1436>`_) (`#1441 <https://github.com/ros2/rviz/issues/1441>`_)
-* Constructor ScrewVisual::ScrewVisual does not handle null pointers, leading to crashes (`#1435 <https://github.com/ros2/rviz/issues/1435>`_) (`#1440 <https://github.com/ros2/rviz/issues/1440>`_)
-* Removed Windows warnings (`#1413 <https://github.com/ros2/rviz/issues/1413>`_) (`#1415 <https://github.com/ros2/rviz/issues/1415>`_)
-* MovableText constructor does not validate invalid character height, default fallback missing (`#1398 <https://github.com/ros2/rviz/issues/1398>`_) (`#1425 <https://github.com/ros2/rviz/issues/1425>`_)
-* Memory Access Error When Handling Empty Strings in splitStringIntoTrimmedItems Function (backport `#1412 <https://github.com/ros2/rviz/issues/1412>`_) (`#1429 <https://github.com/ros2/rviz/issues/1429>`_)
-* Invalid Parameter Handling in CovarianceVisual::CovarianceVisual Constructor (backport `#1396 <https://github.com/ros2/rviz/issues/1396>`_) (`#1417 <https://github.com/ros2/rviz/issues/1417>`_)
-* Crash due to Unhandled Null Pointer in ParameterEventsFilter Constructor (backport `#1411 <https://github.com/ros2/rviz/issues/1411>`_) (`#1427 <https://github.com/ros2/rviz/issues/1427>`_)
-* Grid Class Constructor Does Not Handle Null Pointer, Leading to Program Crash (backport `#1394 <https://github.com/ros2/rviz/issues/1394>`_) (`#1423 <https://github.com/ros2/rviz/issues/1423>`_)
-* Lack of Validity Check for Invalid Parameters in EffortVisual::Effort Visual Constructor (backport `#1395 <https://github.com/ros2/rviz/issues/1395>`_) (`#1419 <https://github.com/ros2/rviz/issues/1419>`_)
-* Crash in MovableText::update() when caption is an empty string due to uninitialized resource usage (`#1393 <https://github.com/ros2/rviz/issues/1393>`_) (`#1421 <https://github.com/ros2/rviz/issues/1421>`_)
-* Contributors: mergify[bot]
+15.1.3 (2025-05-20)
+-------------------
+* Removed unused headers from resouce retriever (`#1463 <https://github.com/ros2/rviz/issues/1463>`_)
+* feat: support both qt5 and qt6 (`#1187 <https://github.com/ros2/rviz/issues/1187>`_)
+* Contributors: Alejandro Hernández Cordero, Daisuke Nishimatsu
 
-11.2.16 (2025-01-14)
---------------------
+15.1.2 (2025-05-14)
+-------------------
 
-11.2.15 (2024-12-26)
---------------------
-
-11.2.14 (2024-11-25)
---------------------
-* Use consistent conditionals in render_system.hpp (`#1294 <https://github.com/ros2/rviz/issues/1294>`_) (`#1296 <https://github.com/ros2/rviz/issues/1296>`_)
-* Contributors: mergify[bot]
-
-11.2.13 (2024-07-26)
---------------------
-
-11.2.12 (2024-03-26)
---------------------
-* [backport Humble] load glb meshes (`#1154 <https://github.com/ros2/rviz/issues/1154>`_)
+15.1.1 (2025-05-05)
+-------------------
+* WrenchVisual::setForceColor and setTorqueColor clamp values (`#1437 <https://github.com/ros2/rviz/issues/1437>`_)
+* Missing Null Pointer Check in TrianglePolygon Constructor Leads to Crash (`#1434 <https://github.com/ros2/rviz/issues/1434>`_)
 * Contributors: Alejandro Hernández Cordero
 
-11.2.11 (2024-02-16)
---------------------
-
-11.2.10 (2024-01-24)
---------------------
-
-11.2.9 (2023-11-13)
+15.1.0 (2025-04-25)
 -------------------
 
-11.2.8 (2023-09-19)
+15.0.0 (2025-04-25)
 -------------------
-* Removed warning when building in release mode (`#1057 <https://github.com/ros2/rviz/issues/1057>`_) (`#1059 <https://github.com/ros2/rviz/issues/1059>`_)
-* Fixed low FPS when sending point markers (`#1049 <https://github.com/ros2/rviz/issues/1049>`_) (`#1055 <https://github.com/ros2/rviz/issues/1055>`_)
-* Fix the flakey rviz_rendering tests (`#1026 <https://github.com/ros2/rviz/issues/1026>`_) (`#1030 <https://github.com/ros2/rviz/issues/1030>`_)
-* Contributors: mergify[bot]
+* BillboardLine::addPoint() does not throw an exception when exceeding max_points_per_line limit (`#1436 <https://github.com/ros2/rviz/issues/1436>`_)
+* Constructor ScrewVisual::ScrewVisual does not handle null pointers, leading to crashes (`#1435 <https://github.com/ros2/rviz/issues/1435>`_)
+* Removed Windows warnings (`#1413 <https://github.com/ros2/rviz/issues/1413>`_)
+* Memory Access Error When Handling Empty Strings in splitStringIntoTrimmedItems Function (`#1412 <https://github.com/ros2/rviz/issues/1412>`_)
+* Crash due to Unhandled Null Pointer in ParameterEventsFilter Constructor (`#1411 <https://github.com/ros2/rviz/issues/1411>`_)
+* MovableText constructor does not validate invalid character height, default fallback missing (`#1398 <https://github.com/ros2/rviz/issues/1398>`_)
+* Invalid Parameter Handling in CovarianceVisual::CovarianceVisual Constructor (`#1396 <https://github.com/ros2/rviz/issues/1396>`_)
+* Lack of Validity Check for Invalid Parameters in EffortVisual::EffortVisual Constructor (`#1395 <https://github.com/ros2/rviz/issues/1395>`_)
+* Grid Class Constructor Does Not Handle Null Pointer, Leading to Program Crash (`#1394 <https://github.com/ros2/rviz/issues/1394>`_)
+* Crash in MovableText::update() when caption is an empty string due to uninitialized resource usage (`#1393 <https://github.com/ros2/rviz/issues/1393>`_)
+* Work in progress using the new resource retriever apis (`#1262 <https://github.com/ros2/rviz/issues/1262>`_)
+* Contributors: Alejandro Hernández Cordero, Michael Carroll
 
-11.2.7 (2023-07-27)
--------------------
-* Added TwistStamped and AccelStamped default plugins (`#991 <https://github.com/ros2/rviz/issues/991>`_) (`#1014 <https://github.com/ros2/rviz/issues/1014>`_)
-  (cherry picked from commit 9599dd488d543671121c40df9aec5533064e86fb)
-  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
-* Contributors: mergify[bot]
-
-11.2.6 (2023-07-18)
--------------------
-* Added Effort plugin (`#990 <https://github.com/ros2/rviz/issues/990>`_) (`#1010 <https://github.com/ros2/rviz/issues/1010>`_)
-* Contributors: mergify[bot]
-
-11.2.5 (2023-01-10)
--------------------
-* add test to ensure binary STL files from SOLIDWORKS get imported without a warning (`#917 <https://github.com/ros2/rviz/issues/917>`_) (`#931 <https://github.com/ros2/rviz/issues/931>`_)
-* Contributors: mergify[bot]
-
-11.2.4 (2022-11-07)
+14.4.4 (2025-03-20)
 -------------------
 
-11.2.3 (2022-09-12)
+14.4.3 (2025-02-27)
+-------------------
+* uniform CMAKE requirement (`#1335 <https://github.com/ros2/rviz/issues/1335>`_)
+* Clean ogre_render_window_impl.cpp (`#1334 <https://github.com/ros2/rviz/issues/1334>`_)
+* Contributors: mosfet80
+
+14.4.2 (2025-01-31)
 -------------------
 
-11.2.2 (2022-05-10)
+14.4.1 (2025-01-15)
 -------------------
 
-11.2.1 (2022-04-26)
+14.4.0 (2024-12-20)
+-------------------
+
+14.3.3 (2024-11-25)
+-------------------
+
+14.3.2 (2024-11-20)
+-------------------
+* include QString (`#1298 <https://github.com/ros2/rviz/issues/1298>`_)
+* Use consistent conditionals in render_system.hpp (`#1294 <https://github.com/ros2/rviz/issues/1294>`_)
+* Contributors: Matthew Foran, Scott K Logan
+
+14.3.1 (2024-10-11)
+-------------------
+
+14.3.0 (2024-10-03)
+-------------------
+* Avoid redefinition of default color materials (`#1281 <https://github.com/ros2/rviz/issues/1281>`_)
+* Contributors: Masayoshi Dohi
+
+14.2.6 (2024-08-28)
+-------------------
+
+14.2.5 (2024-07-29)
+-------------------
+* Added more time to copyright on Windwos (`#1252 <https://github.com/ros2/rviz/issues/1252>`_)
+* Contributors: Alejandro Hernández Cordero
+
+14.2.4 (2024-07-19)
+-------------------
+* Fix: issue `#1220 <https://github.com/ros2/rviz/issues/1220>`_. (`#1237 <https://github.com/ros2/rviz/issues/1237>`_)
+  Co-authored-by: Alejandro Hernández Cordero <ahcorde@gmail.com>
+* Added common test: rviz_rendering (`#1233 <https://github.com/ros2/rviz/issues/1233>`_)
+* Contributors: Alejandro Hernández Cordero, chama1176
+
+14.2.3 (2024-06-25)
+-------------------
+
+14.2.2 (2024-06-17)
+-------------------
+
+14.2.1 (2024-05-24)
+-------------------
+
+14.2.0 (2024-04-26)
+-------------------
+
+14.1.0 (2024-04-16)
+-------------------
+
+14.0.0 (2024-04-07)
+-------------------
+
+13.4.2 (2024-03-27)
+-------------------
+
+13.4.1 (2024-03-26)
+-------------------
+* Added CameraInfo display (`#1166 <https://github.com/ros2/rviz/issues/1166>`_)
+* Contributors: Alejandro Hernández Cordero
+
+13.4.0 (2024-03-09)
+-------------------
+* Fix camera display overlay (`#1151 <https://github.com/ros2/rviz/issues/1151>`_)
+* Fixes for uncrustify 0.78. (`#1155 <https://github.com/ros2/rviz/issues/1155>`_)
+  Mostly what we do here is to disable the indentation on
+  certain constructs that are different between 0.72 and
+  0.78.  It isn't my preferred solution, but since it only
+  affects a small amount of code (and most of that in macros),
+  this seems acceptable to me.
+* Contributors: Alejandro Hernández Cordero, Chris Lalancette
+
+13.3.1 (2024-01-24)
+-------------------
+* fixed MovableText::getWorldTransforms transform (`#1118 <https://github.com/ros2/rviz/issues/1118>`_)
+* Contributors: Yaswanth
+
+13.3.0 (2023-12-26)
+-------------------
+* Switch to target_link_libraries. (`#1098 <https://github.com/ros2/rviz/issues/1098>`_)
+* Update rviz_rendering and rviz_rendering_tests to C++17. (`#1096 <https://github.com/ros2/rviz/issues/1096>`_)
+* Contributors: Chris Lalancette
+
+13.2.0 (2023-11-06)
+-------------------
+* Include MeshShape class (`#1064 <https://github.com/ros2/rviz/issues/1064>`_)
+* Use assimp to load stl (`#1063 <https://github.com/ros2/rviz/issues/1063>`_)
+* Contributors: Alejandro Hernández Cordero
+
+13.1.2 (2023-10-09)
+-------------------
+* RVIZ_RENDERING_PUBLIC to export class RenderSystem (`#1072 <https://github.com/ros2/rviz/issues/1072>`_)
+* Restore the maybe-uninitialized flag in covariance_visual.hpp (`#1071 <https://github.com/ros2/rviz/issues/1071>`_)
+* Fix up warnings when building with clang. (`#1070 <https://github.com/ros2/rviz/issues/1070>`_)
+* Contributors: Chris Lalancette, Felix F Xu
+
+13.1.1 (2023-10-04)
+-------------------
+* Use buildsystem info to get the ros_package_name (`#1062 <https://github.com/ros2/rviz/issues/1062>`_)
+* Contributors: Alejandro Hernández Cordero
+
+13.1.0 (2023-09-07)
+-------------------
+* make box-mode point cloud shader lighter on top than bottom (`#1058 <https://github.com/ros2/rviz/issues/1058>`_)
+* Removed warning when building in release mode (`#1057 <https://github.com/ros2/rviz/issues/1057>`_)
+* Fixed low FPS when sending point markers (`#1049 <https://github.com/ros2/rviz/issues/1049>`_)
+* Removed unused code (`#1044 <https://github.com/ros2/rviz/issues/1044>`_)
+* Contributors: Alejandro Hernández Cordero, Morgan Quigley
+
+13.0.0 (2023-08-21)
+-------------------
+* Fix the flakey rviz_rendering tests (`#1026 <https://github.com/ros2/rviz/issues/1026>`_)
+* Contributors: Chris Lalancette
+
+12.8.0 (2023-08-27)
+-------------------
+* Added TwistStamped and AccelStamped default plugins (`#991 <https://github.com/ros2/rviz/issues/991>`_)
+* Contributors: Alejandro Hernández Cordero
+
+12.7.0 (2023-07-11)
+-------------------
+* Added Effort plugin (`#990 <https://github.com/ros2/rviz/issues/990>`_)
+* load GLB meshes (`#1001 <https://github.com/ros2/rviz/issues/1001>`_)
+* Fixed camera default plusin crash (`#999 <https://github.com/ros2/rviz/issues/999>`_)
+* Contributors: Alejandro Hernández Cordero, Morgan Quigley
+
+12.6.1 (2023-06-12)
+-------------------
+
+12.6.0 (2023-06-07)
+-------------------
+
+12.5.1 (2023-05-11)
+-------------------
+* Clean Code (`#975 <https://github.com/ros2/rviz/issues/975>`_)
+  * Clean Code
+* Contributors: mosfet80
+
+12.5.0 (2023-04-28)
+-------------------
+
+12.4.0 (2023-04-18)
+-------------------
+
+12.3.2 (2023-04-11)
+-------------------
+
+12.3.1 (2023-03-01)
+-------------------
+
+12.3.0 (2023-02-14)
+-------------------
+* [rolling] Update maintainers - 2022-11-07 (`#923 <https://github.com/ros2/rviz/issues/923>`_)
+* Contributors: Audrow Nash
+
+12.2.0 (2022-11-07)
+-------------------
+* add test to ensure binary STL files from SOLIDWORKS get imported without a warning (`#917 <https://github.com/ros2/rviz/issues/917>`_)
+* Contributors: Kenji Brameld
+
+12.1.0 (2022-11-02)
+-------------------
+
+12.0.0 (2022-09-13)
+-------------------
+* Ogre 1.12.10 upgrade (`#878 <https://github.com/ros2/rviz/issues/878>`_)
+* Contributors: Kenji Brameld
+
+11.3.0 (2022-04-26)
 -------------------
 * Stop using glsl150 resources for now. (`#851 <https://github.com/ros2/rviz/issues/851>`_)
 * Contributors: Chris Lalancette

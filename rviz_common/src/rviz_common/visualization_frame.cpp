@@ -1,37 +1,39 @@
-/*
- * Copyright (c) 2012, Willow Garage, Inc.
- * Copyright (c) 2017, Open Source Robotics Foundation, Inc.
- * Copyright (c) 2018, Bosch Software Innovations GmbH.
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Willow Garage, Inc. nor the names of its
- *       contributors may be used to endorse or promote products derived from
- *       this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
+// Copyright (c) 2012, Willow Garage, Inc.
+// Copyright (c) 2017, Open Source Robotics Foundation, Inc.
+// Copyright (c) 2018, Bosch Software Innovations GmbH.
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+//
+//    * Redistributions of source code must retain the above copyright
+//      notice, this list of conditions and the following disclaimer.
+//
+//    * Redistributions in binary form must reproduce the above copyright
+//      notice, this list of conditions and the following disclaimer in the
+//      documentation and/or other materials provided with the distribution.
+//
+//    * Neither the name of the copyright holder nor the names of its
+//      contributors may be used to endorse or promote products derived from
+//      this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
+
 
 #include "rviz_common/visualization_frame.hpp"
 
 #include <exception>
+#include <filesystem>
 #include <fstream>
 #include <memory>
 #include <string>
@@ -41,6 +43,7 @@
 #include <OgreMeshManager.h>
 #include <OgreMaterialManager.h>
 
+#include <QActionGroup>  // NOLINT cpplint cannot handle include order here
 #include <QApplication>  // NOLINT cpplint cannot handle include order here
 #include <QCloseEvent>  // NOLINT cpplint cannot handle include order here
 #include <QDesktopServices>  // NOLINT cpplint cannot handle include order here
@@ -54,12 +57,12 @@
 #include <QShortcut>  // NOLINT cpplint cannot handle include order here
 #include <QSplashScreen>  // NOLINT cpplint cannot handle include order here
 #include <QStatusBar>  // NOLINT cpplint cannot handle include order here
+#include <QString>  // NOLINT cpplint cannot handle include order here
 #include <QTimer>  // NOLINT cpplint cannot handle include order here
 #include <QToolBar>  // NOLINT cpplint cannot handle include order here
 #include <QToolButton>  // NOLINT cpplint cannot handle include order here
 
 #include "rclcpp/clock.hpp"
-#include "rcpputils/filesystem_helper.hpp"
 #include "tf2_ros/buffer.h"
 #include "tf2_ros/transform_listener.h"
 
@@ -219,20 +222,6 @@ void VisualizationFrame::reset()
   manager_->resetTime();
 }
 
-#if 0
-void VisualizationFrame::changeMaster()
-{
-  if (prepareToExit()) {
-    QApplication::exit(255);
-  }
-}
-
-void VisualizationFrame::setShowChooseNewMaster(bool show)
-{
-  show_choose_new_master_option_ = show;
-}
-#endif
-
 void VisualizationFrame::setHelpPath(const QString & help_path)
 {
   help_path_ = help_path;
@@ -252,9 +241,11 @@ void VisualizationFrame::initialize(
 
   loadPersistentSettings();
 
-  QDir app_icon_path(QString::fromStdString(package_path_) + "/icons/package.png");
-  QIcon app_icon(app_icon_path.absolutePath());
-  app_->setWindowIcon(app_icon);
+  if (app_) {
+    QDir app_icon_path(QString::fromStdString(package_path_) + "/icons/package.png");
+    QIcon app_icon(app_icon_path.absolutePath());
+    app_->setWindowIcon(app_icon);
+  }
 
   if (splash_path_ != "") {
     QPixmap splash_image(splash_path_);
@@ -266,15 +257,15 @@ void VisualizationFrame::initialize(
 
   // Periodically process events for the splash screen.
   // See: http://doc.qt.io/qt-5/qsplashscreen.html#details
-  if (app_) {app_->processEvents();}
+  QCoreApplication::processEvents();
 
   // Periodically process events for the splash screen.
-  if (app_) {app_->processEvents();}
+  QCoreApplication::processEvents();
 
   QWidget * central_widget = new QWidget(this);
   QHBoxLayout * central_layout = new QHBoxLayout;
   central_layout->setSpacing(0);
-  central_layout->setMargin(0);
+  central_layout->setContentsMargins(0, 0, 0, 0);
 
   render_panel_ = new RenderPanel(central_widget);
 
@@ -306,22 +297,22 @@ void VisualizationFrame::initialize(
   central_widget->setLayout(central_layout);
 
   // Periodically process events for the splash screen.
-  if (app_) {app_->processEvents();}
+  QCoreApplication::processEvents();
 
   initMenus();
 
   // Periodically process events for the splash screen.
-  if (app_) {app_->processEvents();}
+  QCoreApplication::processEvents();
 
   initToolbars();
 
   // Periodically process events for the splash screen.
-  if (app_) {app_->processEvents();}
+  QCoreApplication::processEvents();
 
   setCentralWidget(central_widget);
 
   // Periodically process events for the splash screen.
-  if (app_) {app_->processEvents();}
+  QCoreApplication::processEvents();
 
   // TODO(wjwwood): sort out the issue with initialization order between
   //                render_panel and VisualizationManager
@@ -333,12 +324,12 @@ void VisualizationFrame::initialize(
   panel_factory_ = new PanelFactory(rviz_ros_node_, manager_);
 
   // Periodically process events for the splash screen.
-  if (app_) {app_->processEvents();}
+  QCoreApplication::processEvents();
 
   render_panel_->initialize(manager_);
 
   // Periodically process events for the splash screen.
-  if (app_) {app_->processEvents();}
+  QCoreApplication::processEvents();
 
   ToolManager * tool_man = manager_->getToolManager();
 
@@ -352,7 +343,7 @@ void VisualizationFrame::initialize(
   manager_->initialize();
 
   // Periodically process events for the splash screen.
-  if (app_) {app_->processEvents();}
+  QCoreApplication::processEvents();
 
   if (display_config_file != "") {
     loadDisplayConfig(display_config_file);
@@ -361,7 +352,7 @@ void VisualizationFrame::initialize(
   }
 
   // Periodically process events for the splash screen.
-  if (app_) {app_->processEvents();}
+  QCoreApplication::processEvents();
 
   delete splash_;
   splash_ = nullptr;
@@ -503,7 +494,6 @@ void VisualizationFrame::initMenus()
 
   QMenu * help_menu = menuBar()->addMenu("&Help");
   help_menu->addAction("Show &Help panel", this, SLOT(showHelpPanel()));
-  help_menu->addAction("Open rviz wiki in browser", this, SLOT(onHelpWiki()));
   help_menu->addSeparator();
   help_menu->addAction("&About", this, SLOT(onHelpAbout()));
 }
@@ -778,7 +768,7 @@ void VisualizationFrame::setDisplayConfigFile(const std::string & path)
         }
       };
     title = display_title_format_;
-    rcpputils::fs::path full_filename(path.c_str());
+    std::filesystem::path full_filename(path.c_str());
     find_and_replace_token(
       title, "{NAMESPACE}",
       rviz_ros_node_.lock()->get_raw_node()->get_namespace());
@@ -1178,11 +1168,6 @@ void VisualizationFrame::showHelpPanel()
 void VisualizationFrame::onHelpDestroyed()
 {
   show_help_action_ = nullptr;
-}
-
-void VisualizationFrame::onHelpWiki()
-{
-  QDesktopServices::openUrl(QUrl("http://www.ros.org/wiki/rviz"));
 }
 
 void VisualizationFrame::onHelpAbout()
