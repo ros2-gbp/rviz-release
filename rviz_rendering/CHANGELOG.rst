@@ -2,6 +2,12 @@
 Changelog for package rviz_rendering
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+15.1.3 (2025-05-20)
+-------------------
+* Removed unused headers from resouce retriever (`#1463 <https://github.com/ros2/rviz/issues/1463>`_)
+* feat: support both qt5 and qt6 (`#1187 <https://github.com/ros2/rviz/issues/1187>`_)
+* Contributors: Alejandro Hernández Cordero, Daisuke Nishimatsu
+
 15.1.2 (2025-05-14)
 -------------------
 

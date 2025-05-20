@@ -2,6 +2,11 @@
 Changelog for package rviz_visual_testing_framework
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+15.1.3 (2025-05-20)
+-------------------
+* feat: support both qt5 and qt6 (`#1187 <https://github.com/ros2/rviz/issues/1187>`_)
+* Contributors: Daisuke Nishimatsu
+
 15.1.2 (2025-05-14)
 -------------------
 
