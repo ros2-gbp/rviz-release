@@ -1,0 +1,947 @@
+ros-kilted-rviz-assimp-vendor (15.0.3-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 19 Jun 2025 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (15.0.2-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 13 May 2025 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (15.0.1-1noble) noble; urgency=high
+
+  * Clean ogre CMakeLists.txt (#1251 <https://github.com/ros2/rviz/issues/1251>) (#1445 <https://github.com/ros2/rviz/issues/1445>)
+  * Contributors: mergify[bot]
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 04 May 2025 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (15.0.0-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 24 Apr 2025 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (14.4.4-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 19 Mar 2025 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (14.4.3-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 26 Feb 2025 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (14.4.2-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 30 Jan 2025 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (14.4.1-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 14 Jan 2025 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (14.4.0-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 19 Dec 2024 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (14.3.3-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 24 Nov 2024 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (14.3.2-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 19 Nov 2024 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (14.3.1-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 10 Oct 2024 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (14.3.0-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 02 Oct 2024 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (14.2.6-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 27 Aug 2024 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (14.2.5-1noble) noble; urgency=high
+
+  * Revert "Update ASSIMP_VENDOR CMakeLists.txt (#1226 <https://github.com/ros2/rviz/issues/1226>)" (#1249 <https://github.com/ros2/rviz/issues/1249>)
+  * Contributors: Chris Lalancette
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 28 Jul 2024 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (14.2.4-1noble) noble; urgency=high
+
+  * Update ASSIMP_VENDOR CMakeLists.txt (#1226 <https://github.com/ros2/rviz/issues/1226>)
+    CLEAN UNUSED CHECK
+    SE MIN ASSIMP VERSION TO 5.3.1
+    SET C++ VERSION TO 17
+  * Contributors: mosfet80
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 18 Jul 2024 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (14.2.3-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 24 Jun 2024 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (14.2.2-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 16 Jun 2024 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (14.2.1-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 23 May 2024 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (14.2.0-1noble) noble; urgency=high
+
+  * Removed assimp warnings (#1191 <https://github.com/ros2/rviz/issues/1191>)
+  * Don't treat warnings as errors when building Assimp (#1174 <https://github.com/ros2/rviz/issues/1174>)
+  * Contributors: Alejandro Hernández Cordero, Scott K Logan
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 25 Apr 2024 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (14.1.0-1noble) noble; urgency=high
+
+  * Update the vendored package path. (#1184 <https://github.com/ros2/rviz/issues/1184>)
+    Since we just updated to assimp 5.3, we also need to
+    update the path we look for it.
+    This should fix the build with clang which is currently
+    failing.
+  * Update assimp vendor to 5.3.1 (#1182 <https://github.com/ros2/rviz/issues/1182>)
+    This matches what is in Ubuntu 24.04.
+  * Contributors: Chris Lalancette
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 15 Apr 2024 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (14.0.0-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sat, 06 Apr 2024 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (13.4.2-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 26 Mar 2024 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (13.4.1-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 25 Mar 2024 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (13.4.0-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 08 Mar 2024 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (13.3.1-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 23 Jan 2024 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (13.3.0-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 25 Dec 2023 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (13.2.0-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 05 Nov 2023 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (13.1.2-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 08 Oct 2023 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (13.1.1-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 03 Oct 2023 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (13.1.0-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 06 Sep 2023 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (13.0.0-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 20 Aug 2023 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (12.8.0-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sat, 26 Aug 2023 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (12.7.0-1noble) noble; urgency=high
+
+  * Update to assimp 5.2.2 (#968 <https://github.com/ros2/rviz/issues/968>)
+  * Fix the vendoring flags for clang compilation. (#1003 <https://github.com/ros2/rviz/issues/1003>)
+  * Switch to ament_cmake_vendor_package (#995 <https://github.com/ros2/rviz/issues/995>)
+  * Contributors: Chris Lalancette, Scott K Logan
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 10 Jul 2023 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (12.6.1-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 11 Jun 2023 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (12.6.0-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 06 Jun 2023 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (12.5.1-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 10 May 2023 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (12.5.0-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 27 Apr 2023 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (12.4.0-1noble) noble; urgency=high
+
+  * If vendored assimp is present, always prefer that (#970 <https://github.com/ros2/rviz/issues/970>)
+  * Contributors: Scott K Logan
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 17 Apr 2023 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (12.3.2-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 10 Apr 2023 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (12.3.1-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 28 Feb 2023 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (12.3.0-1noble) noble; urgency=high
+
+  * [rolling] Update maintainers - 2022-11-07 (#923 <https://github.com/ros2/rviz/issues/923>)
+  * Contributors: Audrow Nash
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 13 Feb 2023 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (12.2.0-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 06 Nov 2022 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (12.1.0-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 01 Nov 2022 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (12.0.0-1noble) noble; urgency=high
+
+  * Fixes policy CMP0135 warning for CMake >= 3.24 (#898 <https://github.com/ros2/rviz/issues/898>)
+  * Contributors: Cristóbal Arroyo
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 12 Sep 2022 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (11.3.0-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 25 Apr 2022 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (11.2.0-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 07 Apr 2022 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (11.1.1-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 29 Mar 2022 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (11.1.0-1noble) noble; urgency=high
+
+  * Make sure to pass compiler and flags down to assimp (#844 <https://github.com/ros2/rviz/issues/844>)
+  * Contributors: Chris Lalancette
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 23 Mar 2022 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (11.0.0-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 28 Feb 2022 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (10.0.0-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 15 Feb 2022 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (9.1.1-1noble) noble; urgency=high
+
+  * Fix support for assimp 5.1.0 (#817 <https://github.com/ros2/rviz/issues/817>)
+  * Contributors: Silvio Traversaro
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 24 Jan 2022 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (9.1.0-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 12 Jan 2022 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (9.0.1-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 16 Dec 2021 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (9.0.0-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 17 Nov 2021 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (8.7.0-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 10 Aug 2021 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (8.6.0-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 12 May 2021 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (8.5.0-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 05 Apr 2021 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (8.4.0-1noble) noble; urgency=high
+
+  * Always preserve source permissions in vendor packages (#647 <https://github.com/ros2/rviz/issues/647>)
+  * Add an override flag to force vendored build (#642 <https://github.com/ros2/rviz/issues/642>)
+  * Contributors: Scott K Logan
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 17 Mar 2021 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (8.3.1-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 24 Jan 2021 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (8.3.0-1noble) noble; urgency=high
+
+  * Add linters and use ament_lint_auto (#608 <https://github.com/ros2/rviz/issues/608>)
+  * Update maintainers (#607 <https://github.com/ros2/rviz/issues/607>)
+  * Contributors: Jacob Perron
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 07 Dec 2020 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (8.2.0-1noble) noble; urgency=high
+
+  * Updated a hack to avoid CMake warning with assimp 5.0.1 and older, applying it cross platforms (#565 <https://github.com/ros2/rviz/issues/565>)
+  * Contributors: Dirk Thomas
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 22 Jun 2020 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (8.1.1-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 02 Jun 2020 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (8.1.0-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 02 Jun 2020 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (8.0.3-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 01 Jun 2020 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (8.0.2-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 20 May 2020 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (8.0.1-1noble) noble; urgency=high
+
+  * Make rviz_assimp_vendor hack specific to Ubuntu Focal. (#536 <https://github.com/ros2/rviz/issues/536>)
+  * Contributors: Chris Lalancette
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 06 May 2020 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (8.0.0-1noble) noble; urgency=high
+
+  * Note from wjwwood: I've chosen bump the major version this time, even though the API was not broken strictly speaking, partly because of some potentially disruptive build system changes and partially in preparation for ROS Foxy, to allow for new minor/patch versions in the previous ROS release Eloquent.
+  * Suppressed an upstream cmake warning in assimp. (#534 <https://github.com/ros2/rviz/issues/534>)
+  * Contributors: William Woodall
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 30 Apr 2020 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (7.0.3-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 12 Nov 2019 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (7.0.2-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 22 Oct 2019 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (7.0.1-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 03 Oct 2019 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (7.0.0-1noble) noble; urgency=high
+
+  * Add .dsv file beside custom environment hook (#466 <https://github.com/ros2/rviz/issues/466>)
+  * Contributors: Dirk Thomas
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 26 Sep 2019 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (6.1.1-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 28 May 2019 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (6.1.0-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 19 May 2019 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (6.0.0-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 07 May 2019 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (5.1.0-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 13 Jan 2019 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (5.0.0-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 03 Dec 2018 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (4.0.1-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 27 Jun 2018 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (4.0.0-1noble) noble; urgency=high
+
+  * Fixed the exported CMake variables to workaround the upstream ``libassimp-dev`` bug. (#288 <https://github.com/ros2/rviz/issues/288>)
+  * Contributors: Andreas Holzner, Dirk Thomas, Martin Idel
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 26 Jun 2018 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (3.0.0-1noble) noble; urgency=high
+
+  * Switched to assimp version 4.1.0. (#169 <https://github.com/ros2/rviz/issues/169>)
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 06 Feb 2018 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (2.0.0-1noble) noble; urgency=high
+
+  * First version for ROS 2.
+  * Contributors: Steven! Ragnarok, William Woodall
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 07 Dec 2017 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.12.11-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 01 Aug 2017 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.12.10-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 05 Jun 2017 15:37:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.12.9-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 05 Jun 2017 12:23:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.12.8-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sat, 06 May 2017 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.12.7-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 04 May 2017 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.12.6-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 01 May 2017 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.12.5-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 30 Apr 2017 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.12.4-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 26 Oct 2016 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.12.3-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 18 Oct 2016 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.12.2-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 17 Oct 2016 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.12.1-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 19 Apr 2016 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.12.0-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 10 Apr 2016 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.11.14-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sat, 02 Apr 2016 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.11.13-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 22 Mar 2016 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.11.12-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 22 Mar 2016 18:58:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.11.11-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 22 Mar 2016 17:16:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.11.10-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 12 Oct 2015 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.11.9-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 20 Sep 2015 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.11.8-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 04 Aug 2015 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.11.7-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 01 Mar 2015 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.11.6-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 12 Feb 2015 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.11.5-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 10 Feb 2015 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.11.4-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 29 Oct 2014 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.11.3-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 25 Jun 2014 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.11.2-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 12 May 2014 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.11.1-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 30 Apr 2014 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.11.0-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 04 Mar 2014 20:40:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.10.14-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 04 Mar 2014 20:35:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.10.13-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 25 Feb 2014 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.10.12-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 24 Feb 2014 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.10.11-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sat, 25 Jan 2014 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.10.10-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sat, 21 Dec 2013 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.10.9-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 14 Oct 2013 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.10.7-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 15 Sep 2013 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.10.6-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 02 Sep 2013 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.10.5-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 28 Aug 2013 01:50:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.10.4-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 28 Aug 2013 01:13:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.10.3-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 13 Aug 2013 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.10.2-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 25 Jul 2013 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.10.1-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 15 Jul 2013 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.10.0-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 26 Jun 2013 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.9.30-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 29 May 2013 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.9.29-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 14 Apr 2013 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.9.27-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 15 Mar 2013 12:23:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.9.26-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 15 Mar 2013 09:38:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.9.25-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 06 Mar 2013 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.9.24-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 15 Feb 2013 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.9.23-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 12 Feb 2013 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.9.22-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 12 Feb 2013 15:30:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.9.21-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 12 Feb 2013 13:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.9.20-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sun, 20 Jan 2013 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.9.19-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Sat, 12 Jan 2013 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.9.18-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 17 Dec 2012 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.9.17-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 13 Dec 2012 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.9.16-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 14 Nov 2012 14:49:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.9.15-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 12 Nov 2012 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.9.14-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Wed, 14 Nov 2012 01:20:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.9.13-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 13 Nov 2012 23:58:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.9.12-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 05 Nov 2012 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.9.11-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 01 Nov 2012 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.9.10-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 01 Nov 2012 10:10:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.9.9-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 01 Nov 2012 10:01:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.9.8-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 01 Nov 2012 09:52:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.9.7-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 01 Nov 2012 09:40:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.9.6-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 30 Oct 2012 23:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.9.5-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Thu, 18 Oct 2012 22:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.9.4-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 15 Oct 2012 13:00:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.9.3-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Mon, 15 Oct 2012 08:41:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.9.2-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 12 Oct 2012 11:38:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.9.1-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Fri, 12 Oct 2012 09:57:00 -0000
+
+ros-kilted-rviz-assimp-vendor (1.9.0-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernandez Cordero <alejandro@openrobotics.org>  Tue, 09 Oct 2012 22:00:00 -0000
+
+
