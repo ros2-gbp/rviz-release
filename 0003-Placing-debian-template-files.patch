@@ -1,4 +1,4 @@
-From 59592ed9e0d86614237f1630d0add296b2cf6b7b Mon Sep 17 00:00:00 2001
+From a678d44ad0c1b96cee79667b442c47c8745d9d00 Mon Sep 17 00:00:00 2001
 From: Audrow Nash <audrow@intrinsic.ai>
 Date: Mon, 29 Jul 2024 16:41:03 -0500
 Subject: [PATCH 3/3] Placing debian template files
