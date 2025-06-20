@@ -2,6 +2,14 @@
 Changelog for package rviz_default_plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+15.0.3 (2025-06-20)
+-------------------
+* Fix /rviz/get_resource (`#1487 <https://github.com/ros2/rviz/issues/1487>`_) (`#1490 <https://github.com/ros2/rviz/issues/1490>`_)
+* Frame view controller: Removed warnings (`#1470 <https://github.com/ros2/rviz/issues/1470>`_) (`#1476 <https://github.com/ros2/rviz/issues/1476>`_)
+* Removed unused headers from resouce retriever (`#1463 <https://github.com/ros2/rviz/issues/1463>`_) (`#1464 <https://github.com/ros2/rviz/issues/1464>`_)
+* PointStampedDisplay: Ignore incoming messages if disabled (`#1036 <https://github.com/ros2/rviz/issues/1036>`_) (`#1465 <https://github.com/ros2/rviz/issues/1465>`_)
+* Contributors: mergify[bot]
+
 15.0.2 (2025-05-14)
 -------------------
 * [rviz_default_plugins] Add missing export dependencies (`#1461 <https://github.com/ros2/rviz/issues/1461>`_) (`#1462 <https://github.com/ros2/rviz/issues/1462>`_)
