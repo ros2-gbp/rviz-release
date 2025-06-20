@@ -2,6 +2,9 @@
 Changelog for package rviz_rendering
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+11.2.18 (2025-06-20)
+--------------------
+
 11.2.17 (2025-05-14)
 --------------------
 * BillboardLine::addPoint() does not throw an exception when exceeding max_points_per_line limit (backport `#1436 <https://github.com/ros2/rviz/issues/1436>`_) (`#1441 <https://github.com/ros2/rviz/issues/1441>`_)
