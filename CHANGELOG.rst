@@ -2,6 +2,9 @@
 Changelog for package rviz_ogre_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+11.2.18 (2025-06-20)
+--------------------
+
 11.2.17 (2025-05-14)
 --------------------
 * Use official freetype github mirror instead of savannah mirror (backport `#1348 <https://github.com/ros2/rviz/issues/1348>`_) (`#1431 <https://github.com/ros2/rviz/issues/1431>`_)
