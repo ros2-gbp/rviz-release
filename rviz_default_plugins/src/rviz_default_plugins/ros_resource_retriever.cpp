@@ -42,7 +42,6 @@
 #include <rclcpp/executors/single_threaded_executor.hpp>
 #include <rclcpp/logger.hpp>
 #include <rclcpp/node.hpp>
-#include <resource_retriever/memory_resource.hpp>
 #include <resource_retriever/plugins/retriever_plugin.hpp>
 #include <rviz_common/ros_integration/ros_node_abstraction_iface.hpp>
 #include <rviz_resource_interfaces/srv/get_resource.hpp>
@@ -103,6 +102,10 @@ RosResourceRetriever::get_shared(const std::string & url)
       RCLCPP_DEBUG(this->logger_, "Resource '%s' cached without etag, returning.", url.c_str());
       return it->second.second;
     }
+  }
+
+  if (!this->client_->service_is_ready()) {
+    return nullptr;
   }
 
   // Request the resource with an etag, if it is set.

@@ -2,6 +2,11 @@
 Changelog for package rviz_rendering
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+15.0.3 (2025-06-20)
+-------------------
+* Removed unused headers from resouce retriever (`#1463 <https://github.com/ros2/rviz/issues/1463>`_) (`#1464 <https://github.com/ros2/rviz/issues/1464>`_)
+* Contributors: mergify[bot]
+
 15.0.2 (2025-05-14)
 -------------------
 
