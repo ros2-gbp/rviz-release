@@ -2,6 +2,11 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+15.1.4 (2025-06-20)
+-------------------
+* Config::mapGetBool causes segmentation fault when value_out is nullptr (`#1471 <https://github.com/ros2/rviz/issues/1471>`_)
+* Contributors: Alejandro Hernández Cordero
+
 15.1.3 (2025-05-20)
 -------------------
 * feat: support both qt5 and qt6 (`#1187 <https://github.com/ros2/rviz/issues/1187>`_)
