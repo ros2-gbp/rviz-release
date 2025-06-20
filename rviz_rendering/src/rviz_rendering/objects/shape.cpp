@@ -40,10 +40,13 @@
 #include <OgreSceneNode.h>
 #include <OgreTechnique.h>
 #include <OgreTextureManager.h>
-#include <OgreVector.h>
+#include <OgreVector3.h>
 
 #include "rviz_rendering/logging.hpp"
 #include "rviz_rendering/material_manager.hpp"
+
+// TODO(wjwwood): replace this with info from buildsystem
+#define ROS_PACKAGE_NAME "rviz_rendering"
 
 namespace rviz_rendering
 {
@@ -108,6 +111,12 @@ Shape::Shape(Type type, Ogre::SceneManager * scene_manager, Ogre::SceneNode * pa
   if (entity_) {
     entity_->setMaterialName(material_name_);
   }
+
+#if (OGRE_VERSION_MAJOR <= 1 && OGRE_VERSION_MINOR <= 4)
+  if (entity_) {
+    entity_->setNormaliseNormals(true);
+  }
+#endif
 }
 
 Shape::~Shape()

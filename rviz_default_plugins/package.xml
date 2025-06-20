@@ -4,13 +4,12 @@
   schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="2">
   <name>rviz_default_plugins</name>
-  <version>14.1.12</version>
+  <version>11.2.18</version>
   <description>
     Several default plugins for rviz to cover the basic functionality.
   </description>
-
-  <maintainer email="alejandro@openrobotics.org">Alejandro Hernandez Cordero</maintainer>
-
+  <maintainer email="jacob@openrobotics.org">Jacob Perron</maintainer>
+  <maintainer email="michael.jeronimo@openrobotics.org">Michael Jeronimo</maintainer>
   <license>BSD</license>
 
   <url type="website">https://github.com/ros2/rviz/blob/ros2/README.md</url>
@@ -19,12 +18,10 @@
 
   <author>Dave Hershberger</author>
   <author>David Gossow</author>
-  <author email="jacob@openrobotics.org">Jacob Perron</author>
   <author>Josh Faust</author>
-  <author email="michael.jeronimo@openrobotics.org">Michael Jeronimo</author>
   <author email="william@openrobotics.org">William Woodall</author>
 
-  <buildtool_depend>ament_cmake_ros</buildtool_depend>
+  <buildtool_depend>ament_cmake</buildtool_depend>
 
   <build_depend>qtbase5-dev</build_depend>
   <build_depend>rviz_ogre_vendor</build_depend>
@@ -38,14 +35,13 @@
   <exec_depend>rviz_ogre_vendor</exec_depend>
 
   <depend>geometry_msgs</depend>
-  <depend>gz_math_vendor</depend>
+  <depend>ignition_math6_vendor</depend>
   <depend>image_transport</depend>
   <depend>interactive_markers</depend>
   <depend>laser_geometry</depend>
   <depend>nav_msgs</depend>
   <depend>map_msgs</depend>
   <depend>pluginlib</depend>
-  <depend>point_cloud_transport</depend>
   <depend>rclcpp</depend>
   <depend>resource_retriever</depend>
   <depend>rviz_common</depend>

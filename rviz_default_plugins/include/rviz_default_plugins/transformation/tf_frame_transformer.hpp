@@ -34,7 +34,7 @@
 #include <string>
 #include <vector>
 
-#include <OgreVector.h>
+#include <OgreVector3.h>
 #include <OgreQuaternion.h>
 
 #include "rviz_common/transformation/frame_transformer.hpp"
