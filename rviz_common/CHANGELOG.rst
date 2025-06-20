@@ -2,6 +2,11 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+11.2.18 (2025-06-20)
+--------------------
+* Config::mapGetBool causes segmentation fault when value_out is nullptr (`#1471 <https://github.com/ros2/rviz/issues/1471>`_) (`#1481 <https://github.com/ros2/rviz/issues/1481>`_)
+* Contributors: mergify[bot]
+
 11.2.17 (2025-05-14)
 --------------------
 * addTrackedObject Function Fails to Handle Null Pointer, Causing Crash When nullptr is Passed (`#1375 <https://github.com/ros2/rviz/issues/1375>`_) (`#1379 <https://github.com/ros2/rviz/issues/1379>`_)
