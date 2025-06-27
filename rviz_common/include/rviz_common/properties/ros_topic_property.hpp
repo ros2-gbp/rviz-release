@@ -32,6 +32,7 @@
 
 #include <string>
 
+#include <QRegularExpression>  // NOLINT: cpplint is unable to handle the include order here
 #include <QString>  // NOLINT: cpplint is unable to handle the include order here
 
 #include "rviz_common/properties/editable_enum_property.hpp"
@@ -92,20 +93,20 @@ public:
     const QString & default_value = QString(),
     const QString & message_type = QString(),
     const QString & description = QString(),
-    const QRegExp & filter = QRegExp(),
+    const QRegularExpression & filter = QRegularExpression(),
     Property * parent = 0,
     const char * changed_slot = 0,
     QObject * receiver = 0);
 
   void enableFilter(bool enabled);
 
-  QRegExp filter() const;
+  QRegularExpression filter() const;
 
 protected Q_SLOTS:
   void fillTopicList() override;
 
 private:
-  QRegExp filter_;
+  QRegularExpression filter_;
   bool filter_enabled_;
 };
 

@@ -2,13 +2,24 @@
 Changelog for package rviz_ogre_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-15.0.3 (2025-06-20)
+15.1.5 (2025-06-27)
+-------------------
+* Add RVIZ_OGRE_VENDOR_MANGLE_NAME_OF_LIBRARIES_USED_BY_RVIZ option to further mangle ogre libraries used by rviz (`#1493 <https://github.com/ros2/rviz/issues/1493>`_)
+* Contributors: Silvio Traversaro
+
+15.1.4 (2025-06-20)
 -------------------
 
-15.0.2 (2025-05-14)
+15.1.3 (2025-05-20)
 -------------------
 
-15.0.1 (2025-05-05)
+15.1.2 (2025-05-14)
+-------------------
+
+15.1.1 (2025-05-05)
+-------------------
+
+15.1.0 (2025-04-25)
 -------------------
 
 15.0.0 (2025-04-25)

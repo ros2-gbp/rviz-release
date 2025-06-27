@@ -2,19 +2,34 @@
 Changelog for package rviz_rendering
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-15.0.3 (2025-06-20)
+15.1.5 (2025-06-27)
 -------------------
-* Removed unused headers from resouce retriever (`#1463 <https://github.com/ros2/rviz/issues/1463>`_) (`#1464 <https://github.com/ros2/rviz/issues/1464>`_)
-* Contributors: mergify[bot]
+* Assign the geometry to the resource group "rviz_rendering" (`#1502 <https://github.com/ros2/rviz/issues/1502>`_)
+* Removed windows warning (`#1486 <https://github.com/ros2/rviz/issues/1486>`_)
+* Contributors: Alejandro Hernández Cordero, matthias88
 
-15.0.2 (2025-05-14)
+15.1.4 (2025-06-20)
+-------------------
+* Handle glTF Y-Up frame convention on mesh load (`#1482 <https://github.com/ros2/rviz/issues/1482>`_)
+* Contributors: Michel Hidalgo
+
+15.1.3 (2025-05-20)
+-------------------
+* Removed unused headers from resouce retriever (`#1463 <https://github.com/ros2/rviz/issues/1463>`_)
+* feat: support both qt5 and qt6 (`#1187 <https://github.com/ros2/rviz/issues/1187>`_)
+* Contributors: Alejandro Hernández Cordero, Daisuke Nishimatsu
+
+15.1.2 (2025-05-14)
 -------------------
 
-15.0.1 (2025-05-05)
+15.1.1 (2025-05-05)
 -------------------
-* WrenchVisual::setForceColor and setTorqueColor clamp values (`#1437 <https://github.com/ros2/rviz/issues/1437>`_) (`#1447 <https://github.com/ros2/rviz/issues/1447>`_)
-* Missing Null Pointer Check in TrianglePolygon Constructor Leads to Crash (`#1434 <https://github.com/ros2/rviz/issues/1434>`_) (`#1444 <https://github.com/ros2/rviz/issues/1444>`_)
-* Contributors: mergify[bot]
+* WrenchVisual::setForceColor and setTorqueColor clamp values (`#1437 <https://github.com/ros2/rviz/issues/1437>`_)
+* Missing Null Pointer Check in TrianglePolygon Constructor Leads to Crash (`#1434 <https://github.com/ros2/rviz/issues/1434>`_)
+* Contributors: Alejandro Hernández Cordero
+
+15.1.0 (2025-04-25)
+-------------------
 
 15.0.0 (2025-04-25)
 -------------------
