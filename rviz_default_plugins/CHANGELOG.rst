@@ -2,6 +2,12 @@
 Changelog for package rviz_default_plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+15.1.5 (2025-06-27)
+-------------------
+* Fixed deprecation warning on point_cloud_transport: rmw_qos_profile_t (`#1491 <https://github.com/ros2/rviz/issues/1491>`_)
+* Add symbol visibility macros to make*Palette public functions (`#1492 <https://github.com/ros2/rviz/issues/1492>`_)
+* Contributors: Alejandro Hernández Cordero, Silvio Traversaro
+
 15.1.4 (2025-06-20)
 -------------------
 * Fix /rviz/get_resource (`#1487 <https://github.com/ros2/rviz/issues/1487>`_)
