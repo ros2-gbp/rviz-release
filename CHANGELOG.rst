@@ -2,6 +2,11 @@
 Changelog for package rviz_default_plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+15.1.6 (2025-07-01)
+-------------------
+* Better handling of missing transport plugins (`#1488 <https://github.com/ros2/rviz/issues/1488>`_)
+* Contributors: Alejandro Hernández Cordero
+
 15.1.5 (2025-06-27)
 -------------------
 * Fixed deprecation warning on point_cloud_transport: rmw_qos_profile_t (`#1491 <https://github.com/ros2/rviz/issues/1491>`_)
