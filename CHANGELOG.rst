@@ -2,6 +2,13 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+15.1.6 (2025-07-01)
+-------------------
+* Don't hide rows of properties not within the model (`#1507 <https://github.com/ros2/rviz/issues/1507>`_)
+* Remove redundant check (`#1506 <https://github.com/ros2/rviz/issues/1506>`_)
+* Fix panel deletion (`#1037 <https://github.com/ros2/rviz/issues/1037>`_)
+* Contributors: Alejandro Hernández Cordero
+
 15.1.5 (2025-06-27)
 -------------------
 
