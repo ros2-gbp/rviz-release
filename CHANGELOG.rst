@@ -2,6 +2,12 @@
 Changelog for package rviz_default_plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+15.0.4 (2025-07-07)
+-------------------
+* Better handling of missing transport plugins (`#1488 <https://github.com/ros2/rviz/issues/1488>`_) (`#1514 <https://github.com/ros2/rviz/issues/1514>`_)
+* Add symbol visibility macros to make*Palette public functions (`#1492 <https://github.com/ros2/rviz/issues/1492>`_) (`#1499 <https://github.com/ros2/rviz/issues/1499>`_)
+* Contributors: Alejandro Hernández Cordero, Silvio Traversaro
+
 15.0.3 (2025-06-20)
 -------------------
 * Fix /rviz/get_resource (`#1487 <https://github.com/ros2/rviz/issues/1487>`_) (`#1490 <https://github.com/ros2/rviz/issues/1490>`_)
