@@ -2,6 +2,13 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+15.0.4 (2025-07-07)
+-------------------
+* Postpone hiding of properties until insertion into model is finished (`#1508 <https://github.com/ros2/rviz/issues/1508>`_) (`#1520 <https://github.com/ros2/rviz/issues/1520>`_)
+* Don't hide rows of properties not within the model (`#1507 <https://github.com/ros2/rviz/issues/1507>`_) (`#1517 <https://github.com/ros2/rviz/issues/1517>`_)
+* Remove redundant check (`#1506 <https://github.com/ros2/rviz/issues/1506>`_) (`#1511 <https://github.com/ros2/rviz/issues/1511>`_)
+* Contributors: Alejandro Hernández Cordero
+
 15.0.3 (2025-06-20)
 -------------------
 * Config::mapGetBool causes segmentation fault when value_out is nullptr (`#1471 <https://github.com/ros2/rviz/issues/1471>`_) (`#1479 <https://github.com/ros2/rviz/issues/1479>`_)
