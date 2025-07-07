@@ -2,47 +2,30 @@
 Changelog for package rviz_default_plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-15.1.6 (2025-07-01)
+15.0.4 (2025-07-07)
 -------------------
-* Better handling of missing transport plugins (`#1488 <https://github.com/ros2/rviz/issues/1488>`_)
-* Contributors: Alejandro Hernández Cordero
-
-15.1.5 (2025-06-27)
--------------------
-* Fixed deprecation warning on point_cloud_transport: rmw_qos_profile_t (`#1491 <https://github.com/ros2/rviz/issues/1491>`_)
-* Add symbol visibility macros to make*Palette public functions (`#1492 <https://github.com/ros2/rviz/issues/1492>`_)
+* Better handling of missing transport plugins (`#1488 <https://github.com/ros2/rviz/issues/1488>`_) (`#1514 <https://github.com/ros2/rviz/issues/1514>`_)
+* Add symbol visibility macros to make*Palette public functions (`#1492 <https://github.com/ros2/rviz/issues/1492>`_) (`#1499 <https://github.com/ros2/rviz/issues/1499>`_)
 * Contributors: Alejandro Hernández Cordero, Silvio Traversaro
 
-15.1.4 (2025-06-20)
+15.0.3 (2025-06-20)
 -------------------
-* Fix /rviz/get_resource (`#1487 <https://github.com/ros2/rviz/issues/1487>`_)
-* Removed point_cloud_transport deprecation (`#1474 <https://github.com/ros2/rviz/issues/1474>`_)
-* Frame view controller: Removed warnings (`#1470 <https://github.com/ros2/rviz/issues/1470>`_)
-* Fix compile with qt6 (`#1475 <https://github.com/ros2/rviz/issues/1475>`_)
-* Fix Issue with Quaternion Angular Distance (`#1473 <https://github.com/ros2/rviz/issues/1473>`_)
-* PointStampedDisplay: Ignore incoming messages if disabled (`#1036 <https://github.com/ros2/rviz/issues/1036>`_)
-* Contributors: Alejandro Hernández Cordero, Harrison Chen, mosfet80
+* Fix /rviz/get_resource (`#1487 <https://github.com/ros2/rviz/issues/1487>`_) (`#1490 <https://github.com/ros2/rviz/issues/1490>`_)
+* Frame view controller: Removed warnings (`#1470 <https://github.com/ros2/rviz/issues/1470>`_) (`#1476 <https://github.com/ros2/rviz/issues/1476>`_)
+* Removed unused headers from resouce retriever (`#1463 <https://github.com/ros2/rviz/issues/1463>`_) (`#1464 <https://github.com/ros2/rviz/issues/1464>`_)
+* PointStampedDisplay: Ignore incoming messages if disabled (`#1036 <https://github.com/ros2/rviz/issues/1036>`_) (`#1465 <https://github.com/ros2/rviz/issues/1465>`_)
+* Contributors: mergify[bot]
 
-15.1.3 (2025-05-20)
+15.0.2 (2025-05-14)
 -------------------
-* Removed unused headers from resouce retriever (`#1463 <https://github.com/ros2/rviz/issues/1463>`_)
-* feat: support both qt5 and qt6 (`#1187 <https://github.com/ros2/rviz/issues/1187>`_)
-* Contributors: Alejandro Hernández Cordero, Daisuke Nishimatsu
+* [rviz_default_plugins] Add missing export dependencies (`#1461 <https://github.com/ros2/rviz/issues/1461>`_) (`#1462 <https://github.com/ros2/rviz/issues/1462>`_)
+* Backported FrameAligned camera (`#1453 <https://github.com/ros2/rviz/issues/1453>`_) (`#1458 <https://github.com/ros2/rviz/issues/1458>`_)
+* Contributors: mergify[bot]
 
-15.1.2 (2025-05-14)
+15.0.1 (2025-05-05)
 -------------------
-* [rviz_default_plugins] Add missing export dependencies (`#1461 <https://github.com/ros2/rviz/issues/1461>`_)
-* Backported FrameAligned camera (`#1453 <https://github.com/ros2/rviz/issues/1453>`_)
-* Contributors: Felix Exner (fexner), Georg Flick
-
-15.1.1 (2025-05-05)
--------------------
-* Changed Marker Displays to allow toggling visibility of namespaces (`#1402 <https://github.com/ros2/rviz/issues/1402>`_)
-* Do not use ${Qt5Widgets_INCLUDE_DIRS} to avoid creating non-relocatable CMake config files (`#1450 <https://github.com/ros2/rviz/issues/1450>`_)
-* Contributors: Silvio Traversaro, Stefan Fabian
-
-15.1.0 (2025-04-25)
--------------------
+* Do not use ${Qt5Widgets_INCLUDE_DIRS} to avoid creating non-relocatable CMake config files (`#1450 <https://github.com/ros2/rviz/issues/1450>`_) (`#1451 <https://github.com/ros2/rviz/issues/1451>`_)
+* Contributors: mergify[bot]
 
 15.0.0 (2025-04-25)
 -------------------
