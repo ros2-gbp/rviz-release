@@ -1,39 +1,35 @@
-// Copyright (c) 2010, Willow Garage, Inc.
-// Copyright (c) 2018, Bosch Software Innovations GmbH.
-// All rights reserved.
-//
-// Redistribution and use in source and binary forms, with or without
-// modification, are permitted provided that the following conditions are met:
-//
-//    * Redistributions of source code must retain the above copyright
-//      notice, this list of conditions and the following disclaimer.
-//
-//    * Redistributions in binary form must reproduce the above copyright
-//      notice, this list of conditions and the following disclaimer in the
-//      documentation and/or other materials provided with the distribution.
-//
-//    * Neither the name of the copyright holder nor the names of its
-//      contributors may be used to endorse or promote products derived from
-//      this software without specific prior written permission.
-//
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
-// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-// POSSIBILITY OF SUCH DAMAGE.
-
+/*
+ * Copyright (c) 2010, Willow Garage, Inc.
+ * Copyright (c) 2018, Bosch Software Innovations GmbH.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the copyright holder nor the names of its
+ *       contributors may be used to endorse or promote products derived from
+ *       this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #include "assimp_loader.hpp"
 
-#include <algorithm>
-#include <cctype>
-#include <filesystem>
 #include <memory>
 #include <string>
 #include <vector>
@@ -50,8 +46,6 @@
 #include <OgreTexture.h>
 #include <OgreTextureManager.h>
 #include <OgreTextureUnitState.h>
-
-#include <QString>  // NOLINT: cpplint is unable to handle the include order here
 
 #define ASSIMP_UNIFIED_HEADER_NAMES 1
 #if defined(ASSIMP_UNIFIED_HEADER_NAMES)
@@ -71,9 +65,9 @@ namespace rviz_rendering
 class ResourceIOStream : public Assimp::IOStream
 {
 public:
-  explicit ResourceIOStream(resource_retriever::ResourceSharedPtr res)
+  explicit ResourceIOStream(const resource_retriever::MemoryResource & res)
   : res_(res),
-    pos_(res->data.data())
+    pos_(res.data.get())
   {}
 
   ~ResourceIOStream() override = default;
@@ -81,8 +75,8 @@ public:
   size_t Read(void * buffer, size_t size, size_t count) override
   {
     size_t to_read = size * count;
-    if (pos_ + to_read > res_->data.data() + res_->data.size()) {
-      to_read = res_->data.size() - (pos_ - res_->data.data());
+    if (pos_ + to_read > res_.data.get() + res_.size) {
+      to_read = res_.size - (pos_ - res_.data.get());
     }
 
     memcpy(buffer, pos_, to_read);
@@ -101,22 +95,22 @@ public:
 
   aiReturn Seek(size_t offset, aiOrigin origin) override
   {
-    const uint8_t * new_pos = nullptr;
+    uint8_t * new_pos = nullptr;
     switch (origin) {
       case aiOrigin_SET:
-        new_pos = res_->data.data() + offset;
+        new_pos = res_.data.get() + offset;
         break;
       case aiOrigin_CUR:
         new_pos = pos_ + offset;  // TODO(anyone): is this right? Can offset really not be negative
         break;
       case aiOrigin_END:
-        new_pos = res_->data.data() + res_->data.size() - offset;  // TODO(anyone): is this right?
+        new_pos = res_.data.get() + res_.size - offset;  // TODO(anyone): is this right?
         break;
       default:
         throw std::runtime_error("unexpected default in switch statement");
     }
 
-    if (new_pos < res_->data.data() || new_pos > res_->data.data() + res_->data.size()) {
+    if (new_pos < res_.data.get() || new_pos > res_.data.get() + res_.size) {
       return aiReturn_FAILURE;
     }
 
@@ -126,28 +120,26 @@ public:
 
   size_t Tell() const override
   {
-    return pos_ - res_->data.data();
+    return pos_ - res_.data.get();
   }
 
   size_t FileSize() const override
   {
-    return res_->data.size();
+    return res_.size;
   }
 
   void Flush() override
   {}
 
 private:
-  resource_retriever::ResourceSharedPtr res_;
-  const uint8_t * pos_;
+  resource_retriever::MemoryResource res_;
+  uint8_t * pos_;
 };
 
 class ResourceIOSystem final : public Assimp::IOSystem
 {
 public:
-  explicit ResourceIOSystem(resource_retriever::Retriever * retriever)
-  : retriever_(retriever)
-  {}
+  ResourceIOSystem() = default;
 
   ~ResourceIOSystem() override = default;
 
@@ -160,24 +152,32 @@ public:
   // Check whether a specific file exists
   bool Exists(const char * file) const override
   {
-    auto res = retriever_->get_shared(file);
-    return res != nullptr;
+    try {
+      resource_retriever::MemoryResource res = retriever_.get(file);
+    } catch (const resource_retriever::Exception & e) {
+      (void) e;  // do nothing on exception
+      return false;
+    }
+
+    return true;
   }
 
   // ... and finally a method to open a custom stream
-  Assimp::IOStream * Open(const char * file, const char * mode) override
+  Assimp::IOStream * Open(const char * file, const char * mode = "rb") override
   {
     (void) mode;
     assert(mode == std::string("r") || mode == std::string("rb"));
 
-    auto res = retriever_->get_shared(file);
-
-    if (res != nullptr) {
-      // This will get freed when 'Close' is called
-      return new ResourceIOStream(res);
+    resource_retriever::MemoryResource res;
+    try {
+      res = retriever_.get(file);
+    } catch (const resource_retriever::Exception & e) {
+      (void) e;  // do nothing on exception
+      return nullptr;
     }
 
-    return nullptr;
+    // This will get freed when 'Close' is called
+    return new ResourceIOStream(res);
   }
 
   void Close(Assimp::IOStream * stream) override
@@ -186,14 +186,13 @@ public:
   }
 
 private:
-  resource_retriever::Retriever * retriever_;
+  mutable resource_retriever::Retriever retriever_;
 };
 
-AssimpLoader::AssimpLoader(resource_retriever::Retriever * retriever)
-: retriever_(retriever),
-  importer_(std::make_unique<Assimp::Importer>())
+AssimpLoader::AssimpLoader()
 {
-  importer_->SetIOHandler(new ResourceIOSystem(retriever_));
+  importer_ = std::make_unique<Assimp::Importer>();
+  importer_->SetIOHandler(new ResourceIOSystem());
   // ASSIMP wants to change the orientation of the axis, but that's wrong for rviz.
   importer_->SetPropertyBool(AI_CONFIG_IMPORT_COLLADA_IGNORE_UP_DIRECTION, true);
 }
@@ -246,18 +245,6 @@ std::vector<Ogre::MaterialPtr> AssimpLoader::loadMaterials(
   const std::string & resource_path, const aiScene * scene)
 {
   std::vector<Ogre::MaterialPtr> material_table_out;
-
-  std::string ext = std::filesystem::path(resource_path).extension().string();
-  std::transform(ext.begin(), ext.end(), ext.begin(),
-    [](unsigned char c) {return std::tolower(c);});
-  // STL meshes don't support proper
-  // materials: use Ogre's default material
-  if (ext == ".stl" || ext == ".stlb") {
-    material_table_out.push_back(
-      Ogre::MaterialManager::getSingleton().getByName("BaseWhiteNoLighting"));
-    return material_table_out;
-  }
-
   for (uint32_t i = 0; i < scene->mNumMaterials; i++) {
     std::string material_name;
     material_name = resource_path + "Material" + std::to_string(i);
@@ -275,7 +262,8 @@ std::vector<Ogre::MaterialPtr> AssimpLoader::loadMaterials(
       Ogre::ColourValue(0, 0, 0, 1.0));
 
 
-    setLightColorsFromAssimp(resource_path, mat, ai_material, material_internals, scene);
+    SetScene(scene);
+    setLightColorsFromAssimp(resource_path, mat, ai_material, material_internals);
 
     setBlending(mat, ai_material, material_internals);
 
@@ -287,12 +275,16 @@ std::vector<Ogre::MaterialPtr> AssimpLoader::loadMaterials(
   return material_table_out;
 }
 
+void AssimpLoader::SetScene(const aiScene * ai_scene)
+{
+  this->ai_scene_ = ai_scene;
+}
+
 void AssimpLoader::setLightColorsFromAssimp(
   const std::string & resource_path,
   Ogre::MaterialPtr & mat,
   const aiMaterial * ai_material,
-  MaterialInternals & material_internals,
-  const aiScene * ai_scene)
+  MaterialInternals & material_internals)
 {
   for (uint32_t j = 0; j < ai_material->mNumProperties; j++) {
     aiMaterialProperty * prop = ai_material->mProperties[j];
@@ -303,20 +295,25 @@ void AssimpLoader::setLightColorsFromAssimp(
       aiTextureMapping mapping;
       uint32_t uv_index;
       ai_material->GetTexture(aiTextureType_DIFFUSE, 0, &texture_name, &mapping, &uv_index);
+
       std::string texture_path;
-      const aiTexture * texture = ai_scene->GetEmbeddedTexture(texture_name.C_Str());
+#ifdef ASSIMP_VERSION_5
+      const aiTexture * texture = this->ai_scene_->GetEmbeddedTexture(texture_name.C_Str());
       if (texture == nullptr) {
-        // It's not an embedded texture. We have to go find it.
-        // Assume textures are in paths relative to the mesh
-        QFileInfo resource_path_finfo(QString::fromStdString(resource_path));
-        QDir resource_path_qdir = resource_path_finfo.dir();
-        texture_path = resource_path_qdir.path().toStdString() + "/" + texture_name.data;
-        loadTexture(texture_path);
-      } else {
-        // it's an embedded texture, like in GLB / glTF
-        texture_path = resource_path + texture_name.data;
-        loadEmbeddedTexture(texture, texture_path);
-      }
+#endif
+      // It's not an embedded texture. We have to go find it.
+      // Assume textures are in paths relative to the mesh
+      QFileInfo resource_path_finfo(QString::fromStdString(resource_path));
+      QDir resource_path_qdir = resource_path_finfo.dir();
+      texture_path = resource_path_qdir.path().toStdString() + "/" + texture_name.data;
+      loadTexture(texture_path);
+#ifdef ASSIMP_VERSION_5
+    } else {
+      // it's an embedded texture, like in GLB / glTF
+      texture_path = resource_path + texture_name.data;
+      loadEmbeddedTexture(texture, texture_path);
+    }
+#endif
       Ogre::TextureUnitState * tu = material_internals.pass_->createTextureUnitState();
       tu->setTextureName(texture_path);
     } else if (propKey == "$clr.diffuse") {
@@ -394,28 +391,31 @@ void AssimpLoader::loadEmbeddedTexture(
 void AssimpLoader::loadTexture(const std::string & resource_path)
 {
   if (!Ogre::TextureManager::getSingleton().resourceExists(resource_path, ROS_PACKAGE_NAME)) {
-    auto res = retriever_->get_shared(resource_path);
-
-    if (res == nullptr || res->data.empty()) {
-      return;
-    }
-
-    Ogre::DataStreamPtr stream(
-      new Ogre::MemoryDataStream(const_cast<uint8_t *>(res->data.data()), res->data.size()));
-    Ogre::Image image;
-    QFileInfo resource_path_finfo(QString::fromStdString(resource_path));
-    std::string extension = resource_path_finfo.completeSuffix().toStdString();
-
-    if (extension[0] == '.') {
-      extension = extension.substr(1, extension.size() - 1);
-    }
-
+    resource_retriever::Retriever retriever;
+    resource_retriever::MemoryResource res;
     try {
-      image.load(stream, extension);
-      Ogre::TextureManager::getSingleton().loadImage(resource_path, ROS_PACKAGE_NAME, image);
-    } catch (Ogre::Exception & e) {
-      RVIZ_RENDERING_LOG_ERROR_STREAM(
-        "Could not load texture [" << resource_path.c_str() << "]: " << e.what());
+      res = retriever.get(resource_path);
+    } catch (resource_retriever::Exception & e) {
+      RVIZ_RENDERING_LOG_ERROR(e.what());
+    }
+
+    if (res.size != 0) {
+      Ogre::DataStreamPtr stream(new Ogre::MemoryDataStream(res.data.get(), res.size));
+      Ogre::Image image;
+      QFileInfo resource_path_finfo(QString::fromStdString(resource_path));
+      std::string extension = resource_path_finfo.completeSuffix().toStdString();
+
+      if (extension[0] == '.') {
+        extension = extension.substr(1, extension.size() - 1);
+      }
+
+      try {
+        image.load(stream, extension);
+        Ogre::TextureManager::getSingleton().loadImage(resource_path, ROS_PACKAGE_NAME, image);
+      } catch (Ogre::Exception & e) {
+        RVIZ_RENDERING_LOG_ERROR_STREAM(
+          "Could not load texture [" << resource_path.c_str() << "]: " << e.what());
+      }
     }
   }
 }
