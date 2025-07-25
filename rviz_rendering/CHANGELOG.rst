@@ -2,6 +2,11 @@
 Changelog for package rviz_rendering
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+14.1.13 (2025-07-25)
+--------------------
+* Assign the geometry to the resource group "rviz_rendering" (`#1502 <https://github.com/ros2/rviz/issues/1502>`_) (`#1504 <https://github.com/ros2/rviz/issues/1504>`_)
+* Contributors: mergify[bot]
+
 14.1.12 (2025-06-20)
 --------------------
 
