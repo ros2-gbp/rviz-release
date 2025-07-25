@@ -2,6 +2,13 @@
 Changelog for package rviz_default_plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+14.1.13 (2025-07-25)
+--------------------
+* fix deprecated include (`#1530 <https://github.com/ros2/rviz/issues/1530>`_) (`#1532 <https://github.com/ros2/rviz/issues/1532>`_)
+* Better handling of missing transport plugins (`#1488 <https://github.com/ros2/rviz/issues/1488>`_) (`#1515 <https://github.com/ros2/rviz/issues/1515>`_)
+* Add symbol visibility macros to make*Palette public functions (`#1492 <https://github.com/ros2/rviz/issues/1492>`_) (`#1500 <https://github.com/ros2/rviz/issues/1500>`_)
+* Contributors: mergify[bot]
+
 14.1.12 (2025-06-20)
 --------------------
 * Frame view controller: Removed warnings (`#1470 <https://github.com/ros2/rviz/issues/1470>`_) (`#1477 <https://github.com/ros2/rviz/issues/1477>`_)
