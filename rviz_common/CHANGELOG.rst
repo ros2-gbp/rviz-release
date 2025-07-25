@@ -2,6 +2,12 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+15.1.7 (2025-07-25)
+-------------------
+* Replace deprecated tf2_ros headers (`#1529 <https://github.com/ros2/rviz/issues/1529>`_)
+* Postpone hiding of properties until insertion into model is finished (`#1508 <https://github.com/ros2/rviz/issues/1508>`_)
+* Contributors: Alejandro Hernández Cordero
+
 15.1.6 (2025-07-01)
 -------------------
 * Don't hide rows of properties not within the model (`#1507 <https://github.com/ros2/rviz/issues/1507>`_)
