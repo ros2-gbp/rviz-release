@@ -1,32 +1,33 @@
-/*
- * Copyright (c) 2008, Willow Garage, Inc.
- * Copyright (c) 2018, Bosch Software Innovations GmbH.
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Willow Garage, Inc. nor the names of its
- *       contributors may be used to endorse or promote products derived from
- *       this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
+// Copyright (c) 2008, Willow Garage, Inc.
+// Copyright (c) 2018, Bosch Software Innovations GmbH.
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+//
+//    * Redistributions of source code must retain the above copyright
+//      notice, this list of conditions and the following disclaimer.
+//
+//    * Redistributions in binary form must reproduce the above copyright
+//      notice, this list of conditions and the following disclaimer in the
+//      documentation and/or other materials provided with the distribution.
+//
+//    * Neither the name of the copyright holder nor the names of its
+//      contributors may be used to endorse or promote products derived from
+//      this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
+
 
 #include "rviz_default_plugins/displays/map/map_display.hpp"
 
@@ -40,6 +41,8 @@
 #include <OgreTextureManager.h>
 #include <OgreTechnique.h>
 #include <OgreSharedPtr.h>
+
+#include <QString>  // NOLINT: cpplint is unable to handle the include order here
 
 #include "rclcpp/time.hpp"
 
@@ -137,6 +140,22 @@ MapDisplay::MapDisplay()
   transform_timestamp_property_ = new rviz_common::properties::BoolProperty(
     "Use Timestamp", false,
     "Use map header timestamp when transforming", this, SLOT(transformMap()));
+
+  binary_view_property_ = new rviz_common::properties::BoolProperty(
+    "Binary representation",
+    false,
+    "Represent the map value as either free or occupied, considering the user-defined threshold",
+    this,
+    SLOT(updatePalette()));
+
+  binary_threshold_property_ = new rviz_common::properties::IntProperty(
+    "Binary threshold",
+    100,
+    "Minimum value to mark cells as obstacle in the binary representation of the map",
+    this,
+    SLOT(updateBinaryThreshold()));
+  binary_threshold_property_->setMin(0);
+  binary_threshold_property_->setMax(100);
 }
 
 MapDisplay::~MapDisplay()
@@ -182,13 +201,25 @@ void MapDisplay::onInitialize()
       this->update_profile_ = profile;
       updateMapUpdateTopic();
     });
+  int threshold = binary_threshold_property_->getInt();
   // Order of palette textures here must match option indices for color_scheme_property_ above.
   palette_textures_.push_back(makePaletteTexture(makeMapPalette()));
+  palette_textures_binary_.push_back(makePaletteTexture(makeMapPalette(true, threshold)));
   color_scheme_transparency_.push_back(false);
   palette_textures_.push_back(makePaletteTexture(makeCostmapPalette()));
+  palette_textures_binary_.push_back(makePaletteTexture(makeCostmapPalette(true, threshold)));
   color_scheme_transparency_.push_back(true);
   palette_textures_.push_back(makePaletteTexture(makeRawPalette()));
+  palette_textures_binary_.push_back(makePaletteTexture(makeRawPalette(true, threshold)));
   color_scheme_transparency_.push_back(true);
+}
+
+void MapDisplay::updateBinaryThreshold()
+{
+  int threshold = binary_threshold_property_->getInt();
+  palette_textures_binary_[0] = makePaletteTexture(makeMapPalette(true, threshold));
+  palette_textures_binary_[1] = makePaletteTexture(makeCostmapPalette(true, threshold));
+  palette_textures_binary_[2] = makePaletteTexture(makeRawPalette(true, threshold));
 }
 
 void MapDisplay::updateTopic()
@@ -331,18 +362,32 @@ void MapDisplay::incomingUpdate(const map_msgs::msg::OccupancyGridUpdate::ConstS
 
   ++update_messages_received_;
   QString topic_str = QString::number(messages_received_) + " update messages received";
+  rviz_common::properties::StatusProperty::Level topic_status_level =
+    rviz_common::properties::StatusProperty::Ok;
   // Append topic subscription frequency if we can lock rviz_ros_node_.
   std::shared_ptr<rviz_common::ros_integration::RosNodeAbstractionIface> node_interface =
     rviz_ros_node_.lock();
   if (node_interface != nullptr) {
-    const double duration =
-      (node_interface->get_raw_node()->now() - subscription_start_time_).seconds();
-    const double subscription_frequency =
-      static_cast<double>(messages_received_) / duration;
-    topic_str += " at " + QString::number(subscription_frequency, 'f', 1) + " hz.";
+    try {
+      const double duration =
+        (node_interface->get_raw_node()->now() - subscription_start_time_).seconds();
+      const double subscription_frequency =
+        static_cast<double>(messages_received_) / duration;
+      topic_str += " at " + QString::number(subscription_frequency, 'f', 1) + " hz.";
+    } catch (const std::runtime_error & e) {
+      if (std::string(e.what()).find("can't subtract times with different time sources") !=
+        std::string::npos)
+      {
+        topic_status_level = rviz_common::properties::StatusProperty::Warn;
+        topic_str += ". ";
+        topic_str += e.what();
+      } else {
+        throw;
+      }
+    }
   }
   setStatus(
-    rviz_common::properties::StatusProperty::Ok,
+    topic_status_level,
     "Topic",
     topic_str);
 
@@ -584,6 +629,8 @@ void MapDisplay::updateSwatches() const
 
 void MapDisplay::updatePalette()
 {
+  bool binary = binary_view_property_->getBool();
+
   int palette_index = color_scheme_property_->getOptionInt();
 
   for (const auto & swatch : swatches_) {
@@ -594,7 +641,11 @@ void MapDisplay::updatePalette()
     } else {
       palette_tex_unit = pass->createTextureUnitState();
     }
-    palette_tex_unit->setTexture(palette_textures_[palette_index]);
+    if (binary) {
+      palette_tex_unit->setTexture(palette_textures_binary_[palette_index]);
+    } else {
+      palette_tex_unit->setTexture(palette_textures_[palette_index]);
+    }
     palette_tex_unit->setTextureFiltering(Ogre::TFO_NONE);
   }
 
@@ -611,7 +662,7 @@ void MapDisplay::transformMap()
   rclcpp::Time transform_time = context_->getClock()->now();
 
   if (transform_timestamp_property_->getBool()) {
-    transform_time = current_map_.header.stamp;
+    transform_time = rclcpp::Time(current_map_.header.stamp, RCL_ROS_TIME);
   }
 
   Ogre::Vector3 position;
