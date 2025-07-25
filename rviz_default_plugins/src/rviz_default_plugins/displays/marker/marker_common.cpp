@@ -1,45 +1,41 @@
-// Copyright (c) 2012, Willow Garage, Inc.
-// Copyright (c) 2018, Bosch Software Innovations GmbH.
-// All rights reserved.
-//
-// Redistribution and use in source and binary forms, with or without
-// modification, are permitted provided that the following conditions are met:
-//
-//    * Redistributions of source code must retain the above copyright
-//      notice, this list of conditions and the following disclaimer.
-//
-//    * Redistributions in binary form must reproduce the above copyright
-//      notice, this list of conditions and the following disclaimer in the
-//      documentation and/or other materials provided with the distribution.
-//
-//    * Neither the name of the copyright holder nor the names of its
-//      contributors may be used to endorse or promote products derived from
-//      this software without specific prior written permission.
-//
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
-// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-// POSSIBILITY OF SUCH DAMAGE.
+/*
+ * Copyright (c) 2012, Willow Garage, Inc.
+ * Copyright (c) 2018, Bosch Software Innovations GmbH.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the Willow Garage, Inc. nor the names of its
+ *       contributors may be used to endorse or promote products derived from
+ *       this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #include "rviz_default_plugins/displays/marker/marker_common.hpp"
 
-#include <cinttypes>
 #include <memory>
 #include <set>
 #include <sstream>
 #include <string>
-#include <string_view>
 #include <utility>
 #include <vector>
-
-#include "QString"
 
 #include "rclcpp/duration.hpp"
 
@@ -50,8 +46,6 @@
 
 #include "rviz_default_plugins/displays/marker/markers/marker_factory.hpp"
 
-#include "rviz_default_plugins/ros_resource_retriever.hpp"
-
 namespace rviz_default_plugins
 {
 namespace displays
@@ -60,8 +54,8 @@ namespace displays
 MarkerCommon::MarkerCommon(rviz_common::Display * display)
 : display_(display)
 {
-  namespaces_category_ = new rviz_common::properties::BoolProperty(
-    "Namespaces", true, "Toggle to toggle all namespaces", display_);
+  namespaces_category_ = new rviz_common::properties::Property(
+    "Namespaces", QVariant(), "", display_);
   marker_factory_ = std::make_unique<markers::MarkerFactory>();
 }
 
@@ -74,13 +68,6 @@ void MarkerCommon::initialize(rviz_common::DisplayContext * context, Ogre::Scene
 {
   context_ = context;
   scene_node_ = scene_node;
-
-  resource_retriever::RetrieverVec plugins;
-  plugins.push_back(std::make_shared<RosResourceRetriever>(context_->getRosNodeAbstraction()));
-  for (const auto & plugin : resource_retriever::default_plugins()) {
-    plugins.push_back(plugin);
-  }
-  retriever_ = resource_retriever::Retriever(plugins);
 
   namespace_config_enabled_state_.clear();
 
@@ -115,15 +102,6 @@ void MarkerCommon::deleteMarker(MarkerID id)
     markers_with_expiration_.erase(it->second);
     frame_locked_markers_.erase(it->second);
     markers_.erase(it);
-  }
-}
-
-void MarkerCommon::setVisibilityForMarkersInNamespace(const std::string & ns, bool visible)
-{
-  for (auto const & marker : markers_) {
-    if (marker.first.first == ns) {
-      marker.second->setVisible(visible);
-    }
   }
 }
 
@@ -165,11 +143,6 @@ void MarkerCommon::deleteMarkerStatus(MarkerID id)
 {
   std::string marker_name = id.first + "/" + std::to_string(id.second);
   display_->deleteStatusStd(marker_name);
-}
-
-resource_retriever::Retriever * MarkerCommon::getResourceRetriever()
-{
-  return &this->retriever_;
 }
 
 void MarkerCommon::addMessage(const visualization_msgs::msg::Marker::ConstSharedPtr marker)
@@ -282,6 +255,12 @@ QHash<QString, MarkerNamespace *>::const_iterator MarkerCommon::getMarkerNamespa
 
 void MarkerCommon::processAdd(const visualization_msgs::msg::Marker::ConstSharedPtr message)
 {
+  auto ns_it = getMarkerNamespace(message);
+
+  if (!ns_it.value()->isEnabled() ) {
+    return;
+  }
+
   deleteMarkerStatus(MarkerID(message->ns, message->id));
 
   MarkerBasePtr marker = createOrGetOldMarker(message);
@@ -323,10 +302,6 @@ void MarkerCommon::configureMarker(
 {
   marker->setMessage(message);
 
-  // Visibility needs to be set after changes to the marker as they might make it visible again
-  auto ns_it = getMarkerNamespace(message);
-  marker->setVisible(ns_it.value()->isEnabled());
-
   if (rclcpp::Duration(message->lifetime).nanoseconds() > 100000) {
     markers_with_expiration_.insert(marker);
   }
@@ -354,14 +329,6 @@ void MarkerCommon::update(float wall_dt, float ros_dt)
   processNewMessages(local_queue);
   removeExpiredMarkers();
   updateMarkersWithLockedFrame();
-
-  // Workaround because this is not a QObject
-  if (all_namespaces_enabled_ != namespaces_category_->getBool()) {
-    all_namespaces_enabled_ = namespaces_category_->getBool();
-    for (auto const & ns : namespaces_) {
-      ns->setValue(all_namespaces_enabled_);
-    }
-  }
 }
 
 MarkerCommon::V_MarkerMessage MarkerCommon::takeSnapshotOfMessageQueue()
@@ -416,7 +383,9 @@ MarkerNamespace::MarkerNamespace(
 
 void MarkerNamespace::onEnableChanged()
 {
-  owner_->setVisibilityForMarkersInNamespace(getName().toStdString(), isEnabled());
+  if (!isEnabled()) {
+    owner_->deleteMarkersInNamespace(getName().toStdString());
+  }
 
   // Update the configuration that stores the enabled state of all markers
   owner_->namespace_config_enabled_state_[getName()] = isEnabled();
