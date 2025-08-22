@@ -2,6 +2,12 @@
 Changelog for package rviz_default_plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+15.0.5 (2025-08-22)
+-------------------
+* Fix QoS profile loading for InitialPoseTool from rviz config files (`#1544 <https://github.com/ros2/rviz//issues/1544>`_) (`#1553 <https://github.com/ros2/rviz//issues/1553>`_)
+* fix deprecated include (`#1530 <https://github.com/ros2/rviz//issues/1530>`_) (`#1531 <https://github.com/ros2/rviz//issues/1531>`_)
+* Contributors: mergify[bot]
+
 15.0.4 (2025-07-07)
 -------------------
 * Better handling of missing transport plugins (`#1488 <https://github.com/ros2/rviz/issues/1488>`_) (`#1514 <https://github.com/ros2/rviz/issues/1514>`_)
