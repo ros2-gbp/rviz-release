@@ -1,32 +1,33 @@
-/*
- * Copyright (c) 2008, Willow Garage, Inc.
- * Copyright (c) 2017, Open Source Robotics Foundation, Inc.
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Willow Garage, Inc. nor the names of its
- *       contributors may be used to endorse or promote products derived from
- *       this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
+// Copyright (c) 2008, Willow Garage, Inc.
+// Copyright (c) 2017, Open Source Robotics Foundation, Inc.
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+//
+//    * Redistributions of source code must retain the above copyright
+//      notice, this list of conditions and the following disclaimer.
+//
+//    * Redistributions in binary form must reproduce the above copyright
+//      notice, this list of conditions and the following disclaimer in the
+//      documentation and/or other materials provided with the distribution.
+//
+//    * Neither the name of the copyright holder nor the names of its
+//      contributors may be used to endorse or promote products derived from
+//      this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
+
 
 #include "rviz_common/visualization_manager.hpp"
 
@@ -52,6 +53,7 @@
 #include <QApplication>  // NOLINT: cpplint cannot handle include order here
 #include <QCursor>  // NOLINT: cpplint cannot handle include order here
 #include <QKeyEvent>  // NOLINT: cpplint cannot handle include order here
+#include <QString>  // NOLINT: cpplint cannot handle include order here
 #include <QTimer>  // NOLINT: cpplint cannot handle include order here
 #include <QWindow>  // NOLINT: cpplint cannot handle include order here
 
@@ -138,8 +140,8 @@ VisualizationManager::VisualizationManager(
   render_panel_(render_panel),
   wall_clock_elapsed_(0),
   ros_time_elapsed_(0),
-  time_update_timer_(0.0f),
-  frame_update_timer_(0.0f),
+  time_update_timer_(0),
+  frame_update_timer_(0),
   render_requested_(1),
   frame_count_(0),
   window_manager_(wm),
@@ -229,7 +231,6 @@ VisualizationManager::VisualizationManager(
   executor_->add_node(rviz_ros_node_.lock()->get_raw_node());
 
   display_factory_ = new DisplayFactory();
-
   update_timer_ = new QTimer;
   connect(update_timer_, SIGNAL(timeout()), this, SLOT(onUpdate()));
 }
@@ -335,15 +336,17 @@ BitAllocator * VisualizationManager::visibilityBits()
 
 void VisualizationManager::onUpdate()
 {
-  const auto wall_now = std::chrono::system_clock::now();
-  const auto wall_diff = wall_now - last_update_wall_time_;
-  const uint64_t wall_dt = std::chrono::duration_cast<std::chrono::nanoseconds>(wall_diff).count();
+  const std::chrono::time_point<std::chrono::system_clock> wall_now =
+    std::chrono::system_clock::now();
+  const std::chrono::nanoseconds wall_dt =
+    std::chrono::duration_cast<std::chrono::nanoseconds>(wall_now - last_update_wall_time_);
   const auto ros_now = clock_->now();
-  const uint64_t ros_dt = ros_now.nanoseconds() - last_update_ros_time_.nanoseconds();
+  const auto ros_dt = std::chrono::nanoseconds(
+      std::lround(ros_now.nanoseconds() - last_update_ros_time_.nanoseconds()));
   last_update_ros_time_ = ros_now;
   last_update_wall_time_ = wall_now;
 
-  if (ros_dt < 0.0) {
+  if (ros_dt < std::chrono::nanoseconds(0)) {
     resetTime();
   }
 
@@ -361,17 +364,15 @@ void VisualizationManager::onUpdate()
 
   time_update_timer_ += wall_dt;
 
-  if (time_update_timer_ > 0.1f) {
-    time_update_timer_ = 0.0f;
-
+  if (time_update_timer_ > std::chrono::nanoseconds(0)) {
+    time_update_timer_ = std::chrono::nanoseconds(0);
     updateTime();
   }
 
   frame_update_timer_ += wall_dt;
 
-  if (frame_update_timer_ > 1.0f) {
-    frame_update_timer_ = 0.0f;
-
+  if (frame_update_timer_ > std::chrono::nanoseconds(1)) {
+    frame_update_timer_ = std::chrono::nanoseconds(0);
     updateFrames();
   }
 
@@ -391,7 +392,7 @@ void VisualizationManager::onUpdate()
   }
 
   frame_count_++;
-  if (render_requested_ || wall_diff > std::chrono::milliseconds(10)) {
+  if (render_requested_ || wall_dt > std::chrono::milliseconds(10)) {
     render_requested_ = 0;
     std::lock_guard<std::mutex> lock(private_->render_mutex_);
     ogre_root_->renderOneFrame();
@@ -434,18 +435,15 @@ void VisualizationManager::updateFrames()
   std::string error;
   if (frame_manager_->frameHasProblems(getFixedFrame().toStdString(), error)) {
     if (!frame_manager_->anyTransformationDataAvailable()) {
-      // fixed_prop->setToWarn();
       std::stringstream ss;
       ss << "No tf data.  Actual error: " << error;
       global_status_->setStatus(
         StatusProperty::Warn, "Fixed Frame", QString::fromStdString(ss.str()));
     } else {
-      // fixed_prop->setToError();
       global_status_->setStatus(
         StatusProperty::Error, "Fixed Frame", QString::fromStdString(error));
     }
   } else {
-    // fixed_prop->setToOK();
     global_status_->setStatus(StatusProperty::Ok, "Fixed Frame", "OK");
   }
 }
@@ -640,7 +638,16 @@ void VisualizationManager::handleChar(QKeyEvent * event, RenderPanel * panel)
   if (event->key() == Qt::Key_Escape) {
     Q_EMIT escapePressed();
   }
-  tool_manager_->handleChar(event, panel);
+
+  int flags = tool_manager_->handleChar(event, panel);
+
+  if (flags & Tool::Render) {
+    queueRender();
+  }
+
+  if (flags & Tool::Finished) {
+    tool_manager_->setCurrentTool(tool_manager_->getDefaultTool());
+  }
 }
 
 void VisualizationManager::notifyConfigChanged()
