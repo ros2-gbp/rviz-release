@@ -2,6 +2,9 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+14.1.14 (2025-08-22)
+--------------------
+
 14.1.13 (2025-07-25)
 --------------------
 * Postpone hiding of properties until insertion into model is finished (backport `#1508 <https://github.com/ros2/rviz/issues/1508>`_) (`#1521 <https://github.com/ros2/rviz/issues/1521>`_)
