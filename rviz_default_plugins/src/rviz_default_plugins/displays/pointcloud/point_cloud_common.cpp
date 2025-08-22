@@ -510,11 +510,9 @@ void PointCloudCommon::processMessage(const sensor_msgs::msg::PointCloud2::Const
   info->receive_time_ = clock_->now();
 
   if (transformCloud(info, true)) {
-    rclcpp::Time time_stamp(cloud->header.stamp, RCL_ROS_TIME);
-
     std::unique_lock<std::mutex> lock(new_clouds_mutex_);
     new_cloud_infos_.push_back(info);
-    display_->emitTimeSignal(time_stamp);
+    display_->emitTimeSignal(cloud->header.stamp);
   }
 }
 
