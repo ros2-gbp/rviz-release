@@ -2,6 +2,11 @@
 Changelog for package rviz2
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+15.1.9 (2025-09-04)
+-------------------
+* get rid of deprecated rclcpp::spin_some() (`#1567 <https://github.com/ros2/rviz/issues/1567>`_)
+* Contributors: Alejandro Hernández Cordero
+
 15.1.8 (2025-08-22)
 -------------------
 
