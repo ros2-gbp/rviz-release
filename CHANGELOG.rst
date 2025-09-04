@@ -2,6 +2,13 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+15.1.9 (2025-09-04)
+-------------------
+* Removed deprecations (`#1556 <https://github.com/ros2/rviz/issues/1556>`_)
+* rviz common ros service property (`#1548 <https://github.com/ros2/rviz/issues/1548>`_)
+* add ros action property (`#1549 <https://github.com/ros2/rviz/issues/1549>`_)
+* Contributors: Alejandro Hernández Cordero, Joshua Supratman
+
 15.1.8 (2025-08-22)
 -------------------
 * Deprecates update(float, float) methods and provides update(std::chrono::duration, std::chrono::duration) replacements. (`#1533 <https://github.com/ros2/rviz//issues/1533>`_)
