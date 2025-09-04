@@ -2,6 +2,12 @@
 Changelog for package rviz_default_plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+15.1.9 (2025-09-04)
+-------------------
+* add support for ffmpeg_image_transport and point_cloud_transport (`#1568 <https://github.com/ros2/rviz/issues/1568>`_)
+* Extend the message filter display for point cloud 2 display (`#1566 <https://github.com/ros2/rviz/issues/1566>`_)
+* Contributors: Kenji Brameld (TRACLabs), Lennart Reiher
+
 15.1.8 (2025-08-22)
 -------------------
 * Support image transport lifecycle (`#1472 <https://github.com/ros2/rviz//issues/1472>`_)
