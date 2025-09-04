@@ -2,6 +2,11 @@
 Changelog for package rviz_rendering
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+15.1.9 (2025-09-04)
+-------------------
+* Removed assimp vendor package (`#1574 <https://github.com/ros2/rviz/issues/1574>`_)
+* Contributors: Alejandro Hernández Cordero
+
 15.1.8 (2025-08-22)
 -------------------
 * Update OGRE mesh files from ROS1 RViz (`#1536 <https://github.com/ros2/rviz//issues/1536>`_) (`#1559 <https://github.com/ros2/rviz//issues/1559>`_)
