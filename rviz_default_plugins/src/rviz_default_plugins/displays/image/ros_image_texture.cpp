@@ -1,32 +1,31 @@
-// Copyright (c) 2009, Willow Garage, Inc.
-// All rights reserved.
-//
-// Redistribution and use in source and binary forms, with or without
-// modification, are permitted provided that the following conditions are met:
-//
-//    * Redistributions of source code must retain the above copyright
-//      notice, this list of conditions and the following disclaimer.
-//
-//    * Redistributions in binary form must reproduce the above copyright
-//      notice, this list of conditions and the following disclaimer in the
-//      documentation and/or other materials provided with the distribution.
-//
-//    * Neither the name of the copyright holder nor the names of its
-//      contributors may be used to endorse or promote products derived from
-//      this software without specific prior written permission.
-//
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
-// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-// POSSIBILITY OF SUCH DAMAGE.
-
+/*
+ * Copyright (c) 2009, Willow Garage, Inc.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the Willow Garage, Inc. nor the names of its
+ *       contributors may be used to endorse or promote products derived from
+ *       this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #include "rviz_default_plugins/displays/image/ros_image_texture.hpp"
 
@@ -39,7 +38,6 @@
 #include <sstream>
 #include <iostream>
 #include <string>
-#include <tuple>
 #include <vector>
 #include <utility>
 
@@ -191,32 +189,6 @@ bool ROSImageTexture::update()
   return true;
 }
 
-// Considering frequent execution, use inline
-static inline std::tuple<uint8_t, uint8_t, uint8_t> pixelYUVToRGB(int y, int u, int v)
-{
-  int r = 0;
-  int b = 0;
-  int g = 0;
-
-  // Values generated based on this formula
-  // for converting YUV to RGB
-  // R = Y + 1.403V'
-  // G = Y + 0.344U' - 0.714V'
-  // B = Y + 1.770U'
-
-  v -= 128;
-  u -= 128;
-
-  r = y + (1403 * v) / 1000;
-  g = y + (344 * u - 714 * v) / 1000;
-  b = y + (1770 * u) / 1000;
-
-  // pixel value must fit in a uint8_t
-  return {
-    std::clamp(r, 0, 255), std::clamp(g, 0, 255), std::clamp(b, 0, 255)
-  };
-}
-
 struct yuyv
 {
   uint8_t y0;
@@ -233,36 +205,8 @@ struct uyvy
   uint8_t y1;
 };
 
-// Function converts src_img from NV12 format to rgb
-static void imageConvertNV12ToRGB(
-  uint8_t * dst_img,
-  const uint8_t * src_img,
-  int dst_start_row,
-  int dst_end_row,
-  int dst_num_cols,
-  uint32_t stride_in_bytes)
-{
-  const uint8_t * y_ptr = src_img;
-  const uint8_t * uv_ptr = src_img + (dst_end_row * stride_in_bytes);
-
-  for (int row = dst_start_row; row < dst_end_row; row++) {
-    for (int col = 0; col < dst_num_cols; col++) {
-      int y_index = row * stride_in_bytes + col;
-      int uv_index = (row / 2) * stride_in_bytes + (col / 2) * 2;
-
-      int final_y = y_ptr[y_index];
-      int final_u = uv_ptr[uv_index + 0];
-      int final_v = uv_ptr[uv_index + 1];
-
-      std::tie(dst_img[0], dst_img[1], dst_img[2]) = pixelYUVToRGB(final_y, final_u, final_v);
-
-      dst_img += 3;
-    }
-  }
-}
-
-// Function converts src_img from UYVY format to rgb
-static void imageConvertUYVYToRGB(
+// Function converts src_img from yuv422 format to rgb
+static void imageConvertYUV422ToRGB(
   uint8_t * dst_img, uint8_t * src_img,
   int dst_start_row, int dst_end_row,
   int dst_num_cols, uint32_t stride_in_bytes)
@@ -271,6 +215,12 @@ static void imageConvertUYVYToRGB(
   int final_u = 0;
   int final_y1 = 0;
   int final_v = 0;
+  int r1 = 0;
+  int b1 = 0;
+  int g1 = 0;
+  int r2 = 0;
+  int b2 = 0;
+  int g2 = 0;
 
   uint32_t stride_in_pixels = stride_in_bytes / 4;
 
@@ -286,15 +236,37 @@ static void imageConvertUYVYToRGB(
       final_y1 = pixel->y1;
       final_v = pixel->v;
 
-      std::tie(dst_img[0], dst_img[1], dst_img[2]) = pixelYUVToRGB(final_y0, final_u, final_v);
-      std::tie(dst_img[3], dst_img[4], dst_img[5]) = pixelYUVToRGB(final_y1, final_u, final_v);
+      // Values generated based on this formula
+      // for converting YUV to RGB
+      // R = Y + 1.403V'
+      // G = Y + 0.344U' - 0.714V'
+      // B = Y + 1.770U'
+
+      final_v -= 128;
+      final_u -= 128;
+
+      r1 = final_y0 + (1403 * final_v) / 1000;
+      g1 = final_y0 + (344 * final_u - 714 * final_v) / 1000;
+      b1 = final_y0 + (1770 * final_u) / 1000;
+
+      r2 = final_y1 + (1403 * final_v) / 1000;
+      g2 = final_y1 + (344 * final_u - 714 * final_v) / 1000;
+      b2 = final_y1 + (1770 * final_u) / 1000;
+
+      // pixel value must fit in a uint8_t
+      dst_img[0] = ((r1 & 0xFFFFFF00) == 0) ? r1 : (r1 < 0) ? 0 : 0xFF;
+      dst_img[1] = ((g1 & 0xFFFFFF00) == 0) ? g1 : (g1 < 0) ? 0 : 0xFF;
+      dst_img[2] = ((b1 & 0xFFFFFF00) == 0) ? b1 : (b1 < 0) ? 0 : 0xFF;
+      dst_img[3] = ((r2 & 0xFFFFFF00) == 0) ? r2 : (r2 < 0) ? 0 : 0xFF;
+      dst_img[4] = ((g2 & 0xFFFFFF00) == 0) ? g2 : (g2 < 0) ? 0 : 0xFF;
+      dst_img[5] = ((b2 & 0xFFFFFF00) == 0) ? b2 : (b2 < 0) ? 0 : 0xFF;
       dst_img += 6;
     }
   }
 }
 
-// Function converts src_img from YUYV format to rgb
-static void imageConvertYUYVToRGB(
+// Function converts src_img from yuv422_yuy2 format to rgb
+static void imageConvertYUV422_YUY2ToRGB(
   uint8_t * dst_img, uint8_t * src_img,
   int dst_start_row, int dst_end_row,
   int dst_num_cols, uint32_t stride_in_bytes)
@@ -303,6 +275,12 @@ static void imageConvertYUYVToRGB(
   int final_u = 0;
   int final_y1 = 0;
   int final_v = 0;
+  int r1 = 0;
+  int b1 = 0;
+  int g1 = 0;
+  int r2 = 0;
+  int b2 = 0;
+  int g2 = 0;
 
   uint32_t stride_in_pixels = stride_in_bytes / 4;
 
@@ -318,8 +296,30 @@ static void imageConvertYUYVToRGB(
       final_y1 = pixel->y1;
       final_v = pixel->v;
 
-      std::tie(dst_img[0], dst_img[1], dst_img[2]) = pixelYUVToRGB(final_y0, final_u, final_v);
-      std::tie(dst_img[3], dst_img[4], dst_img[5]) = pixelYUVToRGB(final_y1, final_u, final_v);
+      // Values generated based on this formula
+      // for converting YUV to RGB
+      // R = Y + 1.403V'
+      // G = Y + 0.344U' - 0.714V'
+      // B = Y + 1.770U'
+
+      final_v -= 128;
+      final_u -= 128;
+
+      r1 = final_y0 + (1403 * final_v) / 1000;
+      g1 = final_y0 + (344 * final_u - 714 * final_v) / 1000;
+      b1 = final_y0 + (1770 * final_u) / 1000;
+
+      r2 = final_y1 + (1403 * final_v) / 1000;
+      g2 = final_y1 + (344 * final_u - 714 * final_v) / 1000;
+      b2 = final_y1 + (1770 * final_u) / 1000;
+
+      // pixel value must fit in a uint8_t
+      dst_img[0] = ((r1 & 0xFFFFFF00) == 0) ? r1 : (r1 < 0) ? 0 : 0xFF;
+      dst_img[1] = ((g1 & 0xFFFFFF00) == 0) ? g1 : (g1 < 0) ? 0 : 0xFF;
+      dst_img[2] = ((b1 & 0xFFFFFF00) == 0) ? b1 : (b1 < 0) ? 0 : 0xFF;
+      dst_img[3] = ((r2 & 0xFFFFFF00) == 0) ? r2 : (r2 < 0) ? 0 : 0xFF;
+      dst_img[4] = ((g2 & 0xFFFFFF00) == 0) ? g2 : (g2 < 0) ? 0 : 0xFF;
+      dst_img[5] = ((b2 & 0xFFFFFF00) == 0) ? b2 : (b2 < 0) ? 0 : 0xFF;
       dst_img += 6;
     }
   }
@@ -410,13 +410,13 @@ ROSImageTexture::convertTo8bit(const uint8_t * data_ptr, size_t data_size_in_byt
 }
 
 ImageData
-ROSImageTexture::convertUYVYToRGBData(const uint8_t * data_ptr, size_t data_size_in_bytes)
+ROSImageTexture::convertYUV422ToRGBData(const uint8_t * data_ptr, size_t data_size_in_bytes)
 {
   size_t new_size_in_bytes = data_size_in_bytes * 3 / 2;
 
   uint8_t * new_data = new uint8_t[new_size_in_bytes];
 
-  imageConvertUYVYToRGB(
+  imageConvertYUV422ToRGB(
     new_data, const_cast<uint8_t *>(data_ptr),
     0, height_, width_, stride_);
 
@@ -424,27 +424,13 @@ ROSImageTexture::convertUYVYToRGBData(const uint8_t * data_ptr, size_t data_size
 }
 
 ImageData
-ROSImageTexture::convertYUYVToRGBData(const uint8_t * data_ptr, size_t data_size_in_bytes)
+ROSImageTexture::convertYUV422_YUY2ToRGBData(const uint8_t * data_ptr, size_t data_size_in_bytes)
 {
   size_t new_size_in_bytes = data_size_in_bytes * 3 / 2;
 
   uint8_t * new_data = new uint8_t[new_size_in_bytes];
 
-  imageConvertYUYVToRGB(
-    new_data, const_cast<uint8_t *>(data_ptr),
-    0, height_, width_, stride_);
-
-  return ImageData(Ogre::PF_BYTE_RGB, new_data, new_size_in_bytes, true);
-}
-
-ImageData
-ROSImageTexture::convertNV12ToRGBData(const uint8_t * data_ptr, size_t data_size_in_bytes)
-{
-  size_t new_size_in_bytes = data_size_in_bytes * 2;
-
-  uint8_t * new_data = new uint8_t[new_size_in_bytes];
-
-  imageConvertNV12ToRGB(
+  imageConvertYUV422_YUY2ToRGB(
     new_data, const_cast<uint8_t *>(data_ptr),
     0, height_, width_, stride_);
 
@@ -487,12 +473,10 @@ ROSImageTexture::setFormatAndNormalizeDataIfNecessary(
     return ImageData(Ogre::PF_BYTE_L, data_ptr, data_size_in_bytes, false);
   } else if (encoding == sensor_msgs::image_encodings::TYPE_32FC1) {
     return convertTo8bit<float>(data_ptr, data_size_in_bytes);
-  } else if (encoding == sensor_msgs::image_encodings::UYVY) {
-    return convertUYVYToRGBData(data_ptr, data_size_in_bytes);
-  } else if (encoding == sensor_msgs::image_encodings::YUYV) {
-    return convertYUYVToRGBData(data_ptr, data_size_in_bytes);
-  } else if (encoding == sensor_msgs::image_encodings::NV12) {
-    return convertNV12ToRGBData(data_ptr, data_size_in_bytes);
+  } else if (encoding == sensor_msgs::image_encodings::YUV422) {
+    return convertYUV422ToRGBData(data_ptr, data_size_in_bytes);
+  } else if (encoding == sensor_msgs::image_encodings::YUV422_YUY2) {
+    return convertYUV422_YUY2ToRGBData(data_ptr, data_size_in_bytes);
   } else {
     throw UnsupportedImageEncoding(encoding);
   }
