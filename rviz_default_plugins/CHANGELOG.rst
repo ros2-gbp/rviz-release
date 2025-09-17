@@ -2,6 +2,12 @@
 Changelog for package rviz_default_plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+14.1.15 (2025-09-17)
+--------------------
+* Fix pointcloud2 display divide by 0 (`#1581 <https://github.com/ros2/rviz/issues/1581>`_) (`#1583 <https://github.com/ros2/rviz/issues/1583>`_)
+* add support for ffmpeg_image_transport and point_cloud_transport (`#1568 <https://github.com/ros2/rviz/issues/1568>`_) (`#1571 <https://github.com/ros2/rviz/issues/1571>`_)
+* Contributors: mergify[bot]
+
 14.1.14 (2025-08-22)
 --------------------
 * Fix QoS profile loading for InitialPoseTool from rviz config files (`#1544 <https://github.com/ros2/rviz//issues/1544>`_) (`#1554 <https://github.com/ros2/rviz//issues/1554>`_)
