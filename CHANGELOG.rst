@@ -2,6 +2,9 @@
 Changelog for package rviz_rendering
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+14.1.15 (2025-09-17)
+--------------------
+
 14.1.14 (2025-08-22)
 --------------------
 * Update OGRE mesh files from ROS1 RViz (`#1536 <https://github.com/ros2/rviz//issues/1536>`_) (`#1558 <https://github.com/ros2/rviz//issues/1558>`_)
