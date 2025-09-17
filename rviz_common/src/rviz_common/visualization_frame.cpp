@@ -43,7 +43,6 @@
 #include <OgreMeshManager.h>
 #include <OgreMaterialManager.h>
 
-#include <QActionGroup>  // NOLINT cpplint cannot handle include order here
 #include <QApplication>  // NOLINT cpplint cannot handle include order here
 #include <QCloseEvent>  // NOLINT cpplint cannot handle include order here
 #include <QDesktopServices>  // NOLINT cpplint cannot handle include order here
@@ -63,8 +62,8 @@
 #include <QToolButton>  // NOLINT cpplint cannot handle include order here
 
 #include "rclcpp/clock.hpp"
-#include "tf2_ros/buffer.hpp"
-#include "tf2_ros/transform_listener.hpp"
+#include "tf2_ros/buffer.h"
+#include "tf2_ros/transform_listener.h"
 
 #include "rviz_common/load_resource.hpp"
 #include "rviz_common/logging.hpp"
@@ -265,7 +264,7 @@ void VisualizationFrame::initialize(
   QWidget * central_widget = new QWidget(this);
   QHBoxLayout * central_layout = new QHBoxLayout;
   central_layout->setSpacing(0);
-  central_layout->setContentsMargins(0, 0, 0, 0);
+  central_layout->setMargin(0);
 
   render_panel_ = new RenderPanel(central_widget);
 
@@ -1195,21 +1194,6 @@ QWidget * VisualizationFrame::getParentWindow()
   return this;
 }
 
-void VisualizationFrame::onPanelDeleted(QObject * dock)
-{
-  for (int i = 0; i < custom_panels_.size(); ++i) {
-    if (custom_panels_[i].dock == dock) {
-      auto & record = custom_panels_[i];
-      record.delete_action->deleteLater();
-      delete_view_menu_->removeAction(record.delete_action);
-      delete_view_menu_->setDisabled(delete_view_menu_->actions().isEmpty());
-      custom_panels_.removeAt(i);
-      setDisplayConfigModified();
-      return;
-    }
-  }
-}
-
 void VisualizationFrame::onDeletePanel()
 {
   // This should only be called as a SLOT from a QAction in the
@@ -1221,6 +1205,14 @@ void VisualizationFrame::onDeletePanel()
     for (int i = 0; i < custom_panels_.size(); i++) {
       if (custom_panels_[i].delete_action == action) {
         delete custom_panels_[i].dock;
+        custom_panels_.removeAt(i);
+        setDisplayConfigModified();
+        action->deleteLater();
+        if (delete_view_menu_->actions().size() == 1 &&
+          delete_view_menu_->actions().first() == action)
+        {
+          delete_view_menu_->setEnabled(false);
+        }
         return;
       }
     }
@@ -1276,7 +1268,6 @@ QDockWidget * VisualizationFrame::addPanelByName(
   record.panel = panel;
   record.name = name;
   record.delete_action = delete_view_menu_->addAction(name, this, SLOT(onDeletePanel()));
-  connect(record.dock, &QObject::destroyed, this, &VisualizationFrame::onPanelDeleted);
   custom_panels_.append(record);
   delete_view_menu_->setEnabled(true);
 

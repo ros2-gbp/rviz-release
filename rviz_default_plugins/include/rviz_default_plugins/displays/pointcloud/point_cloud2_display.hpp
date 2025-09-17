@@ -58,6 +58,7 @@ struct Offsets
   uint32_t x, y, z;
 };
 
+// TODO(greimela) This display originally extended the MessageFilterDisplay. Revisit when available
 /**
  * \class PointCloud2Display
  * \brief Displays a point cloud of type sensor_msgs::PointCloud2

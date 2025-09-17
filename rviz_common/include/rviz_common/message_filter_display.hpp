@@ -31,7 +31,7 @@
 #ifndef RVIZ_COMMON__MESSAGE_FILTER_DISPLAY_HPP_
 #define RVIZ_COMMON__MESSAGE_FILTER_DISPLAY_HPP_
 
-#include <tf2_ros/message_filter.hpp>
+#include <tf2_ros/message_filter.h>
 #include <memory>
 #include <string>
 

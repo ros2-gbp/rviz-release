@@ -63,9 +63,6 @@ int main(int argc, char ** argv)
   msg.points.resize(width * length);
   msg.header.frame_id = "world";
 
-  rclcpp::executors::SingleThreadedExecutor executor;
-  executor.add_node(node);
-
   int count = 0;
   while (rclcpp::ok() ) {
     width++;
@@ -93,7 +90,7 @@ int main(int argc, char ** argv)
 
     pub->publish(msg);
 
-    executor.spin_some();
+    rclcpp::spin_some(node);
     loop_rate.sleep();
     if (moving) {
       ++count;
