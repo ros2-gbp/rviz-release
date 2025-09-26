@@ -98,7 +98,7 @@ public:
   void initialize(rviz_common::DisplayContext * context, Ogre::SceneNode * scene_node);
   void load(const rviz_common::Config & config);
 
-  void update(std::chrono::nanoseconds wall_dt, std::chrono::nanoseconds ros_dt);
+  void update(float wall_dt, float ros_dt);
 
   void deleteMarker(MarkerID id);
 
@@ -126,8 +126,6 @@ public:
   resource_retriever::Retriever * getResourceRetriever();
 
 private:
-  /** @brief Change the visibility for all markers in the given namespace. */
-  void setVisibilityForMarkersInNamespace(const std::string & ns, bool visible);
   /** @brief Delete all the markers within the given namespace. */
   void deleteMarkersInNamespace(const std::string & ns);
 
@@ -169,7 +167,7 @@ private:
   typedef QHash<QString, MarkerNamespace *> M_Namespace;
   M_Namespace namespaces_;
 
-  rviz_common::properties::BoolProperty * namespaces_category_;
+  rviz_common::properties::Property * namespaces_category_;
 
   typedef std::map<QString, bool> M_EnabledState;
   M_EnabledState namespace_config_enabled_state_;
@@ -181,8 +179,6 @@ private:
   Ogre::SceneNode * scene_node_;
 
   resource_retriever::Retriever retriever_;
-
-  bool all_namespaces_enabled_ = true;
 
   friend class MarkerNamespace;
 };

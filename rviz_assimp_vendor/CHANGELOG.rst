@@ -1,6 +1,6 @@
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Changelog for package rviz2
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Changelog for package rviz_assimp_vendor
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 15.0.7 (2025-09-26)
 -------------------
@@ -22,19 +22,17 @@ Changelog for package rviz2
 
 15.0.1 (2025-05-05)
 -------------------
+* Clean ogre CMakeLists.txt (`#1251 <https://github.com/ros2/rviz/issues/1251>`_) (`#1445 <https://github.com/ros2/rviz/issues/1445>`_)
+* Contributors: mergify[bot]
 
 15.0.0 (2025-04-25)
 -------------------
 
 14.4.4 (2025-03-20)
 -------------------
-* Expose the possibility to create ROS node with custom `NodeOptions` (`#1347 <https://github.com/ros2/rviz/issues/1347>`_)
-* Contributors: Patrick Roncagliolo
 
 14.4.3 (2025-02-27)
 -------------------
-* uniform CMAKE requirement (`#1335 <https://github.com/ros2/rviz/issues/1335>`_)
-* Contributors: mosfet80
 
 14.4.2 (2025-01-31)
 -------------------
@@ -62,13 +60,16 @@ Changelog for package rviz2
 
 14.2.5 (2024-07-29)
 -------------------
-* Detect wayland and make sure X rendering is used. (`#1253 <https://github.com/ros2/rviz/issues/1253>`_)
-* Contributors: Matthew Elwin
+* Revert "Update ASSIMP_VENDOR CMakeLists.txt (`#1226 <https://github.com/ros2/rviz/issues/1226>`_)" (`#1249 <https://github.com/ros2/rviz/issues/1249>`_)
+* Contributors: Chris Lalancette
 
 14.2.4 (2024-07-19)
 -------------------
-* Fixed RViz2 linters (`#1231 <https://github.com/ros2/rviz/issues/1231>`_)
-* Contributors: Alejandro Hernández Cordero
+* Update ASSIMP_VENDOR CMakeLists.txt (`#1226 <https://github.com/ros2/rviz/issues/1226>`_)
+  CLEAN UNUSED CHECK
+  SE MIN ASSIMP VERSION TO 5.3.1
+  SET C++ VERSION TO 17
+* Contributors: mosfet80
 
 14.2.3 (2024-06-25)
 -------------------
@@ -81,9 +82,20 @@ Changelog for package rviz2
 
 14.2.0 (2024-04-26)
 -------------------
+* Removed assimp warnings (`#1191 <https://github.com/ros2/rviz/issues/1191>`_)
+* Don't treat warnings as errors when building Assimp (`#1174 <https://github.com/ros2/rviz/issues/1174>`_)
+* Contributors: Alejandro Hernández Cordero, Scott K Logan
 
 14.1.0 (2024-04-16)
 -------------------
+* Update the vendored package path. (`#1184 <https://github.com/ros2/rviz/issues/1184>`_)
+  Since we just updated to assimp 5.3, we also need to
+  update the path we look for it.
+  This should fix the build with clang which is currently
+  failing.
+* Update assimp vendor to 5.3.1 (`#1182 <https://github.com/ros2/rviz/issues/1182>`_)
+  This matches what is in Ubuntu 24.04.
+* Contributors: Chris Lalancette
 
 14.0.0 (2024-04-07)
 -------------------
@@ -102,9 +114,6 @@ Changelog for package rviz2
 
 13.3.0 (2023-12-26)
 -------------------
-* Add "R" key as shortcut for resetTime (`#1088 <https://github.com/ros2/rviz/issues/1088>`_)
-* Switch to target_link_libraries. (`#1098 <https://github.com/ros2/rviz/issues/1098>`_)
-* Contributors: Chris Lalancette, Paul Erik Frivold
 
 13.2.0 (2023-11-06)
 -------------------
@@ -126,6 +135,10 @@ Changelog for package rviz2
 
 12.7.0 (2023-07-11)
 -------------------
+* Update to assimp 5.2.2 (`#968 <https://github.com/ros2/rviz/issues/968>`_)
+* Fix the vendoring flags for clang compilation. (`#1003 <https://github.com/ros2/rviz/issues/1003>`_)
+* Switch to ament_cmake_vendor_package (`#995 <https://github.com/ros2/rviz/issues/995>`_)
+* Contributors: Chris Lalancette, Scott K Logan
 
 12.6.1 (2023-06-12)
 -------------------
@@ -141,6 +154,8 @@ Changelog for package rviz2
 
 12.4.0 (2023-04-18)
 -------------------
+* If vendored assimp is present, always prefer that (`#970 <https://github.com/ros2/rviz/issues/970>`_)
+* Contributors: Scott K Logan
 
 12.3.2 (2023-04-11)
 -------------------
@@ -150,10 +165,8 @@ Changelog for package rviz2
 
 12.3.0 (2023-02-14)
 -------------------
-* Make rviz1_to_rviz2.py accept configs with missing values (`#945 <https://github.com/ros2/rviz/issues/945>`_)
-* Update rviz to C++17. (`#939 <https://github.com/ros2/rviz/issues/939>`_)
 * [rolling] Update maintainers - 2022-11-07 (`#923 <https://github.com/ros2/rviz/issues/923>`_)
-* Contributors: Audrow Nash, Chris Lalancette, Shane Loretz
+* Contributors: Audrow Nash
 
 12.2.0 (2022-11-07)
 -------------------
@@ -163,8 +176,8 @@ Changelog for package rviz2
 
 12.0.0 (2022-09-13)
 -------------------
-* Add rviz1_to_rviz2.py conversion script (`#882 <https://github.com/ros2/rviz/issues/882>`_)
-* Contributors: Shane Loretz
+* Fixes policy CMP0135 warning for CMake >= 3.24 (`#898 <https://github.com/ros2/rviz/issues/898>`_)
+* Contributors: Cristóbal Arroyo
 
 11.3.0 (2022-04-26)
 -------------------
@@ -177,6 +190,8 @@ Changelog for package rviz2
 
 11.1.0 (2022-03-24)
 -------------------
+* Make sure to pass compiler and flags down to assimp (`#844 <https://github.com/ros2/rviz/issues/844>`_)
+* Contributors: Chris Lalancette
 
 11.0.0 (2022-03-01)
 -------------------
@@ -186,6 +201,8 @@ Changelog for package rviz2
 
 9.1.1 (2022-01-25)
 ------------------
+* Fix support for assimp 5.1.0 (`#817 <https://github.com/ros2/rviz/issues/817>`_)
+* Contributors: Silvio Traversaro
 
 9.1.0 (2022-01-13)
 ------------------
@@ -198,8 +215,6 @@ Changelog for package rviz2
 
 8.7.0 (2021-08-11)
 ------------------
-* Change links index.ros.org -> docs.ros.org. (`#698 <https://github.com/ros2/rviz/issues/698>`_)
-* Contributors: Chris Lalancette
 
 8.6.0 (2021-05-13)
 ------------------
@@ -209,62 +224,60 @@ Changelog for package rviz2
 
 8.4.0 (2021-03-18)
 ------------------
+* Always preserve source permissions in vendor packages (`#647 <https://github.com/ros2/rviz/issues/647>`_)
+* Add an override flag to force vendored build (`#642 <https://github.com/ros2/rviz/issues/642>`_)
+* Contributors: Scott K Logan
 
 8.3.1 (2021-01-25)
 ------------------
-* Use "%s" as format string literal in logging macros (`#633 <https://github.com/ros2/rviz/issues/633>`_)
-* Contributors: Audrow Nash
 
 8.3.0 (2020-12-08)
 ------------------
 * Add linters and use ament_lint_auto (`#608 <https://github.com/ros2/rviz/issues/608>`_)
 * Update maintainers (`#607 <https://github.com/ros2/rviz/issues/607>`_)
-* Move and update documentation for ROS 2 (`#600 <https://github.com/ros2/rviz/issues/600>`_)
-* Contributors: Chris Lalancette, Jacob Perron
+* Contributors: Jacob Perron
 
 8.2.0 (2020-06-23)
 ------------------
+* Updated a hack to avoid CMake warning with assimp 5.0.1 and older, applying it cross platforms (`#565 <https://github.com/ros2/rviz/issues/565>`_)
+* Contributors: Dirk Thomas
 
 8.1.1 (2020-06-03)
 ------------------
 
 8.1.0 (2020-06-03)
 ------------------
-* Added missing virtual destructors (`#553 <https://github.com/ros2/rviz/issues/553>`_)
-* Contributors: Ivan Santiago Paunovic
 
 8.0.3 (2020-06-02)
 ------------------
 
 8.0.2 (2020-05-21)
 ------------------
-* Removed automoc completely. (`#545 <https://github.com/ros2/rviz/issues/545>`_)
-* Contributors: Chris Lalancette
 
 8.0.1 (2020-05-07)
 ------------------
+* Make rviz_assimp_vendor hack specific to Ubuntu Focal. (`#536 <https://github.com/ros2/rviz/issues/536>`_)
+* Contributors: Chris Lalancette
 
 8.0.0 (2020-05-01)
 ------------------
 * Note from wjwwood: I've chosen bump the major version this time, even though the API was not broken strictly speaking, partly because of some potentially disruptive build system changes and partially in preparation for ROS Foxy, to allow for new minor/patch versions in the previous ROS release Eloquent.
-* Made some code style changes. (`#504 <https://github.com/ros2/rviz/issues/504>`_)
-* Contributors: Dirk Thomas
+* Suppressed an upstream cmake warning in assimp. (`#534 <https://github.com/ros2/rviz/issues/534>`_)
+* Contributors: William Woodall
 
 7.0.3 (2019-11-13)
 ------------------
 
 7.0.2 (2019-10-23)
 ------------------
-* Remove ROS arguments before passing to QApplication (`#474 <https://github.com/ros2/rviz/issues/474>`_)
-* Contributors: Jacob Perron
 
 7.0.1 (2019-10-04)
 ------------------
 
 7.0.0 (2019-09-27)
 ------------------
-* Remove -Werror from defualt compiler options (`#420 <https://github.com/ros2/rviz/issues/420>`_)
-* Contributors: Hunter L. Allen
+* Add .dsv file beside custom environment hook (`#466 <https://github.com/ros2/rviz/issues/466>`_)
+* Contributors: Dirk Thomas
 
 6.1.1 (2019-05-29)
 ------------------
@@ -277,31 +290,26 @@ Changelog for package rviz2
 
 5.1.0 (2019-01-14)
 ------------------
-* Update package maintainer for rviz2 (`#365 <https://github.com/ros2/rviz/issues/365>`_)
-  Thank you to Deanna for her contributions.
-* Contributors: Scott K Logan
 
 5.0.0 (2018-12-04)
 ------------------
-* Add semicolons to all RCLCPP and RCUTILS macros. (`#357 <https://github.com/ros2/rviz/issues/357>`_)
-* Made the transformation framework used by rviz pluggable. (`#346 <https://github.com/ros2/rviz/issues/346>`_)
-* Contributors: Andreas Greimel, Chris Lalancette
 
 4.0.1 (2018-06-28)
 ------------------
 
 4.0.0 (2018-06-27)
 ------------------
-* Fixed compilation errors and runtime issues on Windows. (`#175 <https://github.com/ros2/rviz/issues/175>`_)
-* Introduced a ROS interface abstraction to improve testability. (`#156 <https://github.com/ros2/rviz/issues/156>`_)
-* Added a dependency between rviz2 and rviz_default_plugins (`#149 <https://github.com/ros2/rviz/issues/149>`_)
-* Contributors: Alessandro Bottero, Andreas Greimel, Andreas Holzner, Martin Idel, Mikael Arguedas, William Woodall
+* Fixed the exported CMake variables to workaround the upstream ``libassimp-dev`` bug. (`#288 <https://github.com/ros2/rviz/issues/288>`_)
+* Contributors: Andreas Holzner, Dirk Thomas, Martin Idel
 
 3.0.0 (2018-02-07)
 ------------------
-* Numerous changes to support Windows.
-* Make rviz runnable with ros2 run.
-* Contributors: Andreas Holzner, Hunter Allen, Steven! Ragnarok, William Woodall
+* Switched to assimp version 4.1.0. (`#169 <https://github.com/ros2/rviz/issues/169>`_)
+
+2.0.0 (2017-12-08)
+------------------
+* First version for ROS 2.
+* Contributors: Steven! Ragnarok, William Woodall
 
 1.12.11 (2017-08-02)
 --------------------

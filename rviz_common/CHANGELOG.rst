@@ -2,62 +2,38 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-15.1.10 (2025-09-26)
---------------------
-* fix crash (`#1587 <https://github.com/ros2/rviz/issues/1587>`_)
-* added option to change filemode (`#1537 <https://github.com/ros2/rviz/issues/1537>`_)
-* Removed deprecation warning in tf2 (`#1585 <https://github.com/ros2/rviz/issues/1585>`_)
-* Std chrono update in default plugins (`#1579 <https://github.com/ros2/rviz/issues/1579>`_)
-* Contributors: Alejandro Hernández Cordero, Joshua Supratman, Mark Johnson, nelson
-
-15.1.9 (2025-09-04)
+15.0.7 (2025-09-26)
 -------------------
-* Removed deprecations (`#1556 <https://github.com/ros2/rviz/issues/1556>`_)
-* rviz common ros service property (`#1548 <https://github.com/ros2/rviz/issues/1548>`_)
-* add ros action property (`#1549 <https://github.com/ros2/rviz/issues/1549>`_)
-* Contributors: Alejandro Hernández Cordero, Joshua Supratman
+* fix crash (`#1587 <https://github.com/ros2/rviz/issues/1587>`_) (`#1588 <https://github.com/ros2/rviz/issues/1588>`_)
+* Contributors: mergify[bot]
 
-15.1.8 (2025-08-22)
+15.0.6 (2025-09-17)
 -------------------
-* Deprecates update(float, float) methods and provides update(std::chrono::duration, std::chrono::duration) replacements. (`#1533 <https://github.com/ros2/rviz//issues/1533>`_)
-* Contributors: Mark Johnson
+* add ros action property (`#1549 <https://github.com/ros2/rviz/issues/1549>`_) (`#1576 <https://github.com/ros2/rviz/issues/1576>`_)
+* Contributors: mergify[bot]
 
-15.1.7 (2025-07-25)
+15.0.5 (2025-08-22)
 -------------------
-* Replace deprecated tf2_ros headers (`#1529 <https://github.com/ros2/rviz/issues/1529>`_)
-* Postpone hiding of properties until insertion into model is finished (`#1508 <https://github.com/ros2/rviz/issues/1508>`_)
+
+15.0.4 (2025-07-07)
+-------------------
+* Postpone hiding of properties until insertion into model is finished (`#1508 <https://github.com/ros2/rviz/issues/1508>`_) (`#1520 <https://github.com/ros2/rviz/issues/1520>`_)
+* Don't hide rows of properties not within the model (`#1507 <https://github.com/ros2/rviz/issues/1507>`_) (`#1517 <https://github.com/ros2/rviz/issues/1517>`_)
+* Remove redundant check (`#1506 <https://github.com/ros2/rviz/issues/1506>`_) (`#1511 <https://github.com/ros2/rviz/issues/1511>`_)
 * Contributors: Alejandro Hernández Cordero
 
-15.1.6 (2025-07-01)
+15.0.3 (2025-06-20)
 -------------------
-* Don't hide rows of properties not within the model (`#1507 <https://github.com/ros2/rviz/issues/1507>`_)
-* Remove redundant check (`#1506 <https://github.com/ros2/rviz/issues/1506>`_)
-* Fix panel deletion (`#1037 <https://github.com/ros2/rviz/issues/1037>`_)
-* Contributors: Alejandro Hernández Cordero
+* Config::mapGetBool causes segmentation fault when value_out is nullptr (`#1471 <https://github.com/ros2/rviz/issues/1471>`_) (`#1479 <https://github.com/ros2/rviz/issues/1479>`_)
+* Contributors: mergify[bot]
 
-15.1.5 (2025-06-27)
+15.0.2 (2025-05-14)
 -------------------
 
-15.1.4 (2025-06-20)
+15.0.1 (2025-05-05)
 -------------------
-* Config::mapGetBool causes segmentation fault when value_out is nullptr (`#1471 <https://github.com/ros2/rviz/issues/1471>`_)
-* Contributors: Alejandro Hernández Cordero
-
-15.1.3 (2025-05-20)
--------------------
-* feat: support both qt5 and qt6 (`#1187 <https://github.com/ros2/rviz/issues/1187>`_)
-* Contributors: Daisuke Nishimatsu
-
-15.1.2 (2025-05-14)
--------------------
-
-15.1.1 (2025-05-05)
--------------------
-* Fixed crash when a resource is not available (`#1455 <https://github.com/ros2/rviz/issues/1455>`_)
-* Contributors: Alejandro Hernández Cordero
-
-15.1.0 (2025-04-25)
--------------------
+* Fixed crash when a resource is not available (`#1455 <https://github.com/ros2/rviz/issues/1455>`_) (`#1456 <https://github.com/ros2/rviz/issues/1456>`_)
+* Contributors: mergify[bot]
 
 15.0.0 (2025-04-25)
 -------------------
