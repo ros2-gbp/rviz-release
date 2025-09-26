@@ -157,7 +157,5 @@ int main(int argc, char ** argv)
   rclcpp::init(argc, argv);
   QApplication app(argc, argv);
   InitGoogleMock(&argc, argv);
-  auto ret = RUN_ALL_TESTS();
-  rclcpp::shutdown();
-  return ret;
+  return RUN_ALL_TESTS();
 }
