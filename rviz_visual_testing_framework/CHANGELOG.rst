@@ -2,6 +2,11 @@
 Changelog for package rviz_visual_testing_framework
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+15.1.10 (2025-09-26)
+--------------------
+* Removed deprecation warning in tf2 (`#1585 <https://github.com/ros2/rviz/issues/1585>`_)
+* Contributors: Alejandro Hernández Cordero
+
 15.1.9 (2025-09-04)
 -------------------
 
