@@ -105,7 +105,11 @@ sensor_msgs::msg::PointCloud2::ConstSharedPtr PointCloud2Display::filterOutInval
   filtered->header = cloud->header;
   filtered->fields = cloud->fields;
   filtered->height = 1;
-  filtered->width = static_cast<uint32_t>(filtered->data.size() / cloud->point_step);
+  if (cloud->point_step > 0) {
+    filtered->width = static_cast<uint32_t>(filtered->data.size() / cloud->point_step);
+  } else {
+    filtered->width = 0;
+  }
   filtered->is_bigendian = cloud->is_bigendian;
   filtered->point_step = cloud->point_step;
   filtered->row_step = filtered->width;
@@ -171,7 +175,7 @@ bool PointCloud2Display::validateFloatsAtPosition(
          rviz_common::validateFloats(z);
 }
 
-void PointCloud2Display::update(float wall_dt, float ros_dt)
+void PointCloud2Display::update(std::chrono::nanoseconds wall_dt, std::chrono::nanoseconds ros_dt)
 {
   point_cloud_common_->update(wall_dt, ros_dt);
 }
