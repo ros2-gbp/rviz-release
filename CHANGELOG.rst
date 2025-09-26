@@ -2,6 +2,14 @@
 Changelog for package rviz_default_plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+15.1.10 (2025-09-26)
+--------------------
+* Removed tf2 warning (`#1586 <https://github.com/ros2/rviz/issues/1586>`_)
+* Removed deprecation warning in tf2 (`#1585 <https://github.com/ros2/rviz/issues/1585>`_)
+* Std chrono update in default plugins (`#1579 <https://github.com/ros2/rviz/issues/1579>`_)
+* Fix pointcloud2 display divide by 0 (`#1581 <https://github.com/ros2/rviz/issues/1581>`_)
+* Contributors: Alejandro Hernández Cordero, Antonio Brandi, Mark Johnson
+
 15.1.9 (2025-09-04)
 -------------------
 * add support for ffmpeg_image_transport and point_cloud_transport (`#1568 <https://github.com/ros2/rviz/issues/1568>`_)
