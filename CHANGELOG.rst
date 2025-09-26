@@ -2,6 +2,14 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+15.1.10 (2025-09-26)
+--------------------
+* fix crash (`#1587 <https://github.com/ros2/rviz/issues/1587>`_)
+* added option to change filemode (`#1537 <https://github.com/ros2/rviz/issues/1537>`_)
+* Removed deprecation warning in tf2 (`#1585 <https://github.com/ros2/rviz/issues/1585>`_)
+* Std chrono update in default plugins (`#1579 <https://github.com/ros2/rviz/issues/1579>`_)
+* Contributors: Alejandro Hernández Cordero, Joshua Supratman, Mark Johnson, nelson
+
 15.1.9 (2025-09-04)
 -------------------
 * Removed deprecations (`#1556 <https://github.com/ros2/rviz/issues/1556>`_)
