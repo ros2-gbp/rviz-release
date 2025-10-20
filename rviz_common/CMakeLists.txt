@@ -31,14 +31,7 @@ find_package(ament_cmake REQUIRED)
 # do find_package(rviz_ogre_vendor) first to make sure the custom OGRE is found
 find_package(rviz_ogre_vendor REQUIRED)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
-if(${QT_VERSION} VERSION_LESS 5.15.0)
-  function(qt_wrap_cpp out)
-    qt5_wrap_cpp(_sources ${ARGN})
-    set("${out}" ${_sources} PARENT_SCOPE)
-  endfunction()
-endif()
+find_package(Qt5 REQUIRED COMPONENTS Widgets)
 
 find_package(geometry_msgs REQUIRED)
 find_package(pluginlib REQUIRED)
@@ -48,13 +41,15 @@ find_package(rviz_rendering REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(std_srvs REQUIRED)
-find_package(TinyXML2 REQUIRED)
+find_package(tinyxml2_vendor REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(message_filters REQUIRED)
 find_package(urdf REQUIRED)
 find_package(yaml_cpp_vendor REQUIRED)
 find_package(yaml-cpp REQUIRED)
+
+find_package(TinyXML2 REQUIRED)  # provided by tinyxml2_vendor
 
 # Copy env_config.hpp so that env_config.cpp can find it
 # TODO(jsquare): Get rid of copy hpp file
@@ -109,7 +104,6 @@ set(rviz_common_headers_to_moc
   include/rviz_common/properties/property_tree_with_help.hpp
   include/rviz_common/properties/qos_profile_property.hpp
   include/rviz_common/properties/ros_action_property.hpp
-  include/rviz_common/properties/ros_service_property.hpp
   include/rviz_common/properties/ros_topic_property.hpp
   include/rviz_common/properties/status_list.hpp
   include/rviz_common/properties/status_property.hpp
@@ -139,7 +133,7 @@ set(rviz_common_headers_to_moc
 )
 
 foreach(header "${rviz_common_headers_to_moc}")
-  qt_wrap_cpp(rviz_common_moc_files "${header}")
+  qt5_wrap_cpp(rviz_common_moc_files "${header}")
 endforeach()
 
 set(rviz_common_source_files
@@ -191,7 +185,6 @@ set(rviz_common_source_files
   src/rviz_common/properties/property_tree_with_help.cpp
   src/rviz_common/properties/property.cpp
   src/rviz_common/properties/ros_action_property.cpp
-  src/rviz_common/properties/ros_service_property.cpp
   src/rviz_common/properties/ros_topic_property.cpp
   src/rviz_common/properties/quaternion_property.cpp
   src/rviz_common/properties/qos_profile_property.cpp
@@ -249,7 +242,7 @@ target_link_libraries(rviz_common PUBLIC
   ${geometry_msgs_TARGETS}
   message_filters::message_filters
   pluginlib::pluginlib
-  Qt${QT_VERSION_MAJOR}::Widgets
+  Qt5::Widgets
   rclcpp::rclcpp
   rviz_ogre_vendor::OgreMain
   rviz_ogre_vendor::OgreOverlay
@@ -275,7 +268,7 @@ ament_export_dependencies(
   geometry_msgs
   message_filters
   pluginlib
-  Qt${QT_VERSION_MAJOR}
+  Qt5
   rclcpp
   rviz_ogre_vendor
   rviz_rendering
@@ -334,10 +327,10 @@ if(BUILD_TESTING)
   find_package(ament_cmake_gmock REQUIRED)
   find_package(ament_cmake_gtest REQUIRED)
 
-  qt_wrap_cpp(rviz_common_test_moc_files test/mock_display.hpp)
-  qt_wrap_cpp(rviz_common_test_moc_files test/mock_property_change_receiver.hpp)
+  qt5_wrap_cpp(rviz_common_test_moc_files test/mock_display.hpp)
+  qt5_wrap_cpp(rviz_common_test_moc_files test/mock_property_change_receiver.hpp)
 
-  qt_wrap_cpp(rviz_common_test_frame_manager_moc src/rviz_common/frame_manager.hpp)
+  qt5_wrap_cpp(rviz_common_test_frame_manager_moc src/rviz_common/frame_manager.hpp)
 
   ament_add_gmock(display_factory_test
     test/display_factory_test.cpp
@@ -346,7 +339,7 @@ if(BUILD_TESTING)
   if(TARGET display_factory_test)
     target_compile_definitions(display_factory_test PUBLIC
       -D_TEST_PLUGIN_DESCRIPTIONS="${CMAKE_CURRENT_SOURCE_DIR}")
-    target_link_libraries(display_factory_test rviz_common Qt${QT_VERSION_MAJOR}::Widgets)
+    target_link_libraries(display_factory_test rviz_common Qt5::Widgets)
   endif()
 
   ament_add_gmock(frame_manager_test
@@ -455,7 +448,7 @@ if(BUILD_TESTING)
     test/mock_property_change_receiver.cpp
     ${SKIP_DISPLAY_TESTS})
   if(TARGET rviz_common_display_test)
-    target_link_libraries(rviz_common_display_test rviz_common Qt${QT_VERSION_MAJOR}::Widgets yaml-cpp::yaml-cpp)
+    target_link_libraries(rviz_common_display_test rviz_common Qt5::Widgets yaml-cpp::yaml-cpp)
   endif()
 endif()
 

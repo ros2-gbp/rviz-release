@@ -4,7 +4,7 @@
   schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="2">
   <name>rviz_common</name>
-  <version>15.1.11</version>
+  <version>15.0.8</version>
   <description>
     Common rviz API, used by rviz plugins and applications.
   </description>
@@ -49,7 +49,7 @@
   <depend>tf2</depend>
   <depend>tf2_ros</depend>
   <depend>message_filters</depend>
-  <depend>tinyxml2</depend>
+  <depend>tinyxml2_vendor</depend>
   <depend>urdf</depend>
   <depend>yaml_cpp_vendor</depend>
 
