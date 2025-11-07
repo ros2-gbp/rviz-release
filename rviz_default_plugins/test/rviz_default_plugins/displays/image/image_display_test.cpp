@@ -101,8 +101,7 @@ TEST_F(ImageDisplayTestFixture, update_calls_texture_update) {
 
   ImageDisplay imageDisplay(std::move(texture_));
   imageDisplay.initialize(context_.get());
-  auto zero = std::chrono::nanoseconds::zero();
-  imageDisplay.update(zero, zero);
+  imageDisplay.update(0, 0);
 }
 
 int main(int argc, char ** argv)
