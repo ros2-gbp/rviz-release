@@ -38,7 +38,7 @@
 #include <QString>  // NOLINT: cpplint can't handle Qt imports
 #include <QStringList>  // NOLINT: cpplint can't handle Qt imports
 
-#include "rviz_common/properties/ros_action_property.hpp"
+#include "rviz_common/properties/ros_service_property.hpp"
 #include "rviz_common/ros_integration/ros_node_abstraction_iface.hpp"
 
 namespace rviz_common
@@ -46,69 +46,67 @@ namespace rviz_common
 namespace properties
 {
 
-RosActionProperty::RosActionProperty(
+RosServiceProperty::RosServiceProperty(
   const QString & name,
   const QString & default_value,
-  const QString & action_type,
+  const QString & service_type,
   const QString & description,
   Property * parent,
   const char * changed_slot,
   QObject * receiver)
 : EditableEnumProperty(name, default_value, description, parent, changed_slot, receiver),
   rviz_ros_node_(),
-  action_type_(action_type)
+  service_type_(service_type)
 {
   connect(
     this, SIGNAL(requestOptions(EditableEnumProperty*)),
-    this, SLOT(fillActionList()));
+    this, SLOT(fillServiceList()));
 }
 
-void RosActionProperty::initialize(ros_integration::RosNodeAbstractionIface::WeakPtr rviz_ros_node)
+void RosServiceProperty::initialize(ros_integration::RosNodeAbstractionIface::WeakPtr rviz_ros_node)
 {
   rviz_ros_node_ = rviz_ros_node;
 }
 
-void RosActionProperty::setActionType(const QString & action_type)
+void RosServiceProperty::setServiceType(const QString & service_type)
 {
-  action_type_ = action_type;
+  service_type_ = service_type;
 }
 
-QString RosActionProperty::getActionType() const
+QString RosServiceProperty::getServiceType() const
 {
-  return action_type_;
+  return service_type_;
 }
 
-QString RosActionProperty::getAction() const
+QString RosServiceProperty::getService() const
 {
   return getValue().toString();
 }
 
-std::string RosActionProperty::getActionStd() const
+std::string RosServiceProperty::getServiceStd() const
 {
   return getValue().toString().toStdString();
 }
 
-bool RosActionProperty::isEmpty() const
+bool RosServiceProperty::isEmpty() const
 {
-  return getActionStd().empty();
+  return getServiceStd().empty();
 }
 
-void RosActionProperty::fillActionList()
+void RosServiceProperty::fillServiceList()
 {
   QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
   clearOptions();
 
-  std::string std_action_type = action_type_.toStdString() + "_FeedbackMessage";
-  std::string suffix = "/_action/feedback";
-  std::map<std::string, std::vector<std::string>> published_topics =
-    rviz_ros_node_.lock()->get_topic_names_and_types();
+  std::string std_service_type = service_type_.toStdString();
+  std::map<std::string, std::vector<std::string>> service_servers =
+    rviz_ros_node_.lock()->get_service_names_and_types();
 
-  for (const auto & topic : published_topics) {
-    // Only add topics whose type matches.
-    for (const auto & type : topic.second) {
-      if (type == std_action_type) {
-        auto action = topic.first.substr(0, topic.first.size() - suffix.size());
-        addOptionStd(action);
+  for (const auto & service : service_servers) {
+    // Only add service whose type matches.
+    for (const auto & type : service.second) {
+      if (type == std_service_type) {
+        addOptionStd(service.first);
       }
     }
   }
@@ -116,38 +114,38 @@ void RosActionProperty::fillActionList()
   QApplication::restoreOverrideCursor();
 }
 
-RosFilteredActionProperty::RosFilteredActionProperty(
+RosFilteredServiceProperty::RosFilteredServiceProperty(
   const QString & name,
   const QString & default_value,
-  const QString & action_type,
+  const QString & service_type,
   const QString & description,
   const QRegularExpression & filter,
   Property * parent,
   const char * changed_slot,
   QObject * receiver)
-: RosActionProperty(name, default_value, action_type, description, parent, changed_slot, receiver)
+: RosServiceProperty(name, default_value, service_type, description, parent, changed_slot, receiver)
   , filter_(filter)
   , filter_enabled_(true)
 {
 }
 
-void RosFilteredActionProperty::enableFilter(bool enabled)
+void RosFilteredServiceProperty::enableFilter(bool enabled)
 {
   filter_enabled_ = enabled;
-  fillActionList();
+  fillServiceList();
 }
 
-QRegularExpression RosFilteredActionProperty::filter() const
+QRegularExpression RosFilteredServiceProperty::filter() const
 {
   return filter_;
 }
 
-void RosFilteredActionProperty::fillActionList()
+void RosFilteredServiceProperty::fillServiceList()
 {
   QStringList filtered_strings_;
 
-  // Obtain list of available actions
-  RosActionProperty::fillActionList();
+  // Obtain list of available services
+  RosServiceProperty::fillServiceList();
   // Apply filter
   if (filter_enabled_) {
     strings_ = strings_.filter(filter_);
