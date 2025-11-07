@@ -1,5 +1,6 @@
 /*
- * Copyright (c) 2023, Open Source Robotics Foundation, Inc.
+ * Copyright (c) 2008, Willow Garage, Inc.
+ * Copyright (c) 2018, Bosch Software Innovations GmbH.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -10,8 +11,8 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the copyright holder nor the names of its contributors
- *       may be used to endorse or promote products derived from
+ *     * Neither the name of the Willow Garage, Inc. nor the names of its
+ *       contributors may be used to endorse or promote products derived from
  *       this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -27,26 +28,42 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef RVIZ_DEFAULT_PLUGINS__DISPLAYS__POINTCLOUD__GET_TRANSPORT_FROM_TOPIC_HPP_
-#define RVIZ_DEFAULT_PLUGINS__DISPLAYS__POINTCLOUD__GET_TRANSPORT_FROM_TOPIC_HPP_
+#ifndef RVIZ_RENDERING__MESH_LOADER_HELPERS__STL_LOADER_HPP_
+#define RVIZ_RENDERING__MESH_LOADER_HELPERS__STL_LOADER_HPP_
 
 #include <string>
+#include <vector>
 
-#include "rviz_default_plugins/visibility_control.hpp"
+#include <OgreVector3.h>
+#include <OgreMesh.h>
 
-namespace rviz_default_plugins
+namespace rviz_rendering
 {
-namespace displays
+
+class STLLoader
 {
+public:
+  STLLoader() = default;
+  ~STLLoader() = default;
 
-RVIZ_DEFAULT_PLUGINS_PUBLIC
-std::string getPointCloud2TransportFromTopic(const std::string & topic);
+  bool load(uint8_t * buffer, size_t num_bytes, const std::string & origin);
 
-RVIZ_DEFAULT_PLUGINS_PUBLIC
-std::string getPointCloud2BaseTopicFromTopic(const std::string & topic);
+  Ogre::MeshPtr toMesh(const std::string & name);
 
+  struct Triangle
+  {
+    Ogre::Vector3 vertices_[3];
+    Ogre::Vector3 normal_;
+  };
 
-}  //  end namespace displays
-}  //  end namespace rviz_default_plugins
+  typedef std::vector<Triangle> V_Triangle;
+  V_Triangle triangles_;
 
-#endif  //  RVIZ_DEFAULT_PLUGINS__DISPLAYS__POINTCLOUD__GET_TRANSPORT_FROM_TOPIC_HPP_
+protected:
+  //! Load a binary STL file
+  bool loadBinary(uint8_t * buffer);
+};
+
+}  // namespace rviz_rendering
+
+#endif  // RVIZ_RENDERING__MESH_LOADER_HELPERS__STL_LOADER_HPP_

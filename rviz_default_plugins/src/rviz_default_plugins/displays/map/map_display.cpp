@@ -137,22 +137,6 @@ MapDisplay::MapDisplay()
   transform_timestamp_property_ = new rviz_common::properties::BoolProperty(
     "Use Timestamp", false,
     "Use map header timestamp when transforming", this, SLOT(transformMap()));
-
-  binary_view_property_ = new rviz_common::properties::BoolProperty(
-    "Binary representation",
-    false,
-    "Represent the map value as either free or occupied, considering the user-defined threshold",
-    this,
-    SLOT(updatePalette()));
-
-  binary_threshold_property_ = new rviz_common::properties::IntProperty(
-    "Binary threshold",
-    100,
-    "Minimum value to mark cells as obstacle in the binary representation of the map",
-    this,
-    SLOT(updateBinaryThreshold()));
-  binary_threshold_property_->setMin(0);
-  binary_threshold_property_->setMax(100);
 }
 
 MapDisplay::~MapDisplay()
@@ -198,25 +182,13 @@ void MapDisplay::onInitialize()
       this->update_profile_ = profile;
       updateMapUpdateTopic();
     });
-  int threshold = binary_threshold_property_->getInt();
   // Order of palette textures here must match option indices for color_scheme_property_ above.
   palette_textures_.push_back(makePaletteTexture(makeMapPalette()));
-  palette_textures_binary_.push_back(makePaletteTexture(makeMapPalette(true, threshold)));
   color_scheme_transparency_.push_back(false);
   palette_textures_.push_back(makePaletteTexture(makeCostmapPalette()));
-  palette_textures_binary_.push_back(makePaletteTexture(makeCostmapPalette(true, threshold)));
   color_scheme_transparency_.push_back(true);
   palette_textures_.push_back(makePaletteTexture(makeRawPalette()));
-  palette_textures_binary_.push_back(makePaletteTexture(makeRawPalette(true, threshold)));
   color_scheme_transparency_.push_back(true);
-}
-
-void MapDisplay::updateBinaryThreshold()
-{
-  int threshold = binary_threshold_property_->getInt();
-  palette_textures_binary_[0] = makePaletteTexture(makeMapPalette(true, threshold));
-  palette_textures_binary_[1] = makePaletteTexture(makeCostmapPalette(true, threshold));
-  palette_textures_binary_[2] = makePaletteTexture(makeRawPalette(true, threshold));
 }
 
 void MapDisplay::updateTopic()
@@ -612,8 +584,6 @@ void MapDisplay::updateSwatches() const
 
 void MapDisplay::updatePalette()
 {
-  bool binary = binary_view_property_->getBool();
-
   int palette_index = color_scheme_property_->getOptionInt();
 
   for (const auto & swatch : swatches_) {
@@ -624,11 +594,7 @@ void MapDisplay::updatePalette()
     } else {
       palette_tex_unit = pass->createTextureUnitState();
     }
-    if (binary) {
-      palette_tex_unit->setTexture(palette_textures_binary_[palette_index]);
-    } else {
-      palette_tex_unit->setTexture(palette_textures_[palette_index]);
-    }
+    palette_tex_unit->setTexture(palette_textures_[palette_index]);
     palette_tex_unit->setTextureFiltering(Ogre::TFO_NONE);
   }
 
@@ -645,7 +611,7 @@ void MapDisplay::transformMap()
   rclcpp::Time transform_time = context_->getClock()->now();
 
   if (transform_timestamp_property_->getBool()) {
-    transform_time = rclcpp::Time(current_map_.header.stamp, RCL_ROS_TIME);
+    transform_time = current_map_.header.stamp;
   }
 
   Ogre::Vector3 position;
