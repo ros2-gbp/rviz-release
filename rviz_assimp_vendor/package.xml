@@ -3,18 +3,19 @@
   href="http://download.ros.org/schema/package_format2.xsd"
   schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="2">
-  <name>rviz_ogre_vendor</name>
+  <name>rviz_assimp_vendor</name>
   <version>15.0.10</version>
   <description>
-    Wrapper around ogre3d, it provides a fixed CMake module and an ExternalProject build of ogre.
+    Wrapper around assimp, providing nothing but a dependency on assimp, on some systems.
+    On others, it provides a fixed CMake module or even an ExternalProject build of assimp.
   </description>
 
   <maintainer email="alejandro@openrobotics.org">Alejandro Hernandez Cordero</maintainer>
 
   <license>Apache License 2.0</license>  <!-- the contents of this package are Apache 2.0 -->
-  <license>MIT</license>  <!-- ogre is MIT (https://www.ogre3d.org/licensing) -->
+  <license>BSD</license>  <!-- assimp is BSD (http://assimp.sourceforge.net/main_license.html) -->
 
-  <url type="website">https://www.ogre3d.org/</url>
+  <url type="website">http://assimp.sourceforge.net/index.html</url>
 
   <author email="jacob@openrobotics.org">Jacob Perron</author>
   <author email="michael.jeronimo@openrobotics.org">Michael Jeronimo</author>
@@ -23,16 +24,9 @@
   <buildtool_depend>ament_cmake</buildtool_depend>
   <buildtool_depend>ament_cmake_vendor_package</buildtool_depend>
 
-  <build_depend>libfreetype-dev</build_depend>
-  <build_export_depend>libfreetype-dev</build_export_depend>
-  <build_export_depend>libglew-dev</build_export_depend>
-  <exec_depend>libfreetype6</exec_depend>
+  <depend>assimp</depend>
 
-  <depend>libx11-dev</depend>
-  <depend>libxaw</depend>
-  <depend>libxrandr</depend>
-  <depend>opengl</depend>
-
+  <test_depend>ament_cmake_lint_cmake</test_depend>
   <test_depend>ament_cmake_xmllint</test_depend>
   <test_depend>ament_lint_auto</test_depend>
 
