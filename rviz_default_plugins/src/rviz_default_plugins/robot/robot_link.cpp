@@ -50,11 +50,11 @@
 
 #include <QFileInfo>  // NOLINT cpplint cannot handle include order here
 
-#include <gz/math/Inertial.hh>
-#include <gz/math/MassMatrix3.hh>
-#include <gz/math/Pose3.hh>
-#include <gz/math/Quaternion.hh>
-#include <gz/math/Vector3.hh>
+#include <ignition/math/Inertial.hh>
+#include <ignition/math/MassMatrix3.hh>
+#include <ignition/math/Pose3.hh>
+#include <ignition/math/Quaternion.hh>
+#include <ignition/math/Vector3.hh>
 
 #include "resource_retriever/retriever.hpp"
 
@@ -871,24 +871,24 @@ void RobotLink::createMass(const urdf::LinkConstSharedPtr & link)
 void RobotLink::createInertia(const urdf::LinkConstSharedPtr & link)
 {
   if (link->inertial) {
-    const gz::math::Vector3d i_xx_yy_zz(
+    const ignition::math::Vector3d i_xx_yy_zz(
       link->inertial->ixx,
       link->inertial->iyy,
       link->inertial->izz);
-    const gz::math::Vector3d Ixyxzyz(
+    const ignition::math::Vector3d Ixyxzyz(
       link->inertial->ixy,
       link->inertial->ixz,
       link->inertial->iyz);
-    gz::math::MassMatrix3d mass_matrix(link->inertial->mass, i_xx_yy_zz, Ixyxzyz);
+    ignition::math::MassMatrix3d mass_matrix(link->inertial->mass, i_xx_yy_zz, Ixyxzyz);
 
-    gz::math::Vector3d box_scale;
-    gz::math::Quaterniond box_rot;
+    ignition::math::Vector3d box_scale;
+    ignition::math::Quaterniond box_rot;
     if (!mass_matrix.EquivalentBox(box_scale, box_rot)) {
       // Invalid inertia, load with default scale
       if (link->parent_joint && link->parent_joint->type != urdf::Joint::FIXED) {
         // Do not show error message for base link or static links
         RVIZ_COMMON_LOG_ERROR_STREAM(
-          "The link " << link->name << " has unrealistic "
+          "The link " << link->name << " is has unrealistic "
             "inertia, so the equivalent inertia box will not be shown.\n");
       }
       return;
