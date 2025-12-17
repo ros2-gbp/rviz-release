@@ -1,0 +1,12 @@
+Source: ros-kilted-rviz2
+Section: misc
+Priority: optional
+Maintainer: Alejandro Hernandez Cordero <alejandro@openrobotics.org>
+Build-Depends: debhelper (>= 9.0.0), python3-yaml <!nocheck>, qtbase5-dev, ros-kilted-ament-cmake, ros-kilted-ament-cmake-lint-cmake <!nocheck>, ros-kilted-ament-cmake-pytest <!nocheck>, ros-kilted-ament-lint-auto <!nocheck>, ros-kilted-ament-lint-common <!nocheck>, ros-kilted-geometry-msgs <!nocheck>, ros-kilted-rclcpp <!nocheck>, ros-kilted-rviz-common, ros-kilted-rviz-ogre-vendor, ros-kilted-sensor-msgs <!nocheck>, ros-kilted-ros-workspace
+Homepage: https://github.com/ros2/rviz/blob/ros2/README.md
+Standards-Version: 3.9.2
+
+Package: ros-kilted-rviz2
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, python3-dev, ros-kilted-rviz-common, ros-kilted-rviz-default-plugins, ros-kilted-rviz-ogre-vendor, ros-kilted-ros-workspace
+Description: 3D visualization tool for ROS.
