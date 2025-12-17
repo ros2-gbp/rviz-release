@@ -224,7 +224,7 @@ void DisplayGroup::fixedFrameChanged()
   }
 }
 
-void DisplayGroup::update(std::chrono::nanoseconds wall_dt, std::chrono::nanoseconds ros_dt)
+void DisplayGroup::update(float wall_dt, float ros_dt)
 {
   int num_children = displays_.size();
   for (int i = 0; i < num_children; i++) {
@@ -233,12 +233,6 @@ void DisplayGroup::update(std::chrono::nanoseconds wall_dt, std::chrono::nanosec
       display->update(wall_dt, ros_dt);
     }
   }
-}
-
-void DisplayGroup::update(float wall_dt, float ros_dt)
-{
-  this->update(std::chrono::nanoseconds(std::lround(wall_dt)),
-               std::chrono::nanoseconds(std::lround(ros_dt)));
 }
 
 void DisplayGroup::reset()

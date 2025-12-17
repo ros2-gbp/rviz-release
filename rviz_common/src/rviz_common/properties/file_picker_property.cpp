@@ -30,11 +30,7 @@
 
 #include "rviz_common/properties/file_picker_property.hpp"
 
-#include <QFileDialog>
-#include <QObject>
 #include <QString>
-#include <QStyleOptionViewItem>
-#include <QWidget>
 
 #include "file_picker.hpp"
 
@@ -49,15 +45,14 @@ FilePickerProperty::FilePickerProperty(
   const QString & description,
   Property * parent,
   const char * changed_slot,
-  QObject * receiver,
-  QFileDialog::FileMode mode)
-: StringProperty(name, default_value, description, parent, changed_slot, receiver), mode_(mode)
+  QObject * receiver)
+: StringProperty(name, default_value, description, parent, changed_slot, receiver)
 {}
 
 QWidget * FilePickerProperty::createEditor(QWidget * parent, const QStyleOptionViewItem & option)
 {
   (void) option;
-  auto file_picker = new FilePicker(this, parent, mode_);
+  auto file_picker = new FilePicker(this, parent);
   file_picker->setFrame(false);
   return file_picker;
 }

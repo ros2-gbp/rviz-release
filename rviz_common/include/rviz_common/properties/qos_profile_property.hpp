@@ -68,8 +68,6 @@ public:
    */
   void initialize(std::function<void(rclcpp::QoS)> qos_changed_callback);
 
-  void setBestEffort();
-
 private Q_SLOTS:
   void updateQosProfile();
 

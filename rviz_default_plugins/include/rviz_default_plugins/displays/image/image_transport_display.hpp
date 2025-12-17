@@ -115,10 +115,10 @@ protected:
     try {
       rclcpp::Node::SharedPtr node = rviz_ros_node_.lock()->get_raw_node();
       subscription_->subscribe(
-        *node,
+        node.get(),
         getBaseTopicFromTopic(topic_property_->getTopicStd()),
         getTransportFromTopic(topic_property_->getTopicStd()),
-        qos_profile);
+        qos_profile.get_rmw_qos_profile());
       subscription_start_time_ = node->now();
       subscription_callback_ = subscription_->registerCallback(
         std::bind(

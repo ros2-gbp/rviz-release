@@ -39,7 +39,7 @@
 #include <QFile>  // NOLINT cpplint cannot handle include order here
 #include <QString>  // NOLINT: cpplint is unable to handle the include order here
 
-#include "tf2_ros/transform_listener.hpp"
+#include "tf2_ros/transform_listener.h"
 
 #include "rviz_common/display_context.hpp"
 #include "rviz_common/properties/enum_property.hpp"
@@ -82,7 +82,7 @@ enum DescriptionSource
 
 RobotModelDisplay::RobotModelDisplay()
 : has_new_transforms_(false),
-  time_since_last_transform_(0),
+  time_since_last_transform_(0.0f),
   transformer_guard_(
     std::make_unique<rviz_default_plugins::transformation::TransformerGuard<
       rviz_default_plugins::transformation::TFFrameTransformer>>(this, "TF"))
@@ -323,7 +323,7 @@ void RobotModelDisplay::onDisable()
   clear();
 }
 
-void RobotModelDisplay::update(std::chrono::nanoseconds wall_dt, std::chrono::nanoseconds ros_dt)
+void RobotModelDisplay::update(float wall_dt, float ros_dt)
 {
   if (!transformer_guard_->checkTransformer()) {
     return;
@@ -331,15 +331,15 @@ void RobotModelDisplay::update(std::chrono::nanoseconds wall_dt, std::chrono::na
 
   (void) ros_dt;
   time_since_last_transform_ += wall_dt;
-  std::chrono::nanoseconds rate(std::lround(update_rate_property_->getFloat() * 1e9));
-  bool update = rate < std::chrono::microseconds(100) || time_since_last_transform_ >= rate;
+  float rate = update_rate_property_->getFloat();
+  bool update = rate < 0.0001f || time_since_last_transform_ >= rate * 1000000000;
 
   if (has_new_transforms_ || update) {
     updateRobot();
     context_->queueRender();
 
     has_new_transforms_ = false;
-    time_since_last_transform_ = std::chrono::nanoseconds(0);
+    time_since_last_transform_ = 0.0f;
   }
 }
 

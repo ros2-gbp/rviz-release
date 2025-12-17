@@ -51,7 +51,7 @@
 #include <message_filters/cache.hpp>
 
 # include "sensor_msgs/msg/camera_info.hpp"
-# include "tf2_ros/message_filter.hpp"
+# include "tf2_ros/message_filter.h"
 
 # include "rviz_default_plugins/displays/image/image_transport_display.hpp"
 # include "rviz_default_plugins/displays/image/ros_image_texture_iface.hpp"
@@ -115,7 +115,7 @@ public:
   // Overrides from Display
   void onInitialize() override;
 
-  void update(std::chrono::nanoseconds wall_dt, std::chrono::nanoseconds ros_dt) override;
+  void update(float wall_dt, float ros_dt) override;
 
   void reset() override;
 

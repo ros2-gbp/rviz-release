@@ -139,9 +139,9 @@ VisualizationManager::VisualizationManager(
   shutting_down_(false),
   render_panel_(render_panel),
   wall_clock_elapsed_(0),
-  ros_time_elapsed_(0, 0),
-  time_update_timer_(0),
-  frame_update_timer_(0),
+  ros_time_elapsed_(0),
+  time_update_timer_(0.0f),
+  frame_update_timer_(0.0f),
   render_requested_(1),
   frame_count_(0),
   window_manager_(wm),
@@ -336,17 +336,15 @@ BitAllocator * VisualizationManager::visibilityBits()
 
 void VisualizationManager::onUpdate()
 {
-  const std::chrono::time_point<std::chrono::system_clock> wall_now =
-    std::chrono::system_clock::now();
-  const std::chrono::nanoseconds wall_dt =
-    std::chrono::duration_cast<std::chrono::nanoseconds>(wall_now - last_update_wall_time_);
+  const auto wall_now = std::chrono::system_clock::now();
+  const auto wall_diff = wall_now - last_update_wall_time_;
+  const uint64_t wall_dt = std::chrono::duration_cast<std::chrono::nanoseconds>(wall_diff).count();
   const auto ros_now = clock_->now();
-  const auto ros_dt = std::chrono::nanoseconds(
-      std::lround(ros_now.nanoseconds() - last_update_ros_time_.nanoseconds()));
+  const uint64_t ros_dt = ros_now.nanoseconds() - last_update_ros_time_.nanoseconds();
   last_update_ros_time_ = ros_now;
   last_update_wall_time_ = wall_now;
 
-  if (ros_dt < std::chrono::nanoseconds(0)) {
+  if (ros_dt < 0.0) {
     resetTime();
   }
 
@@ -364,15 +362,15 @@ void VisualizationManager::onUpdate()
 
   time_update_timer_ += wall_dt;
 
-  if (time_update_timer_ > std::chrono::nanoseconds(0)) {
-    time_update_timer_ = std::chrono::nanoseconds(0);
+  if (time_update_timer_ > 0.1f) {
+    time_update_timer_ = 0.0f;
     updateTime();
   }
 
   frame_update_timer_ += wall_dt;
 
-  if (frame_update_timer_ > std::chrono::nanoseconds(1)) {
-    frame_update_timer_ = std::chrono::nanoseconds(0);
+  if (frame_update_timer_ > 1.0f) {
+    frame_update_timer_ = 0.0f;
     updateFrames();
   }
 
@@ -392,7 +390,7 @@ void VisualizationManager::onUpdate()
   }
 
   frame_count_++;
-  if (render_requested_ || wall_dt > std::chrono::milliseconds(10)) {
+  if (render_requested_ || wall_diff > std::chrono::milliseconds(10)) {
     render_requested_ = 0;
     std::lock_guard<std::mutex> lock(private_->render_mutex_);
     ogre_root_->renderOneFrame();
@@ -415,11 +413,12 @@ void VisualizationManager::onTimeJump(const rcl_time_jump_t & jump)
 
 void VisualizationManager::updateTime()
 {
+  rclcpp::Clock clock;  // TODO(wjwwood): replace with clock attached to node for ROS Time
   if (ros_time_begin_.nanoseconds() == 0) {
-    ros_time_begin_ = rviz_ros_node_.lock()->get_raw_node()->get_clock()->now();
+    ros_time_begin_ = clock_->now();
   }
 
-  ros_time_elapsed_ = rviz_ros_node_.lock()->get_raw_node()->get_clock()->now() - ros_time_begin_;
+  ros_time_elapsed_ = (clock_->now() - ros_time_begin_).nanoseconds();
 
   if (wall_clock_begin_.time_since_epoch().count() == 0) {
     wall_clock_begin_ = std::chrono::system_clock::now();
@@ -577,7 +576,7 @@ double VisualizationManager::getWallClockElapsed()
 
 double VisualizationManager::getROSTimeElapsed()
 {
-  return ros_time_elapsed_.seconds();
+  return static_cast<double>(ros_time_elapsed_) / 1e9;
 }
 
 void VisualizationManager::updateBackgroundColor()
