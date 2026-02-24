@@ -34,7 +34,7 @@
 #include <string>
 #include <map>
 
-#include <OgreVector.h>
+#include <OgreVector3.h>
 #include <OgreQuaternion.h>
 #include <OgreAny.h>
 

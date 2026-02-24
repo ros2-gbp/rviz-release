@@ -390,11 +390,12 @@ void Property::setModel(PropertyTreeModel * model)
     // process propertyHiddenChanged after insertion into model has finished
     // Use QPointer to track Property lifetime and avoid use-after-free
     QPointer<Property> self = this;
-    QTimer::singleShot(0, model_, [self]() {
+    QTimer::singleShot(
+      0, model_, [self]() {
         if (self && self->model_) {
           self->model_->emitPropertyHiddenChanged(self);
         }
-    });
+      });
   }
   int num_children = numChildren();
   for (int i = 0; i < num_children; i++) {
