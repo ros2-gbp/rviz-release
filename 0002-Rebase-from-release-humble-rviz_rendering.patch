@@ -1,4 +1,4 @@
-From 462a1ef61a887ffa473955016aa67d6291022c2b Mon Sep 17 00:00:00 2001
+From 827a7e443c74a5767730f3b695296784c9635ab9 Mon Sep 17 00:00:00 2001
 From: Audrow Nash <audrow@intrinsic.ai>
 Date: Mon, 29 Jul 2024 16:41:03 -0500
 Subject: [PATCH 2/3] Rebase from 'release/humble/rviz_rendering'
