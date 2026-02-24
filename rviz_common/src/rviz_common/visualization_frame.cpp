@@ -43,7 +43,6 @@
 #include <OgreMeshManager.h>
 #include <OgreMaterialManager.h>
 
-#include <QActionGroup>  // NOLINT cpplint cannot handle include order here
 #include <QApplication>  // NOLINT cpplint cannot handle include order here
 #include <QCloseEvent>  // NOLINT cpplint cannot handle include order here
 #include <QDesktopServices>  // NOLINT cpplint cannot handle include order here
@@ -63,8 +62,8 @@
 #include <QToolButton>  // NOLINT cpplint cannot handle include order here
 
 #include "rclcpp/clock.hpp"
-#include "tf2_ros/buffer.hpp"
-#include "tf2_ros/transform_listener.hpp"
+#include "tf2_ros/buffer.h"
+#include "tf2_ros/transform_listener.h"
 
 #include "rviz_common/load_resource.hpp"
 #include "rviz_common/logging.hpp"
@@ -132,12 +131,11 @@ VisualizationFrame::VisualizationFrame(
 
   post_load_timer_->setSingleShot(true);
   connect(post_load_timer_, SIGNAL(timeout()), this, SLOT(markLoadingDone()));
-  ament_index_cpp::get_package_share_directory("rviz_common", package_path_);
-  std::filesystem::path help_path_p = package_path_ / "help" / "help.html";
-  QDir help_path(help_path_p.string().c_str());
+
+  package_path_ = ament_index_cpp::get_package_share_directory("rviz_common");
+  QDir help_path(QString::fromStdString(package_path_) + "/help/help.html");
   help_path_ = help_path.absolutePath();
-  std::filesystem::path splash_path_p = package_path_ / "images" / "splash.png";
-  QDir splash_path(splash_path_p.string().c_str());
+  QDir splash_path(QString::fromStdString(package_path_) + "/images/splash.png");
   splash_path_ = splash_path.absolutePath();
 
   auto * reset_button = new QToolButton();
@@ -243,8 +241,7 @@ void VisualizationFrame::initialize(
   loadPersistentSettings();
 
   if (app_) {
-    QDir app_icon_path(QString::fromStdString(
-        (package_path_ / "icons" / "package.png").string()));
+    QDir app_icon_path(QString::fromStdString(package_path_) + "/icons/package.png");
     QIcon app_icon(app_icon_path.absolutePath());
     app_->setWindowIcon(app_icon);
   }
@@ -267,7 +264,7 @@ void VisualizationFrame::initialize(
   QWidget * central_widget = new QWidget(this);
   QHBoxLayout * central_layout = new QHBoxLayout;
   central_layout->setSpacing(0);
-  central_layout->setContentsMargins(0, 0, 0, 0);
+  central_layout->setMargin(0);
 
   render_panel_ = new RenderPanel(central_widget);
 
@@ -676,10 +673,10 @@ void VisualizationFrame::loadDisplayConfig(const QString & qpath)
 {
   std::string path = qpath.toStdString();
   QFileInfo path_info(qpath);
-  std::filesystem::path actual_load_path = path;
+  std::string actual_load_path = path;
   if (!path_info.exists() || path_info.isDir()) {
-    actual_load_path = package_path_ / "default.rviz";
-    if (!std::filesystem::exists(actual_load_path)) {
+    actual_load_path = package_path_ + "/default.rviz";
+    if (!QFile(QString::fromStdString(actual_load_path)).exists()) {
       RVIZ_COMMON_LOG_ERROR_STREAM(
         "Default display config '" <<
           actual_load_path.c_str() << "' not found.  RViz will be very empty at first.");
@@ -707,7 +704,7 @@ void VisualizationFrame::loadDisplayConfig(const QString & qpath)
 
   YamlConfigReader reader;
   Config config;
-  reader.readFile(config, QString::fromStdString(actual_load_path.string()));
+  reader.readFile(config, QString::fromStdString(actual_load_path));
   if (!reader.error()) {
     try {
       load(config);
@@ -1197,21 +1194,6 @@ QWidget * VisualizationFrame::getParentWindow()
   return this;
 }
 
-void VisualizationFrame::onPanelDeleted(QObject * dock)
-{
-  for (int i = 0; i < custom_panels_.size(); ++i) {
-    if (custom_panels_[i].dock == dock) {
-      auto & record = custom_panels_[i];
-      record.delete_action->deleteLater();
-      delete_view_menu_->removeAction(record.delete_action);
-      delete_view_menu_->setDisabled(delete_view_menu_->actions().isEmpty());
-      custom_panels_.removeAt(i);
-      setDisplayConfigModified();
-      return;
-    }
-  }
-}
-
 void VisualizationFrame::onDeletePanel()
 {
   // This should only be called as a SLOT from a QAction in the
@@ -1223,6 +1205,14 @@ void VisualizationFrame::onDeletePanel()
     for (int i = 0; i < custom_panels_.size(); i++) {
       if (custom_panels_[i].delete_action == action) {
         delete custom_panels_[i].dock;
+        custom_panels_.removeAt(i);
+        setDisplayConfigModified();
+        action->deleteLater();
+        if (delete_view_menu_->actions().size() == 1 &&
+          delete_view_menu_->actions().first() == action)
+        {
+          delete_view_menu_->setEnabled(false);
+        }
         return;
       }
     }
@@ -1278,7 +1268,6 @@ QDockWidget * VisualizationFrame::addPanelByName(
   record.panel = panel;
   record.name = name;
   record.delete_action = delete_view_menu_->addAction(name, this, SLOT(onDeletePanel()));
-  connect(record.dock, &QObject::destroyed, this, &VisualizationFrame::onPanelDeleted);
   custom_panels_.append(record);
   delete_view_menu_->setEnabled(true);
 

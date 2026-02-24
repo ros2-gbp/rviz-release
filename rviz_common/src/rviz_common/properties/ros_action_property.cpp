@@ -34,7 +34,7 @@
 
 #include <QApplication>  // NOLINT: cpplint can't handle Qt imports
 #include <QObject>  // NOLINT: cpplint can't handle Qt imports
-#include <QRegularExpression>  // NOLINT: cpplint can't handle Qt imports
+#include <QRegExp>  // NOLINT: cpplint can't handle Qt imports
 #include <QString>  // NOLINT: cpplint can't handle Qt imports
 #include <QStringList>  // NOLINT: cpplint can't handle Qt imports
 
@@ -121,7 +121,7 @@ RosFilteredActionProperty::RosFilteredActionProperty(
   const QString & default_value,
   const QString & action_type,
   const QString & description,
-  const QRegularExpression & filter,
+  const QRegExp & filter,
   Property * parent,
   const char * changed_slot,
   QObject * receiver)
@@ -137,7 +137,7 @@ void RosFilteredActionProperty::enableFilter(bool enabled)
   fillActionList();
 }
 
-QRegularExpression RosFilteredActionProperty::filter() const
+QRegExp RosFilteredActionProperty::filter() const
 {
   return filter_;
 }

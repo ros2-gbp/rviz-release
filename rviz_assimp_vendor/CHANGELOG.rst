@@ -1,6 +1,6 @@
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Changelog for package rviz_rendering_tests
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Changelog for package rviz_assimp_vendor
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 15.0.12 (2026-02-24)
 --------------------
@@ -37,19 +37,17 @@ Changelog for package rviz_rendering_tests
 
 15.0.1 (2025-05-05)
 -------------------
+* Clean ogre CMakeLists.txt (`#1251 <https://github.com/ros2/rviz/issues/1251>`_) (`#1445 <https://github.com/ros2/rviz/issues/1445>`_)
+* Contributors: mergify[bot]
 
 15.0.0 (2025-04-25)
 -------------------
-* Work in progress using the new resource retriever apis (`#1262 <https://github.com/ros2/rviz/issues/1262>`_)
-* Contributors: Michael Carroll
 
 14.4.4 (2025-03-20)
 -------------------
 
 14.4.3 (2025-02-27)
 -------------------
-* uniform CMAKE requirement (`#1335 <https://github.com/ros2/rviz/issues/1335>`_)
-* Contributors: mosfet80
 
 14.4.2 (2025-01-31)
 -------------------
@@ -77,11 +75,16 @@ Changelog for package rviz_rendering_tests
 
 14.2.5 (2024-07-29)
 -------------------
+* Revert "Update ASSIMP_VENDOR CMakeLists.txt (`#1226 <https://github.com/ros2/rviz/issues/1226>`_)" (`#1249 <https://github.com/ros2/rviz/issues/1249>`_)
+* Contributors: Chris Lalancette
 
 14.2.4 (2024-07-19)
 -------------------
-* Added common test to rviz_rendering_tests (`#1234 <https://github.com/ros2/rviz/issues/1234>`_)
-* Contributors: Alejandro Hernández Cordero
+* Update ASSIMP_VENDOR CMakeLists.txt (`#1226 <https://github.com/ros2/rviz/issues/1226>`_)
+  CLEAN UNUSED CHECK
+  SE MIN ASSIMP VERSION TO 5.3.1
+  SET C++ VERSION TO 17
+* Contributors: mosfet80
 
 14.2.3 (2024-06-25)
 -------------------
@@ -94,9 +97,20 @@ Changelog for package rviz_rendering_tests
 
 14.2.0 (2024-04-26)
 -------------------
+* Removed assimp warnings (`#1191 <https://github.com/ros2/rviz/issues/1191>`_)
+* Don't treat warnings as errors when building Assimp (`#1174 <https://github.com/ros2/rviz/issues/1174>`_)
+* Contributors: Alejandro Hernández Cordero, Scott K Logan
 
 14.1.0 (2024-04-16)
 -------------------
+* Update the vendored package path. (`#1184 <https://github.com/ros2/rviz/issues/1184>`_)
+  Since we just updated to assimp 5.3, we also need to
+  update the path we look for it.
+  This should fix the build with clang which is currently
+  failing.
+* Update assimp vendor to 5.3.1 (`#1182 <https://github.com/ros2/rviz/issues/1182>`_)
+  This matches what is in Ubuntu 24.04.
+* Contributors: Chris Lalancette
 
 14.0.0 (2024-04-07)
 -------------------
@@ -112,18 +126,12 @@ Changelog for package rviz_rendering_tests
 
 13.3.1 (2024-01-24)
 -------------------
-* Remove the loading_ascii_stl_files_fail (`#1125 <https://github.com/ros2/rviz/issues/1125>`_)
-* Contributors: Chris Lalancette
 
 13.3.0 (2023-12-26)
 -------------------
-* Update rviz_rendering and rviz_rendering_tests to C++17. (`#1096 <https://github.com/ros2/rviz/issues/1096>`_)
-* Contributors: Chris Lalancette
 
 13.2.0 (2023-11-06)
 -------------------
-* Use assimp to load stl (`#1063 <https://github.com/ros2/rviz/issues/1063>`_)
-* Contributors: Alejandro Hernández Cordero
 
 13.1.2 (2023-10-09)
 -------------------
@@ -142,6 +150,10 @@ Changelog for package rviz_rendering_tests
 
 12.7.0 (2023-07-11)
 -------------------
+* Update to assimp 5.2.2 (`#968 <https://github.com/ros2/rviz/issues/968>`_)
+* Fix the vendoring flags for clang compilation. (`#1003 <https://github.com/ros2/rviz/issues/1003>`_)
+* Switch to ament_cmake_vendor_package (`#995 <https://github.com/ros2/rviz/issues/995>`_)
+* Contributors: Chris Lalancette, Scott K Logan
 
 12.6.1 (2023-06-12)
 -------------------
@@ -157,6 +169,8 @@ Changelog for package rviz_rendering_tests
 
 12.4.0 (2023-04-18)
 -------------------
+* If vendored assimp is present, always prefer that (`#970 <https://github.com/ros2/rviz/issues/970>`_)
+* Contributors: Scott K Logan
 
 12.3.2 (2023-04-11)
 -------------------
@@ -171,14 +185,14 @@ Changelog for package rviz_rendering_tests
 
 12.2.0 (2022-11-07)
 -------------------
-* add test to ensure binary STL files from SOLIDWORKS get imported without a warning (`#917 <https://github.com/ros2/rviz/issues/917>`_)
-* Contributors: Kenji Brameld
 
 12.1.0 (2022-11-02)
 -------------------
 
 12.0.0 (2022-09-13)
 -------------------
+* Fixes policy CMP0135 warning for CMake >= 3.24 (`#898 <https://github.com/ros2/rviz/issues/898>`_)
+* Contributors: Cristóbal Arroyo
 
 11.3.0 (2022-04-26)
 -------------------
@@ -191,6 +205,8 @@ Changelog for package rviz_rendering_tests
 
 11.1.0 (2022-03-24)
 -------------------
+* Make sure to pass compiler and flags down to assimp (`#844 <https://github.com/ros2/rviz/issues/844>`_)
+* Contributors: Chris Lalancette
 
 11.0.0 (2022-03-01)
 -------------------
@@ -200,6 +216,8 @@ Changelog for package rviz_rendering_tests
 
 9.1.1 (2022-01-25)
 ------------------
+* Fix support for assimp 5.1.0 (`#817 <https://github.com/ros2/rviz/issues/817>`_)
+* Contributors: Silvio Traversaro
 
 9.1.0 (2022-01-13)
 ------------------
@@ -212,8 +230,6 @@ Changelog for package rviz_rendering_tests
 
 8.7.0 (2021-08-11)
 ------------------
-* Removed some memory leaks in rviz_rendering and rviz_rendering_tests (`#710 <https://github.com/ros2/rviz/issues/710>`_)
-* Contributors: Alejandro Hernández Cordero
 
 8.6.0 (2021-05-13)
 ------------------
@@ -223,6 +239,9 @@ Changelog for package rviz_rendering_tests
 
 8.4.0 (2021-03-18)
 ------------------
+* Always preserve source permissions in vendor packages (`#647 <https://github.com/ros2/rviz/issues/647>`_)
+* Add an override flag to force vendored build (`#642 <https://github.com/ros2/rviz/issues/642>`_)
+* Contributors: Scott K Logan
 
 8.3.1 (2021-01-25)
 ------------------
@@ -231,39 +250,35 @@ Changelog for package rviz_rendering_tests
 ------------------
 * Add linters and use ament_lint_auto (`#608 <https://github.com/ros2/rviz/issues/608>`_)
 * Update maintainers (`#607 <https://github.com/ros2/rviz/issues/607>`_)
-* Use retriever.hpp (`#589 <https://github.com/ros2/rviz/issues/589>`_)
-* Contributors: Jacob Perron, Shane Loretz
+* Contributors: Jacob Perron
 
 8.2.0 (2020-06-23)
 ------------------
-* Changed to not install test header files in rviz_rendering. (`#564 <https://github.com/ros2/rviz/issues/564>`_)
-* Contributors: Chris Lalancette
+* Updated a hack to avoid CMake warning with assimp 5.0.1 and older, applying it cross platforms (`#565 <https://github.com/ros2/rviz/issues/565>`_)
+* Contributors: Dirk Thomas
 
 8.1.1 (2020-06-03)
 ------------------
 
 8.1.0 (2020-06-03)
 ------------------
-* Added missing virtual destructors (`#553 <https://github.com/ros2/rviz/issues/553>`_)
-* Contributors: Ivan Santiago Paunovic
 
 8.0.3 (2020-06-02)
 ------------------
 
 8.0.2 (2020-05-21)
 ------------------
-* Removed automoc completely. (`#545 <https://github.com/ros2/rviz/issues/545>`_)
-* Contributors: Chris Lalancette
 
 8.0.1 (2020-05-07)
 ------------------
+* Make rviz_assimp_vendor hack specific to Ubuntu Focal. (`#536 <https://github.com/ros2/rviz/issues/536>`_)
+* Contributors: Chris Lalancette
 
 8.0.0 (2020-05-01)
 ------------------
 * Note from wjwwood: I've chosen bump the major version this time, even though the API was not broken strictly speaking, partly because of some potentially disruptive build system changes and partially in preparation for ROS Foxy, to allow for new minor/patch versions in the previous ROS release Eloquent.
-* Made some code style changes. (`#504 <https://github.com/ros2/rviz/issues/504>`_)
-* Fixed the build when included as a sub-project. (`#475 <https://github.com/ros2/rviz/issues/475>`_)
-* Contributors: Dan Rose, Dirk Thomas
+* Suppressed an upstream cmake warning in assimp. (`#534 <https://github.com/ros2/rviz/issues/534>`_)
+* Contributors: William Woodall
 
 7.0.3 (2019-11-13)
 ------------------
@@ -276,16 +291,11 @@ Changelog for package rviz_rendering_tests
 
 7.0.0 (2019-09-27)
 ------------------
-* Fix assert in mesh_loader_test (`#446 <https://github.com/ros2/rviz/issues/446>`_)
-* Remove non-package from ament_target_dependencies() (`#428 <https://github.com/ros2/rviz/issues/428>`_)
-* Remove -Werror from defualt compiler options (`#420 <https://github.com/ros2/rviz/issues/420>`_)
-* Fix STL loader (`#410 <https://github.com/ros2/rviz/issues/410>`_)
-* Contributors: Hunter L. Allen, Martin Idel, Shane Loretz, Zachary Michaels
+* Add .dsv file beside custom environment hook (`#466 <https://github.com/ros2/rviz/issues/466>`_)
+* Contributors: Dirk Thomas
 
 6.1.1 (2019-05-29)
 ------------------
-* Updated test to match changes from `#404 <https://github.com/ros2/rviz/issues/404>`_
-* Contributors: Dirk Thomas
 
 6.1.0 (2019-05-20)
 ------------------
@@ -298,26 +308,23 @@ Changelog for package rviz_rendering_tests
 
 5.0.0 (2018-12-04)
 ------------------
-* Changed to always build all tests and skip execution if not supported (`#342 <https://github.com/ros2/rviz/issues/342>`_)
-* Contributors: Andreas Greimel
 
 4.0.1 (2018-06-28)
 ------------------
-* Add Qt dependency to testing packages. (`#330 <https://github.com/ros2/rviz/issues/330>`_)
-* Contributors: Steven! Ragnarök
 
 4.0.0 (2018-06-27)
 ------------------
-* Added tests for various displays and other features.
-* Contributors: Alessandro Bottero, Martin Idel, Steven! Ragnarök
+* Fixed the exported CMake variables to workaround the upstream ``libassimp-dev`` bug. (`#288 <https://github.com/ros2/rviz/issues/288>`_)
+* Contributors: Andreas Holzner, Dirk Thomas, Martin Idel
 
 3.0.0 (2018-02-07)
 ------------------
+* Switched to assimp version 4.1.0. (`#169 <https://github.com/ros2/rviz/issues/169>`_)
 
 2.0.0 (2017-12-08)
 ------------------
 * First version for ROS 2.
-* Contributors: Martin Idel, Steven! Ragnarok, William Woodall
+* Contributors: Steven! Ragnarok, William Woodall
 
 1.12.11 (2017-08-02)
 --------------------

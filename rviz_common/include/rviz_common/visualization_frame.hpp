@@ -35,7 +35,6 @@
 
 #include <chrono>
 #include <deque>
-#include <filesystem>
 #include <map>
 #include <string>
 
@@ -358,10 +357,6 @@ protected Q_SLOTS:
   void
   reset();
 
-  // Destroy panel
-  void
-  onPanelDeleted(QObject * dock);
-
   // TODO(wjwwood): figure out if this is needed
   /// Handle event when the help dialog is closed.
   void
@@ -480,7 +475,7 @@ protected:
 
   VisualizationManager * manager_;
 
-  std::filesystem::path package_path_;
+  std::string package_path_;
   QString help_path_;
   QString splash_path_;
 

@@ -2,104 +2,61 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-15.1.17 (2026-02-24)
+15.0.12 (2026-02-24)
 --------------------
-* Fix setHidden regression in PropertyTreeWidget (`#1667 <https://github.com/ros2/rviz/issues/1667>`_)
-* Add topic name filtering when adding new visualizations (`#1662 <https://github.com/ros2/rviz/issues/1662>`_)
-* use QPointer in QTimer::singleShot to prevent use-after-free (`#1657 <https://github.com/ros2/rviz/issues/1657>`_)
-* Contributors: Mateusz Żak, Matteo Princisgh, t0k0shi
+* Fix setHidden regression in PropertyTreeWidget (`#1667 <https://github.com/ros2/rviz/issues/1667>`_) (`#1668 <https://github.com/ros2/rviz/issues/1668>`_)
+* Add topic name filtering when adding new visualizations (`#1662 <https://github.com/ros2/rviz/issues/1662>`_) (`#1663 <https://github.com/ros2/rviz/issues/1663>`_)
+* use QPointer in QTimer::singleShot to prevent use-after-free (`#1657 <https://github.com/ros2/rviz/issues/1657>`_) (`#1658 <https://github.com/ros2/rviz/issues/1658>`_)
+* Contributors: mergify[bot]
 
-15.1.16 (2026-01-13)
+15.0.11 (2025-12-17)
 --------------------
-* Fix Not loading plugins due to incorrect package path (`#1651 <https://github.com/ros2/rviz/issues/1651>`_)
+* Fix crash with no tools (`#1639 <https://github.com/ros2/rviz/issues/1639>`_) (`#1640 <https://github.com/ros2/rviz/issues/1640>`_)
+* Contributors: mergify[bot]
+
+15.0.10 (2025-11-28)
+--------------------
+
+15.0.9 (2025-11-07)
+-------------------
+* Removed duplicated forward class declaration (`#1602 <https://github.com/ros2/rviz//issues/1602>`_) (`#1612 <https://github.com/ros2/rviz//issues/1612>`_)
+* Contributors: mergify[bot]
+
+15.0.8 (2025-10-20)
+-------------------
+
+15.0.7 (2025-09-26)
+-------------------
+* fix crash (`#1587 <https://github.com/ros2/rviz/issues/1587>`_) (`#1588 <https://github.com/ros2/rviz/issues/1588>`_)
+* Contributors: mergify[bot]
+
+15.0.6 (2025-09-17)
+-------------------
+* add ros action property (`#1549 <https://github.com/ros2/rviz/issues/1549>`_) (`#1576 <https://github.com/ros2/rviz/issues/1576>`_)
+* Contributors: mergify[bot]
+
+15.0.5 (2025-08-22)
+-------------------
+
+15.0.4 (2025-07-07)
+-------------------
+* Postpone hiding of properties until insertion into model is finished (`#1508 <https://github.com/ros2/rviz/issues/1508>`_) (`#1520 <https://github.com/ros2/rviz/issues/1520>`_)
+* Don't hide rows of properties not within the model (`#1507 <https://github.com/ros2/rviz/issues/1507>`_) (`#1517 <https://github.com/ros2/rviz/issues/1517>`_)
+* Remove redundant check (`#1506 <https://github.com/ros2/rviz/issues/1506>`_) (`#1511 <https://github.com/ros2/rviz/issues/1511>`_)
 * Contributors: Alejandro Hernández Cordero
 
-15.1.15 (2025-12-23)
---------------------
-* Updated deprecated ament_index_cpp API (`#1647 <https://github.com/ros2/rviz/issues/1647>`_)
-* Contributors: Alejandro Hernández Cordero
-
-15.1.14 (2025-12-17)
---------------------
-* Fix crash with no tools (`#1639 <https://github.com/ros2/rviz/issues/1639>`_)
-* Use qt6 as the default dependency from rosdep (`#1635 <https://github.com/ros2/rviz/issues/1635>`_)
-* Pointcloud2 display set QoS to best effort (`#1621 <https://github.com/ros2/rviz/issues/1621>`_)
-* Contributors: Alejandro Hernández Cordero, David V. Lu!!
-
-15.1.13 (2025-11-28)
---------------------
-
-15.1.12 (2025-11-07)
---------------------
-* Cleanup deprecated code (`#1619 <https://github.com/ros2/rviz//issues/1619>`_)
-* Removed support for yaml-cpp lower than 0.5 (`#1605 <https://github.com/ros2/rviz//issues/1605>`_)
-* Removed duplicated forward class declaration (`#1602 <https://github.com/ros2/rviz//issues/1602>`_)
-* resolved TODO in visualization manager (`#1603 <https://github.com/ros2/rviz//issues/1603>`_)
-* Contributors: Alejandro Hernández Cordero, mini-1235
-
-15.1.11 (2025-10-20)
---------------------
-* Fix incorrect Qt signal connection in combo box (`#1596 <https://github.com/ros2/rviz/issues/1596>`_)
-* Removed tinyxml2_vendor dependency (`#1591 <https://github.com/ros2/rviz/issues/1591>`_)
-* Replace QRegExp with QRegularExpression to support Qt6 (`#1592 <https://github.com/ros2/rviz/issues/1592>`_)
-* Contributors: Alejandro Hernández Cordero, mini-1235
-
-15.1.10 (2025-09-26)
---------------------
-* fix crash (`#1587 <https://github.com/ros2/rviz/issues/1587>`_)
-* added option to change filemode (`#1537 <https://github.com/ros2/rviz/issues/1537>`_)
-* Removed deprecation warning in tf2 (`#1585 <https://github.com/ros2/rviz/issues/1585>`_)
-* Std chrono update in default plugins (`#1579 <https://github.com/ros2/rviz/issues/1579>`_)
-* Contributors: Alejandro Hernández Cordero, Joshua Supratman, Mark Johnson, nelson
-
-15.1.9 (2025-09-04)
+15.0.3 (2025-06-20)
 -------------------
-* Removed deprecations (`#1556 <https://github.com/ros2/rviz/issues/1556>`_)
-* rviz common ros service property (`#1548 <https://github.com/ros2/rviz/issues/1548>`_)
-* add ros action property (`#1549 <https://github.com/ros2/rviz/issues/1549>`_)
-* Contributors: Alejandro Hernández Cordero, Joshua Supratman
+* Config::mapGetBool causes segmentation fault when value_out is nullptr (`#1471 <https://github.com/ros2/rviz/issues/1471>`_) (`#1479 <https://github.com/ros2/rviz/issues/1479>`_)
+* Contributors: mergify[bot]
 
-15.1.8 (2025-08-22)
--------------------
-* Deprecates update(float, float) methods and provides update(std::chrono::duration, std::chrono::duration) replacements. (`#1533 <https://github.com/ros2/rviz//issues/1533>`_)
-* Contributors: Mark Johnson
-
-15.1.7 (2025-07-25)
--------------------
-* Replace deprecated tf2_ros headers (`#1529 <https://github.com/ros2/rviz/issues/1529>`_)
-* Postpone hiding of properties until insertion into model is finished (`#1508 <https://github.com/ros2/rviz/issues/1508>`_)
-* Contributors: Alejandro Hernández Cordero
-
-15.1.6 (2025-07-01)
--------------------
-* Don't hide rows of properties not within the model (`#1507 <https://github.com/ros2/rviz/issues/1507>`_)
-* Remove redundant check (`#1506 <https://github.com/ros2/rviz/issues/1506>`_)
-* Fix panel deletion (`#1037 <https://github.com/ros2/rviz/issues/1037>`_)
-* Contributors: Alejandro Hernández Cordero
-
-15.1.5 (2025-06-27)
+15.0.2 (2025-05-14)
 -------------------
 
-15.1.4 (2025-06-20)
+15.0.1 (2025-05-05)
 -------------------
-* Config::mapGetBool causes segmentation fault when value_out is nullptr (`#1471 <https://github.com/ros2/rviz/issues/1471>`_)
-* Contributors: Alejandro Hernández Cordero
-
-15.1.3 (2025-05-20)
--------------------
-* feat: support both qt5 and qt6 (`#1187 <https://github.com/ros2/rviz/issues/1187>`_)
-* Contributors: Daisuke Nishimatsu
-
-15.1.2 (2025-05-14)
--------------------
-
-15.1.1 (2025-05-05)
--------------------
-* Fixed crash when a resource is not available (`#1455 <https://github.com/ros2/rviz/issues/1455>`_)
-* Contributors: Alejandro Hernández Cordero
-
-15.1.0 (2025-04-25)
--------------------
+* Fixed crash when a resource is not available (`#1455 <https://github.com/ros2/rviz/issues/1455>`_) (`#1456 <https://github.com/ros2/rviz/issues/1456>`_)
+* Contributors: mergify[bot]
 
 15.0.0 (2025-04-25)
 -------------------

@@ -32,6 +32,7 @@
 #ifndef RVIZ_COMMON__VISUALIZATION_MANAGER_HPP_
 #define RVIZ_COMMON__VISUALIZATION_MANAGER_HPP_
 
+#include <chrono>
 #include <deque>
 #include <memory>
 
@@ -39,7 +40,7 @@
 
 #include "rclcpp/clock.hpp"
 #include "rclcpp/time.hpp"
-#include "tf2_ros/transform_listener.hpp"
+#include "tf2_ros/transform_listener.h"
 
 #include "rviz_common/bit_allocator.hpp"
 #include "rviz_common/config.hpp"
@@ -367,12 +368,12 @@ protected:
   rclcpp::Time ros_time_begin_;
   std::chrono::system_clock::duration wall_clock_elapsed_;
   // TODO(wjwwood): replace with rclcpp::Duration when available
-  rclcpp::Duration ros_time_elapsed_;
+  uint64_t ros_time_elapsed_;
 
   rviz_common::properties::ColorProperty * background_color_property_;
 
-  std::chrono::nanoseconds time_update_timer_;
-  std::chrono::nanoseconds frame_update_timer_;
+  float time_update_timer_;
+  float frame_update_timer_;
 
   std::shared_ptr<rviz_common::interaction::HandlerManagerIface> handler_manager_;
   std::shared_ptr<rviz_common::interaction::SelectionManagerIface> selection_manager_;
