@@ -1,31 +1,32 @@
-/*
- * Copyright (c) 2008, Willow Garage, Inc.
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Willow Garage, Inc. nor the names of its
- *       contributors may be used to endorse or promote products derived from
- *       this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
+// Copyright (c) 2008, Willow Garage, Inc.
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+//
+//    * Redistributions of source code must retain the above copyright
+//      notice, this list of conditions and the following disclaimer.
+//
+//    * Redistributions in binary form must reproduce the above copyright
+//      notice, this list of conditions and the following disclaimer in the
+//      documentation and/or other materials provided with the distribution.
+//
+//    * Neither the name of the copyright holder nor the names of its
+//      contributors may be used to endorse or promote products derived from
+//      this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
+
 
 #include "rviz_default_plugins/displays/robot_model/robot_model_display.hpp"
 
@@ -36,10 +37,9 @@
 #include <OgreSceneNode.h>
 
 #include <QFile>  // NOLINT cpplint cannot handle include order here
+#include <QString>  // NOLINT: cpplint is unable to handle the include order here
 
-#include "urdf/model.h"
-
-#include "tf2_ros/transform_listener.h"
+#include "tf2_ros/transform_listener.hpp"
 
 #include "rviz_common/display_context.hpp"
 #include "rviz_common/properties/enum_property.hpp"
@@ -51,6 +51,8 @@
 #include "rviz_default_plugins/robot/robot.hpp"
 #include "rviz_default_plugins/robot/robot_link.hpp"
 #include "rviz_default_plugins/robot/tf_link_updater.hpp"
+
+#include "urdf/model.hpp"
 
 namespace rviz_default_plugins
 {
@@ -80,7 +82,7 @@ enum DescriptionSource
 
 RobotModelDisplay::RobotModelDisplay()
 : has_new_transforms_(false),
-  time_since_last_transform_(0.0f),
+  time_since_last_transform_(0),
   transformer_guard_(
     std::make_unique<rviz_default_plugins::transformation::TransformerGuard<
       rviz_default_plugins::transformation::TFFrameTransformer>>(this, "TF"))
@@ -321,7 +323,7 @@ void RobotModelDisplay::onDisable()
   clear();
 }
 
-void RobotModelDisplay::update(float wall_dt, float ros_dt)
+void RobotModelDisplay::update(std::chrono::nanoseconds wall_dt, std::chrono::nanoseconds ros_dt)
 {
   if (!transformer_guard_->checkTransformer()) {
     return;
@@ -329,15 +331,15 @@ void RobotModelDisplay::update(float wall_dt, float ros_dt)
 
   (void) ros_dt;
   time_since_last_transform_ += wall_dt;
-  float rate = update_rate_property_->getFloat();
-  bool update = rate < 0.0001f || time_since_last_transform_ >= rate * 1000000000;
+  std::chrono::nanoseconds rate(std::lround(update_rate_property_->getFloat() * 1e9));
+  bool update = rate < std::chrono::microseconds(100) || time_since_last_transform_ >= rate;
 
   if (has_new_transforms_ || update) {
     updateRobot();
     context_->queueRender();
 
     has_new_transforms_ = false;
-    time_since_last_transform_ = 0.0f;
+    time_since_last_transform_ = std::chrono::nanoseconds(0);
   }
 }
 
