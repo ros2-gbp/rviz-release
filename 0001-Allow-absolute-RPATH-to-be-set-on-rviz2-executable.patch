@@ -1,0 +1,27 @@
+From feb5d7939359c2f3fe0b5af285d06517021b5d14 Mon Sep 17 00:00:00 2001
+From: Scott K Logan <logans@cottsay.net>
+Date: Mon, 27 Apr 2026 14:50:36 -0500
+Subject: [PATCH] Allow absolute RPATH to be set on rviz2 executable
+
+It would be better if this was a relative RPATH, but we're installing
+the executable to two different locations so it will require a little
+bit of refactoring.
+---
+ rpm/ros-rolling-rviz2.spec | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/rpm/ros-rolling-rviz2.spec b/rpm/ros-rolling-rviz2.spec
+index 0b36bb233b42..9a0415adf48e 100644
+--- a/rpm/ros-rolling-rviz2.spec
++++ b/rpm/ros-rolling-rviz2.spec
+@@ -1,6 +1,7 @@
+ %{?!ros_distro:%global ros_distro rolling}
+ %global pkg_name rviz2
+ %global normalized_pkg_name %{lua:return (string.gsub(rpm.expand('%{pkg_name}'), '_', '-'))}
++%global __brp_check_rpaths QA_RPATHS=0x0002 %{__brp_check_rpaths}
+ 
+ Name:           ros-rolling-rviz2
+ Version:        15.2.2
+-- 
+2.53.0
+
