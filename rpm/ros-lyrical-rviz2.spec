@@ -1,6 +1,7 @@
 %{?!ros_distro:%global ros_distro lyrical}
 %global pkg_name rviz2
 %global normalized_pkg_name %{lua:return (string.gsub(rpm.expand('%{pkg_name}'), '_', '-'))}
+%global __brp_check_rpaths QA_RPATHS=0x0002 %{__brp_check_rpaths}
 
 Name:           ros-lyrical-rviz2
 Version:        15.2.2
