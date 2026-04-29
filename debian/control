@@ -1,0 +1,12 @@
+Source: ros-lyrical-rviz-common
+Section: misc
+Priority: optional
+Maintainer: Alejandro Hernandez Cordero <alejandro@openrobotics.org>
+Build-Depends: debhelper (>= 9.0.0), libtinyxml2-dev, qt6-base-dev, qt6-svg-dev, ros-lyrical-ament-cmake, ros-lyrical-ament-cmake-gmock <!nocheck>, ros-lyrical-ament-cmake-gtest <!nocheck>, ros-lyrical-ament-lint-auto <!nocheck>, ros-lyrical-ament-lint-common <!nocheck>, ros-lyrical-geometry-msgs, ros-lyrical-message-filters, ros-lyrical-pluginlib, ros-lyrical-rclcpp, ros-lyrical-resource-retriever, ros-lyrical-rviz-ogre-vendor, ros-lyrical-rviz-rendering, ros-lyrical-sensor-msgs, ros-lyrical-std-msgs, ros-lyrical-std-srvs, ros-lyrical-tf2, ros-lyrical-tf2-ros, ros-lyrical-urdf, ros-lyrical-yaml-cpp-vendor, ros-lyrical-ros-workspace
+Homepage: https://github.com/ros2/rviz/blob/ros2/README.md
+Standards-Version: 3.9.2
+
+Package: ros-lyrical-rviz-common
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libqt6core6t64, libqt6gui6, libqt6opengl6, libqt6svg6, libqt6widgets6, libtinyxml2-dev, qt6-base-dev, ros-lyrical-geometry-msgs, ros-lyrical-message-filters, ros-lyrical-pluginlib, ros-lyrical-rclcpp, ros-lyrical-resource-retriever, ros-lyrical-rviz-ogre-vendor, ros-lyrical-rviz-rendering, ros-lyrical-sensor-msgs, ros-lyrical-std-msgs, ros-lyrical-std-srvs, ros-lyrical-tf2, ros-lyrical-tf2-ros, ros-lyrical-urdf, ros-lyrical-yaml-cpp-vendor, ros-lyrical-ros-workspace
+Description: Common rviz API, used by rviz plugins and applications.
