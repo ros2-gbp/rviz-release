@@ -1,0 +1,12 @@
+Source: ros-lyrical-rviz-rendering
+Section: misc
+Priority: optional
+Maintainer: Alejandro Hernandez Cordero <alejandro@openrobotics.org>
+Build-Depends: debhelper (>= 9.0.0), libassimp-dev, libassimp-dev <!nocheck>, libeigen3-dev, qt6-base-dev, ros-lyrical-ament-cmake-gmock <!nocheck>, ros-lyrical-ament-cmake-gtest <!nocheck>, ros-lyrical-ament-cmake-ros, ros-lyrical-ament-index-cpp, ros-lyrical-ament-lint-auto <!nocheck>, ros-lyrical-ament-lint-common <!nocheck>, ros-lyrical-eigen3-cmake-module, ros-lyrical-resource-retriever, ros-lyrical-rviz-ogre-vendor, ros-lyrical-ros-workspace
+Homepage: https://github.com/ros2/rviz/blob/ros2/README.md
+Standards-Version: 3.9.2
+
+Package: ros-lyrical-rviz-rendering
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libassimp-dev, libeigen3-dev, libqt6core6t64, libqt6gui6, libqt6opengl6, libqt6svg6, qt6-base-dev, ros-lyrical-ament-index-cpp, ros-lyrical-eigen3-cmake-module, ros-lyrical-resource-retriever, ros-lyrical-rviz-ogre-vendor, ros-lyrical-ros-workspace
+Description: Library which provides the 3D rendering functionality in rviz.
