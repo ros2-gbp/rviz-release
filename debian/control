@@ -1,0 +1,12 @@
+Source: ros-lyrical-rviz-default-plugins
+Section: misc
+Priority: optional
+Maintainer: Alejandro Hernandez Cordero <alejandro@openrobotics.org>
+Build-Depends: debhelper (>= 9.0.0), qt6-base-dev, ros-lyrical-ament-cmake-gmock <!nocheck>, ros-lyrical-ament-cmake-gtest <!nocheck>, ros-lyrical-ament-cmake-lint-cmake <!nocheck>, ros-lyrical-ament-cmake-ros, ros-lyrical-ament-index-cpp <!nocheck>, ros-lyrical-ament-lint-auto <!nocheck>, ros-lyrical-ament-lint-common <!nocheck>, ros-lyrical-geometry-msgs, ros-lyrical-gz-math-vendor, ros-lyrical-image-transport, ros-lyrical-interactive-markers, ros-lyrical-laser-geometry, ros-lyrical-map-msgs, ros-lyrical-nav-msgs, ros-lyrical-pluginlib, ros-lyrical-point-cloud-transport, ros-lyrical-rclcpp, ros-lyrical-resource-retriever, ros-lyrical-resource-retriever-service-plugin, ros-lyrical-rviz-common, ros-lyrical-rviz-ogre-vendor, ros-lyrical-rviz-rendering, ros-lyrical-rviz-rendering-tests <!nocheck>, ros-lyrical-rviz-visual-testing-framework <!nocheck>, ros-lyrical-tf2, ros-lyrical-tf2-geometry-msgs, ros-lyrical-tf2-ros, ros-lyrical-urdf, ros-lyrical-visualization-msgs, ros-lyrical-ros-workspace
+Homepage: https://github.com/ros2/rviz/blob/ros2/README.md
+Standards-Version: 3.9.2
+
+Package: ros-lyrical-rviz-default-plugins
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libqt6core6t64, libqt6gui6, libqt6opengl6, libqt6widgets6, ros-lyrical-geometry-msgs, ros-lyrical-gz-math-vendor, ros-lyrical-image-transport, ros-lyrical-interactive-markers, ros-lyrical-laser-geometry, ros-lyrical-map-msgs, ros-lyrical-nav-msgs, ros-lyrical-pluginlib, ros-lyrical-point-cloud-transport, ros-lyrical-rclcpp, ros-lyrical-resource-retriever, ros-lyrical-resource-retriever-service-plugin, ros-lyrical-rviz-common, ros-lyrical-rviz-ogre-vendor, ros-lyrical-rviz-rendering, ros-lyrical-tf2, ros-lyrical-tf2-geometry-msgs, ros-lyrical-tf2-ros, ros-lyrical-urdf, ros-lyrical-visualization-msgs, ros-lyrical-ros-workspace
+Description: Several default plugins for rviz to cover the basic functionality.
