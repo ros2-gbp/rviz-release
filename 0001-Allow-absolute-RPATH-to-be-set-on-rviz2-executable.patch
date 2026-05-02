@@ -1,4 +1,4 @@
-From c3993ace69a858af2160b476b221021d85f6ba26 Mon Sep 17 00:00:00 2001
+From 72bdd8091b6b6a7ea52eebdc14b34c99d11e8e74 Mon Sep 17 00:00:00 2001
 From: Scott K Logan <logans@cottsay.net>
 Date: Mon, 27 Apr 2026 14:50:36 -0500
 Subject: [PATCH] Allow absolute RPATH to be set on rviz2 executable
@@ -7,21 +7,22 @@ It would be better if this was a relative RPATH, but we're installing
 the executable to two different locations so it will require a little
 bit of refactoring.
 ---
- rpm/ros-rolling-rviz2.spec | 1 +
- 1 file changed, 1 insertion(+)
+ rpm/ros-rolling-rviz2.spec | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/rpm/ros-rolling-rviz2.spec b/rpm/ros-rolling-rviz2.spec
-index 204d5c761d04..6760f24bff29 100644
+index 204d5c761d04..3f817cdd1b39 100644
 --- a/rpm/ros-rolling-rviz2.spec
 +++ b/rpm/ros-rolling-rviz2.spec
-@@ -1,6 +1,7 @@
- %{?!ros_distro:%global ros_distro rolling}
- %global pkg_name rviz2
- %global normalized_pkg_name %{lua:return (string.gsub(rpm.expand('%{pkg_name}'), '_', '-'))}
-+%global __brp_check_rpaths QA_RPATHS=0x0002 %{__brp_check_rpaths}
+@@ -14,6 +14,8 @@ Source0:        %{name}-%{version}.tar.gz
+ BuildRequires:  bloom-rpm-macros
+ BuildRequires:  cmake
  
- Name:           ros-rolling-rviz2
- Version:        15.2.2
++%global __brp_check_rpaths QA_RPATHS=0x0002 %{__brp_check_rpaths}
++
+ %{?bloom_package}
+ 
+ %description
 -- 
 2.53.0
 
