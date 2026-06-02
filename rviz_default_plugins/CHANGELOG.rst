@@ -2,234 +2,125 @@
 Changelog for package rviz_default_plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-15.2.3 (2026-05-16)
--------------------
+14.1.21 (2026-06-02)
+--------------------
+* Fixed Unexpected pixels for mono Image (`#1718 <https://github.com/ros2/rviz/issues/1718>`_) (`#1766 <https://github.com/ros2/rviz/issues/1766>`_)
+  (cherry picked from commit 4b8d1e07fef900cb0a27c215356f6cc942698ee0)
+  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
+* ogreQuaternionAngularDistance does not properly handle invalid quaternion input (backport `#1714 <https://github.com/ros2/rviz/issues/1714>`_) (`#1758 <https://github.com/ros2/rviz/issues/1758>`_)
+  * ogreQuaternionAngularDistance does not properly handle invalid quaternion input (`#1714 <https://github.com/ros2/rviz/issues/1714>`_)
+  (cherry picked from commit 90078fd641dfc69cc77fdb5b99139be1192acdbe)
+  # Conflicts:
+  #	rviz_default_plugins/src/rviz_default_plugins/displays/odometry/quaternion_helper.hpp
+  * fix merge
+  ---------
+  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
+  Co-authored-by: Alejandro Hernandez Cordero <ahcorde@gmail.com>
+* Make sure to disconnect subscription callback when unsubscribing (backport `#1742 <https://github.com/ros2/rviz/issues/1742>`_) (`#1745 <https://github.com/ros2/rviz/issues/1745>`_)
+  (cherry picked from commit c853c3c4be79836dee3bf8419caa9ff64bc0ccfa)
+  Co-authored-by: cwit-vcas <cwit@vestergaardcompany.com>
+  Co-authored-by: Alejandro Hernandez Cordero <ahcorde@gmail.com>
+* Remove redundant compilation of test fixtures (`#1673 <https://github.com/ros2/rviz/issues/1673>`_) (`#1680 <https://github.com/ros2/rviz/issues/1680>`_)
+  (cherry picked from commit 6a1832e0239b6493b9ed0fa30757db9b421494f8)
+  Co-authored-by: Michael Carroll <carroll.michael@gmail.com>
+* Contributors: mergify[bot]
 
-15.2.2 (2026-04-24)
--------------------
-* Use rosdep keys that select Qt5 or Qt6 by platform (`#1720 <https://github.com/ros2/rviz/issues/1720>`_)
-* Contributors: Shane Loretz
-
-15.2.1 (2026-04-24)
--------------------
-* Compressed Image Display (`#1288 <https://github.com/ros2/rviz//issues/1288>`_)
-* Contributors: Matthew Foran
-
-15.2.0 (2026-05-15)
--------------------
-* Removed Qt6 warnings (`#1704 <https://github.com/ros2/rviz/issues/1704>`_)
-* Contributors: Alejandro Hernández Cordero
-
-15.1.20 (2026-04-14)
+14.1.20 (2026-02-24)
 --------------------
 
-* Switch rviz service resource retriever to use new repo's code (`#1698 <https://github.com/ros2/rviz/issues/1698>`_)
-* Link against ``GTest::gmock`` target (`#1699 <https://github.com/ros2/rviz/issues/1699>`_)
-* Improve marker common (`#1687 <https://github.com/ros2/rviz/issues/1687>`_)
-* Reduce ``QFile`` dependency (`#1652 <https://github.com/ros2/rviz/issues/1652>`_)
-
-* Contributors: Alejandro Hernández Cordero, Shane Loretz, Stoyan Gaydarov
-
-15.1.19 (2026-03-24)
+14.1.19 (2025-12-17)
 --------------------
-* Use new ROSIDL aggregate CMake target (`#1688 <https://github.com/ros2/rviz/issues/1688>`_)
-* Fix Qt version resolution when both Qt5 and Qt6 are installed - CMake defaults to ascending resolution and Qt5 will be found when Qt6 is desired (Rolling, L-Turtle, and beyond). (`#1689 <https://github.com/ros2/rviz/issues/1689>`_)
-* Remove redundant compilation of test fixtures (`#1673 <https://github.com/ros2/rviz/issues/1673>`_)
-* Contributors: Emerson Knapp, Michael Carroll, Nathan Brooks
+* Add CameraInfo topic property to DepthCloudDisplay (`#1643 <https://github.com/ros2/rviz/issues/1643>`_) (`#1645 <https://github.com/ros2/rviz/issues/1645>`_)
+* Contributors: mergify[bot]
 
-15.1.18 (2026-02-25)
+14.1.18 (2025-11-28)
 --------------------
+* Fix Translation Issue in XYOrbitViewController (`#1630 <https://github.com/ros2/rviz/issues/1630>`_) (`#1632 <https://github.com/ros2/rviz/issues/1632>`_)
+* Overcome 16384 size limit (`#1622 <https://github.com/ros2/rviz/issues/1622>`_) (`#1628 <https://github.com/ros2/rviz/issues/1628>`_)
+* Contributors: mergify[bot]
 
-15.1.17 (2026-02-24)
+14.1.17 (2025-11-07)
 --------------------
+* Removed already done TODO (`#1604 <https://github.com/ros2/rviz//issues/1604>`_) (`#1610 <https://github.com/ros2/rviz//issues/1610>`_)
+* Contributors: mergify[bot]
 
-15.1.16 (2026-01-13)
+14.1.16 (2025-09-26)
 --------------------
 
-15.1.15 (2025-12-23)
+14.1.15 (2025-09-17)
 --------------------
-* Updated deprecated ament_index_cpp API (`#1647 <https://github.com/ros2/rviz/issues/1647>`_)
-* Contributors: Alejandro Hernández Cordero
+* Fix pointcloud2 display divide by 0 (`#1581 <https://github.com/ros2/rviz/issues/1581>`_) (`#1583 <https://github.com/ros2/rviz/issues/1583>`_)
+* add support for ffmpeg_image_transport and point_cloud_transport (`#1568 <https://github.com/ros2/rviz/issues/1568>`_) (`#1571 <https://github.com/ros2/rviz/issues/1571>`_)
+* Contributors: mergify[bot]
 
-15.1.14 (2025-12-17)
+14.1.14 (2025-08-22)
 --------------------
-* Add CameraInfo topic property to DepthCloudDisplay (`#1643 <https://github.com/ros2/rviz/issues/1643>`_)
-* Use qt6 as the default dependency from rosdep (`#1635 <https://github.com/ros2/rviz/issues/1635>`_)
-* Pointcloud2 display set QoS to best effort (`#1621 <https://github.com/ros2/rviz/issues/1621>`_)
-* Contributors: Alejandro Hernández Cordero, Alexis Tsogias
+* Fix QoS profile loading for InitialPoseTool from rviz config files (`#1544 <https://github.com/ros2/rviz//issues/1544>`_) (`#1554 <https://github.com/ros2/rviz//issues/1554>`_)
+* Contributors: mergify[bot]
 
-15.1.13 (2025-11-28)
+14.1.13 (2025-07-25)
 --------------------
-* Fix Translation Issue in XYOrbitViewController (`#1630 <https://github.com/ros2/rviz/issues/1630>`_)
-* Overcome 16384 size limit (`#1622 <https://github.com/ros2/rviz/issues/1622>`_)
-* Contributors: Eesha Kumar, Guillaume Doisy
+* fix deprecated include (`#1530 <https://github.com/ros2/rviz/issues/1530>`_) (`#1532 <https://github.com/ros2/rviz/issues/1532>`_)
+* Better handling of missing transport plugins (`#1488 <https://github.com/ros2/rviz/issues/1488>`_) (`#1515 <https://github.com/ros2/rviz/issues/1515>`_)
+* Add symbol visibility macros to make*Palette public functions (`#1492 <https://github.com/ros2/rviz/issues/1492>`_) (`#1500 <https://github.com/ros2/rviz/issues/1500>`_)
+* Contributors: mergify[bot]
 
-15.1.12 (2025-11-07)
+14.1.12 (2025-06-20)
 --------------------
-* Removed already done TODO (`#1604 <https://github.com/ros2/rviz//issues/1604>`_)
-* Contributors: Alejandro Hernández Cordero
+* Frame view controller: Removed warnings (`#1470 <https://github.com/ros2/rviz/issues/1470>`_) (`#1477 <https://github.com/ros2/rviz/issues/1477>`_)
+* PointStampedDisplay: Ignore incoming messages if disabled (`#1036 <https://github.com/ros2/rviz/issues/1036>`_) (`#1466 <https://github.com/ros2/rviz/issues/1466>`_)
+* Contributors: mergify[bot]
 
-15.1.11 (2025-10-20)
+14.1.11 (2025-05-14)
 --------------------
-* Fixed issue 1593 (`#1598 <https://github.com/ros2/rviz/issues/1598>`_)
-* Contributors: Alejandro Hernández Cordero
+* Backported FrameAligned camera (`#1453 <https://github.com/ros2/rviz/issues/1453>`_) (`#1459 <https://github.com/ros2/rviz/issues/1459>`_)
+* Do not use ${Qt5Widgets_INCLUDE_DIRS} to avoid creating non-relocatable config files (backport `#1450 <https://github.com/ros2/rviz/issues/1450>`_) (`#1452 <https://github.com/ros2/rviz/issues/1452>`_)
+* Contributors: mergify[bot]
 
-15.1.10 (2025-09-26)
+14.1.10 (2025-04-29)
 --------------------
-* Removed tf2 warning (`#1586 <https://github.com/ros2/rviz/issues/1586>`_)
-* Removed deprecation warning in tf2 (`#1585 <https://github.com/ros2/rviz/issues/1585>`_)
-* Std chrono update in default plugins (`#1579 <https://github.com/ros2/rviz/issues/1579>`_)
-* Fix pointcloud2 display divide by 0 (`#1581 <https://github.com/ros2/rviz/issues/1581>`_)
-* Contributors: Alejandro Hernández Cordero, Antonio Brandi, Mark Johnson
+* PointCloudDisplay: Fix decay time 0 keeping more than the last message. (`#1400 <https://github.com/ros2/rviz/issues/1400>`_) (`#1432 <https://github.com/ros2/rviz/issues/1432>`_)
+  (cherry picked from commit 68c764528a5910c56e0bda683bbd3feacf5f9e89)
+  Co-authored-by: Stefan Fabian <fabian@sim.tu-darmstadt.de>
+* Contributors: mergify[bot]
 
-15.1.9 (2025-09-04)
--------------------
-* add support for ffmpeg_image_transport and point_cloud_transport (`#1568 <https://github.com/ros2/rviz/issues/1568>`_)
-* Extend the message filter display for point cloud 2 display (`#1566 <https://github.com/ros2/rviz/issues/1566>`_)
-* Contributors: Kenji Brameld (TRACLabs), Lennart Reiher
-
-15.1.8 (2025-08-22)
--------------------
-* Support image transport lifecycle (`#1472 <https://github.com/ros2/rviz//issues/1472>`_)
-* Fix QoS profile loading for InitialPoseTool from rviz config files (`#1544 <https://github.com/ros2/rviz//issues/1544>`_)
-* Contributors: Alejandro Hernández Cordero, Kosuke Takeuchi
-
-15.1.7 (2025-07-25)
--------------------
-* Replace rmw_qos_profile_t with rclcpp::QoS (`#1525 <https://github.com/ros2/rviz/issues/1525>`_)
-* Replace deprecated tf2_ros headers (`#1529 <https://github.com/ros2/rviz/issues/1529>`_)
-* fix deprecated include (`#1530 <https://github.com/ros2/rviz/issues/1530>`_)
-* point_cloud_transport update API call (`#1526 <https://github.com/ros2/rviz/issues/1526>`_)
-* Contributors: Alejandro Hernández Cordero, mosfet80
-
-15.1.6 (2025-07-01)
--------------------
-* Better handling of missing transport plugins (`#1488 <https://github.com/ros2/rviz/issues/1488>`_)
-* Contributors: Alejandro Hernández Cordero
-
-15.1.5 (2025-06-27)
--------------------
-* Fixed deprecation warning on point_cloud_transport: rmw_qos_profile_t (`#1491 <https://github.com/ros2/rviz/issues/1491>`_)
-* Add symbol visibility macros to make*Palette public functions (`#1492 <https://github.com/ros2/rviz/issues/1492>`_)
-* Contributors: Alejandro Hernández Cordero, Silvio Traversaro
-
-15.1.4 (2025-06-20)
--------------------
-* Fix /rviz/get_resource (`#1487 <https://github.com/ros2/rviz/issues/1487>`_)
-* Removed point_cloud_transport deprecation (`#1474 <https://github.com/ros2/rviz/issues/1474>`_)
-* Frame view controller: Removed warnings (`#1470 <https://github.com/ros2/rviz/issues/1470>`_)
-* Fix compile with qt6 (`#1475 <https://github.com/ros2/rviz/issues/1475>`_)
-* Fix Issue with Quaternion Angular Distance (`#1473 <https://github.com/ros2/rviz/issues/1473>`_)
-* PointStampedDisplay: Ignore incoming messages if disabled (`#1036 <https://github.com/ros2/rviz/issues/1036>`_)
-* Contributors: Alejandro Hernández Cordero, Harrison Chen, mosfet80
-
-15.1.3 (2025-05-20)
--------------------
-* Removed unused headers from resouce retriever (`#1463 <https://github.com/ros2/rviz/issues/1463>`_)
-* feat: support both qt5 and qt6 (`#1187 <https://github.com/ros2/rviz/issues/1187>`_)
-* Contributors: Alejandro Hernández Cordero, Daisuke Nishimatsu
-
-15.1.2 (2025-05-14)
--------------------
-* [rviz_default_plugins] Add missing export dependencies (`#1461 <https://github.com/ros2/rviz/issues/1461>`_)
-* Backported FrameAligned camera (`#1453 <https://github.com/ros2/rviz/issues/1453>`_)
-* Contributors: Felix Exner (fexner), Georg Flick
-
-15.1.1 (2025-05-05)
--------------------
-* Changed Marker Displays to allow toggling visibility of namespaces (`#1402 <https://github.com/ros2/rviz/issues/1402>`_)
-* Do not use ${Qt5Widgets_INCLUDE_DIRS} to avoid creating non-relocatable CMake config files (`#1450 <https://github.com/ros2/rviz/issues/1450>`_)
-* Contributors: Silvio Traversaro, Stefan Fabian
-
-15.1.0 (2025-04-25)
+14.1.9 (2025-04-24)
 -------------------
 
-15.0.0 (2025-04-25)
+14.1.8 (2025-04-02)
 -------------------
-* PointCloudDisplay: Fix decay time 0 keeping more than the last message (`#1400 <https://github.com/ros2/rviz/issues/1400>`_)
-* Work in progress using the new resource retriever apis (`#1262 <https://github.com/ros2/rviz/issues/1262>`_)
-* Include chrono (`#1353 <https://github.com/ros2/rviz/issues/1353>`_)
-* Contributors: Matthew Foran, Michael Carroll, Stefan Fabian
+* fix: add rclcpp::shutdown (`#1343 <https://github.com/ros2/rviz/issues/1343>`_) (`#1344 <https://github.com/ros2/rviz/issues/1344>`_)
+  (cherry picked from commit dcbcdd6cf483acf7682414f25cbad32670622dfc)
+  Co-authored-by: Yuyuan Yuan <az6980522@gmail.com>
+* Contributors: mergify[bot]
 
-14.4.4 (2025-03-20)
--------------------
-* fix: add rclcpp::shutdown (`#1343 <https://github.com/ros2/rviz/issues/1343>`_)
-* Contributors: Yuyuan Yuan
-
-14.4.3 (2025-02-27)
--------------------
-* Nv12 color format (`#1318 <https://github.com/ros2/rviz/issues/1318>`_)
-  Co-authored-by: zycczy <zycczyby@gmail.com>
-* uniform CMAKE requirement (`#1335 <https://github.com/ros2/rviz/issues/1335>`_)
-* Contributors: mosfet80, quic-zhaoyuan
-
-14.4.2 (2025-01-31)
--------------------
-* Initialize lookup table only once at compile time (`#1330 <https://github.com/ros2/rviz/issues/1330>`_)
-  Co-authored-by: Alejandro Hernández Cordero <ahcorde@gmail.com>
-* Contributors: Patrick Roncagliolo
-
-14.4.1 (2025-01-15)
--------------------
-* Fixed the XY Orbit controller move (`#1327 <https://github.com/ros2/rviz/issues/1327>`_)
-  Co-authored-by: Terry Scott <tscott@seegrid.com>
-* Contributors: Terry Scott
-
-14.4.0 (2024-12-20)
--------------------
-* Fix Deprecated tf2 headers (`#1289 <https://github.com/ros2/rviz/issues/1289>`_)
-* Change EffortDisplay superclass from MessageFilterDisplay to RosTopicDisplay to avoid dropping messages with empty frame_id. (`#1312 <https://github.com/ros2/rviz/issues/1312>`_)
-* Fix access control for Accel, Effort and Twist displays (`#1311 <https://github.com/ros2/rviz/issues/1311>`_)
-* Contributors: Lucas Wendland, disRecord, suchetanrs
-
-14.3.3 (2024-11-25)
--------------------
-* remove unused variable (`#1301 <https://github.com/ros2/rviz/issues/1301>`_)
-* Contributors: Alejandro Hernández Cordero
-
-14.3.2 (2024-11-20)
--------------------
-* include QString (`#1298 <https://github.com/ros2/rviz/issues/1298>`_)
-* Clean code for Image display (`#1271 <https://github.com/ros2/rviz/issues/1271>`_)
-* Contributors: Matthew Foran, Peng Wang
-
-14.3.1 (2024-10-11)
--------------------
-* Handle time source exception (`#1285 <https://github.com/ros2/rviz/issues/1285>`_)
-* Contributors: Matthew Foran
-
-14.3.0 (2024-10-03)
--------------------
-* replace deprecated encodings 'yuv422' and 'yuv422_yuy2' (`#1276 <https://github.com/ros2/rviz/issues/1276>`_)
-* Contributors: Christian Rauch
-
-14.2.6 (2024-08-28)
--------------------
-* Update urdf model.h deprecation (`#1266 <https://github.com/ros2/rviz/issues/1266>`_)
-* Enabling manual space width for TextViewFacingMarker (`#1261 <https://github.com/ros2/rviz/issues/1261>`_)
-* Contributors: Alejandro Hernández Cordero, Tom Moore
-
-14.2.5 (2024-07-29)
--------------------
-* Added more time to copyright on Windwos (`#1252 <https://github.com/ros2/rviz/issues/1252>`_)
-* Contributors: Alejandro Hernández Cordero
-
-14.2.4 (2024-07-19)
--------------------
-* Updated deprecated message filter headers (`#1239 <https://github.com/ros2/rviz/issues/1239>`_)
-* Fixed RViz default plugin license linter (`#1230 <https://github.com/ros2/rviz/issues/1230>`_)
-* Contributors: Alejandro Hernández Cordero
-
-14.2.3 (2024-06-25)
+14.1.7 (2025-01-14)
 -------------------
 
-14.2.2 (2024-06-17)
+14.1.6 (2024-12-18)
+-------------------
+* remove unused variable (`#1301 <https://github.com/ros2/rviz/issues/1301>`_) (`#1303 <https://github.com/ros2/rviz/issues/1303>`_)
+  (cherry picked from commit f1bb35318e4d3efe6443e30e75c7bc78b505ed17)
+  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
+* Contributors: mergify[bot]
+
+14.1.5 (2024-09-06)
+-------------------
+* Enabling manual space width for TextViewFacingMarker (`#1261 <https://github.com/ros2/rviz/issues/1261>`_) (`#1267 <https://github.com/ros2/rviz/issues/1267>`_)
+  (cherry picked from commit db7e7f8e8e3e1d848c24d8430bb66e3d79a1e50f)
+  Co-authored-by: Tom Moore <tmoore@locusrobotics.com>
+* Contributors: mergify[bot]
+
+14.1.4 (2024-08-19)
 -------------------
 
-14.2.1 (2024-05-24)
+14.1.3 (2024-07-19)
 -------------------
 
-14.2.0 (2024-04-26)
+14.1.2 (2024-06-27)
+-------------------
+
+14.1.1 (2024-05-13)
 -------------------
 
 14.1.0 (2024-04-16)

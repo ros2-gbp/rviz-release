@@ -1,38 +1,36 @@
-// Copyright (c) 2011, Willow Garage, Inc.
-// Copyright (c) 2017, Open Source Robotics Foundation, Inc.
-// Copyright (c) 2017, Bosch Software Innovations GmbH.
-// All rights reserved.
-//
-// Redistribution and use in source and binary forms, with or without
-// modification, are permitted provided that the following conditions are met:
-//
-//    * Redistributions of source code must retain the above copyright
-//      notice, this list of conditions and the following disclaimer.
-//
-//    * Redistributions in binary form must reproduce the above copyright
-//      notice, this list of conditions and the following disclaimer in the
-//      documentation and/or other materials provided with the distribution.
-//
-//    * Neither the name of the copyright holder nor the names of its
-//      contributors may be used to endorse or promote products derived from
-//      this software without specific prior written permission.
-//
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
-// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-// POSSIBILITY OF SUCH DAMAGE.
-
+/*
+ * Copyright (c) 2011, Willow Garage, Inc.
+ * Copyright (c) 2017, Open Source Robotics Foundation, Inc.
+ * Copyright (c) 2017, Bosch Software Innovations GmbH.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the Willow Garage, Inc. nor the names of its
+ *       contributors may be used to endorse or promote products derived from
+ *       this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #include "rviz_rendering/render_system.hpp"
 
-#include <filesystem>
 #include <iostream>
 #include <map>
 #include <memory>
@@ -42,8 +40,6 @@
 #include <OgreRenderWindow.h>
 #include <OgreLogManager.h>
 #include <OgreMeshManager.h>
-
-#include <QString>  // NOLINT: cpplint is unable to handle the include order here
 
 #include "ament_index_cpp/get_resource.hpp"
 #include "ament_index_cpp/get_resources.hpp"
@@ -225,13 +221,13 @@ RenderSystem::setupDummyWindowId()
 void
 RenderSystem::loadOgrePlugins()
 {
-  std::filesystem::path plugin_prefix = get_ogre_plugin_directory();
+  std::string plugin_prefix = get_ogre_plugin_directory();
 #if defined _WIN32 && !NDEBUG
-  ogre_root_->loadPlugin((plugin_prefix / "RenderSystem_GL_d").string());
+  ogre_root_->loadPlugin(plugin_prefix + "RenderSystem_GL_d");
 #else
-  ogre_root_->loadPlugin((plugin_prefix / "RenderSystem_GL").string());
+  ogre_root_->loadPlugin(plugin_prefix + "RenderSystem_GL");
 #endif
-  ogre_root_->loadPlugin((plugin_prefix / "Codec_STBI").string());
+  ogre_root_->loadPlugin(plugin_prefix + "Codec_STBI");
 }
 
 void
@@ -322,20 +318,22 @@ RenderSystem::setupRenderSystem()
 void
 RenderSystem::setResourceDirectory()
 {
-  auto result = ament_index_cpp::get_resource("packages", "rviz_rendering");
-  set_resource_directory((result.resourcePath.value() / "share" / "rviz_rendering").string());
+  std::string content;
+  std::string prefix_path;
+  ament_index_cpp::get_resource("packages", "rviz_rendering", content, &prefix_path);
+  set_resource_directory(prefix_path + "/share/rviz_rendering");
 }
 
 void
 RenderSystem::setPluginDirectory()
 {
-  auto result = ament_index_cpp::get_resource("packages", "rviz_ogre_vendor");
+  std::string content;
+  std::string prefix_path;
+  ament_index_cpp::get_resource("packages", "rviz_ogre_vendor", content, &prefix_path);
 #ifdef _WIN32
-  set_ogre_plugin_directory(
-    (result.resourcePath.value() / "opt" / "rviz_ogre_vendor" / "bin").string());
+  set_ogre_plugin_directory(prefix_path + "\\opt\\rviz_ogre_vendor\\bin\\");
 #else
-  set_ogre_plugin_directory(
-    (result.resourcePath.value() / "opt" / "rviz_ogre_vendor" / "lib" / "OGRE").string());
+  set_ogre_plugin_directory(prefix_path + "/opt/rviz_ogre_vendor/lib/OGRE/");
 #endif
 }
 
@@ -387,15 +385,18 @@ void RenderSystem::addAdditionalResourcesFromAmentIndex() const
 {
   const std::string RVIZ_OGRE_MEDIA_RESOURCE_NAME = "rviz_ogre_media_exports";
   std::map<std::string,
-    std::filesystem::path> resource_locations = ament_index_cpp::get_resources_by_name(
+    std::string> resource_locations = ament_index_cpp::get_resources(
     RVIZ_OGRE_MEDIA_RESOURCE_NAME);
   for (auto resource : resource_locations) {
-    auto result = ament_index_cpp::get_resource(RVIZ_OGRE_MEDIA_RESOURCE_NAME, resource.first);
-    if (result.resourcePath != std::nullopt) {
+    std::string content;
+    std::string prefix_path;
+    if (ament_index_cpp::get_resource(
+        RVIZ_OGRE_MEDIA_RESOURCE_NAME, resource.first, content, &prefix_path))
+    {
       std::vector<std::string> filenames =
-        string_helper::splitStringIntoTrimmedItems(result.contents, '\n');
+        string_helper::splitStringIntoTrimmedItems(content, '\n');
       for (const auto & line : filenames) {
-        std::string resource_path = (result.resourcePath.value() / "share" / line).string();
+        std::string resource_path = prefix_path + "/share/" + line;
         if (!QDir(QString::fromStdString(resource_path)).exists()) {
           RVIZ_RENDERING_LOG_WARNING_STREAM("Could not find folder " << resource_path);
         }

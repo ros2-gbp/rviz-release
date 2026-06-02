@@ -1,34 +1,33 @@
-// Copyright (c) 2008, Willow Garage, Inc.
-// Copyright (c) 2017, Open Source Robotics Foundation, Inc.
-// Copyright (c) 2018, Bosch Software Innovations GmbH.
-// All rights reserved.
-//
-// Redistribution and use in source and binary forms, with or without
-// modification, are permitted provided that the following conditions are met:
-//
-//    * Redistributions of source code must retain the above copyright
-//      notice, this list of conditions and the following disclaimer.
-//
-//    * Redistributions in binary form must reproduce the above copyright
-//      notice, this list of conditions and the following disclaimer in the
-//      documentation and/or other materials provided with the distribution.
-//
-//    * Neither the name of the copyright holder nor the names of its
-//      contributors may be used to endorse or promote products derived from
-//      this software without specific prior written permission.
-//
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
-// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-// POSSIBILITY OF SUCH DAMAGE.
-
+/*
+ * Copyright (c) 2008, Willow Garage, Inc.
+ * Copyright (c) 2017, Open Source Robotics Foundation, Inc.
+ * Copyright (c) 2018, Bosch Software Innovations GmbH.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the Willow Garage, Inc. nor the names of its
+ *       contributors may be used to endorse or promote products derived from
+ *       this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #include "rviz_common/interaction/selection_manager.hpp"
 
@@ -140,13 +139,11 @@ void SelectionManager::initialize()
   name += std::to_string(count++);
   highlight_rectangle_ = new Ogre::Rectangle2D(true);
 
-  // Use a mutable copy so that Ogre::MemoryDataStream does not require
-  // casting away const from a static object (which would be UB).
-  uint32_t texture_pixel = 0xffff0080;
+  static const uint32_t texture_data[1] = {0xffff0080};
   Ogre::DataStreamPtr pixel_stream;
   pixel_stream.reset(
     new Ogre::MemoryDataStream(
-      reinterpret_cast<void *>(&texture_pixel), 4
+      reinterpret_cast<void *>(const_cast<uint32_t *>(&texture_data[0])), 4
   ));
 
   Ogre::TexturePtr tex = Ogre::TextureManager::getSingleton().loadRawData(
@@ -590,6 +587,14 @@ void SelectionManager::pick(
   int y2,
   M_Picked & results)
 {
+  // Reject invalid pick rectangles. Negative screen coordinates can produce
+  // garbage handles when fed to the offscreen render texture, and a degenerate
+  // rectangle (x2 <= x1 or y2 <= y1) selects nothing by definition.
+  if (x1 < 0 || y1 < 0 || x2 <= x1 || y2 <= y1) {
+    results.clear();
+    return;
+  }
+
   auto handler_lock = handler_manager_->lock(std::defer_lock);
   std::lock(selection_mutex_, handler_lock);
   std::lock_guard<std::recursive_mutex> lock(selection_mutex_, std::adopt_lock);
