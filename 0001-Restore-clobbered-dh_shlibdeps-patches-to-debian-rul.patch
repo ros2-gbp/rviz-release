@@ -1,9 +1,11 @@
-From 48b17fa6a16eb730e66a5b6b95d9249442e5320b Mon Sep 17 00:00:00 2001
+From 395c5ba32117c1722862d6e683d1725c305bdb41 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Steven!=20Ragnaro=CC=88k?= <steven@nuclearsandwich.com>
 Date: Sat, 9 Mar 2024 17:52:35 -0800
 Subject: [PATCH] Restore clobbered dh_shlibdeps patches to debian/rules.
 
 This package requires patches to the override_dh_shlibdeps rule which were clobbered by the rosdistro migration tool when running the 22.04 to 24.04 migration.
+
+Signed-off-by: Marco A. Gutierrez <marcogg@marcogg.com>
 ---
  debian/rules.em | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
