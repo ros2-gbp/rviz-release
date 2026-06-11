@@ -1,33 +1,34 @@
-/*
- * Copyright (c) 2012, Willow Garage, Inc.
- * Copyright (c) 2018, Bosch Software Innovations GmbH.
- * Copyright (c) 2020, TNG Technology Consulting GmbH.
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Willow Garage, Inc. nor the names of its
- *       contributors may be used to endorse or promote products derived from
- *       this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
+// Copyright (c) 2012, Willow Garage, Inc.
+// Copyright (c) 2018, Bosch Software Innovations GmbH.
+// Copyright (c) 2020, TNG Technology Consulting GmbH.
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+//
+//    * Redistributions of source code must retain the above copyright
+//      notice, this list of conditions and the following disclaimer.
+//
+//    * Redistributions in binary form must reproduce the above copyright
+//      notice, this list of conditions and the following disclaimer in the
+//      documentation and/or other materials provided with the distribution.
+//
+//    * Neither the name of the copyright holder nor the names of its
+//      contributors may be used to endorse or promote products derived from
+//      this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
+
 
 #include "rviz_default_plugins/displays/camera/camera_display.hpp"
 
@@ -46,6 +47,8 @@
 #include <OgreViewport.h>
 #include <OgreTechnique.h>
 #include <OgreCamera.h>
+
+#include <QString>  // NOLINT: cpplint is unable to handle the include order here
 
 #include "image_transport/camera_common.hpp"
 
@@ -119,7 +122,6 @@ static Ogre::Vector4 calculateScreenCorners(
 
 CameraDisplay::CameraDisplay()
 : tf_filter_(nullptr),
-  texture_(std::make_unique<ROSImageTexture>()),
   new_caminfo_(false),
   caminfo_ok_(false),
   force_render_(false)
@@ -165,7 +167,7 @@ CameraDisplay::~CameraDisplay()
 
 void CameraDisplay::onInitialize()
 {
-  ITDClass::onInitialize();
+  ImageDisplay::onInitialize();
 
   setupSceneNodes();
   setupRenderPanel();
@@ -256,9 +258,9 @@ Ogre::MaterialPtr CameraDisplay::createMaterial(std::string name) const
   Ogre::TextureUnitState * tu =
     material->getTechnique(0)->getPass(0)->createTextureUnitState();
   tu->setTextureName(texture_->getTexture()->getName());
-  tu->setTextureFiltering(Ogre::TFO_NONE);
   tu->setTextureAddressingMode(Ogre::TextureUnitState::TAM_CLAMP);
   tu->setAlphaOperation(Ogre::LBX_SOURCE1, Ogre::LBS_MANUAL, Ogre::LBS_CURRENT, 0.0);
+  applySmoothScalingToMaterial(material);
 
   return material;
 }
@@ -308,7 +310,7 @@ void CameraDisplay::fixedFrameChanged()
 
 void CameraDisplay::subscribe()
 {
-  ITDClass::subscribe();
+  ImageDisplay::subscribe();
 
   if (!subscription_) {
     return;
@@ -322,7 +324,7 @@ void CameraDisplay::subscribe()
     tf2_ros::MessageFilter<sensor_msgs::msg::Image,
     rviz_common::transformation::FrameTransformer>>(
     *context_->getFrameManager()->getTransformer(),
-    fixed_frame_.toStdString(), 10, rviz_ros_node_.lock()->get_raw_node());
+    fixed_frame_.toStdString(), 10, *rviz_ros_node_.lock()->get_raw_node());
 
   tf_filter_->connectInput(*subscription_);
   tf_filter_->registerCallback(
@@ -377,9 +379,21 @@ void CameraDisplay::createCameraInfoSubscription()
 
 void CameraDisplay::unsubscribe()
 {
-  ITDClass::unsubscribe();
+  ImageDisplay::unsubscribe();
   caminfo_sub_.reset();
   tf_filter_.reset();
+}
+
+void CameraDisplay::updateSmoothScaling()
+{
+  ImageDisplay::updateSmoothScaling();
+  // background_material_ and overlay_material_ may not exist yet on the very
+  // first call (which fires from ImageDisplay::onInitialize() before
+  // setupSceneNodes()); applySmoothScalingToMaterial no-ops on null.
+  applySmoothScalingToMaterial(background_material_);
+  applySmoothScalingToMaterial(overlay_material_);
+  force_render_ = true;
+  context_->queueRender();
 }
 
 void CameraDisplay::updateAlpha()
@@ -425,7 +439,7 @@ void CameraDisplay::clear()
   }
 }
 
-void CameraDisplay::update(float wall_dt, float ros_dt)
+void CameraDisplay::update(std::chrono::nanoseconds wall_dt, std::chrono::nanoseconds ros_dt)
 {
   (void) wall_dt;
   (void) ros_dt;
@@ -663,12 +677,13 @@ Ogre::Matrix4 CameraDisplay::calculateProjectionMatrix(
 
 void CameraDisplay::processMessage(sensor_msgs::msg::Image::ConstSharedPtr msg)
 {
+  last_msg_ = msg;
   texture_->addMessage(msg);
 }
 
 void CameraDisplay::reset()
 {
-  ITDClass::reset();
+  ImageDisplay::reset();
   clear();
 }
 

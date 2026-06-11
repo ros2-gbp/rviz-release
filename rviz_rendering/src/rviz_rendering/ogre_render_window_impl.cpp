@@ -1,32 +1,33 @@
-/*
- * Copyright (c) 2012, Willow Garage, Inc.
- * Copyright (c) 2017, Open Source Robotics Foundation, Inc.
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Willow Garage, Inc. nor the names of its
- *       contributors may be used to endorse or promote products derived from
- *       this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
+// Copyright (c) 2012, Willow Garage, Inc.
+// Copyright (c) 2017, Open Source Robotics Foundation, Inc.
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+//
+//    * Redistributions of source code must retain the above copyright
+//      notice, this list of conditions and the following disclaimer.
+//
+//    * Redistributions in binary form must reproduce the above copyright
+//      notice, this list of conditions and the following disclaimer in the
+//      documentation and/or other materials provided with the distribution.
+//
+//    * Neither the name of the copyright holder nor the names of its
+//      contributors may be used to endorse or promote products derived from
+//      this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
+
 
 #include "ogre_render_window_impl.hpp"
 
@@ -67,25 +68,8 @@ RenderWindowImpl::RenderWindowImpl(QWindow * parent)
   ogre_viewport_(nullptr),
   ortho_scale_(1.0f),
   pending_listeners_()
-  // auto_render_(true),
-  // overlays_enabled_(true),    // matches the default of Ogre::Viewport.
-  // stereo_enabled_(false),
-  // rendering_stereo_(false),
-  // left_camera_(0),
-  // right_camera_(0),
-  // right_viewport_(0)
 {
   RenderSystem::get();  // side-effect is that the render system is setup
-  // this->initialize();
-  // render_window_->setVisible(true);
-  // render_window_->setAutoUpdated(true);
-
-// #if OGRE_STEREO_ENABLE
-//   viewport_->setDrawBuffer(Ogre::CBT_BACK);
-// #endif
-//   enableStereo(true);
-
-  // setCameraAspectRatio();
 }
 
 RenderWindowImpl::~RenderWindowImpl()
@@ -93,7 +77,6 @@ RenderWindowImpl::~RenderWindowImpl()
   if (ogre_render_window_) {
     Ogre::Root::getSingletonPtr()->detachRenderTarget(ogre_render_window_);
     Ogre::Root::getSingletonPtr()->destroyRenderTarget(ogre_render_window_);
-    // enableStereo(false);  // free stereo resources
   }
 }
 
@@ -133,18 +116,6 @@ void
 RenderWindowImpl::renderLater()
 {
   parent_->requestUpdate();
-
-  // Alternative impl?:
-
-  // // This function forces QWindow to keep rendering.
-  // // Omitting this causes the renderNow() function to only get called when the
-  // // window is resized, moved, etc. as opposed to all of the time; which is
-  // // generally what we need.
-  // if (!m_update_pending)
-  // {
-  //   m_update_pending = true;
-  //   QApplication::postEvent(this, new QEvent(QEvent::UpdateRequest));
-  // }
 }
 
 
@@ -164,7 +135,6 @@ RenderWindowImpl::renderNow()
       setup_scene_callback_ = 0;
     }
   }
-
   this->render();
 
   if (animating_) {
@@ -288,19 +258,6 @@ void RenderWindowImpl::setCamera(Ogre::Camera * ogre_camera)
       ogre_viewport_->setCamera(ogre_camera);
       this->setCameraAspectRatio();
     }
-
-    // if (ogre_camera_ && rendering_stereo_ && !left_ogre_camera_) {
-    //   left_ogre_camera_ =
-    //     ogre_camera_->getSceneManager()->createCamera(ogre_camera_->getName() + "-left");
-    // }
-    // if (ogre_camera_ && rendering_stereo_ && !right_ogre_camera_) {
-    //   right_ogre_camera_ =
-    //     ogre_camera_->getSceneManager()->createCamera(ogre_camera_->getName() + "-right");
-    // }
-
-    // TODO(wjwwood): not sure where this was going before, need to figure that out
-    //                and see if it is still needed, could have been QWidget before
-    // this->update();
   }
 }
 
@@ -368,15 +325,10 @@ void RenderWindowImpl::setBackgroundColor(Ogre::ColourValue background_color)
 
 void RenderWindowImpl::setCameraAspectRatio()
 {
-  // auto width = parent_->width();
   auto width = parent_->width() ? parent_->width() : 100;
-  // auto height = parent_->height();
   auto height = parent_->height() ? parent_->height() : 100;
   if (ogre_camera_) {
     ogre_camera_->setAspectRatio(Ogre::Real(width) / Ogre::Real(height));
-    // if (right_ogre_camera_) {
-    //   right_ogre_camera_->setAspectRatio(Ogre::Real(width()) / Ogre::Real(height()));
-    // }
 
     if (ogre_camera_->getProjectionType() == Ogre::PT_ORTHOGRAPHIC) {
       Ogre::Matrix4 proj = buildScaledOrthoMatrix(

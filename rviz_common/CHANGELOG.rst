@@ -2,129 +2,244 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-14.1.22 (2026-06-08)
---------------------
-* Fix disabled displays (addresses `#1773 <https://github.com/ros2/rviz/issues/1773>`_) (`#1774 <https://github.com/ros2/rviz/issues/1774>`_) (`#1778 <https://github.com/ros2/rviz/issues/1778>`_)
-  (cherry picked from commit 26b578fa1d3a4c4a3578d57bd4c24c36feba1f67)
-  Co-authored-by: Tom Moore <automatom@protonmail.com>
-* Contributors: mergify[bot]
-
-14.1.21 (2026-06-02)
---------------------
-* SelectionManager::select Function Not Returning Empty Selection Result for Invalid Coordinates (`#1713 <https://github.com/ros2/rviz/issues/1713>`_) (`#1770 <https://github.com/ros2/rviz/issues/1770>`_)
-  (cherry picked from commit 73c3d45c27a0c426d7dce3ef502b4a64b813ee6f)
-  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
-* Contributors: mergify[bot]
-
-14.1.20 (2026-02-24)
---------------------
-* Fix setHidden regression in PropertyTreeWidget (`#1667 <https://github.com/ros2/rviz/issues/1667>`_) (`#1669 <https://github.com/ros2/rviz/issues/1669>`_)
-* Add topic name filtering when adding new visualizations (`#1662 <https://github.com/ros2/rviz/issues/1662>`_) (`#1664 <https://github.com/ros2/rviz/issues/1664>`_)
-* Contributors: mergify[bot]
-
-14.1.19 (2025-12-17)
---------------------
-* Fix crash with no tools (`#1639 <https://github.com/ros2/rviz/issues/1639>`_) (`#1641 <https://github.com/ros2/rviz/issues/1641>`_)
-* Contributors: mergify[bot]
-
-14.1.18 (2025-11-28)
---------------------
-
-14.1.17 (2025-11-07)
---------------------
-* Removed duplicated forward class declaration (`#1602 <https://github.com/ros2/rviz//issues/1602>`_) (`#1613 <https://github.com/ros2/rviz//issues/1613>`_)
-* Contributors: mergify[bot]
-
-14.1.16 (2025-09-26)
---------------------
-* fix crash (`#1587 <https://github.com/ros2/rviz/issues/1587>`_) (`#1589 <https://github.com/ros2/rviz/issues/1589>`_)
-* Contributors: mergify[bot]
-
-14.1.15 (2025-09-17)
---------------------
-* add ros action property (`#1549 <https://github.com/ros2/rviz/issues/1549>`_) (`#1577 <https://github.com/ros2/rviz/issues/1577>`_)
-* Contributors: mergify[bot]
-
-14.1.14 (2025-08-22)
---------------------
-
-14.1.13 (2025-07-25)
---------------------
-* Postpone hiding of properties until insertion into model is finished (backport `#1508 <https://github.com/ros2/rviz/issues/1508>`_) (`#1521 <https://github.com/ros2/rviz/issues/1521>`_)
-* Don't hide rows of properties not within the model (`#1507 <https://github.com/ros2/rviz/issues/1507>`_) (`#1518 <https://github.com/ros2/rviz/issues/1518>`_)
-* Remove redundant check (`#1506 <https://github.com/ros2/rviz/issues/1506>`_) (`#1512 <https://github.com/ros2/rviz/issues/1512>`_)
-* Contributors: mergify[bot]
-
-14.1.12 (2025-06-20)
---------------------
-* Config::mapGetBool causes segmentation fault when value_out is nullptr (`#1471 <https://github.com/ros2/rviz/issues/1471>`_) (`#1480 <https://github.com/ros2/rviz/issues/1480>`_)
-* Contributors: mergify[bot]
-
-14.1.11 (2025-05-14)
---------------------
-
-14.1.10 (2025-04-29)
---------------------
-
-14.1.9 (2025-04-24)
+16.0.1 (2026-06-11)
 -------------------
-* addTrackedObject Function Fails to Handle Null Pointer, Causing Crash When nullptr is Passed (`#1375 <https://github.com/ros2/rviz/issues/1375>`_) (`#1378 <https://github.com/ros2/rviz/issues/1378>`_)
-  (cherry picked from commit a657981d9fc816900688663bfcb6e7f3c50a0acc)
-  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
-* Fix Potential Null Pointer Dereference in VisualizerApp::getRenderWindow() to Prevent Crashes (`#1359 <https://github.com/ros2/rviz/issues/1359>`_) (`#1365 <https://github.com/ros2/rviz/issues/1365>`_)
-  (cherry picked from commit c2118276a21db73752cbe468ea9a0c052f6a3502)
-  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
-* UniformStringStream::parseFloat Fails to Handle Invalid Float Formats Correctly (`#1360 <https://github.com/ros2/rviz/issues/1360>`_) (`#1367 <https://github.com/ros2/rviz/issues/1367>`_)
-  Co-authored-by: Christophe Bedard <bedard.christophe@gmail.com>
-  (cherry picked from commit 2e6fd001b25b02314c5785b5e74e68fcc193e1d8)
-  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
-* Add test to check mapGetString when key is missing (`#1361 <https://github.com/ros2/rviz/issues/1361>`_) (`#1369 <https://github.com/ros2/rviz/issues/1369>`_)
-  (cherry picked from commit 98225aaaf5be04a35cc30b275c38c43cf1baede9)
-  Co-authored-by: Alejandro Hernández Cordero <alejandro@openrobotics.org>
-* Contributors: mergify[bot]
+* Fix disabled displays (addresses `#1773 <https://github.com/ros2/rviz/issues/1773>`_) (`#1774 <https://github.com/ros2/rviz/issues/1774>`_)
+* QosProfileProperty Destructor (`#1715 <https://github.com/ros2/rviz/issues/1715>`_)
+* SelectionManager::select Function Not Returning Empty Selection Result for Invalid Coordinates (`#1713 <https://github.com/ros2/rviz/issues/1713>`_)
+* Removed deprecated API (`#1731 <https://github.com/ros2/rviz/issues/1731>`_)
+* Removed unused code in render_window.cpp (`#1722 <https://github.com/ros2/rviz/issues/1722>`_)
+* Removed URDF dependency in rviz_common (`#1723 <https://github.com/ros2/rviz/issues/1723>`_)
+* Fixed Qcolor deprecation (`#1725 <https://github.com/ros2/rviz/issues/1725>`_)
+* Contributors: Alejandro Hernández Cordero, Tom Moore
 
-14.1.8 (2025-04-02)
+16.0.0 (2026-05-06)
 -------------------
 
-14.1.7 (2025-01-14)
+15.2.2 (2026-04-24)
 -------------------
-* Add RVIZ_COMMON_PUBLIC macro to ToolManager (`#1323 <https://github.com/ros2/rviz/issues/1323>`_) (`#1325 <https://github.com/ros2/rviz/issues/1325>`_)
-  (cherry picked from commit ad4813f819e09d05096515045f1688989fb00b81)
-  Co-authored-by: Silvio Traversaro <silvio@traversaro.it>
-* Contributors: mergify[bot]
+* Use rosdep keys that select Qt5 or Qt6 by platform (`#1720 <https://github.com/ros2/rviz/issues/1720>`_)
+* Contributors: Shane Loretz
 
-14.1.6 (2024-12-18)
+15.2.1 (2026-04-24)
+-------------------
+* Compressed Image Display (`#1288 <https://github.com/ros2/rviz//issues/1288>`_)
+* fix: Fixed compilation on MSVC 2022 (`#1706 <https://github.com/ros2/rviz//issues/1706>`_)
+* Contributors: Janosch Machowinski, Matthew Foran
+
+15.2.0 (2026-05-15)
+-------------------
+* Removed Qt6 warnings (`#1704 <https://github.com/ros2/rviz/issues/1704>`_)
+* Fixed regresion is RHEL (`#1703 <https://github.com/ros2/rviz/issues/1703>`_)
+* Contributors: Alejandro Hernández Cordero
+
+15.1.20 (2026-04-14)
+--------------------
+
+* Remove warnings (`#1693 <https://github.com/ros2/rviz/issues/1693>`_)
+* Link against ``GTest::gmock`` target (`#1699 <https://github.com/ros2/rviz/issues/1699>`_)
+* Reduce ``QFile`` dependency (`#1652 <https://github.com/ros2/rviz/issues/1652>`_)
+
+* Contributors: Alejandro Hernández Cordero, Shane Loretz
+
+15.1.19 (2026-03-24)
+--------------------
+* Use new ROSIDL aggregate CMake target (`#1688 <https://github.com/ros2/rviz/issues/1688>`_)
+* Fix Qt version resolution when both Qt5 and Qt6 are installed - CMake defaults to ascending resolution and Qt5 will be found when Qt6 is desired (Rolling, L-Turtle, and beyond). (`#1689 <https://github.com/ros2/rviz/issues/1689>`_)
+* Cleanups in rviz_common (`#1686 <https://github.com/ros2/rviz/issues/1686>`_)
+* Add tests for shallow and deep copy in Config (`#1682 <https://github.com/ros2/rviz/issues/1682>`_)
+* Build performance optimizations for rviz_common (`#1677 <https://github.com/ros2/rviz/issues/1677>`_)
+* Contributors: Alejandro Hernández Cordero, Emerson Knapp, Michael Carroll, Nathan Brooks, Oscmoar07
+
+15.1.18 (2026-02-25)
+--------------------
+* Use get_package_share_path (`#1671 <https://github.com/ros2/rviz/issues/1671>`_)
+* Contributors: Alejandro Hernández Cordero
+
+15.1.17 (2026-02-24)
+--------------------
+* Fix setHidden regression in PropertyTreeWidget (`#1667 <https://github.com/ros2/rviz/issues/1667>`_)
+* Add topic name filtering when adding new visualizations (`#1662 <https://github.com/ros2/rviz/issues/1662>`_)
+* use QPointer in QTimer::singleShot to prevent use-after-free (`#1657 <https://github.com/ros2/rviz/issues/1657>`_)
+* Contributors: Mateusz Żak, Matteo Princisgh, t0k0shi
+
+15.1.16 (2026-01-13)
+--------------------
+* Fix Not loading plugins due to incorrect package path (`#1651 <https://github.com/ros2/rviz/issues/1651>`_)
+* Contributors: Alejandro Hernández Cordero
+
+15.1.15 (2025-12-23)
+--------------------
+* Updated deprecated ament_index_cpp API (`#1647 <https://github.com/ros2/rviz/issues/1647>`_)
+* Contributors: Alejandro Hernández Cordero
+
+15.1.14 (2025-12-17)
+--------------------
+* Fix crash with no tools (`#1639 <https://github.com/ros2/rviz/issues/1639>`_)
+* Use qt6 as the default dependency from rosdep (`#1635 <https://github.com/ros2/rviz/issues/1635>`_)
+* Pointcloud2 display set QoS to best effort (`#1621 <https://github.com/ros2/rviz/issues/1621>`_)
+* Contributors: Alejandro Hernández Cordero, David V. Lu!!
+
+15.1.13 (2025-11-28)
+--------------------
+
+15.1.12 (2025-11-07)
+--------------------
+* Cleanup deprecated code (`#1619 <https://github.com/ros2/rviz//issues/1619>`_)
+* Removed support for yaml-cpp lower than 0.5 (`#1605 <https://github.com/ros2/rviz//issues/1605>`_)
+* Removed duplicated forward class declaration (`#1602 <https://github.com/ros2/rviz//issues/1602>`_)
+* resolved TODO in visualization manager (`#1603 <https://github.com/ros2/rviz//issues/1603>`_)
+* Contributors: Alejandro Hernández Cordero, mini-1235
+
+15.1.11 (2025-10-20)
+--------------------
+* Fix incorrect Qt signal connection in combo box (`#1596 <https://github.com/ros2/rviz/issues/1596>`_)
+* Removed tinyxml2_vendor dependency (`#1591 <https://github.com/ros2/rviz/issues/1591>`_)
+* Replace QRegExp with QRegularExpression to support Qt6 (`#1592 <https://github.com/ros2/rviz/issues/1592>`_)
+* Contributors: Alejandro Hernández Cordero, mini-1235
+
+15.1.10 (2025-09-26)
+--------------------
+* fix crash (`#1587 <https://github.com/ros2/rviz/issues/1587>`_)
+* added option to change filemode (`#1537 <https://github.com/ros2/rviz/issues/1537>`_)
+* Removed deprecation warning in tf2 (`#1585 <https://github.com/ros2/rviz/issues/1585>`_)
+* Std chrono update in default plugins (`#1579 <https://github.com/ros2/rviz/issues/1579>`_)
+* Contributors: Alejandro Hernández Cordero, Joshua Supratman, Mark Johnson, nelson
+
+15.1.9 (2025-09-04)
+-------------------
+* Removed deprecations (`#1556 <https://github.com/ros2/rviz/issues/1556>`_)
+* rviz common ros service property (`#1548 <https://github.com/ros2/rviz/issues/1548>`_)
+* add ros action property (`#1549 <https://github.com/ros2/rviz/issues/1549>`_)
+* Contributors: Alejandro Hernández Cordero, Joshua Supratman
+
+15.1.8 (2025-08-22)
+-------------------
+* Deprecates update(float, float) methods and provides update(std::chrono::duration, std::chrono::duration) replacements. (`#1533 <https://github.com/ros2/rviz//issues/1533>`_)
+* Contributors: Mark Johnson
+
+15.1.7 (2025-07-25)
+-------------------
+* Replace deprecated tf2_ros headers (`#1529 <https://github.com/ros2/rviz/issues/1529>`_)
+* Postpone hiding of properties until insertion into model is finished (`#1508 <https://github.com/ros2/rviz/issues/1508>`_)
+* Contributors: Alejandro Hernández Cordero
+
+15.1.6 (2025-07-01)
+-------------------
+* Don't hide rows of properties not within the model (`#1507 <https://github.com/ros2/rviz/issues/1507>`_)
+* Remove redundant check (`#1506 <https://github.com/ros2/rviz/issues/1506>`_)
+* Fix panel deletion (`#1037 <https://github.com/ros2/rviz/issues/1037>`_)
+* Contributors: Alejandro Hernández Cordero
+
+15.1.5 (2025-06-27)
 -------------------
 
-14.1.5 (2024-09-06)
+15.1.4 (2025-06-20)
 -------------------
-* Handle `Tool::Finished` returned by `processKeyEvent` (`#1257 <https://github.com/ros2/rviz/issues/1257>`_) (`#1263 <https://github.com/ros2/rviz/issues/1263>`_)
-  (cherry picked from commit 37cf8051a4dec9bbaddd17ca07d846b3e5016a99)
-  Co-authored-by: Patrick Roncagliolo <ronca.pat@gmail.com>
-* Contributors: mergify[bot]
+* Config::mapGetBool causes segmentation fault when value_out is nullptr (`#1471 <https://github.com/ros2/rviz/issues/1471>`_)
+* Contributors: Alejandro Hernández Cordero
 
-14.1.4 (2024-08-19)
+15.1.3 (2025-05-20)
 -------------------
-* Set ContentsMargins for RenderPanel to 0 to avoid borders in fullscreen mode. Fixes `#1024 <https://github.com/ros2/rviz/issues/1024>`_ (`#1228 <https://github.com/ros2/rviz/issues/1228>`_) (`#1250 <https://github.com/ros2/rviz/issues/1250>`_)
-  (cherry picked from commit 642b1a34b1a50bfa8afa76817ec3fe0e2f9cf210)
-  Co-authored-by: Bo Chen <bo@enway.ai>
-* Contributors: mergify[bot]
+* feat: support both qt5 and qt6 (`#1187 <https://github.com/ros2/rviz/issues/1187>`_)
+* Contributors: Daisuke Nishimatsu
 
-14.1.3 (2024-07-19)
+15.1.2 (2025-05-14)
 -------------------
-* Correclty load icons of panels with whitespaces in their name (`#1241 <https://github.com/ros2/rviz/issues/1241>`_) (`#1242 <https://github.com/ros2/rviz/issues/1242>`_)
-  (cherry picked from commit d390a55b7c038c0b97d9dd17636ee6bdbc9ea86a)
-  Co-authored-by: Patrick Roncagliolo <ronca.pat@gmail.com>
-* Contributors: mergify[bot]
 
-14.1.2 (2024-06-27)
+15.1.1 (2025-05-05)
 -------------------
-* Replace ESC shortcut for exiting full screen with solution from https://github.com/ros-visualization/rviz/pull/1416 (`#1205 <https://github.com/ros2/rviz/issues/1205>`_) (`#1209 <https://github.com/ros2/rviz/issues/1209>`_)
-  (cherry picked from commit 526f25105b4f679a4c09128558d94b678affd0fa)
-  Co-authored-by: Michael Ripperger <michael.ripperger@swri.org>
-* Contributors: mergify[bot]
+* Fixed crash when a resource is not available (`#1455 <https://github.com/ros2/rviz/issues/1455>`_)
+* Contributors: Alejandro Hernández Cordero
 
-14.1.1 (2024-05-13)
+15.1.0 (2025-04-25)
+-------------------
+
+15.0.0 (2025-04-25)
+-------------------
+* Work in progress using the new resource retriever apis (`#1262 <https://github.com/ros2/rviz/issues/1262>`_)
+* addTrackedObject Function Fails to Handle Null Pointer, Causing Crash When nullptr is Passed (`#1375 <https://github.com/ros2/rviz/issues/1375>`_)
+* Add test to check mapGetString when key is missing (`#1361 <https://github.com/ros2/rviz/issues/1361>`_)
+* UniformStringStream::parseFloat Fails to Handle Invalid Float Formats Correctly (`#1360 <https://github.com/ros2/rviz/issues/1360>`_)
+* Fix Potential Null Pointer Dereference in VisualizerApp::getRenderWindow() to Prevent Crashes (`#1359 <https://github.com/ros2/rviz/issues/1359>`_)
+* Extend support for type adaptation (REP 2007) in rviz_common for TF-filtered displays (`#1346 <https://github.com/ros2/rviz/issues/1346>`_)
+* Contributors: Alejandro Hernández Cordero, Michael Carroll, Patrick Roncagliolo
+
+14.4.4 (2025-03-20)
+-------------------
+* Expose the possibility to create ROS node with custom `NodeOptions` (`#1347 <https://github.com/ros2/rviz/issues/1347>`_)
+* Contributors: Patrick Roncagliolo
+
+14.4.3 (2025-02-27)
+-------------------
+* uniform CMAKE requirement (`#1335 <https://github.com/ros2/rviz/issues/1335>`_)
+* Contributors: mosfet80
+
+14.4.2 (2025-01-31)
+-------------------
+* Add basic support for type adaptation (REP 2007) in `rviz_common` for displays (`#1331 <https://github.com/ros2/rviz/issues/1331>`_)
+* Contributors: Patrick Roncagliolo
+
+14.4.1 (2025-01-15)
+-------------------
+* Fix preferred tools loading names (`#1321 <https://github.com/ros2/rviz/issues/1321>`_)
+* Add RVIZ_COMMON_PUBLIC macro to ToolManager (`#1323 <https://github.com/ros2/rviz/issues/1323>`_)
+* Clean visualization_manager.cpp (`#1317 <https://github.com/ros2/rviz/issues/1317>`_)
+* Contributors: RaduPopescu, Silvio Traversaro, mosfet80
+
+14.4.0 (2024-12-20)
+-------------------
+* Fix Deprecated tf2 headers (`#1289 <https://github.com/ros2/rviz/issues/1289>`_)
+* Contributors: Lucas Wendland
+
+14.3.3 (2024-11-25)
+-------------------
+
+14.3.2 (2024-11-20)
+-------------------
+* include QString (`#1298 <https://github.com/ros2/rviz/issues/1298>`_)
+* Contributors: Matthew Foran
+
+14.3.1 (2024-10-11)
+-------------------
+* Handle time source exception (`#1285 <https://github.com/ros2/rviz/issues/1285>`_)
+* Contributors: Matthew Foran
+
+14.3.0 (2024-10-03)
+-------------------
+
+14.2.6 (2024-08-28)
+-------------------
+* Fully handle `Tool::processKeyEvent` return value (`#1270 <https://github.com/ros2/rviz/issues/1270>`_)
+* Handle `Tool::Finished` returned by `processKeyEvent` (`#1257 <https://github.com/ros2/rviz/issues/1257>`_)
+* Contributors: Patrick Roncagliolo
+
+14.2.5 (2024-07-29)
+-------------------
+* Added more time to copyright on Windwos (`#1252 <https://github.com/ros2/rviz/issues/1252>`_)
+* Added common test for rviz_common (`#1232 <https://github.com/ros2/rviz/issues/1232>`_)
+* Set ContentsMargins for RenderPanel to 0 to avoid borders in fullscreen mode. Fixes `#1024 <https://github.com/ros2/rviz/issues/1024>`_ (`#1228 <https://github.com/ros2/rviz/issues/1228>`_)
+* Contributors: Alejandro Hernández Cordero, Bo Chen
+
+14.2.4 (2024-07-19)
+-------------------
+* Updated deprecated message filter headers (`#1239 <https://github.com/ros2/rviz/issues/1239>`_)
+* Correclty load icons of panels with whitespaces in their name (`#1241 <https://github.com/ros2/rviz/issues/1241>`_)
+* Contributors: Alejandro Hernández Cordero, Patrick Roncagliolo
+
+14.2.3 (2024-06-25)
+-------------------
+
+14.2.2 (2024-06-17)
+-------------------
+* Prepping for qos deprecation (`#1214 <https://github.com/ros2/rviz/issues/1214>`_)
+* Replace ESC shortcut for exiting full screen with solution from https://github.com/ros-visualization/rviz/pull/1416 (`#1205 <https://github.com/ros2/rviz/issues/1205>`_)
+* Contributors: Lucas Wendland, Michael Ripperger
+
+14.2.1 (2024-05-24)
+-------------------
+
+14.2.0 (2024-04-26)
 -------------------
 
 14.1.0 (2024-04-16)

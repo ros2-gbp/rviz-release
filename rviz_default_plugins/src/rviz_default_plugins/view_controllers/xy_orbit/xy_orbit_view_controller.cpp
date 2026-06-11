@@ -1,32 +1,33 @@
-/*
- * Copyright (c) 2012, Willow Garage, Inc.
- * Copyright (c) 2018, Bosch Software Innovations GmbH.
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Willow Garage, Inc. nor the names of its
- *       contributors may be used to endorse or promote products derived from
- *       this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
+// Copyright (c) 2012, Willow Garage, Inc.
+// Copyright (c) 2018, Bosch Software Innovations GmbH.
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+//
+//    * Redistributions of source code must retain the above copyright
+//      notice, this list of conditions and the following disclaimer.
+//
+//    * Redistributions in binary form must reproduce the above copyright
+//      notice, this list of conditions and the following disclaimer in the
+//      documentation and/or other materials provided with the distribution.
+//
+//    * Neither the name of the copyright holder nor the names of its
+//      contributors may be used to endorse or promote products derived from
+//      this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
+
 
 #include "rviz_default_plugins/view_controllers/xy_orbit/xy_orbit_view_controller.hpp"
 
@@ -126,16 +127,12 @@ void XYOrbitViewController::lookAt(const Ogre::Vector3 & point)
   Ogre::Vector3 camera_position = camera_->getParentSceneNode()->getPosition();
   Ogre::Vector3 new_focal_point =
     target_scene_node_->getOrientation().Inverse() * (point - target_scene_node_->getPosition());
-  new_focal_point.z = 0;
+  // Preserve the current focal point Z value
+  new_focal_point.z = focal_point_property_->getVector().z;
   distance_property_->setFloat(new_focal_point.distance(camera_position));
   focal_point_property_->setVector(new_focal_point);
 
   calculatePitchYawFromPosition(camera_position);
-}
-
-void XYOrbitViewController::setShiftOrbitStatus()
-{
-  setStatus("<b>Left-Click:</b> Move X/Y.  <b>Right-Click:</b> Zoom.");
 }
 
 void XYOrbitViewController::moveFocalPoint(
@@ -188,16 +185,28 @@ std::pair<bool, Ogre::Vector3> XYOrbitViewController::intersectGroundPlane(Ogre:
 void XYOrbitViewController::handleRightClick(
   rviz_common::ViewportMouseEvent & event, float distance, int32_t diff_y)
 {
-  (void) event;
-  setCursor(Zoom);
-  zoom(-diff_y * 0.1f * (distance / 10.0f));
+  if (event.shift()) {
+    setCursor(MoveZ);
+    Ogre::Vector3 focal = focal_point_property_->getVector();
+    focal.z += diff_y * 0.001f * distance;
+    focal_point_property_->setVector(focal);
+  } else {
+    setCursor(Zoom);
+    zoom(-diff_y * 0.1f * (distance / 10.0f));
+  }
 }
 
 void XYOrbitViewController::handleWheelEvent(
   rviz_common::ViewportMouseEvent & event, float distance)
 {
   int diff = event.wheel_delta;
-  zoom(diff * 0.001f * distance);
+  if (event.shift()) {
+    Ogre::Vector3 focal = focal_point_property_->getVector();
+    focal.z += -diff * 0.001f * distance;
+    focal_point_property_->setVector(focal);
+  } else {
+    zoom(diff * 0.001f * distance);
+  }
 }
 
 void XYOrbitViewController::handleMouseEvent(rviz_common::ViewportMouseEvent & event)

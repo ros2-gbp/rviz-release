@@ -1,38 +1,41 @@
-/*
- * Copyright (c) 2012, Willow Garage, Inc.
- * Copyright (c) 2017, Open Source Robotics Foundation, Inc.
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Willow Garage, Inc. nor the names of its
- *       contributors may be used to endorse or promote products derived from
- *       this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
+// Copyright (c) 2012, Willow Garage, Inc.
+// Copyright (c) 2017, Open Source Robotics Foundation, Inc.
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+//
+//    * Redistributions of source code must retain the above copyright
+//      notice, this list of conditions and the following disclaimer.
+//
+//    * Redistributions in binary form must reproduce the above copyright
+//      notice, this list of conditions and the following disclaimer in the
+//      documentation and/or other materials provided with the distribution.
+//
+//    * Neither the name of the copyright holder nor the names of its
+//      contributors may be used to endorse or promote products derived from
+//      this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
+
 
 #include "display_factory.hpp"
 
 #include <string>
 
 #include <tinyxml2.h>  // NOLINT: cpplint is unable to handle the include order here
+
+#include <QString>  // NOLINT: cpplint is unable to handle the include order here
 
 #include "rviz_common/display_group.hpp"
 #include "rviz_common/logging.hpp"
@@ -60,16 +63,19 @@ Display * DisplayFactory::makeRaw(const QString & class_id, QString * error_retu
   return display;
 }
 
+void DisplayFactory::updatePluginMessageTypes(
+  const QString & class_id,
+  const QSet<QString> & message_types)
+{
+  message_type_cache_[class_id] = message_types;
+}
+
 QSet<QString> DisplayFactory::getMessageTypes(const QString & class_id)
 {
   // lookup in cache
   if (message_type_cache_.find(class_id) != message_type_cache_.end()) {
     return message_type_cache_[class_id];
   }
-
-  // Always initialize cache as empty so if we don't find it, next time
-  // we won't look for it anymore either.
-  message_type_cache_[class_id] = QSet<QString>();
 
   // parse xml plugin description to find out message types of all displays in it.
   QString xml_file = getPluginManifestPath(class_id);
@@ -95,13 +101,12 @@ QSet<QString> DisplayFactory::getMessageTypes(const QString & class_id)
       library = library->NextSiblingElement("library");
     }
   }
-
-  // search cache again.
-  if (message_type_cache_.find(class_id) != message_type_cache_.end()) {
-    return message_type_cache_[class_id];
+  // If class_id was not found in the xml description, add an empty
+  // cache element to avoid re-parsing the xml next time
+  if (message_type_cache_.find(class_id) == message_type_cache_.end()) {
+    message_type_cache_[class_id] = QSet<QString>();
   }
-
-  return QSet<QString>();
+  return message_type_cache_[class_id];
 }
 
 bool DisplayFactory::hasRootNode(tinyxml2::XMLElement * root_element, const std::string & xml_file)
@@ -138,7 +143,12 @@ void DisplayFactory::fillCacheForAllClassElements(tinyxml2::XMLElement * library
     const std::string current_class_id = lookupClassId(class_element, derived_class);
     QSet<QString> message_types = parseMessageTypes(class_element, current_class_id);
 
-    message_type_cache_[QString::fromStdString(current_class_id)] = message_types;
+    // Don't overwrite message types previously set via updatePluginMessageTypes
+    if (message_type_cache_.find(QString::fromStdString(current_class_id)) ==
+      message_type_cache_.end() )
+    {
+      message_type_cache_[QString::fromStdString(current_class_id)] = message_types;
+    }
 
     class_element = class_element->NextSiblingElement("class");
   }
