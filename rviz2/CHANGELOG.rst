@@ -2,13 +2,13 @@
 Changelog for package rviz2
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-16.0.1 (2026-06-11)
+15.2.4 (2026-06-12)
 -------------------
-* Don't use windeployqt (`#1738 <https://github.com/ros2/rviz/issues/1738>`_)
-* Contributors: Shane Loretz
 
-16.0.0 (2026-05-06)
+15.2.3 (2026-05-16)
 -------------------
+* Don't use windeployqt (`#1738 <https://github.com/ros2/rviz/issues/1738>`_) (`#1739 <https://github.com/ros2/rviz/issues/1739>`_)
+* Contributors: mergify[bot]
 
 15.2.2 (2026-04-24)
 -------------------
