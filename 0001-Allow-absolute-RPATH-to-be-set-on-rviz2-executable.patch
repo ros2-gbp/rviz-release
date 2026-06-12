@@ -1,4 +1,4 @@
-From c7a00be950cc79541c5bc991e35ad16821967b4b Mon Sep 17 00:00:00 2001
+From 37541e2ff4a6cf427ba0356b99f8e4ed55d4c88c Mon Sep 17 00:00:00 2001
 From: Scott K Logan <logans@cottsay.net>
 Date: Mon, 27 Apr 2026 14:50:36 -0500
 Subject: [PATCH] Allow absolute RPATH to be set on rviz2 executable
@@ -11,7 +11,7 @@ bit of refactoring.
  1 file changed, 2 insertions(+)
 
 diff --git a/rpm/ros-lyrical-rviz2.spec b/rpm/ros-lyrical-rviz2.spec
-index f47a735ba..85c293453 100644
+index 3212bcb70..005371f38 100644
 --- a/rpm/ros-lyrical-rviz2.spec
 +++ b/rpm/ros-lyrical-rviz2.spec
 @@ -14,6 +14,8 @@ Source0:        %{name}-%{version}.tar.gz
@@ -24,5 +24,5 @@ index f47a735ba..85c293453 100644
  
  %description
 -- 
-2.54.0.563.g4f69b47b94-goog
+2.43.0
 
