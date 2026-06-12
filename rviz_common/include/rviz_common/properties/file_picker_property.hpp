@@ -31,11 +31,7 @@
 #ifndef RVIZ_COMMON__PROPERTIES__FILE_PICKER_PROPERTY_HPP_
 #define RVIZ_COMMON__PROPERTIES__FILE_PICKER_PROPERTY_HPP_
 
-#include <QFileDialog>
-#include <QObject>
 #include <QString>
-#include <QStyleOptionViewItem>
-#include <QWidget>
 
 #include "rviz_common/properties/string_property.hpp"
 #include "rviz_common/visibility_control.hpp"
@@ -53,13 +49,9 @@ public:
     const QString & description = QString(),
     Property * parent = nullptr,
     const char * changed_slot = nullptr,
-    QObject * receiver = nullptr,
-    QFileDialog::FileMode mode = QFileDialog::AnyFile);
+    QObject * receiver = nullptr);
 
   QWidget * createEditor(QWidget * parent, const QStyleOptionViewItem & option) override;
-
-private:
-  QFileDialog::FileMode mode_;
 };
 
 }  // namespace properties

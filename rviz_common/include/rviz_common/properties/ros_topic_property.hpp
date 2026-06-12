@@ -32,7 +32,6 @@
 
 #include <string>
 
-#include <QRegularExpression>  // NOLINT: cpplint is unable to handle the include order here
 #include <QString>  // NOLINT: cpplint is unable to handle the include order here
 
 #include "rviz_common/properties/editable_enum_property.hpp"
@@ -50,31 +49,40 @@ class RVIZ_COMMON_PUBLIC RosTopicProperty : public EditableEnumProperty
 
 public:
   explicit RosTopicProperty(
-    const QString & name = QString(), const QString & default_value = QString(),
-    const QString & message_type = QString(), const QString & description = QString(),
-    Property * parent = nullptr, const char * changed_slot = nullptr, QObject * receiver = nullptr);
+    const QString & name = QString(),
+    const QString & default_value = QString(),
+    const QString & message_type = QString(),
+    const QString & description = QString(),
+    Property * parent = nullptr,
+    const char * changed_slot = nullptr,
+    QObject * receiver = nullptr);
 
   void initialize(ros_integration::RosNodeAbstractionIface::WeakPtr rviz_ros_node);
 
   void setMessageType(const QString & message_type);
 
-  QString getMessageType() const {return message_type_;}
+  QString getMessageType() const
+  {return message_type_;}
 
-  QString getTopic() const {return getValue().toString();}
+  QString getTopic() const
+  {return getValue().toString();}
 
-  std::string getTopicStd() const {return getValue().toString().toStdString();}
+  std::string getTopicStd() const
+  {return getValue().toString().toStdString();}
 
-  bool isEmpty() const {return getTopicStd().empty();}
+  bool isEmpty() const
+  {return getTopicStd().empty();}
 
 protected Q_SLOTS:
   virtual void fillTopicList();
 
-protected:
+private:
   ros_integration::RosNodeAbstractionIface::WeakPtr rviz_ros_node_;
   QString message_type_;
 };
 
-class RVIZ_COMMON_PUBLIC RosFilteredTopicProperty : public rviz_common::properties::RosTopicProperty
+class RVIZ_COMMON_PUBLIC RosFilteredTopicProperty
+  : public rviz_common::properties::RosTopicProperty
 {
   Q_OBJECT
 
@@ -84,20 +92,20 @@ public:
     const QString & default_value = QString(),
     const QString & message_type = QString(),
     const QString & description = QString(),
-    const QRegularExpression & filter = QRegularExpression(),
+    const QRegExp & filter = QRegExp(),
     Property * parent = 0,
     const char * changed_slot = 0,
     QObject * receiver = 0);
 
   void enableFilter(bool enabled);
 
-  QRegularExpression filter() const;
+  QRegExp filter() const;
 
 protected Q_SLOTS:
   void fillTopicList() override;
 
 private:
-  QRegularExpression filter_;
+  QRegExp filter_;
   bool filter_enabled_;
 };
 

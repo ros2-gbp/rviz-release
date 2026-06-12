@@ -2,92 +2,43 @@
 Changelog for package rviz2
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-15.2.4 (2026-06-12)
--------------------
-
-15.2.3 (2026-05-16)
--------------------
-* Don't use windeployqt (`#1738 <https://github.com/ros2/rviz/issues/1738>`_) (`#1739 <https://github.com/ros2/rviz/issues/1739>`_)
-* Contributors: mergify[bot]
-
-15.2.2 (2026-04-24)
--------------------
-* Use rosdep keys that select Qt5 or Qt6 by platform (`#1720 <https://github.com/ros2/rviz/issues/1720>`_)
-* Contributors: Shane Loretz
-
-15.2.1 (2026-04-24)
--------------------
-
-15.2.0 (2026-05-15)
--------------------
-
-15.1.19 (2026-03-24)
---------------------
-* Use new ROSIDL aggregate CMake target (`#1688 <https://github.com/ros2/rviz/issues/1688>`_)
-* Fix Qt version resolution when both Qt5 and Qt6 are installed - CMake defaults to ascending resolution and Qt5 will be found when Qt6 is desired (Rolling, L-Turtle, and beyond). (`#1689 <https://github.com/ros2/rviz/issues/1689>`_)
-* Contributors: Emerson Knapp, Nathan Brooks
-
-15.1.18 (2026-02-25)
+15.0.13 (2026-06-12)
 --------------------
 
-15.1.17 (2026-02-24)
+15.0.12 (2026-02-24)
 --------------------
 
-15.1.16 (2026-01-13)
+15.0.11 (2025-12-17)
 --------------------
 
-15.1.15 (2025-12-23)
+15.0.10 (2025-11-28)
 --------------------
 
-15.1.14 (2025-12-17)
---------------------
-* Use qt6 as the default dependency from rosdep (`#1635 <https://github.com/ros2/rviz/issues/1635>`_)
-* Contributors: Alejandro Hernández Cordero
-
-15.1.13 (2025-11-28)
---------------------
-
-15.1.12 (2025-11-07)
---------------------
-
-15.1.11 (2025-10-20)
---------------------
-
-15.1.10 (2025-09-26)
---------------------
-
-15.1.9 (2025-09-04)
--------------------
-* get rid of deprecated rclcpp::spin_some() (`#1567 <https://github.com/ros2/rviz/issues/1567>`_)
-* Contributors: Alejandro Hernández Cordero
-
-15.1.8 (2025-08-22)
+15.0.9 (2025-11-07)
 -------------------
 
-15.1.7 (2025-07-25)
+15.0.8 (2025-10-20)
 -------------------
 
-15.1.6 (2025-07-01)
+15.0.7 (2025-09-26)
 -------------------
 
-15.1.5 (2025-06-27)
+15.0.6 (2025-09-17)
 -------------------
 
-15.1.4 (2025-06-20)
+15.0.5 (2025-08-22)
 -------------------
 
-15.1.3 (2025-05-20)
--------------------
-* feat: support both qt5 and qt6 (`#1187 <https://github.com/ros2/rviz/issues/1187>`_)
-* Contributors: Daisuke Nishimatsu
-
-15.1.2 (2025-05-14)
+15.0.4 (2025-07-07)
 -------------------
 
-15.1.1 (2025-05-05)
+15.0.3 (2025-06-20)
 -------------------
 
-15.1.0 (2025-04-25)
+15.0.2 (2025-05-14)
+-------------------
+
+15.0.1 (2025-05-05)
 -------------------
 
 15.0.0 (2025-04-25)
