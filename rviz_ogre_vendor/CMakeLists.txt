@@ -17,7 +17,7 @@ if(WIN32)
 
   ament_vendor(freetype_vendor
     VCS_URL https://github.com/freetype/freetype.git
-    VCS_VERSION VER-2-13-2
+    VCS_VERSION VER-2-11-1
     CMAKE_ARGS
       -DFT_DISABLE_ZLIB:BOOL=ON
       -DFT_DISABLE_BZIP2:BOOL=ON
@@ -109,7 +109,6 @@ ament_vendor(ogre_vendor
     -DOGRE_MANGLE_NAME_OF_LIBRARIES_USED_BY_RVIZ:BOOL=${RVIZ_OGRE_VENDOR_MANGLE_NAME_OF_LIBRARIES_USED_BY_RVIZ}
     "-DCMAKE_CXX_FLAGS=${OGRE_CXX_FLAGS}"
     ${OGRE_CMAKE_ARGS}
-    -DCMAKE_POLICY_VERSION_MINIMUM=3.20
   PATCHES patches
 )
 
