@@ -31,6 +31,7 @@
 
 #include "rviz_common/properties/property.hpp"
 
+#include <cstdio>  // for printf()
 #include <climits>  // for INT_MIN and INT_MAX
 #include <string>
 
@@ -41,23 +42,9 @@
 #include <QSpinBox>  // NOLINT: cpplint is unable to handle the include order here
 #include <QString>  // NOLINT: cpplint is unable to handle the include order here
 #include <QTimer>  // NOLINT: cpplint is unable to handle the include order here
-#include <QtCore/qglobal.h>  // NOLINT: cpplint is unable to handle the include order here
-
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-#define QVARIANT_TYPE_ID(v) (v).typeId()
-#else
-#define QVARIANT_TYPE_ID(v) static_cast<int>((v).type())
-#endif
 
 #include "rviz_common/properties/float_edit.hpp"
 #include "rviz_common/properties/property_tree_model.hpp"
-#include "rviz_common/logging.hpp"
-
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-#define QVARIANT_TYPE_ID(v) (v).typeId()
-#else
-#define QVARIANT_TYPE_ID(v) static_cast<int>((v).type())
-#endif
 
 namespace rviz_common
 {
@@ -221,9 +208,9 @@ Property * Property::subProp(const QString & sub_name)
   for (Property * prop = this; prop != nullptr; prop = prop->getParent() ) {
     ancestry = "\"" + prop->getName() + "\"->" + ancestry;
   }
-  RVIZ_COMMON_LOG_ERROR_STREAM(
-    "Undefined property " << ancestry.toStdString() <<
-      " \"" << sub_name.toStdString() << "\" accessed.");
+  printf(
+    "ERROR: Undefined property %s \"%s\" accessed.\n", qPrintable(ancestry),
+    qPrintable(sub_name));
   return failprop_;
 }
 
@@ -285,10 +272,9 @@ QVariant Property::getViewData(int column, int role) const
     case 1:  // right column: values
       switch (role) {
         case Qt::DisplayRole:
-        case Qt::EditRole: return QVARIANT_TYPE_ID(value_) ==
-                 QMetaType::Bool ? QVariant() : getValue();
+        case Qt::EditRole: return value_.type() == QVariant::Bool ? QVariant() : getValue();
         case Qt::CheckStateRole:
-          if (QVARIANT_TYPE_ID(value_) == QMetaType::Bool) {
+          if (value_.type() == QVariant::Bool) {
             return value_.toBool() ? Qt::Checked : Qt::Unchecked;
           } else {
             return QVariant();
@@ -320,7 +306,7 @@ Qt::ItemFlags Property::getViewFlags(int column) const
     return enabled_flag | Qt::ItemIsSelectable;
   }
   if (value_.isValid() ) {
-    if (QVARIANT_TYPE_ID(value_) == QMetaType::Bool) {
+    if (value_.type() == QVariant::Bool) {
       return Qt::ItemIsUserCheckable | enabled_flag | Qt::ItemIsSelectable;
     }
     return Qt::ItemIsEditable | enabled_flag | Qt::ItemIsSelectable;
@@ -474,16 +460,16 @@ void Property::load(const Config & config)
 void Property::loadValue(const Config & config)
 {
   if (config.getType() == Config::Value) {
-    switch (QVARIANT_TYPE_ID(value_)) {
-      case QMetaType::Int: setValue(config.getValue().toInt() ); break;
+    switch (static_cast<int>(value_.type() )) {
+      case QVariant::Int: setValue(config.getValue().toInt() ); break;
       case QMetaType::Float:
-      case QMetaType::Double: setValue(config.getValue().toDouble() ); break;
-      case QMetaType::QString: setValue(config.getValue().toString() ); break;
-      case QMetaType::Bool: setValue(config.getValue().toBool() ); break;
+      case QVariant::Double: setValue(config.getValue().toDouble() ); break;
+      case QVariant::String: setValue(config.getValue().toString() ); break;
+      case QVariant::Bool: setValue(config.getValue().toBool() ); break;
       default:
-        RVIZ_COMMON_LOG_WARNING_STREAM(
-          "Property::loadValue() TODO: error handling - unexpected QVariant type " <<
-            QVARIANT_TYPE_ID(value_));
+        printf(
+          "Property::loadValue() TODO: error handling - unexpected QVariant type %d.\n",
+          static_cast<int>(value_.type() ));
         break;
     }
   }
@@ -541,8 +527,8 @@ QWidget * Property::createEditor(
 {
   Q_UNUSED(option);
 
-  switch (QVARIANT_TYPE_ID(value_)) {
-    case QMetaType::Int:
+  switch (static_cast<int>(value_.type() )) {
+    case QVariant::Int:
       {
         QSpinBox * editor = new QSpinBox(parent);
         editor->setFrame(false);
@@ -550,12 +536,12 @@ QWidget * Property::createEditor(
         return editor;
       }
     case QMetaType::Float:
-    case QMetaType::Double:
+    case QVariant::Double:
       {
         FloatEdit * editor = new FloatEdit(parent);
         return editor;
       }
-    case QMetaType::QString:
+    case QVariant::String:
     default:
       {
         QLineEdit * editor = new QLineEdit(parent);

@@ -32,7 +32,6 @@
 
 #include <QFileDialog>
 #include <QString>
-#include <QWidget>
 
 
 namespace rviz_common
@@ -42,17 +41,14 @@ namespace properties
 
 FilePicker::FilePicker(
   StringProperty * file_name_property,
-  QWidget * parent,
-  QFileDialog::FileMode mode)
+  QWidget * parent)
 : LineEditWithButton(parent),
-  file_name_property_(file_name_property),
-  mode_(mode)
+  file_name_property_(file_name_property)
 {}
 
 void FilePicker::onButtonClick()
 {
   auto dialog = new QFileDialog(parentWidget());
-  dialog->setFileMode(mode_);
 
   connect(
     dialog, SIGNAL(fileSelected(const QString&)),

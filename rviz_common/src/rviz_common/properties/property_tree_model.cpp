@@ -31,26 +31,13 @@
 
 #include "rviz_common/properties/property_tree_model.hpp"
 
-#include <QIODevice>  // NOLINT: cpplint is unable to handle the include order here
+#include <cstdio>
+
 #include <QMimeData>  // NOLINT: cpplint is unable to handle the include order here
 #include <QString>  // NOLINT: cpplint is unable to handle the include order here
 #include <QStringList>  // NOLINT: cpplint is unable to handle the include order here
-#include <QtCore/qglobal.h>  // NOLINT: cpplint is unable to handle the include order here
-
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-#define QVARIANT_TYPE_ID(v) (v).typeId()
-#else
-#define QVARIANT_TYPE_ID(v) static_cast<int>((v).type())
-#endif
 
 #include "rviz_common/properties/property.hpp"
-#include "rviz_common/logging.hpp"
-
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-#define QVARIANT_TYPE_ID(v) (v).typeId()
-#else
-#define QVARIANT_TYPE_ID(v) static_cast<int>((v).type())
-#endif
 
 namespace rviz_common
 {
@@ -165,7 +152,7 @@ bool PropertyTreeModel::setData(const QModelIndex & index, const QVariant & valu
 {
   Property * property = getProp(index);
 
-  if (QVARIANT_TYPE_ID(property->getValue()) == QMetaType::Bool && role == Qt::CheckStateRole) {
+  if (property->getValue().type() == QVariant::Bool && role == Qt::CheckStateRole) {
     if (property->setValue(value.toInt() != Qt::Unchecked)) {
       return true;
     }
@@ -243,7 +230,7 @@ bool PropertyTreeModel::dropMimeData(
   while (!stream.atEnd()) {
     void * pointer;
     if (sizeof(void *) != stream.readRawData(reinterpret_cast<char *>(&pointer), sizeof(void *))) {
-      RVIZ_COMMON_LOG_ERROR("dropped mime data has invalid pointer data.");
+      printf("ERROR: dropped mime data has invalid pointer data.\n");
       return false;
     }
     Property * prop = static_cast<Property *>(pointer);
@@ -343,13 +330,13 @@ void PropertyTreeModel::printPersistentIndices()
   QModelIndexList::ConstIterator it = indexes.begin();
   for (; it != indexes.end(); ++it) {
     if (!(*it).isValid()) {
-      RVIZ_COMMON_LOG_DEBUG("  invalid index");
+      printf("  invalid index\n");
     } else {
       Property * prop = getProp(*it);
       if (!prop) {
-        RVIZ_COMMON_LOG_DEBUG("  null property");
+        printf("  null property\n");
       } else {
-        RVIZ_COMMON_LOG_DEBUG_STREAM("  prop name '" << qPrintable(prop->getName()) << "'");
+        printf("  prop name '%s'\n", qPrintable(prop->getName()));
       }
     }
   }

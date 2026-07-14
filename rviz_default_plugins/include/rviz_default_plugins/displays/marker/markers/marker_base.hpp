@@ -122,10 +122,6 @@ public:
 
   virtual S_MaterialPtr getMaterials() {return S_MaterialPtr();}
 
-  bool isVisible() const;
-
-  void setVisible(bool visible);
-
 protected:
   bool transform(
     const MarkerConstSharedPtr & message,
@@ -148,8 +144,6 @@ protected:
   rclcpp::Time expiration_;
 
   std::shared_ptr<MarkerSelectionHandler> handler_;
-
-  bool visible_ = true;
 };
 
 }  // namespace markers

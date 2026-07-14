@@ -59,7 +59,6 @@
 #include <gz/math/Vector3.hh>
 
 #include "resource_retriever/retriever.hpp"
-#include "resource_retriever_service_plugin/resource_retriever_service_plugin.hpp"
 
 #include "rviz_default_plugins/robot/robot_joint.hpp"
 #include "rviz_default_plugins/robot/robot.hpp"
@@ -79,6 +78,8 @@
 #include "rviz_common/properties/vector_property.hpp"
 #include "rviz_common/interaction/selection_manager.hpp"
 
+#include "rviz_default_plugins/ros_resource_retriever.hpp"
+
 #define RVIZ_RESOURCE_GROUP "rviz_rendering"
 
 using rviz_rendering::Axes;
@@ -93,7 +94,6 @@ using rviz_common::properties::Property;
 using rviz_common::properties::FloatProperty;
 using rviz_common::properties::QuaternionProperty;
 using rviz_common::properties::VectorProperty;
-using ::resource_retriever_service_plugin::RosServiceResourceRetriever;
 
 class RobotLinkSelectionHandler : public rviz_common::interaction::SelectionHandler
 {
@@ -228,12 +228,15 @@ RobotLink::RobotLink(
   color_material_ =
     rviz_rendering::MaterialManager::createMaterialWithLighting(color_material_name);
 
-  resource_retriever::RetrieverVec plugins = resource_retriever::default_plugins();
+  resource_retriever::RetrieverVec plugins;
   if (context_ != nullptr) {
     std::shared_ptr node_ptr = context_->getRosNodeAbstraction().lock();
     if (node_ptr != nullptr) {
-      plugins.push_back(std::make_shared<RosServiceResourceRetriever>(*node_ptr->get_raw_node()));
+      plugins.push_back(std::make_shared<RosResourceRetriever>(context_->getRosNodeAbstraction()));
     }
+  }
+  for (const auto & plugin : resource_retriever::default_plugins()) {
+    plugins.push_back(plugin);
   }
   retriever_ = resource_retriever::Retriever(plugins);
 

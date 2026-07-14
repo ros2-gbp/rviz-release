@@ -37,7 +37,6 @@
 #include <mutex>
 #include <set>
 #include <string>
-#include <unordered_map>
 #include <vector>
 #include <utility>
 
@@ -99,7 +98,7 @@ public:
   void initialize(rviz_common::DisplayContext * context, Ogre::SceneNode * scene_node);
   void load(const rviz_common::Config & config);
 
-  void update(std::chrono::nanoseconds wall_dt, std::chrono::nanoseconds ros_dt);
+  void update(float wall_dt, float ros_dt);
 
   void deleteMarker(MarkerID id);
 
@@ -127,8 +126,6 @@ public:
   resource_retriever::Retriever * getResourceRetriever();
 
 private:
-  /** @brief Change the visibility for all markers in the given namespace. */
-  void setVisibilityForMarkersInNamespace(const std::string & ns, bool visible);
   /** @brief Delete all the markers within the given namespace. */
   void deleteMarkersInNamespace(const std::string & ns);
 
@@ -157,16 +154,11 @@ private:
   void configureMarker(
     const visualization_msgs::msg::Marker::ConstSharedPtr & message, MarkerBasePtr & marker);
 
-  /// Remove a single MarkerID from the namespace reverse index.
-  void removeFromNamespaceIndex(const MarkerID & id);
-
   typedef std::map<MarkerID, MarkerBasePtr> M_IDToMarker;
   typedef std::set<MarkerBasePtr> S_MarkerBase;
   M_IDToMarker markers_;                  ///< Map of marker id to the marker info structure
   S_MarkerBase markers_with_expiration_;
   S_MarkerBase frame_locked_markers_;
-  /// Reverse index: namespace string -> all MarkerIDs in that namespace.
-  std::unordered_map<std::string, std::vector<MarkerID>> ns_to_ids_;
   ///< Marker message queue.  Messages are added to this as they are received, and then processed
   ///< in our update() function
   V_MarkerMessage message_queue_;
@@ -175,7 +167,7 @@ private:
   typedef QHash<QString, MarkerNamespace *> M_Namespace;
   M_Namespace namespaces_;
 
-  rviz_common::properties::BoolProperty * namespaces_category_;
+  rviz_common::properties::Property * namespaces_category_;
 
   typedef std::map<QString, bool> M_EnabledState;
   M_EnabledState namespace_config_enabled_state_;
@@ -187,8 +179,6 @@ private:
   Ogre::SceneNode * scene_node_;
 
   resource_retriever::Retriever retriever_;
-
-  bool all_namespaces_enabled_ = true;
 
   friend class MarkerNamespace;
 };
