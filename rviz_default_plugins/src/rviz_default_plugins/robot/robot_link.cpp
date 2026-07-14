@@ -1,32 +1,33 @@
-/*
- * Copyright (c) 2008, Willow Garage, Inc.
- * Copyright (c) 2018, Bosch Software Innovations GmbH.
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Willow Garage, Inc. nor the names of its
- *       contributors may be used to endorse or promote products derived from
- *       this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
+// Copyright (c) 2008, Willow Garage, Inc.
+// Copyright (c) 2018, Bosch Software Innovations GmbH.
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+//
+//    * Redistributions of source code must retain the above copyright
+//      notice, this list of conditions and the following disclaimer.
+//
+//    * Redistributions in binary form must reproduce the above copyright
+//      notice, this list of conditions and the following disclaimer in the
+//      documentation and/or other materials provided with the distribution.
+//
+//    * Neither the name of the copyright holder nor the names of its
+//      contributors may be used to endorse or promote products derived from
+//      this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
+
 
 #include "rviz_default_plugins/robot/robot_link.hpp"
 
@@ -49,14 +50,16 @@
 #include <OgreTechnique.h>
 
 #include <QFileInfo>  // NOLINT cpplint cannot handle include order here
+#include <QString>  // NOLINT: cpplint is unable to handle the include order here
 
-#include <ignition/math/Inertial.hh>
-#include <ignition/math/MassMatrix3.hh>
-#include <ignition/math/Pose3.hh>
-#include <ignition/math/Quaternion.hh>
-#include <ignition/math/Vector3.hh>
+#include <gz/math/Inertial.hh>
+#include <gz/math/MassMatrix3.hh>
+#include <gz/math/Pose3.hh>
+#include <gz/math/Quaternion.hh>
+#include <gz/math/Vector3.hh>
 
 #include "resource_retriever/retriever.hpp"
+#include "resource_retriever_service_plugin/resource_retriever_service_plugin.hpp"
 
 #include "rviz_default_plugins/robot/robot_joint.hpp"
 #include "rviz_default_plugins/robot/robot.hpp"
@@ -90,6 +93,7 @@ using rviz_common::properties::Property;
 using rviz_common::properties::FloatProperty;
 using rviz_common::properties::QuaternionProperty;
 using rviz_common::properties::VectorProperty;
+using ::resource_retriever_service_plugin::RosServiceResourceRetriever;
 
 class RobotLinkSelectionHandler : public rviz_common::interaction::SelectionHandler
 {
@@ -223,6 +227,15 @@ RobotLink::RobotLink(
 
   color_material_ =
     rviz_rendering::MaterialManager::createMaterialWithLighting(color_material_name);
+
+  resource_retriever::RetrieverVec plugins = resource_retriever::default_plugins();
+  if (context_ != nullptr) {
+    std::shared_ptr node_ptr = context_->getRosNodeAbstraction().lock();
+    if (node_ptr != nullptr) {
+      plugins.push_back(std::make_shared<RosServiceResourceRetriever>(*node_ptr->get_raw_node()));
+    }
+  }
+  retriever_ = resource_retriever::Retriever(plugins);
 
   // create the ogre objects to display
   if (visual) {
@@ -655,6 +668,24 @@ Ogre::Entity * RobotLink::createEntityForGeometryElement(
           static_cast<float>(cylinder.radius * 2));
         break;
       }
+    case urdf::Geometry::CAPSULE:
+      {
+        auto capsule = dynamic_cast<const urdf::Capsule &>(geom);
+
+        Ogre::Quaternion rotX;
+        rotX.FromAngleAxis(Ogre::Degree(90), Ogre::Vector3::UNIT_X);
+        offset_orientation = offset_orientation * rotX;
+
+        entity = Shape::createEntity(entity_name, Shape::Capsule, scene_manager_);
+        // Unit capsule mesh is X=Z=1 (diameter) and Y=2 (total length:
+        // cylinder length 1 + two hemispheres of radius 0.5), so the Y
+        // scale is halved.
+        scale = Ogre::Vector3(
+          static_cast<float>(capsule.radius * 2),
+          static_cast<float>((capsule.length + 2 * capsule.radius) / 2.0),
+          static_cast<float>(capsule.radius * 2));
+        break;
+      }
     case urdf::Geometry::MESH:
       {
         auto mesh = dynamic_cast<const urdf::Mesh &>(geom);
@@ -671,7 +702,7 @@ Ogre::Entity * RobotLink::createEntityForGeometryElement(
         const std::string & model_name = mesh.filename;
 
         try {
-          if (rviz_rendering::loadMeshFromResource(model_name) == nullptr) {
+          if (rviz_rendering::loadMeshFromResource(&retriever_, model_name) == nullptr) {
             addError("Could not load mesh resource '%s'", model_name.c_str());
           } else {
             entity = scene_manager_->createEntity(entity_name, model_name);
@@ -721,20 +752,27 @@ void RobotLink::assignMaterialsToEntities(
     default_material_name_ = default_material_->getName();
   }
 
+  const urdf::VisualSharedPtr visual = getVisualWithMaterial(link, material_name);
+  const bool has_urdf_material = visual && visual->material;
+
   for (uint32_t i = 0; i < entity->getNumSubEntities(); ++i) {
-    default_material_ = getMaterialForLink(link, material_name);
-    std::string cloned_name =
-      default_material_->getName() + "_" + std::to_string(material_count++) + "Robot";
-
-    default_material_ = default_material_->clone(cloned_name);
-    default_material_name_ = default_material_->getName();
-
-    // Assign materials only if the submesh does not have one already
+    // Assign the link material if the URDF visual has a material tag or
+    // the submesh does not have a material of its own
 
     Ogre::SubEntity * sub = entity->getSubEntity(i);
     const std::string & sub_material_name = sub->getMaterialName();
 
-    if (sub_material_name == "BaseWhite" || sub_material_name == "BaseWhiteNoLighting") {
+    if (has_urdf_material ||
+      sub_material_name == "BaseWhite" ||
+      sub_material_name == "BaseWhiteNoLighting")
+    {
+      default_material_ = getMaterialForLink(link, material_name);
+      std::string cloned_name =
+        default_material_->getName() + "_" + std::to_string(material_count++) + "Robot";
+
+      default_material_ = default_material_->clone(cloned_name);
+      default_material_name_ = default_material_->getName();
+
       sub->setMaterialName(default_material_name_);
     } else {
       // Need to clone here due to how selection works.
@@ -753,7 +791,8 @@ void RobotLink::assignMaterialsToEntities(
 Ogre::MaterialPtr RobotLink::getMaterialForLink(
   const urdf::LinkConstSharedPtr & link, const std::string material_name)
 {
-  if (!link->visual || !link->visual->material) {
+  urdf::VisualSharedPtr visual = getVisualWithMaterial(link, material_name);
+  if (!visual || !visual->material) {
     return Ogre::MaterialManager::getSingleton().getByName("RVIZ/ShadedRed");
   }
 
@@ -762,8 +801,6 @@ Ogre::MaterialPtr RobotLink::getMaterialForLink(
 
   auto material_for_link =
     rviz_rendering::MaterialManager::createMaterialWithShadowsAndLighting(link_material_name);
-
-  urdf::VisualSharedPtr visual = getVisualWithMaterial(link, material_name);
 
   if (visual->material->texture_filename.empty()) {
     const urdf::Color & color = visual->material->color;
@@ -799,16 +836,10 @@ void RobotLink::loadMaterialFromTexture(
 {
   std::string filename = visual->material->texture_filename;
   if (!Ogre::TextureManager::getSingleton().resourceExists(filename, RVIZ_RESOURCE_GROUP)) {
-    resource_retriever::Retriever retriever;
-    resource_retriever::MemoryResource res;
-    try {
-      res = retriever.get(filename);
-    } catch (resource_retriever::Exception & e) {
-      RVIZ_COMMON_LOG_ERROR(e.what());
-    }
-
-    if (res.size != 0) {
-      Ogre::DataStreamPtr stream(new Ogre::MemoryDataStream(res.data.get(), res.size));
+    auto res = retriever_.get_shared(filename);
+    if (nullptr != res && !res->data.empty()) {
+      Ogre::DataStreamPtr stream(
+        new Ogre::MemoryDataStream(const_cast<uint8_t *>(res->data.data()), res->data.size()));
       Ogre::Image image;
       std::string extension =
         QFileInfo(QString::fromStdString(filename)).completeSuffix().toStdString();
@@ -871,24 +902,24 @@ void RobotLink::createMass(const urdf::LinkConstSharedPtr & link)
 void RobotLink::createInertia(const urdf::LinkConstSharedPtr & link)
 {
   if (link->inertial) {
-    const ignition::math::Vector3d i_xx_yy_zz(
+    const gz::math::Vector3d i_xx_yy_zz(
       link->inertial->ixx,
       link->inertial->iyy,
       link->inertial->izz);
-    const ignition::math::Vector3d Ixyxzyz(
+    const gz::math::Vector3d Ixyxzyz(
       link->inertial->ixy,
       link->inertial->ixz,
       link->inertial->iyz);
-    ignition::math::MassMatrix3d mass_matrix(link->inertial->mass, i_xx_yy_zz, Ixyxzyz);
+    gz::math::MassMatrix3d mass_matrix(link->inertial->mass, i_xx_yy_zz, Ixyxzyz);
 
-    ignition::math::Vector3d box_scale;
-    ignition::math::Quaterniond box_rot;
+    gz::math::Vector3d box_scale;
+    gz::math::Quaterniond box_rot;
     if (!mass_matrix.EquivalentBox(box_scale, box_rot)) {
       // Invalid inertia, load with default scale
       if (link->parent_joint && link->parent_joint->type != urdf::Joint::FIXED) {
         // Do not show error message for base link or static links
         RVIZ_COMMON_LOG_ERROR_STREAM(
-          "The link " << link->name << " is has unrealistic "
+          "The link " << link->name << " has unrealistic "
             "inertia, so the equivalent inertia box will not be shown.\n");
       }
       return;
