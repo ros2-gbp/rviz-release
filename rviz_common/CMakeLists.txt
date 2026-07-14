@@ -2,9 +2,11 @@ cmake_minimum_required(VERSION 3.10)
 
 project(rviz_common)
 
-# The C++ standard (C++20) is provided by ament_cmake_ros_core via the
-# ament_cmake_ros_core::ament_ros_defaults interface target, which is linked
-# PUBLIC into the rviz_common target below (and thus propagated to consumers).
+# Default to C++17
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 17)
+  set(CMAKE_CXX_STANDARD_REQUIRED ON)
+endif()
 
 # Tests currently only run on OS X @ OSRF jenkins
 # Enable on Linux by providing a display, enable on Windows via EnableDisplayTests=True
@@ -26,7 +28,6 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 find_package(ament_cmake REQUIRED)
-find_package(ament_cmake_ros_core REQUIRED)
 # do find_package(rviz_ogre_vendor) first to make sure the custom OGRE is found
 find_package(rviz_ogre_vendor REQUIRED)
 
@@ -58,6 +59,7 @@ find_package(TinyXML2 REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(message_filters REQUIRED)
+find_package(urdf REQUIRED)
 find_package(yaml_cpp_vendor REQUIRED)
 find_package(yaml-cpp REQUIRED)
 
@@ -253,7 +255,6 @@ target_include_directories(rviz_common
 )
 
 target_link_libraries(rviz_common PUBLIC
-  ament_cmake_ros_core::ament_ros_defaults
   geometry_msgs::geometry_msgs
   message_filters::message_filters
   pluginlib::pluginlib
@@ -280,7 +281,6 @@ target_link_libraries(rviz_common PRIVATE
 target_compile_definitions(rviz_common PRIVATE "RVIZ_COMMON_BUILDING_LIBRARY")
 
 ament_export_dependencies(
-  ament_cmake_ros_core
   geometry_msgs
   message_filters
   pluginlib

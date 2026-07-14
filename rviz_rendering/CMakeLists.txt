@@ -2,9 +2,11 @@ cmake_minimum_required(VERSION 3.10)
 
 project(rviz_rendering)
 
-# The C++ standard (C++20) is provided by ament_cmake_ros_core via the
-# ament_cmake_ros_core::ament_ros_defaults interface target, which is linked
-# PUBLIC into the rviz_rendering target below (and thus propagated to consumers).
+# Default to C++17
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 17)
+  set(CMAKE_CXX_STANDARD_REQUIRED ON)
+endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic -Wnon-virtual-dtor -Woverloaded-virtual)
@@ -26,7 +28,6 @@ else()
 endif()
 
 find_package(ament_cmake_ros REQUIRED)
-find_package(ament_cmake_ros_core REQUIRED)
 
 # do find_package(rviz_ogre_vendor) first to make sure the custom OGRE is found
 find_package(rviz_ogre_vendor REQUIRED)
@@ -113,7 +114,6 @@ add_library(rviz_rendering SHARED
 )
 
 target_link_libraries(rviz_rendering PUBLIC
-  ament_cmake_ros_core::ament_ros_defaults
   Qt${QT_VERSION_MAJOR}::Widgets
   rviz_ogre_vendor::OgreMain
   rviz_ogre_vendor::OgreOverlay
@@ -141,7 +141,6 @@ target_include_directories(rviz_rendering
 target_compile_definitions(rviz_rendering PRIVATE "RVIZ_RENDERING_BUILDING_LIBRARY")
 
 ament_export_dependencies(
-  ament_cmake_ros_core
   Eigen3
   Qt${QT_VERSION_MAJOR}
   rviz_ogre_vendor

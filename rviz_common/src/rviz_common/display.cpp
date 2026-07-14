@@ -144,13 +144,12 @@ QVariant Display::getViewData(int column, int role) const
         if (column == 0) {
           if (isEnabled()) {
             using rviz_common::properties::StatusProperty;
-            using enum StatusProperty::Level;
-            StatusProperty::Level level = status_ ? status_->getLevel() : Ok;
+            StatusProperty::Level level = status_ ? status_->getLevel() : StatusProperty::Ok;
             switch (level) {
-              case Ok:
+              case StatusProperty::Ok:
                 return getIcon();
-              case Warn:
-              case Error:
+              case StatusProperty::Warn:
+              case StatusProperty::Error:
                 return status_->statusIcon(status_->getLevel());
             }
           } else {
@@ -185,6 +184,24 @@ void Display::setTopic(const QString & topic, const QString & datatype)
 }
 
 void Display::update(std::chrono::nanoseconds wall_dt, std::chrono::nanoseconds ros_dt)
+{
+#if !defined(_WIN32)
+# pragma GCC diagnostic push
+# pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#else  // !defined(_WIN32)
+# pragma warning(push)
+# pragma warning(disable: 4996)
+#endif
+  update(wall_dt.count(), ros_dt.count());
+// remove warning suppression
+#if !defined(_WIN32)
+# pragma GCC diagnostic pop
+#else  // !defined(_WIN32)
+# pragma warning(pop)
+#endif
+}
+
+void Display::update(float wall_dt, float ros_dt)
 {
   (void) wall_dt;
   (void) ros_dt;

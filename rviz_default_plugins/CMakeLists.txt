@@ -2,10 +2,11 @@ cmake_minimum_required(VERSION 3.10)
 
 project(rviz_default_plugins)
 
-# The C++ standard (C++20) is provided by ament_cmake_ros_core via the
-# ament_cmake_ros_core::ament_ros_defaults interface target, which is linked
-# PUBLIC into the rviz_default_plugins target below (and thus propagated to
-# consumers).
+# Default to C++17
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 17)
+  set(CMAKE_CXX_STANDARD_REQUIRED ON)
+endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic -Wnon-virtual-dtor -Woverloaded-virtual)
@@ -51,7 +52,6 @@ endif()
 # we create individual moc files that can be compiled separately.
 
 find_package(ament_cmake_ros REQUIRED)
-find_package(ament_cmake_ros_core REQUIRED)
 
 find_package(rviz_common REQUIRED)
 find_package(rviz_rendering REQUIRED)
@@ -260,7 +260,6 @@ target_include_directories(rviz_default_plugins PUBLIC
 )
 
 target_link_libraries(rviz_default_plugins PUBLIC
-  ament_cmake_ros_core::ament_ros_defaults
   geometry_msgs::geometry_msgs
   image_transport::image_transport
   interactive_markers::interactive_markers
@@ -268,8 +267,16 @@ target_link_libraries(rviz_default_plugins PUBLIC
   map_msgs::map_msgs
   nav_msgs::nav_msgs
   point_cloud_transport::point_cloud_transport
+  Qt${QT_VERSION_MAJOR}::Widgets
+  rclcpp::rclcpp
   rviz_common::rviz_common
+  rviz_ogre_vendor::OgreMain
+  rviz_ogre_vendor::OgreOverlay
+  rviz_rendering::rviz_rendering
+  sensor_msgs::sensor_msgs
+  tf2::tf2
   tf2_geometry_msgs::tf2_geometry_msgs
+  tf2_ros::tf2_ros
   urdf::urdf
   visualization_msgs::visualization_msgs
   resource_retriever::resource_retriever
@@ -293,7 +300,6 @@ ament_export_include_directories("include/${PROJECT_NAME}")
 ament_export_targets(rviz_default_plugins HAS_LIBRARY_TARGET)
 
 ament_export_dependencies(
-  ament_cmake_ros_core
   geometry_msgs
   image_transport
   interactive_markers
@@ -374,6 +380,7 @@ if(BUILD_TESTING)
     rclcpp::rclcpp
     rviz_common::rviz_common
     rviz_ogre_vendor::OgreMain
+    ogre_testing_environment
     Qt${QT_VERSION_MAJOR}::Widgets
   )
 
@@ -447,6 +454,8 @@ if(BUILD_TESTING)
   if(TARGET image_display_test)
     target_include_directories(image_display_test PRIVATE test)
     target_link_libraries(image_display_test
+      ${TEST_FIXTURE_WITH_MOCK_LIBRARIES}
+      Qt${QT_VERSION_MAJOR}::Widgets
       rviz_default_plugins
       ogre_testing_environment
     )
@@ -456,6 +465,7 @@ if(BUILD_TESTING)
   target_link_libraries(marker_messages PRIVATE
     geometry_msgs::geometry_msgs
     rclcpp::rclcpp
+    std_msgs::std_msgs
     visualization_msgs::visualization_msgs
     rviz_ogre_vendor::OgreMain
   )
@@ -555,7 +565,9 @@ if(BUILD_TESTING)
     target_include_directories(ortho_view_controller_test PRIVATE test)
     target_link_libraries(ortho_view_controller_test
       ${TEST_FIXTURE_WITH_MOCK_LIBRARIES}
+      Qt${QT_VERSION_MAJOR}::Widgets
       rviz_default_plugins
+      ogre_testing_environment
     )
   endif()
 
@@ -585,7 +597,10 @@ if(BUILD_TESTING)
   add_library(pointcloud_messages STATIC test/rviz_default_plugins/pointcloud_messages.cpp)
   target_link_libraries(pointcloud_messages PRIVATE
     sensor_msgs::sensor_msgs
+    geometry_msgs::geometry_msgs
     rclcpp::rclcpp
+    sensor_msgs::sensor_msgs
+    std_msgs::std_msgs
   )
 
   ament_add_gmock(point_cloud2_display_test
@@ -598,6 +613,7 @@ if(BUILD_TESTING)
       ${TEST_FIXTURE_WITH_MOCK_LIBRARIES}
       rviz_default_plugins
       pointcloud_messages
+      ogre_testing_environment
     )
   endif()
 
@@ -611,6 +627,7 @@ if(BUILD_TESTING)
       ${TEST_FIXTURE_WITH_MOCK_LIBRARIES}
       rviz_default_plugins
       pointcloud_messages
+      ogre_testing_environment
     )
   endif()
 
@@ -623,7 +640,8 @@ if(BUILD_TESTING)
     target_link_libraries(point_cloud_scalar_display_test
       ${TEST_FIXTURE_WITH_MOCK_LIBRARIES}
       rviz_default_plugins
-      rviz_ogre_vendor::OgreMain
+      sensor_msgs::sensor_msgs
+      ogre_testing_environment
     )
   endif()
 
@@ -640,8 +658,10 @@ if(BUILD_TESTING)
     target_include_directories(point_cloud_transformers_test PRIVATE test)
     target_link_libraries(point_cloud_transformers_test
       ${TEST_FIXTURE_WITH_MOCK_LIBRARIES}
+      Qt${QT_VERSION_MAJOR}::Widgets
       rviz_default_plugins
       pointcloud_messages
+      ogre_testing_environment
     )
   endif()
 
@@ -694,7 +714,10 @@ if(BUILD_TESTING)
     target_include_directories(robot_test PRIVATE test)
     target_link_libraries(robot_test
       ${TEST_FIXTURE_WITH_MOCK_LIBRARIES}
+      resource_retriever::resource_retriever
+      Qt${QT_VERSION_MAJOR}::Widgets
       rviz_default_plugins
+      ogre_testing_environment
     )
   endif()
 
@@ -706,7 +729,9 @@ if(BUILD_TESTING)
     target_include_directories(ros_image_texture_test PRIVATE test)
     target_link_libraries(ros_image_texture_test
       ${TEST_FIXTURE_WITH_MOCK_LIBRARIES}
+      sensor_msgs::sensor_msgs
       rviz_default_plugins
+      ogre_testing_environment
     )
   endif()
 
@@ -727,7 +752,9 @@ if(BUILD_TESTING)
     target_include_directories(xy_orbit_view_controller_test PRIVATE test)
     target_link_libraries(xy_orbit_view_controller_test
       ${TEST_FIXTURE_WITH_MOCK_LIBRARIES}
+      Qt${QT_VERSION_MAJOR}::Widgets
       rviz_default_plugins
+      ogre_testing_environment
     )
   endif()
 
@@ -739,7 +766,10 @@ if(BUILD_TESTING)
     target_include_directories(frame_transformer_tf_test PRIVATE test)
     target_link_libraries(frame_transformer_tf_test
       ${TEST_FIXTURE_WITH_MOCK_LIBRARIES}
+      tf2_ros::tf2_ros
+      geometry_msgs::geometry_msgs
       rviz_default_plugins
+      ogre_testing_environment
     )
   endif()
 
@@ -751,7 +781,9 @@ if(BUILD_TESTING)
     target_include_directories(transformer_guard_test PRIVATE test)
     target_link_libraries(transformer_guard_test
       ${TEST_FIXTURE_WITH_MOCK_LIBRARIES}
+      tf2_ros::tf2_ros
       rviz_default_plugins
+      ogre_testing_environment
     )
   endif()
 
@@ -764,6 +796,9 @@ if(BUILD_TESTING)
     target_include_directories(accel_display_visual_test PRIVATE test)
     target_link_libraries(accel_display_visual_test
       rviz_visual_testing_framework::rviz_visual_testing_framework
+      geometry_msgs::geometry_msgs
+      std_msgs::std_msgs
+      rclcpp::rclcpp
     )
   endif()
 
@@ -776,6 +811,7 @@ if(BUILD_TESTING)
     target_include_directories(axes_display_visual_test PRIVATE test)
     target_link_libraries(axes_display_visual_test
       rviz_visual_testing_framework::rviz_visual_testing_framework
+      ogre_testing_environment
     )
   endif()
 
@@ -788,6 +824,7 @@ if(BUILD_TESTING)
     target_include_directories(camera_info_display_visual_test PRIVATE test)
     target_link_libraries(camera_info_display_visual_test
       rviz_visual_testing_framework::rviz_visual_testing_framework
+      ogre_testing_environment
     )
   endif()
 
@@ -807,6 +844,12 @@ if(BUILD_TESTING)
     target_include_directories(camera_display_visual_test PRIVATE test)
     target_link_libraries(camera_display_visual_test
       rviz_visual_testing_framework::rviz_visual_testing_framework
+      rclcpp::rclcpp
+      sensor_msgs::sensor_msgs
+      std_msgs::std_msgs
+      Qt${QT_VERSION_MAJOR}::Test
+      geometry_msgs::geometry_msgs
+      tf2::tf2
       point_cloud_common_page_object
     )
   endif()
@@ -821,8 +864,7 @@ if(BUILD_TESTING)
   if(TARGET depth_cloud_display_visual_test)
     target_include_directories(depth_cloud_display_visual_test PRIVATE test)
     target_link_libraries(depth_cloud_display_visual_test
-      rviz_visual_testing_framework::rviz_visual_testing_framework
-    )
+      rviz_visual_testing_framework::rviz_visual_testing_framework)
   endif()
 
   ament_add_gtest(effort_display_visual_test
@@ -835,6 +877,8 @@ if(BUILD_TESTING)
     target_include_directories(effort_display_visual_test PRIVATE test)
     target_link_libraries(effort_display_visual_test
       rviz_visual_testing_framework::rviz_visual_testing_framework
+      rclcpp::rclcpp
+      sensor_msgs::sensor_msgs
     )
   endif()
 
@@ -846,6 +890,9 @@ if(BUILD_TESTING)
     target_include_directories(fluid_pressure_display_visual_test PRIVATE test)
     target_link_libraries(fluid_pressure_display_visual_test
       rviz_visual_testing_framework::rviz_visual_testing_framework
+      Qt${QT_VERSION_MAJOR}::Test
+      rclcpp::rclcpp
+      pointcloud_messages
       point_cloud_common_page_object
     )
   endif()
@@ -858,6 +905,7 @@ if(BUILD_TESTING)
   if(TARGET grid_display_visual_test)
     target_include_directories(grid_display_visual_test PRIVATE test)
     target_link_libraries(grid_display_visual_test
+      Qt${QT_VERSION_MAJOR}::Test
       rviz_visual_testing_framework::rviz_visual_testing_framework
     )
   endif()
@@ -882,7 +930,9 @@ if(BUILD_TESTING)
   if(TARGET illuminance_display_visual_test)
     target_include_directories(illuminance_display_visual_test PRIVATE test)
     target_link_libraries(illuminance_display_visual_test
+      Qt${QT_VERSION_MAJOR}::Test
       rviz_visual_testing_framework::rviz_visual_testing_framework
+      pointcloud_messages
       point_cloud_common_page_object
     )
   endif()
@@ -895,7 +945,11 @@ if(BUILD_TESTING)
   if(TARGET image_display_visual_test)
     target_include_directories(image_display_visual_test PRIVATE test)
     target_link_libraries(image_display_visual_test
+      Qt${QT_VERSION_MAJOR}::Test
       rviz_visual_testing_framework::rviz_visual_testing_framework
+      rclcpp::rclcpp
+      sensor_msgs::sensor_msgs
+      std_msgs::std_msgs
     )
   endif()
 
@@ -907,6 +961,8 @@ if(BUILD_TESTING)
     target_include_directories(interactive_marker_namespace_property_test PRIVATE test)
     target_link_libraries(interactive_marker_namespace_property_test
       rviz_default_plugins
+      Qt${QT_VERSION_MAJOR}::Widgets
+      ogre_testing_environment
     )
   endif()
 
@@ -918,6 +974,7 @@ if(BUILD_TESTING)
     target_include_directories(laser_scan_display_visual_test PRIVATE test)
     target_link_libraries(laser_scan_display_visual_test
       rviz_visual_testing_framework::rviz_visual_testing_framework
+      Qt${QT_VERSION_MAJOR}::Test
       point_cloud_common_page_object
     )
   endif()
@@ -938,6 +995,10 @@ if(BUILD_TESTING)
     target_include_directories(map_display_visual_test PRIVATE test)
     target_link_libraries(map_display_visual_test
       rviz_visual_testing_framework::rviz_visual_testing_framework
+      Qt${QT_VERSION_MAJOR}::Widgets
+      rclcpp::rclcpp
+      std_msgs::std_msgs
+      geometry_msgs::geometry_msgs
       nav_msgs::nav_msgs
       visualization_msgs::visualization_msgs
       marker_display_page_object
@@ -953,6 +1014,9 @@ if(BUILD_TESTING)
     target_include_directories(marker_array_display_visual_test PRIVATE test)
     target_link_libraries(marker_array_display_visual_test
       rviz_visual_testing_framework::rviz_visual_testing_framework
+      Qt${QT_VERSION_MAJOR}::Widgets
+      rclcpp::rclcpp
+      std_msgs::std_msgs
       visualization_msgs::visualization_msgs
       marker_display_page_object
     )
@@ -966,6 +1030,9 @@ if(BUILD_TESTING)
     target_include_directories(marker_display_visual_test PRIVATE test)
     target_link_libraries(marker_display_visual_test
       rviz_visual_testing_framework::rviz_visual_testing_framework
+      Qt${QT_VERSION_MAJOR}::Widgets
+      rclcpp::rclcpp
+      std_msgs::std_msgs
       visualization_msgs::visualization_msgs
       marker_display_page_object
     )
@@ -980,7 +1047,12 @@ if(BUILD_TESTING)
     target_include_directories(odometry_display_visual_test PRIVATE test)
     target_link_libraries(odometry_display_visual_test
       rviz_visual_testing_framework::rviz_visual_testing_framework
+      Qt${QT_VERSION_MAJOR}::Widgets
+      rclcpp::rclcpp
+      std_msgs::std_msgs
+      geometry_msgs::geometry_msgs
       nav_msgs::nav_msgs
+      tf2_ros::tf2_ros
     )
   endif()
 
@@ -992,7 +1064,11 @@ if(BUILD_TESTING)
   if(TARGET path_display_visual_test)
     target_include_directories(path_display_visual_test PRIVATE test)
     target_link_libraries(path_display_visual_test
+      Qt${QT_VERSION_MAJOR}::Test
       rviz_visual_testing_framework::rviz_visual_testing_framework
+      rclcpp::rclcpp
+      std_msgs::std_msgs
+      geometry_msgs::geometry_msgs
       nav_msgs::nav_msgs
     )
   endif()
@@ -1006,6 +1082,10 @@ if(BUILD_TESTING)
     target_include_directories(point_display_visual_test PRIVATE test)
     target_link_libraries(point_display_visual_test
       rviz_visual_testing_framework::rviz_visual_testing_framework
+      Qt${QT_VERSION_MAJOR}::Widgets
+      geometry_msgs::geometry_msgs
+      rclcpp::rclcpp
+      std_msgs::std_msgs
     )
   endif()
 
@@ -1016,7 +1096,13 @@ if(BUILD_TESTING)
   if(TARGET point_cloud_display_visual_test)
     target_include_directories(point_cloud_display_visual_test PRIVATE test)
     target_link_libraries(point_cloud_display_visual_test
+      Qt${QT_VERSION_MAJOR}::Test
       rviz_visual_testing_framework::rviz_visual_testing_framework
+      geometry_msgs::geometry_msgs
+      tf2::tf2
+      rclcpp::rclcpp
+      std_msgs::std_msgs
+      sensor_msgs::sensor_msgs
       point_cloud_common_page_object
     )
   endif()
@@ -1028,6 +1114,7 @@ if(BUILD_TESTING)
   if(TARGET point_cloud2_display_visual_test)
     target_include_directories(point_cloud2_display_visual_test PRIVATE test)
     target_link_libraries(point_cloud2_display_visual_test
+      Qt${QT_VERSION_MAJOR}::Test
       rviz_visual_testing_framework::rviz_visual_testing_framework
       pointcloud_messages
       point_cloud_common_page_object
@@ -1037,6 +1124,7 @@ if(BUILD_TESTING)
   add_library(pose_display_page_object STATIC test/rviz_default_plugins/page_objects/pose_display_page_object.cpp)
   target_link_libraries(pose_display_page_object
     PRIVATE
+      Qt${QT_VERSION_MAJOR}::Widgets
       rviz_visual_testing_framework::rviz_visual_testing_framework
   )
 
@@ -1049,6 +1137,10 @@ if(BUILD_TESTING)
     target_include_directories(pose_array_display_visual_test PRIVATE test)
     target_link_libraries(pose_array_display_visual_test
       rviz_visual_testing_framework::rviz_visual_testing_framework
+      Qt${QT_VERSION_MAJOR}::Widgets
+      rclcpp::rclcpp
+      std_msgs::std_msgs
+      geometry_msgs::geometry_msgs
       pose_display_page_object
     )
   endif()
@@ -1061,6 +1153,10 @@ if(BUILD_TESTING)
     target_include_directories(pose_display_visual_test PRIVATE test)
     target_link_libraries(pose_display_visual_test
       rviz_visual_testing_framework::rviz_visual_testing_framework
+      Qt${QT_VERSION_MAJOR}::Widgets
+      geometry_msgs::geometry_msgs
+      rclcpp::rclcpp
+      std_msgs::std_msgs
       pose_display_page_object
     )
   endif()
@@ -1074,6 +1170,11 @@ if(BUILD_TESTING)
     target_include_directories(pose_with_covariance_display_visual_test PRIVATE test)
     target_link_libraries(pose_with_covariance_display_visual_test
       rviz_visual_testing_framework::rviz_visual_testing_framework
+      Qt${QT_VERSION_MAJOR}::Widgets
+      geometry_msgs::geometry_msgs
+      rclcpp::rclcpp
+      std_msgs::std_msgs
+      tf2_ros::tf2_ros
     )
   endif()
 
@@ -1086,6 +1187,7 @@ if(BUILD_TESTING)
     target_include_directories(range_display_visual_test PRIVATE test)
     target_link_libraries(range_display_visual_test
       rviz_visual_testing_framework::rviz_visual_testing_framework
+      Qt${QT_VERSION_MAJOR}::Widgets
     )
   endif()
 
@@ -1096,6 +1198,7 @@ if(BUILD_TESTING)
   if(TARGET relative_humidity_display_visual_test)
     target_include_directories(relative_humidity_display_visual_test PRIVATE test)
     target_link_libraries(relative_humidity_display_visual_test
+      Qt${QT_VERSION_MAJOR}::Test
       rviz_visual_testing_framework::rviz_visual_testing_framework
       point_cloud_common_page_object
     )
@@ -1109,6 +1212,7 @@ if(BUILD_TESTING)
   if(TARGET robot_model_display_visual_test)
     target_include_directories(robot_model_display_visual_test PRIVATE test)
     target_link_libraries(robot_model_display_visual_test
+      ament_index_cpp::ament_index_cpp
       rviz_visual_testing_framework::rviz_visual_testing_framework
     )
   endif()
@@ -1120,6 +1224,7 @@ if(BUILD_TESTING)
   if(TARGET temperature_display_visual_test)
     target_include_directories(temperature_display_visual_test PRIVATE test)
     target_link_libraries(temperature_display_visual_test
+      Qt${QT_VERSION_MAJOR}::Test
       rviz_visual_testing_framework::rviz_visual_testing_framework
       point_cloud_common_page_object
     )
@@ -1134,6 +1239,7 @@ if(BUILD_TESTING)
     target_include_directories(tf_display_visual_test PRIVATE test)
     target_link_libraries(tf_display_visual_test
       rviz_visual_testing_framework::rviz_visual_testing_framework
+      Qt${QT_VERSION_MAJOR}::Widgets
     )
   endif()
 
@@ -1146,6 +1252,9 @@ if(BUILD_TESTING)
     target_include_directories(twist_display_visual_test PRIVATE test)
     target_link_libraries(twist_display_visual_test
       rviz_visual_testing_framework::rviz_visual_testing_framework
+      geometry_msgs::geometry_msgs
+      std_msgs::std_msgs
+      rclcpp::rclcpp
     )
   endif()
 
@@ -1158,6 +1267,7 @@ if(BUILD_TESTING)
     target_include_directories(wrench_display_visual_test PRIVATE test)
     target_link_libraries(wrench_display_visual_test
       rviz_visual_testing_framework::rviz_visual_testing_framework
+      Qt${QT_VERSION_MAJOR}::Widgets
     )
   endif()
 endif()

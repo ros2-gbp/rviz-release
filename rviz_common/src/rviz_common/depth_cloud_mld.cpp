@@ -34,9 +34,9 @@
 #include <cmath>
 #include <cstdint>
 #include <cstring>
-#include <format>  // NOLINT(build/include_order) cpplint predates C++20 headers
 #include <memory>
 #include <string>
+#include <sstream>
 #include <vector>
 
 #include <sensor_msgs/msg/camera_info.hpp>
@@ -135,12 +135,13 @@ void MultiLayerDepth::initializeConversion(
   uint32_t expected_height = roi_height / binning_y;
 
   if (expected_width != depth_msg->width || expected_height != depth_msg->height) {
-    throw rviz_common::MultiLayerDepthException(
-            std::format(
-              "Depth image size and camera info don't match: {} x {} vs {} x {}"
-              "(binning: {} x {}, ROI size: {} x {})",
-              depth_msg->width, depth_msg->height, expected_width, expected_height,
-              binning_x, binning_y, roi_width, roi_height));
+    std::ostringstream s;
+    s << "Depth image size and camera info don't match: ";
+    s << depth_msg->width << " x " << depth_msg->height;
+    s << " vs " << expected_width << " x " << expected_height;
+    s << "(binning: " << binning_x << " x " << binning_y;
+    s << ", ROI size: " << roi_width << " x " << roi_height << ")";
+    throw(rviz_common::MultiLayerDepthException(s.str()));
   }
 
   uint32_t width = depth_msg->width;
@@ -208,19 +209,19 @@ MultiLayerDepth::generatePointCloudSL(
   uint32_t * color_img_ptr = nullptr;
 
   if (!rgba_color_raw.empty()) {
-    color_img_ptr = rgba_color_raw.data();
+    color_img_ptr = &rgba_color_raw[0];
   }
 
   ////////////////////////////////////////////////
   // depth map to point cloud conversion
   ////////////////////////////////////////////////
 
-  float * cloud_data_ptr = reinterpret_cast<float *>(cloud_msg->data.data());
+  float * cloud_data_ptr = reinterpret_cast<float *>(&cloud_msg->data[0]);
 
   std::size_t point_count = 0;
   std::size_t point_idx = 0;
 
-  const T * depth_img_ptr = reinterpret_cast<const T *>(depth_msg->data.data());
+  const T * depth_img_ptr = reinterpret_cast<const T *>(&depth_msg->data[0]);
 
   std::vector<float>::iterator proj_x;
   std::vector<float>::const_iterator proj_x_end = projection_map_x_.end();
@@ -286,15 +287,15 @@ MultiLayerDepth::generatePointCloudML(
   uint32_t * color_img_ptr = nullptr;
 
   if (!rgba_color_raw.empty()) {
-    color_img_ptr = rgba_color_raw.data();
+    color_img_ptr = &rgba_color_raw[0];
   }
 
   ////////////////////////////////////////////////
   // depth map to point cloud conversion
   ////////////////////////////////////////////////
 
-  float * cloud_data_ptr = reinterpret_cast<float *>(cloud_msg->data.data());
-  uint8_t * cloud_shadow_buffer_ptr = shadow_buffer_.data();
+  float * cloud_data_ptr = reinterpret_cast<float *>(&cloud_msg->data[0]);
+  uint8_t * cloud_shadow_buffer_ptr = &shadow_buffer_[0];
 
   const std::size_t point_step = cloud_msg->point_step;
 
@@ -304,7 +305,7 @@ MultiLayerDepth::generatePointCloudML(
   double time_now = rviz_ros_node.lock()->get_raw_node()->now().seconds();
   double time_expire = time_now - shadow_time_out_;
 
-  const T * depth_img_ptr = reinterpret_cast<const T *>(depth_msg->data.data());
+  const T * depth_img_ptr = reinterpret_cast<const T *>(&depth_msg->data[0]);
 
   std::vector<float>::iterator proj_x;
   std::vector<float>::const_iterator proj_x_end = projection_map_x_.end();
@@ -427,8 +428,7 @@ void MultiLayerDepth::convertColor(
   rgba_color_raw.reserve(num_pixel);
 
   // pointer to most significant byte
-  const uint8_t * img_ptr =
-    reinterpret_cast<const uint8_t *>(color_msg->data.data() + (sizeof(T) - 1));
+  const uint8_t * img_ptr = reinterpret_cast<const uint8_t *>(&color_msg->data[sizeof(T) - 1]);
 
   // color conversion
   switch (num_channels) {
@@ -498,12 +498,14 @@ MultiLayerDepth::generatePointCloudFromDepth(
 
   if (color_msg) {
     if (depth_msg->width != color_msg->width || depth_msg->height != color_msg->height) {
-      throw rviz_common::MultiLayerDepthException(
-              std::format(
-                "Depth image resolution ({}x{}) "
-                "does not match color image resolution ({}x{})",
-                static_cast<int>(depth_msg->width), static_cast<int>(depth_msg->height),
-                static_cast<int>(color_msg->width), static_cast<int>(color_msg->height)));
+      std::stringstream error_msg;
+      error_msg << "Depth image resolution (" << static_cast<int>(depth_msg->width) << "x" <<
+        static_cast<int>(depth_msg->height)
+                << ") "
+        "does not match color image resolution ("
+                << static_cast<int>(color_msg->width) << "x"
+                << static_cast<int>(color_msg->height) << ")";
+      throw(rviz_common::MultiLayerDepthException(error_msg.str()));
     }
 
     // convert color coding to 8-bit rgb data
