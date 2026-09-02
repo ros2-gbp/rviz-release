@@ -1,4 +1,4 @@
-// Copyright (c) 2023, Open Source Robotics Foundation, Inc.
+// Copyright (c) 2026, Open Source Robotics Foundation, Inc.
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,52 +27,50 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef RVIZ_COMMON__PROPERTIES__REGEX_FILTER_PROPERTY_HPP_
-#define RVIZ_COMMON__PROPERTIES__REGEX_FILTER_PROPERTY_HPP_
+#include "rviz_common/transformation/tf2_helpers/tf2_conversion_helpers.hpp"
 
-#include <regex>
+#include <chrono>
+#include <cstdint>
 #include <string>
-
-#include <QValidator>  // NOLINT: cpplint is unable to handle the include order here
-#include <QLineEdit>  // NOLINT: cpplint is unable to handle the include order here
-#include <QString>  // NOLINT: cpplint is unable to handle the include order here
-#include <QWidget>  // NOLINT: cpplint is unable to handle the include order here
-
-#include "rviz_common/properties/string_property.hpp"
-#include "rviz_common/visibility_control.hpp"
 
 namespace rviz_common
 {
-namespace properties
+namespace transformation
 {
-class RVIZ_COMMON_PUBLIC RegexValidator : public QValidator
+namespace tf2_helpers
 {
-public:
-  explicit RegexValidator(QLineEdit * editor);
 
-  QValidator::State validate(QString & input, int & /*pos*/) const override;
-
-private:
-  QLineEdit * editor_;
-};
-
-class RVIZ_COMMON_PUBLIC RegexFilterProperty : public StringProperty
+std_msgs::msg::Header
+createHeader(const tf2::TimePoint & tf2_time, const std::string & frame_id)
 {
-public:
-  RegexFilterProperty(const QString & name, const std::string regex, Property * parent);
+  std_msgs::msg::Header header;
+  const auto seconds = std::chrono::time_point_cast<std::chrono::seconds>(tf2_time);
+  const auto nanoseconds = std::chrono::time_point_cast<std::chrono::nanoseconds>(tf2_time) -
+    std::chrono::time_point_cast<std::chrono::nanoseconds>(seconds);
+  header.stamp.sec = static_cast<std::int32_t>(seconds.time_since_epoch().count());
+  header.stamp.nanosec = static_cast<std::uint32_t>(nanoseconds.count());
+  header.frame_id = frame_id;
+  return header;
+}
 
-  const std::regex & regex() const;
-  const std::string & regex_str() const;
+rclcpp::Time
+fromTf2TimePoint(const tf2::TimePoint & tf2_time)
+{
+  const auto seconds = std::chrono::time_point_cast<std::chrono::seconds>(tf2_time);
+  const auto nanoseconds = std::chrono::time_point_cast<std::chrono::nanoseconds>(tf2_time) -
+    std::chrono::time_point_cast<std::chrono::nanoseconds>(seconds);
+  return rclcpp::Time(
+    static_cast<std::int32_t>(seconds.time_since_epoch().count()),
+    static_cast<std::uint32_t>(nanoseconds.count()));
+}
 
-  QWidget * createEditor(QWidget * parent, const QStyleOptionViewItem & option) override;
+tf2::TimePoint
+toTf2TimePoint(const rclcpp::Time & time)
+{
+  return std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds>(
+    std::chrono::nanoseconds{time.nanoseconds()});
+}
 
-private:
-  std::string default_;
-  std::regex regex_;
-  std::string regex_str_;
-
-  void onValueChanged();
-};
-}  // end namespace properties
-}  // end namespace rviz_common
-#endif  // RVIZ_COMMON__PROPERTIES__REGEX_FILTER_PROPERTY_HPP_
+}  // namespace tf2_helpers
+}  // namespace transformation
+}  // namespace rviz_common
