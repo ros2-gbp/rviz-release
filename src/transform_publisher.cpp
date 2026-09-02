@@ -1,4 +1,4 @@
-// Copyright (c) 2018, Bosch Software Innovations GmbH.
+// Copyright (c) 2026, Open Source Robotics Foundation, Inc.
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,45 +27,51 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef RVIZ_VISUAL_TESTING_FRAMEWORK__VISUAL_TEST_PUBLISHER_HPP_
-#define RVIZ_VISUAL_TESTING_FRAMEWORK__VISUAL_TEST_PUBLISHER_HPP_
+#include "rviz_visual_testing_framework/transform_publisher.hpp"
 
-#include <atomic>
 #include <memory>
-#include <string>
-#include <thread>
 #include <vector>
 
-#include "rclcpp/node.hpp"
+#include "rclcpp/rclcpp.hpp"
+#include "rclcpp/clock.hpp"
+#include "tf2_ros/static_transform_broadcaster.hpp"
 
-struct PublisherWithFrame
+#include "rviz_visual_testing_framework/internal/transform_message_creator.hpp"
+
+geometry_msgs::msg::TransformStamped StaticTransform::createStaticTransformMessage()
 {
-  PublisherWithFrame(std::shared_ptr<rclcpp::Node> publisher_node, std::string frame_name)
-  : publisher_node_(publisher_node), frame_name_(frame_name) {}
+  return createStaticTransformMessageFor(
+    origin_frame, destination_frame, x, y, z, roll, pitch, yaw);
+}
 
-  std::shared_ptr<rclcpp::Node> publisher_node_;
-  std::string frame_name_;
-};
-
-/**
- * This class is used internally to set up publishers and automatically publish simple static
- * transformations. You can use this class in your test with the frame_name of your publisher to
- * make sure that tf2 transformations are valid.
- */
-class VisualTestPublisher
+TransformPublisher::TransformPublisher(std::vector<StaticTransform> transforms)
 {
-public:
-  VisualTestPublisher(std::shared_ptr<rclcpp::Node> publisher_node, std::string frame_name);
+  nodes_spinning_ = true;
+  transforms_ = transforms;
+  publisher_thread_ = std::thread(
+    &TransformPublisher::publishOnFrame, this);
+}
 
-  explicit VisualTestPublisher(std::vector<PublisherWithFrame> publishers);
+TransformPublisher::~TransformPublisher()
+{
+  nodes_spinning_ = false;
+  publisher_thread_.join();
+}
 
-  ~VisualTestPublisher();
+void TransformPublisher::publishOnFrame()
+{
+  auto transformer_publisher_node = std::make_shared<rclcpp::Node>("static_transform_publisher");
+  tf2_ros::StaticTransformBroadcaster broadcaster(*transformer_publisher_node);
 
-private:
-  void publishOnFrame(std::vector<PublisherWithFrame> publishers);
+  rclcpp::WallRate loop_rate(0.2);
+  rclcpp::executors::SingleThreadedExecutor executor;
+  executor.add_node(transformer_publisher_node);
 
-  std::atomic<bool> nodes_spinning_;
-  std::thread publisher_thread_;
-};
-
-#endif  // RVIZ_VISUAL_TESTING_FRAMEWORK__VISUAL_TEST_PUBLISHER_HPP_
+  while (nodes_spinning_) {
+    for (auto transform : transforms_) {
+      broadcaster.sendTransform(transform.createStaticTransformMessage());
+    }
+    executor.spin_some();
+    loop_rate.sleep();
+  }
+}
