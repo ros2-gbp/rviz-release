@@ -1,4 +1,4 @@
-// Copyright (c) 2023, Open Source Robotics Foundation, Inc.
+// Copyright (c) 2026, Open Source Robotics Foundation, Inc.
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,52 +27,41 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef RVIZ_COMMON__PROPERTIES__REGEX_FILTER_PROPERTY_HPP_
-#define RVIZ_COMMON__PROPERTIES__REGEX_FILTER_PROPERTY_HPP_
+#include "rviz_common/interaction/color_conversion.hpp"
 
-#include <regex>
-#include <string>
+#include <cstdint>
 
-#include <QValidator>  // NOLINT: cpplint is unable to handle the include order here
-#include <QLineEdit>  // NOLINT: cpplint is unable to handle the include order here
-#include <QString>  // NOLINT: cpplint is unable to handle the include order here
-#include <QWidget>  // NOLINT: cpplint is unable to handle the include order here
+#include <OgrePixelFormat.h>
+#include <OgreColourValue.h>
 
-#include "rviz_common/properties/string_property.hpp"
-#include "rviz_common/visibility_control.hpp"
+#include "rviz_common/logging.hpp"
 
 namespace rviz_common
 {
-namespace properties
+namespace interaction
 {
-class RVIZ_COMMON_PUBLIC RegexValidator : public QValidator
+
+uint32_t colorToHandle(Ogre::PixelFormat fmt, uint32_t col)
 {
-public:
-  explicit RegexValidator(QLineEdit * editor);
+  uint32_t handle = 0;
+  if (fmt == Ogre::PF_A8R8G8B8 || fmt == Ogre::PF_X8R8G8B8) {
+    handle = col & 0x00ffffff;
+  } else if (fmt == Ogre::PF_R8G8B8A8) {
+    handle = col >> 8;
+  } else {
+    RVIZ_COMMON_LOG_DEBUG_STREAM("Incompatible pixel format [" << fmt << "]");
+  }
 
-  QValidator::State validate(QString & input, int & /*pos*/) const override;
+  return handle;
+}
 
-private:
-  QLineEdit * editor_;
-};
-
-class RVIZ_COMMON_PUBLIC RegexFilterProperty : public StringProperty
+CollObjectHandle colorToHandle(const Ogre::ColourValue & color)
 {
-public:
-  RegexFilterProperty(const QString & name, const std::string regex, Property * parent);
+  return
+    (static_cast<int>(color.r * 255) << 16) |
+    (static_cast<int>(color.g * 255) << 8) |
+    static_cast<int>(color.b * 255);
+}
 
-  const std::regex & regex() const;
-  const std::string & regex_str() const;
-
-  QWidget * createEditor(QWidget * parent, const QStyleOptionViewItem & option) override;
-
-private:
-  std::string default_;
-  std::regex regex_;
-  std::string regex_str_;
-
-  void onValueChanged();
-};
-}  // end namespace properties
-}  // end namespace rviz_common
-#endif  // RVIZ_COMMON__PROPERTIES__REGEX_FILTER_PROPERTY_HPP_
+}  // namespace interaction
+}  // namespace rviz_common
