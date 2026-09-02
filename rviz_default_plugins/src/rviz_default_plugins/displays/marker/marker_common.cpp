@@ -50,21 +50,18 @@
 
 #include "rviz_default_plugins/displays/marker/markers/marker_factory.hpp"
 
-#include "resource_retriever/retriever.hpp"
-#include "resource_retriever_service_plugin/resource_retriever_service_plugin.hpp"
+#include "rviz_default_plugins/ros_resource_retriever.hpp"
 
 namespace rviz_default_plugins
 {
 namespace displays
 {
 
-using ::resource_retriever_service_plugin::RosServiceResourceRetriever;
-
 MarkerCommon::MarkerCommon(rviz_common::Display * display)
 : display_(display)
 {
-  namespaces_category_ = new rviz_common::properties::BoolProperty(
-    "Namespaces", true, "Toggle to toggle all namespaces", display_);
+  namespaces_category_ = new rviz_common::properties::Property(
+    "Namespaces", QVariant(), "", display_);
   marker_factory_ = std::make_unique<markers::MarkerFactory>();
 }
 
@@ -78,13 +75,10 @@ void MarkerCommon::initialize(rviz_common::DisplayContext * context, Ogre::Scene
   context_ = context;
   scene_node_ = scene_node;
 
-  resource_retriever::RetrieverVec plugins = resource_retriever::default_plugins();
-
-  auto ros_iface = context_->getRosNodeAbstraction().lock();
-  if (ros_iface) {
-    plugins.push_back(std::make_shared<RosServiceResourceRetriever>(*ros_iface->get_raw_node()));
-  } else {
-    throw std::invalid_argument("ROS node abstraction interface not valid");
+  resource_retriever::RetrieverVec plugins;
+  plugins.push_back(std::make_shared<RosResourceRetriever>(context_->getRosNodeAbstraction()));
+  for (const auto & plugin : resource_retriever::default_plugins()) {
+    plugins.push_back(plugin);
   }
   retriever_ = resource_retriever::Retriever(plugins);
 
@@ -108,7 +102,6 @@ void MarkerCommon::clearMarkers()
   markers_.clear();
   markers_with_expiration_.clear();
   frame_locked_markers_.clear();
-  ns_to_ids_.clear();
   namespaces_category_->removeChildren();
   namespaces_.clear();
 }
@@ -122,66 +115,35 @@ void MarkerCommon::deleteMarker(MarkerID id)
     markers_with_expiration_.erase(it->second);
     frame_locked_markers_.erase(it->second);
     markers_.erase(it);
-    removeFromNamespaceIndex(id);
-  }
-}
-
-void MarkerCommon::removeFromNamespaceIndex(const MarkerID & id)
-{
-  auto ns_it = ns_to_ids_.find(id.first);
-  if (ns_it == ns_to_ids_.end()) {
-    return;
-  }
-  auto & ids = ns_it->second;
-  for (auto it = ids.begin(); it != ids.end(); ++it) {
-    if (*it == id) {
-      // Swap with last element and pop — O(1), order is irrelevant.
-      *it = ids.back();
-      ids.pop_back();
-      break;
-    }
-  }
-  if (ids.empty()) {
-    ns_to_ids_.erase(ns_it);
-  }
-}
-
-void MarkerCommon::setVisibilityForMarkersInNamespace(const std::string & ns, bool visible)
-{
-  auto ns_it = ns_to_ids_.find(ns);
-  if (ns_it == ns_to_ids_.end()) {
-    return;
-  }
-  for (const auto & id : ns_it->second) {
-    auto it = markers_.find(id);
-    if (it != markers_.end()) {
-      it->second->setVisible(visible);
-    }
   }
 }
 
 void MarkerCommon::deleteMarkersInNamespace(const std::string & ns)
 {
-  auto ns_it = ns_to_ids_.find(ns);
-  if (ns_it == ns_to_ids_.end()) {
-    return;
+  std::vector<MarkerID> to_delete;
+
+  // TODO(anon): this is inefficient, should store every in-use id per namespace and lookup by that
+  for (auto const & marker : markers_) {
+    if (marker.first.first == ns) {
+      to_delete.push_back(marker.first);
+    }
   }
-  // Copy the ID list: deleteMarker modifies ns_to_ids_.
-  const std::vector<MarkerID> to_delete = ns_it->second;
-  for (const auto & id : to_delete) {
-    deleteMarker(id);
+
+  for (auto & marker : to_delete) {
+    deleteMarker(marker);
   }
 }
 
 void MarkerCommon::deleteAllMarkers()
 {
+  std::vector<MarkerID> to_delete;
   for (auto const & marker : markers_) {
-    deleteMarkerStatus(marker.first);
-    markers_with_expiration_.erase(marker.second);
-    frame_locked_markers_.erase(marker.second);
+    to_delete.push_back(marker.first);
   }
-  markers_.clear();
-  ns_to_ids_.clear();
+
+  for (auto & marker : to_delete) {
+    deleteMarker(marker);
+  }
 }
 
 void MarkerCommon::setMarkerStatus(MarkerID id, StatusLevel level, const std::string & text)
@@ -311,6 +273,12 @@ QHash<QString, MarkerNamespace *>::const_iterator MarkerCommon::getMarkerNamespa
 
 void MarkerCommon::processAdd(const visualization_msgs::msg::Marker::ConstSharedPtr message)
 {
+  auto ns_it = getMarkerNamespace(message);
+
+  if (!ns_it.value()->isEnabled() ) {
+    return;
+  }
+
   deleteMarkerStatus(MarkerID(message->ns, message->id));
 
   MarkerBasePtr marker = createOrGetOldMarker(message);
@@ -330,7 +298,6 @@ MarkerBasePtr MarkerCommon::createOrGetOldMarker(
     markers_with_expiration_.erase(marker);
     frame_locked_markers_.erase(marker);
     if (message->type != marker->getMessage()->type) {
-      removeFromNamespaceIndex(it->first);
       markers_.erase(it);
       marker = createMarker(message);
     }
@@ -344,9 +311,7 @@ MarkerBasePtr MarkerCommon::createMarker(
   const visualization_msgs::msg::Marker::ConstSharedPtr & message)
 {
   auto marker = marker_factory_->createMarkerForType(message->type);
-  MarkerID id(message->ns, message->id);
-  markers_.insert(make_pair(id, marker));
-  ns_to_ids_[id.first].push_back(id);
+  markers_.insert(make_pair(MarkerID(message->ns, message->id), marker));
   return marker;
 }
 
@@ -354,10 +319,6 @@ void MarkerCommon::configureMarker(
   const visualization_msgs::msg::Marker::ConstSharedPtr & message, MarkerBasePtr & marker)
 {
   marker->setMessage(message);
-
-  // Visibility needs to be set after changes to the marker as they might make it visible again
-  auto ns_it = getMarkerNamespace(message);
-  marker->setVisible(ns_it.value()->isEnabled());
 
   if (rclcpp::Duration(message->lifetime).nanoseconds() > 100000) {
     markers_with_expiration_.insert(marker);
@@ -377,7 +338,7 @@ void MarkerCommon::processDelete(const visualization_msgs::msg::Marker::ConstSha
   context_->queueRender();
 }
 
-void MarkerCommon::update(std::chrono::nanoseconds wall_dt, std::chrono::nanoseconds ros_dt)
+void MarkerCommon::update(float wall_dt, float ros_dt)
 {
   (void) wall_dt;
   (void) ros_dt;
@@ -386,14 +347,6 @@ void MarkerCommon::update(std::chrono::nanoseconds wall_dt, std::chrono::nanosec
   processNewMessages(local_queue);
   removeExpiredMarkers();
   updateMarkersWithLockedFrame();
-
-  // Workaround because this is not a QObject
-  if (all_namespaces_enabled_ != namespaces_category_->getBool()) {
-    all_namespaces_enabled_ = namespaces_category_->getBool();
-    for (auto const & ns : namespaces_) {
-      ns->setValue(all_namespaces_enabled_);
-    }
-  }
 }
 
 MarkerCommon::V_MarkerMessage MarkerCommon::takeSnapshotOfMessageQueue()
@@ -448,7 +401,9 @@ MarkerNamespace::MarkerNamespace(
 
 void MarkerNamespace::onEnableChanged()
 {
-  owner_->setVisibilityForMarkersInNamespace(getName().toStdString(), isEnabled());
+  if (!isEnabled()) {
+    owner_->deleteMarkersInNamespace(getName().toStdString());
+  }
 
   // Update the configuration that stores the enabled state of all markers
   owner_->namespace_config_enabled_state_[getName()] = isEnabled();

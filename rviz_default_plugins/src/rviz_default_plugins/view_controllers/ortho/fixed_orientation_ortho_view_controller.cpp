@@ -161,9 +161,7 @@ void FixedOrientationOrthoViewController::mimic(ViewController * source_view)
   }
 }
 
-void FixedOrientationOrthoViewController::update(
-  std::chrono::nanoseconds dt,
-  std::chrono::nanoseconds ros_dt)
+void FixedOrientationOrthoViewController::update(float dt, float ros_dt)
 {
   FramePositionTrackingViewController::update(dt, ros_dt);
   updateCamera();

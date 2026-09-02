@@ -31,6 +31,7 @@
 #ifndef RVIZ_COMMON__ADAPTER_FILTER_DISPLAY_HPP_
 #define RVIZ_COMMON__ADAPTER_FILTER_DISPLAY_HPP_
 
+#include <tf2_ros/message_filter.h>
 #include <cstdint>
 #include <memory>
 #include <string>
@@ -38,8 +39,6 @@
 #include <QString>  // NOLINT: cpplint is unable to handle the include order here
 
 #include <message_filters/subscriber.hpp>
-
-#include <tf2_ros/message_filter.hpp>
 
 #include "rviz_common/ros_topic_display.hpp"
 #include "rviz_common/properties/int_property.hpp"
@@ -137,7 +136,7 @@ protected:
         *context_->getFrameManager()->getTransformer(),
         fixed_frame_.toStdString(),
         static_cast<uint32_t>(message_queue_property_->getInt()),
-        *node);
+        node);
       tf_filter_->connectInput(*subscription_);
       tf_filter_->registerCallback(
         std::bind(

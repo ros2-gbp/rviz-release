@@ -335,3 +335,9 @@ TEST(EnumProperty, basic) {
   p.clearOptions();
   EXPECT_EQ(0, p.getOptionInt() );
 }
+
+int main(int argc, char ** argv)
+{
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}
