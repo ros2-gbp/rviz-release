@@ -1,4 +1,4 @@
-// Copyright (c) 2012, Willow Garage, Inc.
+// Copyright (c) 2026, Bosch Software Innovations GmbH.
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,71 +27,64 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+#include "rviz_common/ros_topic_display.hpp"
 
-#include "rviz_common/properties/parse_color.hpp"
-
-#include <QString>
+#include <memory>
 
 namespace rviz_common
 {
-namespace properties
-{
 
-static int limit(int i)
+_RosTopicDisplay::_RosTopicDisplay()
+: rviz_ros_node_(),
+  qos_profile(5)
 {
-  if (i < 0) {
-    return 0;
-  }
-  if (i > 255) {
-    return 255;
-  }
-  return i;
+  qRegisterMetaType<std::shared_ptr<const void>>();
+
+  topic_property_ = new properties::RosTopicProperty(
+    "Topic", "",
+    "", "", this, SLOT(updateTopic()));
+
+  qos_profile_property_ = new properties::QosProfileProperty(topic_property_, qos_profile);
 }
 
-QColor parseColor(const QString & color_string)
+void _RosTopicDisplay::onInitialize()
 {
-  if (color_string.indexOf(';') != -1) {
-    QStringList strings = color_string.split(';');
-    if (strings.size() >= 3) {
-      bool r_ok = true;
-      int r = strings[0].toInt(&r_ok);
-      bool g_ok = true;
-      int g = strings[1].toInt(&g_ok);
-      bool b_ok = true;
-      int b = strings[2].toInt(&b_ok);
-      if (r_ok && g_ok && b_ok) {
-        return QColor(limit(r), limit(g), limit(b));
-      }
-    }
-    return QColor();
-  }
+  rviz_ros_node_ = context_->getRosNodeAbstraction();
+  topic_property_->initialize(rviz_ros_node_);
 
-  QColor new_color;
-  if (QColor::colorNames().contains(color_string, Qt::CaseInsensitive) ||
-    (color_string.size() > 0 && color_string[0] == '#' ))
-  {
-    new_color = QColor::fromString(color_string.toLower());
-  }
-  return new_color;
+  connect(
+    reinterpret_cast<QObject *>(context_->getTransformationManager()),
+    SIGNAL(transformerChanged(std::shared_ptr<rviz_common::transformation::FrameTransformer>)),
+    this,
+    SLOT(transformerChangedCallback()));
+  qos_profile_property_->initialize(
+    [this](rclcpp::QoS profile) {
+      this->qos_profile = profile;
+      updateTopic();
+    });
+
+  // Useful to _ROSTopicDisplay subclasses to ensure GUI updates
+  // are performed by the main thread only.
+  connect(
+    this,
+    SIGNAL(typeErasedMessageTaken(std::shared_ptr<const void>)),
+    this,
+    SLOT(processTypeErasedMessage(std::shared_ptr<const void>)),
+    // Force queued connections regardless of QObject thread affinity
+    Qt::QueuedConnection);
 }
 
-QString printColor(const QColor & color)
+void _RosTopicDisplay::processTypeErasedMessage(std::shared_ptr<const void> type_erased_message)
 {
-  return QString("%1; %2; %3")
-         .arg(color.red() )
-         .arg(color.green() )
-         .arg(color.blue() );
+  (void)type_erased_message;
 }
 
-QColor ogreToQt(const Ogre::ColourValue & c)
+void _RosTopicDisplay::transformerChangedCallback()
 {
-  return QColor::fromRgbF(c.r, c.g, c.b, c.a);
 }
 
-Ogre::ColourValue qtToOgre(const QColor & c)
+void _RosTopicDisplay::updateMessageQueueSize()
 {
-  return Ogre::ColourValue(c.redF(), c.greenF(), c.blueF(), c.alphaF() );
 }
 
-}  // namespace properties
 }  // namespace rviz_common
