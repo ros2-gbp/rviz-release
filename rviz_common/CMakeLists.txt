@@ -30,21 +30,7 @@ find_package(ament_cmake_ros_core REQUIRED)
 # do find_package(rviz_ogre_vendor) first to make sure the custom OGRE is found
 find_package(rviz_ogre_vendor REQUIRED)
 
-# Avoid find_package(QT NAMES Qt6 Qt5 ...) due to CMake's default ascending path resolution
-find_package(Qt6 QUIET COMPONENTS Widgets)
-if(Qt6_FOUND)
-  set(QT_VERSION_MAJOR 6)
-else()
-  find_package(Qt5 REQUIRED COMPONENTS Widgets)
-  set(QT_VERSION_MAJOR 5)
-endif()
-set(QT_VERSION "${Qt${QT_VERSION_MAJOR}_VERSION}")
-if(${QT_VERSION} VERSION_LESS 5.15.0)
-  function(qt_wrap_cpp out)
-    qt5_wrap_cpp(_sources ${ARGN})
-    set("${out}" ${_sources} PARENT_SCOPE)
-  endfunction()
-endif()
+find_package(Qt6 6.4 REQUIRED COMPONENTS Widgets)
 
 find_package(geometry_msgs REQUIRED)
 find_package(pluginlib REQUIRED)
@@ -212,9 +198,11 @@ set(rviz_common_source_files
   src/rviz_common/render_panel.cpp
   src/rviz_common/ros_integration/ros_client_abstraction.cpp
   src/rviz_common/ros_integration/ros_node_abstraction.cpp
+  src/rviz_common/ros_topic_display.cpp
   src/rviz_common/scaled_image_widget.cpp
   src/rviz_common/screenshot_dialog.cpp
   src/rviz_common/selection_panel.cpp
+  src/rviz_common/interaction/color_conversion.cpp
   src/rviz_common/interaction/handler_manager.cpp
   src/rviz_common/interaction/selection_handler.cpp
   src/rviz_common/interaction/selection_manager.cpp
@@ -223,6 +211,7 @@ set(rviz_common_source_files
   src/rviz_common/splash_screen.cpp
   src/rviz_common/time_panel.cpp
   src/rviz_common/transformation/identity_frame_transformer.cpp
+  src/rviz_common/transformation/tf2_helpers/tf2_conversion_helpers.cpp
   src/rviz_common/tool_manager.cpp
   src/rviz_common/tool_properties_panel.cpp
   src/rviz_common/tool.cpp
@@ -257,7 +246,7 @@ target_link_libraries(rviz_common PUBLIC
   geometry_msgs::geometry_msgs
   message_filters::message_filters
   pluginlib::pluginlib
-  Qt${QT_VERSION_MAJOR}::Widgets
+  Qt6::Widgets
   rclcpp::rclcpp
   rviz_ogre_vendor::OgreMain
   rviz_ogre_vendor::OgreOverlay
@@ -284,7 +273,7 @@ ament_export_dependencies(
   geometry_msgs
   message_filters
   pluginlib
-  Qt${QT_VERSION_MAJOR}
+  Qt6
   rclcpp
   rviz_ogre_vendor
   rviz_rendering
@@ -367,7 +356,7 @@ if(BUILD_TESTING)
   target_link_libraries(test_support_objects PUBLIC
     rviz_common
     GTest::gmock
-    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt6::Widgets
     rviz_ogre_vendor::OgreMain
     rviz_ogre_vendor::OgreOverlay
   )
@@ -394,7 +383,7 @@ if(BUILD_TESTING)
       rviz_common
       rviz_ogre_vendor::OgreMain
       rviz_ogre_vendor::OgreOverlay
-      Qt${QT_VERSION_MAJOR}::Widgets
+      Qt6::Widgets
       yaml-cpp::yaml-cpp
     )
   endif()
@@ -424,7 +413,10 @@ if(BUILD_TESTING)
   if(TARGET display_factory_test)
     target_compile_definitions(display_factory_test PUBLIC
       -D_TEST_PLUGIN_DESCRIPTIONS="${CMAKE_CURRENT_SOURCE_DIR}")
-    target_link_libraries(display_factory_test rviz_common Qt${QT_VERSION_MAJOR}::Widgets)
+    target_link_libraries(display_factory_test
+      rviz_common
+      Qt6::Widgets
+      tinyxml2::tinyxml2)
   endif()
 
   # Frame manager test (keeps its unique moc)
