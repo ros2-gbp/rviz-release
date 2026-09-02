@@ -53,6 +53,7 @@
 # include "sensor_msgs/msg/camera_info.hpp"
 # include "tf2_ros/message_filter.hpp"
 
+# include "rviz_common/transformation/frame_transformer.hpp"
 # include "rviz_default_plugins/displays/image/image_display.hpp"
 # include "rviz_default_plugins/displays/image/ros_image_texture_iface.hpp"
 # include "rviz_default_plugins/visibility_control.hpp"
@@ -101,7 +102,7 @@ struct ImageDimensions
  * \class CameraDisplay
  *
  */
-class RVIZ_DEFAULT_PLUGINS_PUBLIC CameraDisplay
+class RVIZ_DEFAULT_PLUGINS_IMAGE_PUBLIC CameraDisplay
   : public ImageDisplay,
   public Ogre::RenderTargetListener
 {
