@@ -34,8 +34,6 @@
 #include <utility>
 #include <vector>
 
-#include <QComboBox>  // NOLINT
-#include <QLocale>  // NOLINT
 #include <QString>  // NOLINT: cpplint is unable to handle the include order here
 #include <QTest>  // NOLINT
 

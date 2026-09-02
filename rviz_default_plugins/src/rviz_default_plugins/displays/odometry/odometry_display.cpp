@@ -34,8 +34,6 @@
 #include <memory>
 #include <string>
 
-#include <OgreSceneNode.h>
-
 #include "rviz_rendering/objects/arrow.hpp"
 #include "rviz_rendering/objects/axes.hpp"
 

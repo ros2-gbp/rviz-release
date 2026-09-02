@@ -39,6 +39,4 @@ Object::Object(Ogre::SceneManager * scene_manager)
 {
 }
 
-Object::~Object() = default;
-
 }  // namespace rviz_rendering

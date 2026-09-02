@@ -2,22 +2,16 @@
 Changelog for package rviz_visual_testing_framework
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-16.0.3 (2026-09-02)
--------------------
-* Removed Qt5 dependency (`#1847 <https://github.com/ros2/rviz/issues/1847>`_)
-* Cleanup headers (`#1829 <https://github.com/ros2/rviz/issues/1829>`_)
-* Moved implementation to cpp (`#1798 <https://github.com/ros2/rviz/issues/1798>`_)
-* Contributors: Alejandro Hernández Cordero
-
-16.0.2 (2026-07-14)
--------------------
-* use C++ 20 in default. (`#1810 <https://github.com/ros2/rviz/issues/1810>`_)
-* Contributors: Tomoya Fujita
-
-16.0.1 (2026-06-11)
+15.2.6 (2026-09-02)
 -------------------
 
-16.0.0 (2026-05-06)
+15.2.5 (2026-07-14)
+-------------------
+
+15.2.4 (2026-06-12)
+-------------------
+
+15.2.3 (2026-05-16)
 -------------------
 
 15.2.2 (2026-04-24)

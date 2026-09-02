@@ -76,10 +76,6 @@ Shape::createEntity(
       mesh_name = "rviz_sphere.mesh";
       break;
 
-    case Capsule:
-      mesh_name = "rviz_capsule.mesh";
-      break;
-
     default:
       throw std::runtime_error("unexpected mesh entity type");
   }

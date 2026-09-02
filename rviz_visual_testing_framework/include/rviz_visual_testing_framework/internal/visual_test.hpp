@@ -36,8 +36,7 @@
 # pragma warning(push)
 # pragma warning(disable : 4996)
 #endif
-#include <OgreString.h>
-#include <OgreVector.h>
+#include <Ogre.h>
 #ifdef _WIN32
 # pragma warning(pop)
 #endif

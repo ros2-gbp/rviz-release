@@ -29,8 +29,6 @@
 
 #include "rviz_visual_testing_framework/internal/rviz_scene_test.hpp"
 
-#include <OgreNode.h>
-
 #include <iostream>
 #include <memory>
 #include <string>

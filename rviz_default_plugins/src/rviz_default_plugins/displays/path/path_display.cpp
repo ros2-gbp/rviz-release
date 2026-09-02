@@ -38,8 +38,6 @@
 #include <OgreBillboardSet.h>
 #include <OgreManualObject.h>
 #include <OgreMaterialManager.h>
-#include <OgreSceneManager.h>
-#include <OgreSceneNode.h>
 #include <OgreTechnique.h>
 
 #include "rviz_common/logging.hpp"

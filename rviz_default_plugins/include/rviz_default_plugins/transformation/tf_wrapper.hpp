@@ -35,8 +35,6 @@
 #include <string>
 #include <vector>
 
-#include "rclcpp/node.hpp"
-
 #include "tf2_ros/buffer.hpp"
 #include "tf2_ros/create_timer_ros.hpp"
 #include "tf2_ros/transform_listener.hpp"

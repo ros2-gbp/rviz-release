@@ -30,12 +30,17 @@
 #ifndef RVIZ_VISUAL_TESTING_FRAMEWORK__TRANSFORM_PUBLISHER_HPP_
 #define RVIZ_VISUAL_TESTING_FRAMEWORK__TRANSFORM_PUBLISHER_HPP_
 
-#include <atomic>
+#include <memory>
 #include <string>
 #include <thread>
 #include <vector>
 
+#include "rclcpp/rclcpp.hpp"
+#include "rclcpp/clock.hpp"
+#include "std_msgs/msg/header.hpp"
 #include "geometry_msgs/msg/transform_stamped.hpp"
+#include "tf2_ros/static_transform_broadcaster.hpp"
+#include "internal/transform_message_creator.hpp"
 
 struct StaticTransform
 {
@@ -61,7 +66,11 @@ struct StaticTransform
   int pitch;
   int yaw;
 
-  geometry_msgs::msg::TransformStamped createStaticTransformMessage();
+  geometry_msgs::msg::TransformStamped createStaticTransformMessage()
+  {
+    return createStaticTransformMessageFor(
+      origin_frame, destination_frame, x, y, z, roll, pitch, yaw);
+  }
 };
 
 class TransformPublisher
@@ -71,12 +80,38 @@ public:
   : TransformPublisher({StaticTransform("map", frame_name, x, y, z, roll, pitch, yaw)})
   {}
 
-  explicit TransformPublisher(std::vector<StaticTransform> transforms);
+  explicit TransformPublisher(std::vector<StaticTransform> transforms)
+  {
+    nodes_spinning_ = true;
+    transforms_ = transforms;
+    publisher_thread_ = std::thread(
+      &TransformPublisher::publishOnFrame, this);
+  }
 
-  ~TransformPublisher();
+  ~TransformPublisher()
+  {
+    nodes_spinning_ = false;
+    publisher_thread_.join();
+  }
 
 private:
-  void publishOnFrame();
+  void publishOnFrame()
+  {
+    auto transformer_publisher_node = std::make_shared<rclcpp::Node>("static_transform_publisher");
+    tf2_ros::StaticTransformBroadcaster broadcaster(*transformer_publisher_node);
+
+    rclcpp::WallRate loop_rate(0.2);
+    rclcpp::executors::SingleThreadedExecutor executor;
+    executor.add_node(transformer_publisher_node);
+
+    while (nodes_spinning_) {
+      for (auto transform : transforms_) {
+        broadcaster.sendTransform(transform.createStaticTransformMessage());
+      }
+      executor.spin_some();
+      loop_rate.sleep();
+    }
+  }
 
   std::vector<StaticTransform> transforms_;
   std::atomic<bool> nodes_spinning_;

@@ -40,7 +40,6 @@
 #include <OgreWireBoundingBox.h>
 
 #include <cassert>
-#include <stdexcept>
 #include <string>
 #include <utility>
 
@@ -72,7 +71,7 @@ SelectionHandler::~SelectionHandler()
   while (!boxes_.empty()) {
     destroyBox(boxes_.begin()->first);
   }
-  if (context_ && context_->getHandlerManager()) {
+  if (context_->getHandlerManager()) {
     context_->getHandlerManager()->removeHandler(pick_handle_);
   }
   for (int i = 0; i < properties_.size(); i++) {
@@ -83,10 +82,6 @@ SelectionHandler::~SelectionHandler()
 
 void SelectionHandler::registerHandle()
 {
-  if (!context_) {
-    throw std::invalid_argument(
-            "SelectionHandler::registerHandle: DisplayContext must not be nullptr");
-  }
   pick_handle_ = context_->getHandlerManager()->createHandle();
   context_->getHandlerManager()->addHandler(
     pick_handle_, rviz_common::interaction::weak_from_this(this));

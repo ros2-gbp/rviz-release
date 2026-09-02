@@ -13,19 +13,27 @@ add_definitions(-D_SRC_DIR_PATH="${CMAKE_CURRENT_SOURCE_DIR}")
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/test_images)
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/test/reference_images)
 
-# The C++ standard (C++20) is provided by ament_cmake_ros_core via the
-# ament_cmake_ros_core::ament_ros_defaults interface target, which is linked
-# PUBLIC into the rviz_visual_testing_framework target below (and thus
-# propagated to consumers).
+# Default to C++17
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 17)
+  set(CMAKE_CXX_STANDARD_REQUIRED ON)
+endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic -Wnon-virtual-dtor -Woverloaded-virtual)
 endif()
 
 find_package(ament_cmake REQUIRED)
-find_package(ament_cmake_ros_core REQUIRED)
 find_package(geometry_msgs REQUIRED)
-find_package(Qt6 6.4 REQUIRED COMPONENTS Test Widgets)
+# Avoid find_package(QT NAMES Qt6 Qt5 ...) due to CMake's default ascending path resolution
+find_package(Qt6 QUIET COMPONENTS Test Widgets)
+if(Qt6_FOUND)
+  set(QT_VERSION_MAJOR 6)
+else()
+  find_package(Qt5 REQUIRED COMPONENTS Test Widgets)
+  set(QT_VERSION_MAJOR 5)
+endif()
+set(QT_VERSION "${Qt${QT_VERSION_MAJOR}_VERSION}")
 find_package(rclcpp REQUIRED)
 find_package(rcutils REQUIRED)
 find_package(rviz_common REQUIRED)
@@ -39,11 +47,11 @@ find_package(ament_cmake_gtest REQUIRED)
 ament_find_gtest()
 
 # TODO(wjwwood): this block is to setup the windeployqt tool, could be removed later.
-if(Qt6_FOUND AND WIN32 AND TARGET Qt6::qmake AND NOT TARGET Qt6::windeployqt)
-  get_target_property(_qt_qmake_location Qt6::qmake IMPORTED_LOCATION)
+if(Qt${QT_VERSION_MAJOR}_FOUND AND WIN32 AND TARGET Qt${QT_VERSION_MAJOR}::qmake AND NOT TARGET Qt${QT_VERSION_MAJOR}::windeployqt)
+  get_target_property(_qt_qmake_location Qt${QT_VERSION_MAJOR}::qmake IMPORTED_LOCATION)
 
   execute_process(
-    COMMAND "${_qt_qmake_location}" -query QT6_INSTALL_PREFIX
+    COMMAND "${_qt_qmake_location}" -query QT${QT_VERSION_MAJOR}_INSTALL_PREFIX
     RESULT_VARIABLE return_code
     OUTPUT_VARIABLE qt_install_prefix
     OUTPUT_STRIP_TRAILING_WHITESPACE
@@ -60,9 +68,7 @@ add_library(rviz_visual_testing_framework STATIC
   src/internal/executor.cpp
   src/internal/transform_message_creator.cpp
   src/internal/visual_test.cpp
-  src/transform_publisher.cpp
   src/visual_test_fixture.cpp
-  src/visual_test_publisher.cpp
 )
 
 target_include_directories(rviz_visual_testing_framework
@@ -72,10 +78,9 @@ target_include_directories(rviz_visual_testing_framework
     ${GTEST_INCLUDE_DIRS})
 
 target_link_libraries(rviz_visual_testing_framework PUBLIC
-  ament_cmake_ros_core::ament_ros_defaults
   geometry_msgs::geometry_msgs
-  Qt6::Test
-  Qt6::Widgets
+  Qt${QT_VERSION_MAJOR}::Test
+  Qt${QT_VERSION_MAJOR}::Widgets
   rclcpp::rclcpp
   rcutils::rcutils
   rviz_common::rviz_common
@@ -88,9 +93,8 @@ target_link_libraries(rviz_visual_testing_framework PUBLIC
 
 # export information to downstream packages
 ament_export_dependencies(
-  ament_cmake_ros_core
   geometry_msgs
-  Qt6
+  Qt${QT_VERSION_MAJOR}
   rclcpp
   rcutils
   rviz_common

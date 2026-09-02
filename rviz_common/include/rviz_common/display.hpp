@@ -35,6 +35,7 @@
 #include <string>
 
 #include <QIcon>  // NOLINT: cpplint is unable to handle the include order here
+#include <QSet>  // NOLINT: cpplint is unable to handle the include order here
 #include <QString>  // NOLINT: cpplint is unable to handle the include order here
 
 #include "rclcpp/time.hpp"
@@ -156,6 +157,16 @@ public:
   virtual
   void
   update(std::chrono::nanoseconds wall_dt, std::chrono::nanoseconds ros_dt);
+
+  /// Called periodically by the visualization manager.
+  /**
+   * \param wall_dt Wall-clock time, in nanoseconds, since the last time the update list was run through.
+   * \param ros_dt ROS time, in nanoseconds, since the last time the update list was run through.
+   */
+  [[deprecated("Use update(std::chrono::nanoseconds, std::chrono::nanoseconds)")]]
+  virtual
+  void
+  update(float wall_dt, float ros_dt);
 
   /// Called to tell the display to clear its state.
   virtual

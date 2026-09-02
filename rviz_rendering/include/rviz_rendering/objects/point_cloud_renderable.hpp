@@ -41,7 +41,8 @@
 #include <OgreVector.h>
 #include <OgreMaterial.h>
 #include <OgreColourValue.h>
-#include <OgreHardwareVertexBuffer.h>
+#include <OgreRoot.h>
+#include <OgreHardwareBufferManager.h>
 #include <OgreSharedPtr.h>
 
 #include "rviz_rendering/visibility_control.hpp"
@@ -92,7 +93,7 @@ public:
   void _notifyCurrentCamera(Ogre::Camera * camera) override;
 
   RVIZ_RENDERING_PUBLIC
-  uint16_t getNumWorldTransforms() const override;
+  uint16_t getNumWorldTransforms() const override {return 1;}
 
   RVIZ_RENDERING_PUBLIC
   void getWorldTransforms(Ogre::Matrix4 * xform) const override;

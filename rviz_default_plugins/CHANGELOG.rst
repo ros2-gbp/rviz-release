@@ -2,45 +2,30 @@
 Changelog for package rviz_default_plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-16.0.3 (2026-09-02)
+15.2.6 (2026-09-02)
 -------------------
-* Removed Qt5 dependency (`#1847 <https://github.com/ros2/rviz/issues/1847>`_)
-* Fix for every old swatch leaking a scene_node\_ (`#1843 <https://github.com/ros2/rviz/issues/1843>`_)
-* Discover point cloud transports dynamically (`#1842 <https://github.com/ros2/rviz/issues/1842>`_)
-* Disable cursor-pixel readout in `CameraDisplay` (`#1748 <https://github.com/ros2/rviz/issues/1748>`_)
-* Fix memory leaks related to OdometryDisplay (`#1833 <https://github.com/ros2/rviz/issues/1833>`_)
-* Cleanup headers (`#1829 <https://github.com/ros2/rviz/issues/1829>`_)
-* split rviz_default_plugins into per-family shared libraries (`#1826 <https://github.com/ros2/rviz/issues/1826>`_)
-* Optimize rclcpp headers (`#1824 <https://github.com/ros2/rviz/issues/1824>`_)
-* Optimize ogre headers (`#1823 <https://github.com/ros2/rviz/issues/1823>`_)
-* Optimize include headers (`#1799 <https://github.com/ros2/rviz/issues/1799>`_)
-* Moved implementation to cpp (`#1798 <https://github.com/ros2/rviz/issues/1798>`_)
-* Contributors: Alejandro Hernández Cordero, Arne Baeyens, Matthew Shields, Maurice Alexander Purnawan, Paul Erik Frivold
+* Discover point cloud transports dynamically (`#1842 <https://github.com/ros2/rviz/issues/1842>`_) (`#1844 <https://github.com/ros2/rviz/issues/1844>`_)
+* Fix memory leaks related to OdometryDisplay (`#1833 <https://github.com/ros2/rviz/issues/1833>`_) (`#1838 <https://github.com/ros2/rviz/issues/1838>`_)
+* Contributors: mergify[bot]
 
-16.0.2 (2026-07-14)
+15.2.5 (2026-07-14)
 -------------------
-* use C++ 20 in default. (`#1810 <https://github.com/ros2/rviz/issues/1810>`_)
-* Clean up rviz_default_plugins CMakeLists.txt by removing unused libraries (`#1785 <https://github.com/ros2/rviz/issues/1785>`_)
-* Use URDF visual material when it exists (`#1782 <https://github.com/ros2/rviz/issues/1782>`_)
-* Implement destructor for PointCloud2TransportDisplay to unsubscribe on destruction (`#1788 <https://github.com/ros2/rviz/issues/1788>`_)
-* Contributors: Alejandro Hernández Cordero, Tomoya Fujita, Tony Najjar, mosfet80
+* Use URDF visual material when it exists (`#1782 <https://github.com/ros2/rviz/issues/1782>`_) (`#1805 <https://github.com/ros2/rviz/issues/1805>`_)
+* Implement destructor for PointCloud2TransportDisplay to unsubscribe on destruction (`#1788 <https://github.com/ros2/rviz/issues/1788>`_) (`#1794 <https://github.com/ros2/rviz/issues/1794>`_)
+* Contributors: mergify[bot]
 
-16.0.1 (2026-06-11)
+15.2.4 (2026-06-12)
 -------------------
-* Add Smooth scaling option to Image and Camera displays (`#1740 <https://github.com/ros2/rviz/issues/1740>`_)
-* XYOrbitViewController support Z translation (`#1721 <https://github.com/ros2/rviz/issues/1721>`_)
+* Merge pull request `#1780 <https://github.com/ros2/rviz/issues/1780>`_ from ros2/mergify/bp/lyrical/pr-1775
+* Fix disabled displays (addresses `#1773 <https://github.com/ros2/rviz/issues/1773>`_) (`#1774 <https://github.com/ros2/rviz/issues/1774>`_) (`#1776 <https://github.com/ros2/rviz/issues/1776>`_)
 * Removed warning ros_image_texture.cpp (`#1775 <https://github.com/ros2/rviz/issues/1775>`_)
-* Fix disabled displays (addresses `#1773 <https://github.com/ros2/rviz/issues/1773>`_) (`#1774 <https://github.com/ros2/rviz/issues/1774>`_)
-* Support capsule geometry in robot links (`#1735 <https://github.com/ros2/rviz/issues/1735>`_)
-* Fix when with pitch != width*BBP in Image Display (`#1719 <https://github.com/ros2/rviz/issues/1719>`_)
-* ogreQuaternionAngularDistance does not properly handle invalid quaternion input (`#1714 <https://github.com/ros2/rviz/issues/1714>`_)
-* Fixed Unexpected pixels for mono Image (`#1718 <https://github.com/ros2/rviz/issues/1718>`_)
-* Make sure to disconnect subscription callback when unsubscribing (`#1742 <https://github.com/ros2/rviz/issues/1742>`_)
-* Show pixel co-ordinate with their pixel value in image (`#1716 <https://github.com/ros2/rviz/issues/1716>`_)
-* Persist per-link/per-joint properties across RobotModel reloads (`#1729 <https://github.com/ros2/rviz/issues/1729>`_)
-* Contributors: Alejandro Hernández Cordero, Arne Baeyens, Saif Sidhik, Tom Moore, Yixuan Xu, cwit-vcas
+* Make sure to disconnect subscription callback when unsubscribing (`#1742 <https://github.com/ros2/rviz/issues/1742>`_) (`#1743 <https://github.com/ros2/rviz/issues/1743>`_)
+* Fixed Unexpected pixels for mono Image (`#1718 <https://github.com/ros2/rviz/issues/1718>`_) (`#1764 <https://github.com/ros2/rviz/issues/1764>`_)
+* Fix when with pitch != width*BBP in Image Display (`#1719 <https://github.com/ros2/rviz/issues/1719>`_) (`#1760 <https://github.com/ros2/rviz/issues/1760>`_)
+* ogreQuaternionAngularDistance does not properly handle invalid quaternion input (`#1714 <https://github.com/ros2/rviz/issues/1714>`_) (`#1756 <https://github.com/ros2/rviz/issues/1756>`_)
+* Contributors: Alejandro Hernández Cordero, Skyler Medeiros, mergify[bot]
 
-16.0.0 (2026-05-06)
+15.2.3 (2026-05-16)
 -------------------
 
 15.2.2 (2026-04-24)

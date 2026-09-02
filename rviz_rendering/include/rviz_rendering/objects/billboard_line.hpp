@@ -113,7 +113,7 @@ public:
   /**
    * \brief We have no objects that we can set user data on
    */
-  void setUserData(const Ogre::Any & data) override;
+  void setUserData(const Ogre::Any & data) override {(void) data;}
 
   Ogre::MaterialPtr getMaterial() {return material_;}
 

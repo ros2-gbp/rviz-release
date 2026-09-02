@@ -37,8 +37,6 @@
 
 #include <OgreBillboardSet.h>
 #include <OgreManualObject.h>
-#include <OgreSceneManager.h>
-#include <OgreSceneNode.h>
 
 #include "rviz_rendering/objects/arrow.hpp"
 #include "rviz_rendering/objects/point_cloud.hpp"

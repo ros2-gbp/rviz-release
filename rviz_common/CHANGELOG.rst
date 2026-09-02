@@ -2,38 +2,24 @@
 Changelog for package rviz_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-16.0.3 (2026-09-02)
+15.2.6 (2026-09-02)
 -------------------
-* Removed Qt5 dependency (`#1847 <https://github.com/ros2/rviz/issues/1847>`_)
-* Fix implicit narrowing in tf2 time conversion (`#1834 <https://github.com/ros2/rviz/issues/1834>`_)
-* Cleanup headers (`#1829 <https://github.com/ros2/rviz/issues/1829>`_)
-* Optimize rclcpp headers (`#1824 <https://github.com/ros2/rviz/issues/1824>`_)
-* Fix tinyxml link error (`#1817 <https://github.com/ros2/rviz/issues/1817>`_)
-* Removed windows warning (`#1819 <https://github.com/ros2/rviz/issues/1819>`_)
-* Optimize include headers (`#1799 <https://github.com/ros2/rviz/issues/1799>`_)
-* Moved implementation to cpp (`#1798 <https://github.com/ros2/rviz/issues/1798>`_)
-* Contributors: Alejandro Hernández Cordero, ktyang512
 
-16.0.2 (2026-07-14)
+15.2.5 (2026-07-14)
 -------------------
-* SelectionHandler::registerHandle() handle null pointer (`#1710 <https://github.com/ros2/rviz/issues/1710>`_)
-* Modernize rviz_common to C++20 (`#1787 <https://github.com/ros2/rviz/issues/1787>`_)
-* Refactor panel deletion logic in VisualizationFrame to prevent issues during bulk-clearing (`#1789 <https://github.com/ros2/rviz/issues/1789>`_)
-* Contributors: Alejandro Hernández Cordero, Tony Najjar
+* Refactor panel deletion logic in VisualizationFrame to prevent issues during bulk-clearing (`#1789 <https://github.com/ros2/rviz/issues/1789>`_) (`#1790 <https://github.com/ros2/rviz/issues/1790>`_)
+* Contributors: mergify[bot]
 
-16.0.1 (2026-06-11)
+15.2.4 (2026-06-12)
 -------------------
-* Fix disabled displays (addresses `#1773 <https://github.com/ros2/rviz/issues/1773>`_) (`#1774 <https://github.com/ros2/rviz/issues/1774>`_)
-* QosProfileProperty Destructor (`#1715 <https://github.com/ros2/rviz/issues/1715>`_)
-* SelectionManager::select Function Not Returning Empty Selection Result for Invalid Coordinates (`#1713 <https://github.com/ros2/rviz/issues/1713>`_)
-* Removed deprecated API (`#1731 <https://github.com/ros2/rviz/issues/1731>`_)
-* Removed unused code in render_window.cpp (`#1722 <https://github.com/ros2/rviz/issues/1722>`_)
-* Removed URDF dependency in rviz_common (`#1723 <https://github.com/ros2/rviz/issues/1723>`_)
-* Fixed Qcolor deprecation (`#1725 <https://github.com/ros2/rviz/issues/1725>`_)
-* Contributors: Alejandro Hernández Cordero, Tom Moore
+* Fix disabled displays (addresses `#1773 <https://github.com/ros2/rviz/issues/1773>`_) (`#1774 <https://github.com/ros2/rviz/issues/1774>`_) (`#1776 <https://github.com/ros2/rviz/issues/1776>`_)
+* SelectionManager::select Function Not Returning Empty Selection Result for Invalid Coordinates (`#1713 <https://github.com/ros2/rviz/issues/1713>`_) (`#1768 <https://github.com/ros2/rviz/issues/1768>`_)
+* Contributors: mergify[bot]
 
-16.0.0 (2026-05-06)
+15.2.3 (2026-05-16)
 -------------------
+* Fixed Qcolor deprecation (`#1725 <https://github.com/ros2/rviz/issues/1725>`_) (`#1732 <https://github.com/ros2/rviz/issues/1732>`_)
+* Contributors: mergify[bot]
 
 15.2.2 (2026-04-24)
 -------------------

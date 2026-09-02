@@ -37,8 +37,7 @@
 #include <QObject>  // NOLINT cpplint cannot handle the include order here
 
 #include "geometry_msgs/msg/point_stamped.hpp"
-#include "rclcpp/clock.hpp"
-#include "rclcpp/publisher.hpp"
+#include "rclcpp/rclcpp.hpp"
 #include "rclcpp/qos.hpp"
 
 #include "rviz_common/tool.hpp"

@@ -82,11 +82,6 @@ bool QuaternionProperty::setQuaternion(const Ogre::Quaternion & new_quaternion)
   return false;
 }
 
-Ogre::Quaternion QuaternionProperty::getQuaternion() const
-{
-  return quaternion_;
-}
-
 bool QuaternionProperty::setValue(const QVariant & new_value)
 {
   QStringList strings = new_value.toString().split(';');

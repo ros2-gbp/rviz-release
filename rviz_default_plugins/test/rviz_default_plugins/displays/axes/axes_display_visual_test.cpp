@@ -31,8 +31,6 @@
 #include <memory>
 #include <string>
 
-#include "rclcpp/node.hpp"
-
 #include "rviz_visual_testing_framework/visual_test_fixture.hpp"
 #include "rviz_visual_testing_framework/visual_test_publisher.hpp"
 
