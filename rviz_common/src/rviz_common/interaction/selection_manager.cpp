@@ -1,37 +1,39 @@
-/*
- * Copyright (c) 2008, Willow Garage, Inc.
- * Copyright (c) 2017, Open Source Robotics Foundation, Inc.
- * Copyright (c) 2018, Bosch Software Innovations GmbH.
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Willow Garage, Inc. nor the names of its
- *       contributors may be used to endorse or promote products derived from
- *       this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
+// Copyright (c) 2008, Willow Garage, Inc.
+// Copyright (c) 2017, Open Source Robotics Foundation, Inc.
+// Copyright (c) 2018, Bosch Software Innovations GmbH.
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+//
+//    * Redistributions of source code must retain the above copyright
+//      notice, this list of conditions and the following disclaimer.
+//
+//    * Redistributions in binary form must reproduce the above copyright
+//      notice, this list of conditions and the following disclaimer in the
+//      documentation and/or other materials provided with the distribution.
+//
+//    * Neither the name of the copyright holder nor the names of its
+//      contributors may be used to endorse or promote products derived from
+//      this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
+
 
 #include "rviz_common/interaction/selection_manager.hpp"
 
 #include <algorithm>
+#include <format>  // NOLINT(build/include_order) cpplint predates C++20 headers
 #include <memory>
 #include <mutex>
 #include <string>
@@ -58,6 +60,7 @@
 #include "rviz_common/logging.hpp"
 #include "rviz_common/render_panel.hpp"
 #include "rviz_common/view_manager.hpp"
+#include "rviz_common/interaction/color_conversion.hpp"
 #include "rviz_common/interaction/handler_manager_iface.hpp"
 #include "rviz_common/interaction/selection_renderer.hpp"
 #include "rviz_common/properties/property.hpp"
@@ -139,11 +142,13 @@ void SelectionManager::initialize()
   name += std::to_string(count++);
   highlight_rectangle_ = new Ogre::Rectangle2D(true);
 
-  static const uint32_t texture_data[1] = {0xffff0080};
+  // Use a mutable copy so that Ogre::MemoryDataStream does not require
+  // casting away const from a static object (which would be UB).
+  uint32_t texture_pixel = 0xffff0080;
   Ogre::DataStreamPtr pixel_stream;
   pixel_stream.reset(
     new Ogre::MemoryDataStream(
-      reinterpret_cast<void *>(const_cast<uint32_t *>(&texture_data[0])), 4
+      reinterpret_cast<void *>(&texture_pixel), 4
   ));
 
   Ogre::TexturePtr tex = Ogre::TextureManager::getSingleton().loadRawData(
@@ -176,8 +181,10 @@ void SelectionManager::initialize()
 
   // create picking camera
   camera_ = scene_manager->createCamera(name + "_camera");
+  auto camera_node = scene_manager->getRootSceneNode()->createChildSceneNode();
+  camera_node->attachObject(camera_);
 
-  renderer_->initialize(camera_, scene_manager);
+  renderer_->initialize(camera_);
 
   handler_manager_ = context_->getHandlerManager();
   handler_manager_->addListener(this);
@@ -227,13 +234,6 @@ void SelectionManager::update()
   if (highlight_enabled_) {
     setHighlightRect(
       highlight_.viewport, highlight_.x1, highlight_.y1, highlight_.x2, highlight_.y2);
-
-#if 0
-    M_Picked results;
-    highlight_node_->setVisible(false);
-    pick(highlight_.viewport, highlight_.x1, highlight_.y1, highlight_.x2, highlight_.y2, results);
-    highlight_node_->setVisible(true);
-#endif
   }
 }
 
@@ -289,16 +289,12 @@ void SelectionManager::renderAndUnpack(
 {
   assert(pass < render_textures_.size());
 
-  std::stringstream scheme;
-  scheme << "Pick";
-  if (pass > 0) {
-    scheme << pass;
-  }
+  const std::string scheme = pass > 0 ? std::format("Pick{}", pass) : "Pick";
 
   auto tex = RenderTexture(
     render_textures_[pass],
     Dimensions(texture_size_, texture_size_),
-    scheme.str());
+    scheme);
 
   render(window, selection_rectangle, tex, pixel_boxes_[pass]);
   unpackColors(pixel_boxes_[pass]);
@@ -662,7 +658,7 @@ void SelectionManager::pick(
         extra_by_pixel[i] = 0;
       }
 
-      if (need_additional.find(handles_by_pixel[i]) != need_additional.end()) {
+      if (need_additional.contains(handles_by_pixel[i])) {
         auto extra_handle = pixel_buffer_[i];
         extra_by_pixel[i] |= extra_handle << (32 * (pass - 1));
       } else {

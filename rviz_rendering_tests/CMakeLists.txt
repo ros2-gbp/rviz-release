@@ -1,11 +1,10 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 
 project(rviz_rendering_tests)
 
-# Default to C++14
-if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 14)
-endif()
+# The C++ standard (C++20) is provided by ament_cmake_ros_core via the
+# ament_cmake_ros_core::ament_ros_defaults interface target, which is linked
+# into the test targets below.
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic -Wnon-virtual-dtor -Woverloaded-virtual)
@@ -27,11 +26,12 @@ else()
 endif()
 
 find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_ros_core REQUIRED)
 
 if(BUILD_TESTING)
   # do find_package(rviz_ogre_vendor) first to make sure the custom OGRE is found
   find_package(rviz_ogre_vendor REQUIRED)
-  find_package(Qt5 REQUIRED COMPONENTS Widgets)
+  find_package(Qt6 6.4 REQUIRED COMPONENTS Widgets)
   find_package(rviz_rendering REQUIRED)
   find_package(resource_retriever REQUIRED)
 
@@ -60,6 +60,7 @@ if(BUILD_TESTING)
     ${SKIP_DISPLAY_TESTS})
   if(TARGET mesh_loader_test_target)
     target_link_libraries(mesh_loader_test_target
+      ament_cmake_ros_core::ament_ros_defaults
       rviz_ogre_vendor::OgreMain
       rviz_rendering::rviz_rendering
       resource_retriever::resource_retriever
@@ -73,6 +74,7 @@ if(BUILD_TESTING)
     target_include_directories(test_rviz_rendering_tests
       PUBLIC src/rviz_rendering_tests)
     target_link_libraries(test_rviz_rendering_tests
+      ament_cmake_ros_core::ament_ros_defaults
       ament_index_cpp::ament_index_cpp)
   endif()
 endif()

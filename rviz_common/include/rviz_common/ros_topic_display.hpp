@@ -1,32 +1,33 @@
-/*
- * Copyright (c) 2012, Willow Garage, Inc.
- * Copyright (c) 2017, Bosch Software Innovations GmbH.
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Willow Garage, Inc. nor the names of its
- *       contributors may be used to endorse or promote products derived from
- *       this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
+// Copyright (c) 2012, Willow Garage, Inc.
+// Copyright (c) 2017, Bosch Software Innovations GmbH.
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+//
+//    * Redistributions of source code must retain the above copyright
+//      notice, this list of conditions and the following disclaimer.
+//
+//    * Redistributions in binary form must reproduce the above copyright
+//      notice, this list of conditions and the following disclaimer in the
+//      documentation and/or other materials provided with the distribution.
+//
+//    * Neither the name of the copyright holder nor the names of its
+//      contributors may be used to endorse or promote products derived from
+//      this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
+
 #ifndef RVIZ_COMMON__ROS_TOPIC_DISPLAY_HPP_
 #define RVIZ_COMMON__ROS_TOPIC_DISPLAY_HPP_
 
@@ -36,16 +37,15 @@
 #include <sstream>
 #include <string>
 
-#include <OgreSceneNode.h>
-#include <OgreSceneManager.h>
+#include <QString>  // NOLINT: cpplint is unable to handle the include order here
 
 #endif
 
+#include "rclcpp/node.hpp"
 #include "rclcpp/qos.hpp"
 
 #include "rviz_common/display.hpp"
 #include "rviz_common/display_context.hpp"
-#include "frame_manager_iface.hpp"
 #include "rviz_common/properties/ros_topic_property.hpp"
 #include "rviz_common/properties/qos_profile_property.hpp"
 #include "rviz_common/properties/status_property.hpp"
@@ -69,65 +69,22 @@ class RVIZ_COMMON_PUBLIC _RosTopicDisplay : public Display
   Q_OBJECT
 
 public:
-  _RosTopicDisplay()
-  : rviz_ros_node_(),
-    qos_profile(5)
-  {
-    qRegisterMetaType<std::shared_ptr<const void>>();
-
-    topic_property_ = new properties::RosTopicProperty(
-      "Topic", "",
-      "", "", this, SLOT(updateTopic()));
-
-    qos_profile_property_ = new properties::QosProfileProperty(topic_property_, qos_profile);
-  }
+  _RosTopicDisplay();
 
   /**
    * When overriding this method, the onInitialize() method of this superclass has to be called.
    * Otherwise, the ros node will not be initialized.
    */
-  void onInitialize() override
-  {
-    rviz_ros_node_ = context_->getRosNodeAbstraction();
-    topic_property_->initialize(rviz_ros_node_);
-
-    connect(
-      reinterpret_cast<QObject *>(context_->getTransformationManager()),
-      SIGNAL(transformerChanged(std::shared_ptr<rviz_common::transformation::FrameTransformer>)),
-      this,
-      SLOT(transformerChangedCallback()));
-    qos_profile_property_->initialize(
-      [this](rclcpp::QoS profile) {
-        this->qos_profile = profile;
-        updateTopic();
-      });
-
-    // Useful to _ROSTopicDisplay subclasses to ensure GUI updates
-    // are performed by the main thread only.
-    connect(
-      this,
-      SIGNAL(typeErasedMessageTaken(std::shared_ptr<const void>)),
-      this,
-      SLOT(processTypeErasedMessage(std::shared_ptr<const void>)),
-      // Force queued connections regardless of QObject thread affinity
-      Qt::QueuedConnection);
-  }
+  void onInitialize() override;
 
 Q_SIGNALS:
   void typeErasedMessageTaken(std::shared_ptr<const void> type_erased_message);
 
 protected Q_SLOTS:
-  virtual void processTypeErasedMessage(std::shared_ptr<const void> type_erased_message)
-  {
-    (void)type_erased_message;
-  }
+  virtual void processTypeErasedMessage(std::shared_ptr<const void> type_erased_message);
 
-  virtual void transformerChangedCallback()
-  {
-  }
-  virtual void updateMessageQueueSize()
-  {
-  }
+  virtual void transformerChangedCallback();
+  virtual void updateMessageQueueSize();
   virtual void updateTopic() = 0;
 
 protected:
@@ -263,18 +220,32 @@ protected:
 
     ++messages_received_;
     QString topic_str = QString::number(messages_received_) + " messages received";
+    rviz_common::properties::StatusProperty::Level topic_status_level =
+      rviz_common::properties::StatusProperty::Ok;
     // Append topic subscription frequency if we can lock rviz_ros_node_.
     std::shared_ptr<ros_integration::RosNodeAbstractionIface> node_interface =
       rviz_ros_node_.lock();
     if (node_interface != nullptr) {
-      const double duration =
-        (node_interface->get_raw_node()->now() - subscription_start_time_).seconds();
-      const double subscription_frequency =
-        static_cast<double>(messages_received_) / duration;
-      topic_str += " at " + QString::number(subscription_frequency, 'f', 1) + " hz.";
+      try {
+        const double duration =
+          (node_interface->get_raw_node()->now() - subscription_start_time_).seconds();
+        const double subscription_frequency =
+          static_cast<double>(messages_received_) / duration;
+        topic_str += " at " + QString::number(subscription_frequency, 'f', 1) + " hz.";
+      } catch (const std::runtime_error & e) {
+        if (std::string(e.what()).find("can't subtract times with different time sources") !=
+          std::string::npos)
+        {
+          topic_status_level = rviz_common::properties::StatusProperty::Warn;
+          topic_str += ". ";
+          topic_str += e.what();
+        } else {
+          throw;
+        }
+      }
     }
     setStatus(
-      properties::StatusProperty::Ok,
+      topic_status_level,
       "Topic",
       topic_str);
 

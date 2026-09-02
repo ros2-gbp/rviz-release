@@ -32,7 +32,6 @@
       Displays an image from a camera, with the visualized world rendered behind it.  &lt;a href="http://www.ros.org/wiki/rviz/DisplayTypes/Camera"&gt;More Information&lt;/a&gt;.
     </description>
     <message_type>sensor_msgs/msg/Image</message_type>
-    <message_type>sensor_msgs/msg/CompressedImage</message_type>
   </class>
 
   <class
@@ -44,6 +43,17 @@
       Displays point clouds based on depth maps.
     </description>
     <message_type>sensor_msgs/msg/Image</message_type>
+  </class>
+
+  <class
+    name="rviz_default_plugins/CameraInfo"
+    type="rviz_default_plugins::displays::CameraInfoDisplay"
+    base_class_type="rviz_common::Display"
+  >
+    <description>
+      Displays CameraInfo.
+    </description>
+    <message_type>sensor_msgs/msg/CameraInfo</message_type>
   </class>
 
   <class

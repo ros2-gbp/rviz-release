@@ -1,37 +1,39 @@
-/*
- * Copyright (c) 2012, Willow Garage, Inc.
- * Copyright (c) 2017, Open Source Robotics Foundation, Inc.
- * Copyright (c) 2018, Bosch Software Innovations GmbH.
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Willow Garage, Inc. nor the names of its
- *       contributors may be used to endorse or promote products derived from
- *       this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
+// Copyright (c) 2012, Willow Garage, Inc.
+// Copyright (c) 2017, Open Source Robotics Foundation, Inc.
+// Copyright (c) 2018, Bosch Software Innovations GmbH.
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+//
+//    * Redistributions of source code must retain the above copyright
+//      notice, this list of conditions and the following disclaimer.
+//
+//    * Redistributions in binary form must reproduce the above copyright
+//      notice, this list of conditions and the following disclaimer in the
+//      documentation and/or other materials provided with the distribution.
+//
+//    * Neither the name of the copyright holder nor the names of its
+//      contributors may be used to endorse or promote products derived from
+//      this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
+
 
 #include "rviz_common/visualization_frame.hpp"
 
 #include <exception>
+#include <filesystem>
 #include <fstream>
 #include <memory>
 #include <string>
@@ -41,11 +43,11 @@
 #include <OgreMeshManager.h>
 #include <OgreMaterialManager.h>
 
+#include <QActionGroup>  // NOLINT cpplint cannot handle include order here
 #include <QApplication>  // NOLINT cpplint cannot handle include order here
 #include <QCloseEvent>  // NOLINT cpplint cannot handle include order here
 #include <QDesktopServices>  // NOLINT cpplint cannot handle include order here
 #include <QDir>  // NOLINT cpplint cannot handle include order here
-#include <QFile>  // NOLINT cpplint cannot handle include order here
 #include <QFileDialog>  // NOLINT cpplint cannot handle include order here
 #include <QHBoxLayout>  // NOLINT cpplint cannot handle include order here
 #include <QMenu>  // NOLINT cpplint cannot handle include order here
@@ -54,14 +56,16 @@
 #include <QShortcut>  // NOLINT cpplint cannot handle include order here
 #include <QSplashScreen>  // NOLINT cpplint cannot handle include order here
 #include <QStatusBar>  // NOLINT cpplint cannot handle include order here
+#include <QString>  // NOLINT cpplint cannot handle include order here
 #include <QTimer>  // NOLINT cpplint cannot handle include order here
 #include <QToolBar>  // NOLINT cpplint cannot handle include order here
 #include <QToolButton>  // NOLINT cpplint cannot handle include order here
 
+#include "ament_index_cpp/get_package_share_path.hpp"
 #include "rclcpp/clock.hpp"
-#include "rcpputils/filesystem_helper.hpp"
-#include "tf2_ros/buffer.h"
-#include "tf2_ros/transform_listener.h"
+#include "rclcpp/node.hpp"
+#include "tf2_ros/buffer.hpp"
+#include "tf2_ros/transform_listener.hpp"
 
 #include "rviz_common/load_resource.hpp"
 #include "rviz_common/logging.hpp"
@@ -129,11 +133,12 @@ VisualizationFrame::VisualizationFrame(
 
   post_load_timer_->setSingleShot(true);
   connect(post_load_timer_, SIGNAL(timeout()), this, SLOT(markLoadingDone()));
-
-  package_path_ = ament_index_cpp::get_package_share_directory("rviz_common");
-  QDir help_path(QString::fromStdString(package_path_) + "/help/help.html");
+  package_path_ = ament_index_cpp::get_package_share_path("rviz_common");
+  std::filesystem::path help_path_p = package_path_ / "help" / "help.html";
+  QDir help_path(help_path_p.string().c_str());
   help_path_ = help_path.absolutePath();
-  QDir splash_path(QString::fromStdString(package_path_) + "/images/splash.png");
+  std::filesystem::path splash_path_p = package_path_ / "images" / "splash.png";
+  QDir splash_path(splash_path_p.string().c_str());
   splash_path_ = splash_path.absolutePath();
 
   auto * reset_button = new QToolButton();
@@ -219,20 +224,6 @@ void VisualizationFrame::reset()
   manager_->resetTime();
 }
 
-#if 0
-void VisualizationFrame::changeMaster()
-{
-  if (prepareToExit()) {
-    QApplication::exit(255);
-  }
-}
-
-void VisualizationFrame::setShowChooseNewMaster(bool show)
-{
-  show_choose_new_master_option_ = show;
-}
-#endif
-
 void VisualizationFrame::setHelpPath(const QString & help_path)
 {
   help_path_ = help_path;
@@ -252,9 +243,12 @@ void VisualizationFrame::initialize(
 
   loadPersistentSettings();
 
-  QDir app_icon_path(QString::fromStdString(package_path_) + "/icons/package.png");
-  QIcon app_icon(app_icon_path.absolutePath());
-  app_->setWindowIcon(app_icon);
+  if (app_) {
+    QDir app_icon_path(QString::fromStdString(
+        (package_path_ / "icons" / "package.png").string()));
+    QIcon app_icon(app_icon_path.absolutePath());
+    app_->setWindowIcon(app_icon);
+  }
 
   if (splash_path_ != "") {
     QPixmap splash_image(splash_path_);
@@ -266,15 +260,15 @@ void VisualizationFrame::initialize(
 
   // Periodically process events for the splash screen.
   // See: http://doc.qt.io/qt-5/qsplashscreen.html#details
-  if (app_) {app_->processEvents();}
+  QCoreApplication::processEvents();
 
   // Periodically process events for the splash screen.
-  if (app_) {app_->processEvents();}
+  QCoreApplication::processEvents();
 
   QWidget * central_widget = new QWidget(this);
   QHBoxLayout * central_layout = new QHBoxLayout;
   central_layout->setSpacing(0);
-  central_layout->setMargin(0);
+  central_layout->setContentsMargins(0, 0, 0, 0);
 
   render_panel_ = new RenderPanel(central_widget);
 
@@ -306,22 +300,22 @@ void VisualizationFrame::initialize(
   central_widget->setLayout(central_layout);
 
   // Periodically process events for the splash screen.
-  if (app_) {app_->processEvents();}
+  QCoreApplication::processEvents();
 
   initMenus();
 
   // Periodically process events for the splash screen.
-  if (app_) {app_->processEvents();}
+  QCoreApplication::processEvents();
 
   initToolbars();
 
   // Periodically process events for the splash screen.
-  if (app_) {app_->processEvents();}
+  QCoreApplication::processEvents();
 
   setCentralWidget(central_widget);
 
   // Periodically process events for the splash screen.
-  if (app_) {app_->processEvents();}
+  QCoreApplication::processEvents();
 
   // TODO(wjwwood): sort out the issue with initialization order between
   //                render_panel and VisualizationManager
@@ -333,12 +327,12 @@ void VisualizationFrame::initialize(
   panel_factory_ = new PanelFactory(rviz_ros_node_, manager_);
 
   // Periodically process events for the splash screen.
-  if (app_) {app_->processEvents();}
+  QCoreApplication::processEvents();
 
   render_panel_->initialize(manager_);
 
   // Periodically process events for the splash screen.
-  if (app_) {app_->processEvents();}
+  QCoreApplication::processEvents();
 
   ToolManager * tool_man = manager_->getToolManager();
 
@@ -352,7 +346,7 @@ void VisualizationFrame::initialize(
   manager_->initialize();
 
   // Periodically process events for the splash screen.
-  if (app_) {app_->processEvents();}
+  QCoreApplication::processEvents();
 
   if (display_config_file != "") {
     loadDisplayConfig(display_config_file);
@@ -361,7 +355,7 @@ void VisualizationFrame::initialize(
   }
 
   // Periodically process events for the splash screen.
-  if (app_) {app_->processEvents();}
+  QCoreApplication::processEvents();
 
   delete splash_;
   splash_ = nullptr;
@@ -393,20 +387,23 @@ void VisualizationFrame::initConfigs()
   persistent_settings_file_ = config_dir_ + "/persistent_settings";
   default_display_config_file_ = config_dir_ + "/default." CONFIG_EXTENSION;
 
-  QFile config_dir_as_file(QString::fromStdString(config_dir_));
-  QDir config_dir_as_dir(QString::fromStdString(config_dir_));
-  if (config_dir_as_file.exists() && !config_dir_as_dir.exists()) {
+  std::filesystem::path config_dir_path(config_dir_);
+  if (std::filesystem::exists(config_dir_path) && !std::filesystem::is_directory(config_dir_path)) {
     RVIZ_COMMON_LOG_ERROR_STREAM(
       "Moving file [" << config_dir_.c_str() << "] out of the way to recreate it as a directory.");
-    std::string backup_file = config_dir_ + ".bak";
+    std::filesystem::path backup_file = config_dir_ + ".bak";
 
-    if (!config_dir_as_file.rename(QString::fromStdString(backup_file))) {
+    std::error_code err;
+    std::filesystem::rename(config_dir_path, backup_file, err);
+
+    if (err) {
       RVIZ_COMMON_LOG_ERROR("Failed to rename config directory while backing up.");
     }
   }
 
-  QDir config_dir_as_qdir;
-  if (!config_dir_as_qdir.mkpath(QString::fromStdString(config_dir_))) {
+  std::error_code mk_err;
+  std::filesystem::create_directories(config_dir_path, mk_err);
+  if (mk_err) {
     RVIZ_COMMON_LOG_ERROR_STREAM("failed to make config dir: " << config_dir_);
   }
 }
@@ -461,17 +458,17 @@ void VisualizationFrame::initMenus()
   file_menu_ = menuBar()->addMenu("&File");
 
   QAction * file_menu_open_action = file_menu_->addAction(
-    "&Open Config", this, SLOT(
-      onOpen()), QKeySequence("Ctrl+O"));
+    "&Open Config", QKeySequence("Ctrl+O"));
+  connect(file_menu_open_action, &QAction::triggered, this, &VisualizationFrame::onOpen);
   this->addAction(file_menu_open_action);
   QAction * file_menu_save_action = file_menu_->addAction(
-    "&Save Config", this, SLOT(
-      onSave()), QKeySequence("Ctrl+S"));
+    "&Save Config", QKeySequence("Ctrl+S"));
+  connect(file_menu_save_action, &QAction::triggered, this, &VisualizationFrame::onSave);
   this->addAction(file_menu_save_action);
-  QAction * file_menu_save_as_action =
-    file_menu_->addAction(
-    "Save Config &As", this, SLOT(onSaveAs()),
-    QKeySequence("Ctrl+Shift+S"));
+  QAction * file_menu_save_as_action = file_menu_->addAction(
+    "Save Config &As", QKeySequence("Ctrl+Shift+S"));
+  connect(
+    file_menu_save_as_action, &QAction::triggered, this, &VisualizationFrame::onSaveAs);
   this->addAction(file_menu_save_as_action);
 
   recent_configs_menu_ = file_menu_->addMenu("&Recent Configs");
@@ -482,9 +479,8 @@ void VisualizationFrame::initMenus()
   }
   file_menu_->addSeparator();
 
-  QAction * file_menu_quit_action = file_menu_->addAction(
-    "&Quit", this, SLOT(
-      close()), QKeySequence("Ctrl+Q"));
+  QAction * file_menu_quit_action = file_menu_->addAction("&Quit", QKeySequence("Ctrl+Q"));
+  connect(file_menu_quit_action, &QAction::triggered, this, &QWidget::close);
   this->addAction(file_menu_quit_action);
 
   view_menu_ = menuBar()->addMenu("&Panels");
@@ -492,9 +488,8 @@ void VisualizationFrame::initMenus()
   delete_view_menu_ = view_menu_->addMenu("&Delete Panel");
   delete_view_menu_->setEnabled(false);
 
-  QAction * fullscreen_action = view_menu_->addAction(
-    "&Fullscreen", this, SLOT(
-      setFullScreen(bool)), Qt::Key_F11);
+  QAction * fullscreen_action = view_menu_->addAction("&Fullscreen", QKeySequence(Qt::Key_F11));
+  connect(fullscreen_action, &QAction::triggered, this, &VisualizationFrame::setFullScreen);
   fullscreen_action->setCheckable(true);
   this->addAction(fullscreen_action);  // Also add to window, or the shortcut doest work
                                        // when the menu is hidden.
@@ -503,7 +498,6 @@ void VisualizationFrame::initMenus()
 
   QMenu * help_menu = menuBar()->addMenu("&Help");
   help_menu->addAction("Show &Help panel", this, SLOT(showHelpPanel()));
-  help_menu->addAction("Open rviz wiki in browser", this, SLOT(onHelpWiki()));
   help_menu->addSeparator();
   help_menu->addAction("&About", this, SLOT(onHelpAbout()));
 }
@@ -683,14 +677,14 @@ void VisualizationFrame::markRecentConfig(const std::string & path)
 void VisualizationFrame::loadDisplayConfig(const QString & qpath)
 {
   std::string path = qpath.toStdString();
-  QFileInfo path_info(qpath);
-  std::string actual_load_path = path;
-  if (!path_info.exists() || path_info.isDir()) {
-    actual_load_path = package_path_ + "/default.rviz";
-    if (!QFile(QString::fromStdString(actual_load_path)).exists()) {
+  std::filesystem::path path_info(path);
+  std::filesystem::path actual_load_path = path;
+  if (!std::filesystem::exists(path_info) || std::filesystem::is_directory(path_info)) {
+    actual_load_path = package_path_ / "default.rviz";
+    if (!std::filesystem::exists(actual_load_path)) {
       RVIZ_COMMON_LOG_ERROR_STREAM(
         "Default display config '" <<
-          actual_load_path.c_str() << "' not found.  RViz will be very empty at first.");
+          actual_load_path.string() << "' not found.  RViz will be very empty at first.");
       return;
     }
   }
@@ -715,7 +709,7 @@ void VisualizationFrame::loadDisplayConfig(const QString & qpath)
 
   YamlConfigReader reader;
   Config config;
-  reader.readFile(config, QString::fromStdString(actual_load_path));
+  reader.readFile(config, QString::fromStdString(actual_load_path.string()));
   if (!reader.error()) {
     try {
       load(config);
@@ -728,7 +722,7 @@ void VisualizationFrame::loadDisplayConfig(const QString & qpath)
 
   setDisplayConfigFile(path);
 
-  last_config_dir_ = path_info.absolutePath().toStdString();
+  last_config_dir_ = std::filesystem::absolute(path_info).string();
 
   post_load_timer_->start(1000);
 }
@@ -778,7 +772,7 @@ void VisualizationFrame::setDisplayConfigFile(const std::string & path)
         }
       };
     title = display_title_format_;
-    rcpputils::fs::path full_filename(path.c_str());
+    std::filesystem::path full_filename(path.c_str());
     find_and_replace_token(
       title, "{NAMESPACE}",
       rviz_ros_node_.lock()->get_raw_node()->get_namespace());
@@ -900,6 +894,9 @@ void VisualizationFrame::loadPanels(const Config & config)
 {
   // First destroy any existing custom panels.
   for (auto & panel_record : custom_panels_) {
+    // Avoid mutating custom_panels_ from onPanelDeleted() while bulk-clearing.
+    disconnect(panel_record.dock, &QObject::destroyed, this, &VisualizationFrame::onPanelDeleted);
+
     if (panel_record.delete_action) {
       delete_view_menu_->removeAction(panel_record.delete_action);
       panel_record.delete_action->deleteLater();
@@ -1001,7 +998,7 @@ void VisualizationFrame::onOpen()
     "RViz config files (" CONFIG_EXTENSION_WILDCARD ")");
 
   if (!filename.isEmpty()) {
-    if (!QFile(filename).exists()) {
+    if (!std::filesystem::exists(filename.toStdString())) {
       QString message = filename + " does not exist!";
       QMessageBox::critical(this, "Config file does not exist", message);
       return;
@@ -1071,15 +1068,15 @@ void VisualizationFrame::onRecentConfigSelected()
 {
   QAction * action = dynamic_cast<QAction *>(sender());
   if (action) {
-    QString path = action->data().toString();
-    if (path.size() != 0) {
-      if (!QFile(path).exists()) {
-        QString message = path + " does not exist!";
-        QMessageBox::critical(this, "Config file does not exist", message);
+    std::string path = action->data().toString().toStdString();
+    if (!path.empty()) {
+      if (!std::filesystem::exists(path)) {
+        std::string message = path + " does not exist!";
+        QMessageBox::critical(this, "Config file does not exist", QString::fromStdString(message));
         return;
       }
 
-      loadDisplayConfig(path);
+      loadDisplayConfig(QString::fromStdString(path));
     }
   }
 }
@@ -1185,11 +1182,6 @@ void VisualizationFrame::onHelpDestroyed()
   show_help_action_ = nullptr;
 }
 
-void VisualizationFrame::onHelpWiki()
-{
-  QDesktopServices::openUrl(QUrl("http://www.ros.org/wiki/rviz"));
-}
-
 void VisualizationFrame::onHelpAbout()
 {
   QString about_text = QString(
@@ -1215,6 +1207,21 @@ QWidget * VisualizationFrame::getParentWindow()
   return this;
 }
 
+void VisualizationFrame::onPanelDeleted(QObject * dock)
+{
+  for (int i = 0; i < custom_panels_.size(); ++i) {
+    if (custom_panels_[i].dock == dock) {
+      auto & record = custom_panels_[i];
+      record.delete_action->deleteLater();
+      delete_view_menu_->removeAction(record.delete_action);
+      delete_view_menu_->setDisabled(delete_view_menu_->actions().isEmpty());
+      custom_panels_.removeAt(i);
+      setDisplayConfigModified();
+      return;
+    }
+  }
+}
+
 void VisualizationFrame::onDeletePanel()
 {
   // This should only be called as a SLOT from a QAction in the
@@ -1226,14 +1233,6 @@ void VisualizationFrame::onDeletePanel()
     for (int i = 0; i < custom_panels_.size(); i++) {
       if (custom_panels_[i].delete_action == action) {
         delete custom_panels_[i].dock;
-        custom_panels_.removeAt(i);
-        setDisplayConfigModified();
-        action->deleteLater();
-        if (delete_view_menu_->actions().size() == 1 &&
-          delete_view_menu_->actions().first() == action)
-        {
-          delete_view_menu_->setEnabled(false);
-        }
         return;
       }
     }
@@ -1289,6 +1288,7 @@ QDockWidget * VisualizationFrame::addPanelByName(
   record.panel = panel;
   record.name = name;
   record.delete_action = delete_view_menu_->addAction(name, this, SLOT(onDeletePanel()));
+  connect(record.dock, &QObject::destroyed, this, &VisualizationFrame::onPanelDeleted);
   custom_panels_.append(record);
   delete_view_menu_->setEnabled(true);
 

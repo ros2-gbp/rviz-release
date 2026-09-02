@@ -1,33 +1,32 @@
-/*
- * Copyright (c) 2018, Bosch Software Innovations GmbH.
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted (subject to the limitations in the disclaimer
- * below) provided that the following conditions are met:
- *
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the copyright holder nor the names of its
- *       contributors may be used to endorse or promote products derived from
- *       this software without specific prior written permission.
- *
- * NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS
- * LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
+// Copyright (c) 2018, Bosch Software Innovations GmbH.
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+//
+//    * Redistributions of source code must retain the above copyright
+//      notice, this list of conditions and the following disclaimer.
+//
+//    * Redistributions in binary form must reproduce the above copyright
+//      notice, this list of conditions and the following disclaimer in the
+//      documentation and/or other materials provided with the distribution.
+//
+//    * Neither the name of the copyright holder nor the names of its
+//      contributors may be used to endorse or promote products derived from
+//      this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
+
 
 #include <gtest/gtest.h>
 
@@ -81,7 +80,8 @@ TEST_F(PointCloudCommonTestFixture, update_adds_pointcloud_to_scene_graph) {
   mockValidTransform();
 
   point_cloud_common_->addMessage(cloud);
-  point_cloud_common_->update(0, 0);
+  auto zero = std::chrono::nanoseconds::zero();
+  point_cloud_common_->update(zero, zero);
 
   auto point_cloud = rviz_default_plugins::findOnePointCloud(scene_manager_->getRootSceneNode());
 
@@ -100,13 +100,14 @@ TEST_F(PointCloudCommonTestFixture, update_removes_old_point_clouds) {
   auto cloud = createPointCloud2WithPoints(std::vector<rviz_default_plugins::Point>{p});
 
   point_cloud_common_->addMessage(cloud);
-  point_cloud_common_->update(0, 0);
+  auto zero = std::chrono::nanoseconds::zero();
+  point_cloud_common_->update(zero, zero);
 
   p = {4, 5, 6};
   cloud = createPointCloud2WithPoints(std::vector<rviz_default_plugins::Point>{p});
 
   point_cloud_common_->addMessage(cloud);
-  point_cloud_common_->update(0, 0);
+  point_cloud_common_->update(zero, zero);
 
   auto point_clouds = rviz_default_plugins::findAllPointClouds(scene_manager_->getRootSceneNode());
   ASSERT_THAT(point_clouds.size(), Eq(1u));
@@ -126,7 +127,8 @@ TEST_F(PointCloudCommonTestFixture, update_sets_size_and_alpha_on_renderable) {
   mockValidTransform();
 
   point_cloud_common_->addMessage(cloud);
-  point_cloud_common_->update(0, 0);
+  auto zero = std::chrono::nanoseconds::zero();
+  point_cloud_common_->update(zero, zero);
 
   auto point_cloud = rviz_default_plugins::findOnePointCloud(scene_manager_->getRootSceneNode());
   auto size = point_cloud->getRenderables()[0]->getCustomParameter(RVIZ_RENDERING_SIZE_PARAMETER);
@@ -149,7 +151,8 @@ TEST_F(PointCloudCommonTestFixture, update_adds_nothing_if_transform_fails) {
   EXPECT_CALL(*frame_manager_, getTransform(_, _, _, _)).WillRepeatedly(Return(false));  // NOLINT
 
   point_cloud_common_->addMessage(cloud);
-  point_cloud_common_->update(0, 0);
+  auto zero = std::chrono::nanoseconds::zero();
+  point_cloud_common_->update(zero, zero);
 
   auto point_cloud = rviz_default_plugins::findOnePointCloud(scene_manager_->getRootSceneNode());
   EXPECT_FALSE(point_cloud);
@@ -173,7 +176,8 @@ TEST_F(PointCloudCommonTestFixture, update_colors_the_points_using_the_selected_
   color_property->setValue(QColor(255, 0, 0));
 
   point_cloud_common_->addMessage(cloud);
-  point_cloud_common_->update(0, 0);
+  auto zero = std::chrono::nanoseconds::zero();
+  point_cloud_common_->update(zero, zero);
 
   auto point_cloud = rviz_default_plugins::findOnePointCloud(scene_manager_->getRootSceneNode());
 
@@ -224,7 +228,8 @@ TEST_F(
   }
 
   point_cloud_common_->addMessage(cloud);
-  point_cloud_common_->update(0, 0);
+  auto zero = std::chrono::nanoseconds::zero();
+  point_cloud_common_->update(zero, zero);
 
   auto point_clouds = rviz_default_plugins::findAllPointClouds(scene_manager_->getRootSceneNode());
   ASSERT_THAT(point_clouds.size(), Eq(0u));
