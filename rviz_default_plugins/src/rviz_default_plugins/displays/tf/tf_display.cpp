@@ -1,38 +1,40 @@
-/*
- * Copyright (c) 2012, Willow Garage, Inc.
- * Copyright (c) 2018, Bosch Software Innovations, GmbH.
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Willow Garage, Inc. nor the names of its
- *       contributors may be used to endorse or promote products derived from
- *       this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
+// Copyright (c) 2012, Willow Garage, Inc.
+// Copyright (c) 2018, Bosch Software Innovations, GmbH.
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+//
+//    * Redistributions of source code must retain the above copyright
+//      notice, this list of conditions and the following disclaimer.
+//
+//    * Redistributions in binary form must reproduce the above copyright
+//      notice, this list of conditions and the following disclaimer in the
+//      documentation and/or other materials provided with the distribution.
+//
+//    * Neither the name of the copyright holder nor the names of its
+//      contributors may be used to endorse or promote products derived from
+//      this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
+
 
 #include "rviz_default_plugins/displays/tf/tf_display.hpp"
 
 #include <algorithm>
 #include <cassert>
 #include <memory>
+#include <regex>
 #include <set>
 #include <string>
 #include <vector>
@@ -41,8 +43,13 @@
 #include <OgreSceneNode.h>
 #include <OgreSceneManager.h>
 
-#include "tf2_ros/transform_listener.h"
-#include "tf2_ros/buffer.h"
+#include <QValidator>  // NOLINT: cpplint cannot handle the include order here
+#include <QLineEdit>  // NOLINT: cpplint cannot handle the include order here
+#include <QString>  // NOLINT: cpplint is unable to handle the include order here
+#include <QToolTip>  // NOLINT: cpplint cannot handle the include order here
+
+#include "tf2_ros/transform_listener.hpp"
+#include "tf2_ros/buffer.hpp"
 
 #include "rviz_rendering/objects/arrow.hpp"
 #include "rviz_rendering/objects/axes.hpp"
@@ -54,6 +61,7 @@
 #include "rviz_common/properties/bool_property.hpp"
 #include "rviz_common/properties/float_property.hpp"
 #include "rviz_common/properties/quaternion_property.hpp"
+#include "rviz_common/properties/regex_filter_property.hpp"
 #include "rviz_common/properties/string_property.hpp"
 #include "rviz_common/properties/vector_property.hpp"
 #include "rviz_common/interaction/forwards.hpp"
@@ -83,7 +91,7 @@ namespace displays
 {
 
 TFDisplay::TFDisplay()
-: update_timer_(0.0f),
+: update_timer_(0),
   changing_single_frame_enabled_state_(false),
   transformer_guard_(
     std::make_unique<rviz_default_plugins::transformation::TransformerGuard<
@@ -132,6 +140,11 @@ TFDisplay::TFDisplay()
     " fade to gray, and then it will fade out completely.",
     this);
   frame_timeout_property_->setMin(1);
+
+  filter_whitelist_property_ = new rviz_common::properties::RegexFilterProperty(
+    "Filter (whitelist)", std::string(""), this);
+  filter_blacklist_property_ = new rviz_common::properties::RegexFilterProperty(
+    "Filter (blacklist)", std::string(), this);
 
   frames_category_ = new Property("Frames", QVariant(), "The list of all frames.", this);
 
@@ -208,7 +221,7 @@ void TFDisplay::clear()
 
   frames_.clear();
 
-  update_timer_ = 0.0f;
+  update_timer_ = std::chrono::nanoseconds(0);
 
   clearStatuses();
 }
@@ -267,7 +280,7 @@ void TFDisplay::allEnabledChanged()
   }
 }
 
-void TFDisplay::update(float wall_dt, float ros_dt)
+void TFDisplay::update(std::chrono::nanoseconds wall_dt, std::chrono::nanoseconds ros_dt)
 {
   if (!transformer_guard_->checkTransformer()) {
     return;
@@ -275,11 +288,11 @@ void TFDisplay::update(float wall_dt, float ros_dt)
 
   (void) ros_dt;
   update_timer_ += wall_dt;
-  float update_rate = update_rate_property_->getFloat();
-  if (update_rate < 0.0001f || update_timer_ > update_rate * 1000000000) {
+  std::chrono::nanoseconds update_rate(std::lround(update_rate_property_->getFloat() * 1e9));
+  if (update_rate < std::chrono::microseconds(100) || update_timer_ > update_rate) {
     updateFrames();
 
-    update_timer_ = 0.0f;
+    update_timer_ = std::chrono::nanoseconds(0);
   }
 }
 
@@ -287,32 +300,45 @@ void TFDisplay::updateFrames()
 {
   typedef std::vector<std::string> V_string;
   V_string frames = context_->getFrameManager()->getAllFrameNames();
-  std::sort(frames.begin(), frames.end());
 
-  S_FrameInfo current_frames = createOrUpdateFrames(frames);
-  deleteObsoleteFrames(current_frames);
+  // filter frames according to white-list and black-list regular expressions
+  V_string::iterator it = frames.begin();
+  V_string::iterator end = frames.end();
 
-  context_->queueRender();
-}
+  std::vector<std::string> available_frames;
 
-S_FrameInfo TFDisplay::createOrUpdateFrames(const std::vector<std::string> & frames)
-{
-  S_FrameInfo current_frames;
-  for (auto & frame : frames) {
-    if (frame.empty()) {
-      continue;
+  if (!filter_whitelist_property_->regex_str().empty() ||
+    !filter_blacklist_property_->regex_str().empty())
+  {
+    while (it != end) {
+      if ((filter_whitelist_property_->regex_str().empty() ||
+        std::regex_search(*it, filter_whitelist_property_->regex())) && (
+          filter_blacklist_property_->regex_str().empty() || (
+            !filter_blacklist_property_->regex_str().empty() &&
+            !std::regex_search(*it, filter_blacklist_property_->regex()))))
+      {
+        available_frames.push_back(*it);
+      }
+      ++it;
     }
+  } else {
+    available_frames = frames;
+  }
 
+  S_FrameInfo current_frames;
+  for (auto & frame : available_frames) {
     FrameInfo * info = getFrameInfo(frame);
     if (!info) {
       info = createFrame(frame);
     } else {
       updateFrame(info);
     }
-
     current_frames.insert(info);
   }
-  return current_frames;
+
+  deleteObsoleteFrames(current_frames);
+
+  context_->queueRender();
 }
 
 FrameInfo * TFDisplay::getFrameInfo(const std::string & frame)
@@ -327,15 +353,12 @@ FrameInfo * TFDisplay::getFrameInfo(const std::string & frame)
 
 void TFDisplay::deleteObsoleteFrames(S_FrameInfo & current_frames)
 {
-  S_FrameInfo to_delete;
-  for (auto & frame : frames_) {
-    if (current_frames.find(frame.second) == current_frames.end()) {
-      to_delete.insert(frame.second);
+  for (auto frame_it = frames_.begin(), frame_end = frames_.end(); frame_it != frame_end; ) {
+    if (current_frames.find(frame_it->second) == current_frames.end()) {
+      frame_it = deleteFrame(frame_it, false);
+    } else {
+      ++frame_it;
     }
-  }
-
-  for (auto & frame : to_delete) {
-    deleteFrame(frame, true);
   }
 }
 
@@ -565,6 +588,25 @@ void TFDisplay::updateParentArrowIfTransformExists(
   }
 }
 
+TFDisplay::M_FrameInfo::iterator TFDisplay::deleteFrame(
+  M_FrameInfo::iterator it,
+  bool delete_properties)
+{
+  FrameInfo * frame = it->second;
+  it = frames_.erase(it);
+
+  delete frame->axes_;
+  context_->getHandlerManager()->removeHandler(frame->axes_coll_);
+  delete frame->parent_arrow_;
+  delete frame->name_text_;
+  scene_manager_->destroySceneNode(frame->name_node_);
+  if (delete_properties) {
+    delete frame->enabled_property_;
+    delete frame->tree_property_;
+  }
+  delete frame;
+  return it;
+}
 
 void TFDisplay::deleteFrame(FrameInfo * frame, bool delete_properties)
 {
@@ -579,15 +621,19 @@ void TFDisplay::deleteFrame(FrameInfo * frame, bool delete_properties)
   delete frame->name_text_;
   scene_manager_->destroySceneNode(frame->name_node_);
   if (delete_properties) {
-    delete frame->enabled_property_;
-    delete frame->tree_property_;
+    if (frame->enabled_property_) {
+      delete frame->enabled_property_;
+    }
+    if (frame->tree_property_) {
+      delete frame->tree_property_;
+    }
   }
   delete frame;
 }
 
 void TFDisplay::fixedFrameChanged()
 {
-  update_timer_ = update_rate_property_->getFloat();
+  update_timer_ = std::chrono::nanoseconds(std::lround(update_rate_property_->getFloat() * 1e9));
 }
 
 void TFDisplay::reset()

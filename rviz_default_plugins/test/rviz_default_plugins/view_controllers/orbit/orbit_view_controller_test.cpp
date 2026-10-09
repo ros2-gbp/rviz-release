@@ -1,33 +1,32 @@
-/*
- * Copyright (c) 2018, Bosch Software Innovations GmbH.
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted (subject to the limitations in the disclaimer
- * below) provided that the following conditions are met:
- *
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the copyright holder nor the names of its
- *       contributors may be used to endorse or promote products derived from
- *       this software without specific prior written permission.
- *
- * NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS
- * LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
+// Copyright (c) 2018, Bosch Software Innovations GmbH.
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+//
+//    * Redistributions of source code must retain the above copyright
+//      notice, this list of conditions and the following disclaimer.
+//
+//    * Redistributions in binary form must reproduce the above copyright
+//      notice, this list of conditions and the following disclaimer in the
+//      documentation and/or other materials provided with the distribution.
+//
+//    * Neither the name of the copyright holder nor the names of its
+//      contributors may be used to endorse or promote products derived from
+//      this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
+
 
 #include <gmock/gmock.h>
 
@@ -77,7 +76,8 @@ public:
     auto pitch_property = orbit_->childAt(8);
     yaw_property->setValue(0);  // set to zero to make result easier to check
     pitch_property->setValue(0.5f);  // set to 0.5, because setting it to 0 can cause problems
-    orbit_->update(0, 0);
+    auto zero = std::chrono::nanoseconds::zero();
+    orbit_->update(zero, zero);
   }
 
   std::shared_ptr<rviz_default_plugins::view_controllers::OrbitViewController> orbit_;
@@ -173,10 +173,11 @@ TEST_F(
   old_yaw_property->setValue(0);
   old_pitch_property->setValue(0.5f);
   xy_orbit_view->move(10, 12, 0);
-  xy_orbit_view->update(0, 0);
+  auto zero = std::chrono::nanoseconds::zero();
+  xy_orbit_view->update(zero, zero);
 
   orbit_->mimic(xy_orbit_view.get());
-  orbit_->update(0, 0);
+  orbit_->update(zero, zero);
 
   auto yaw_property = orbit_->childAt(7);
   auto pitch_property = orbit_->childAt(8);
@@ -193,12 +194,13 @@ TEST_F(
   ortho_view->setClassId("rviz_default_plugins/TopDownOrtho");
   ortho_view->initialize(context_.get());
   ortho_view->move(10, 12);
-  // ortho_view->update(0, 0);
+  auto zero = std::chrono::nanoseconds::zero();
+  // ortho_view->update(zero, zero);
   auto old_x_value = ortho_view->childAt(6)->getValue().toFloat();
   auto old_y_value = ortho_view->childAt(7)->getValue().toFloat();
 
   orbit_->mimic(ortho_view.get());
-  orbit_->update(0, 0);
+  orbit_->update(zero, zero);
 
   auto yaw_property = orbit_->childAt(7);
   auto pitch_property = orbit_->childAt(8);
@@ -223,13 +225,14 @@ TEST_F(OrbitViewControllerTestFixture, mimic_does_not_move_camera_when_given_sam
   old_yaw_property->setValue(0);
   old_pitch_property->setValue(0.5f);
   old_orbit_view->move(10, 10, 10);
-  old_orbit_view->update(0, 0);
+  auto zero = std::chrono::nanoseconds::zero();
+  old_orbit_view->update(zero, zero);
   auto old_x_value = old_orbit_view->childAt(9)->childAt(0)->getValue().toFloat();
   auto old_y_value = old_orbit_view->childAt(9)->childAt(1)->getValue().toFloat();
   auto old_z_value = old_orbit_view->childAt(9)->childAt(2)->getValue().toFloat();
 
   orbit_->mimic(old_orbit_view.get());
-  orbit_->update(0, 0);
+  orbit_->update(zero, zero);
 
   auto x_property = orbit_->childAt(9)->childAt(0);
   auto y_property = orbit_->childAt(9)->childAt(1);

@@ -1,35 +1,37 @@
-/*
- * Copyright (c) 2010, Willow Garage, Inc.
- * Copyright (c) 2018, Bosch Software Innovations GmbH.
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Willow Garage, Inc. nor the names of its
- *       contributors may be used to endorse or promote products derived from
- *       this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
+// Copyright (c) 2010, Willow Garage, Inc.
+// Copyright (c) 2018, Bosch Software Innovations GmbH.
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+//
+//    * Redistributions of source code must retain the above copyright
+//      notice, this list of conditions and the following disclaimer.
+//
+//    * Redistributions in binary form must reproduce the above copyright
+//      notice, this list of conditions and the following disclaimer in the
+//      documentation and/or other materials provided with the distribution.
+//
+//    * Neither the name of the copyright holder nor the names of its
+//      contributors may be used to endorse or promote products derived from
+//      this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
+
 
 #include "rviz_default_plugins/displays/marker/markers/triangle_list_marker.hpp"
 
+#include <array>
 #include <string>
 #include <vector>
 
@@ -43,7 +45,6 @@
 #include <OgreTextureManager.h>
 #include <OgreTechnique.h>
 
-#include "resource_retriever/retriever.hpp"
 #include "rviz_rendering/mesh_loader.hpp"
 #include "rviz_rendering/material_manager.hpp"
 #include "rviz_common/display_context.hpp"
@@ -177,7 +178,7 @@ void TriangleListMarker::beginManualObject(
   // If we have the same number of tris as previously, just update the object
   if (old_message &&
     num_points == old_message->points.size() &&
-    manual_object_->getNumSections() > 0)
+    manual_object_->getSections().size() > 0)
   {
     manual_object_->beginUpdate(0);
   } else {  // Otherwise clear it and begin anew
@@ -189,14 +190,19 @@ void TriangleListMarker::beginManualObject(
 }
 
 bool TriangleListMarker::fillManualObjectAndDetermineAlpha(
-  const MarkerBase::MarkerConstSharedPtr new_message) const
+  const MarkerBase::MarkerConstSharedPtr & new_message) const
 {
   bool any_vertex_has_alpha = false;
+
+  // These only depend on the message as a whole, so evaluate them once instead of per vertex.
+  const bool has_vertex_colors = hasVertexColors(new_message);
+  const bool has_face_colors = hasFaceColors(new_message);
+  const bool has_texture = hasTexture(new_message);
 
   size_t num_points = new_message->points.size();
   const std::vector<geometry_msgs::msg::Point> & points = new_message->points;
   for (size_t i = 0; i < num_points; i += 3) {
-    std::vector<Ogre::Vector3> corners(3);
+    std::array<Ogre::Vector3, 3> corners;
     for (size_t c = 0; c < 3; c++) {
       corners[c] = Ogre::Vector3(
         static_cast<Ogre::Real>(points[i + c].x),
@@ -209,7 +215,7 @@ bool TriangleListMarker::fillManualObjectAndDetermineAlpha(
     for (size_t c = 0; c < 3; c++) {
       manual_object_->position(corners[c]);
       manual_object_->normal(normal);
-      if (hasVertexColors(new_message)) {
+      if (has_vertex_colors) {
         any_vertex_has_alpha = any_vertex_has_alpha ||
           (new_message->colors[i + c].a < rviz_rendering::unit_alpha_threshold);
         manual_object_->colour(
@@ -217,7 +223,7 @@ bool TriangleListMarker::fillManualObjectAndDetermineAlpha(
           new_message->colors[i + c].g,
           new_message->colors[i + c].b,
           new_message->color.a * new_message->colors[i + c].a);
-      } else if (hasFaceColors(new_message)) {
+      } else if (has_face_colors) {
         any_vertex_has_alpha = any_vertex_has_alpha ||
           (new_message->colors[i / 3].a < rviz_rendering::unit_alpha_threshold);
         manual_object_->colour(
@@ -227,7 +233,7 @@ bool TriangleListMarker::fillManualObjectAndDetermineAlpha(
           new_message->color.a * new_message->colors[i / 3].a);
       }
 
-      if (hasTexture(new_message)) {
+      if (has_texture) {
         manual_object_->textureCoord(
           new_message->uv_coordinates[i + c].u,
           new_message->uv_coordinates[i + c].v);
@@ -296,29 +302,29 @@ void TriangleListMarker::loadTexture(const MarkerBase::MarkerConstSharedPtr & ne
     texture_name_, "rviz_rendering", img, Ogre::TEX_TYPE_2D);
 }
 
-bool TriangleListMarker::hasFaceColors(const MarkerBase::MarkerConstSharedPtr new_message) const
+bool TriangleListMarker::hasFaceColors(const MarkerBase::MarkerConstSharedPtr & new_message) const
 {
   return new_message->colors.size() == new_message->points.size() / 3;
 }
 
-bool TriangleListMarker::hasVertexColors(const MarkerBase::MarkerConstSharedPtr new_message) const
+bool TriangleListMarker::hasVertexColors(const MarkerBase::MarkerConstSharedPtr & new_message) const
 {
   return new_message->colors.size() == new_message->points.size();
 }
 
-bool TriangleListMarker::hasTexture(const MarkerBase::MarkerConstSharedPtr new_message) const
+bool TriangleListMarker::hasTexture(const MarkerBase::MarkerConstSharedPtr & new_message) const
 {
   return !new_message->texture_resource.empty() &&
          new_message->uv_coordinates.size() == new_message->points.size();
 }
 
-bool TriangleListMarker::textureEmbedded(const MarkerBase::MarkerConstSharedPtr new_message) const
+bool TriangleListMarker::textureEmbedded(const MarkerBase::MarkerConstSharedPtr & new_message) const
 {
   return !new_message->texture_resource.empty() &&
          new_message->texture_resource.find("embedded://") == 0;
 }
 
-std::string TriangleListMarker::getTextureName(const MarkerBase::MarkerConstSharedPtr new_message)
+std::string TriangleListMarker::getTextureName(const MarkerBase::MarkerConstSharedPtr & new_message)
 const
 {
   if (new_message->texture_resource.empty()) {

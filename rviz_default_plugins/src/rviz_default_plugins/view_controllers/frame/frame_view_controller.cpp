@@ -65,10 +65,9 @@ static const Ogre::Quaternion ROBOT_TO_CAMERA_ROTATION =
 
 FrameViewController::FrameViewController()
 {
-  axis_property_ = new rviz_common::properties::EnumProperty(
-    "Point towards", fmtAxis(6),
-    "Point the camera along the given axis of the frame.", this,
-    SLOT(changedAxis()));
+  axis_property_ = new rviz_common::properties::EnumProperty("Point towards", fmtAxis(6),
+                                    "Point the camera along the given axis of the frame.", this,
+                                    SLOT(changedAxis()));
   axis_property_->addOption(ANY_AXIS, -1);
 
   // x,y,z axes get integers from 1..6: +x, -x, +y, -y, +z, -z
@@ -77,8 +76,7 @@ FrameViewController::FrameViewController()
   }
   previous_axis_ = axis_property_->getOptionInt();
 
-  locked_property_ = new rviz_common::properties::BoolProperty(
-    "Lock Camera", false,
+  locked_property_ = new rviz_common::properties::BoolProperty("Lock Camera", false,
     "Lock camera in its current pose relative to the frame", this);
 }
 
@@ -152,7 +150,7 @@ void FrameViewController::reset()
 void FrameViewController::handleMouseEvent(rviz_common::ViewportMouseEvent & event)
 {
   if (locked_property_->getBool()) {
-    setStatus("Unlock camera in settings to enable mouse interaction.");
+    setStatus(QStringLiteral("Unlock camera in settings to enable mouse interaction."));
     return;
   }
   FPSViewController::handleMouseEvent(event);

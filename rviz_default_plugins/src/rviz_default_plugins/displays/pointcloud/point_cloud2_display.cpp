@@ -1,31 +1,32 @@
-/*
- * Copyright (c) 2012, Willow Garage, Inc.
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Willow Garage, Inc. nor the names of its
- *       contributors may be used to endorse or promote products derived from
- *       this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
+// Copyright (c) 2012, Willow Garage, Inc.
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+//
+//    * Redistributions of source code must retain the above copyright
+//      notice, this list of conditions and the following disclaimer.
+//
+//    * Redistributions in binary form must reproduce the above copyright
+//      notice, this list of conditions and the following disclaimer in the
+//      documentation and/or other materials provided with the distribution.
+//
+//    * Neither the name of the copyright holder nor the names of its
+//      contributors may be used to endorse or promote products derived from
+//      this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
+
 
 #include "rviz_default_plugins/displays/pointcloud/point_cloud2_display.hpp"
 
@@ -54,8 +55,10 @@ PointCloud2Display::PointCloud2Display()
 
 void PointCloud2Display::onInitialize()
 {
-  MFDClass::onInitialize();
+  PC2RDClass::onInitialize();
   point_cloud_common_->initialize(context_, scene_node_);
+
+  qos_profile_property_->setBestEffort();
 }
 
 void PointCloud2Display::processMessage(const sensor_msgs::msg::PointCloud2::ConstSharedPtr cloud)
@@ -77,7 +80,7 @@ void PointCloud2Display::processMessage(const sensor_msgs::msg::PointCloud2::Con
 }
 
 bool PointCloud2Display::hasXYZChannels(
-  const sensor_msgs::msg::PointCloud2::ConstSharedPtr cloud) const
+  const sensor_msgs::msg::PointCloud2::ConstSharedPtr & cloud) const
 {
   int32_t xi = findChannelIndex(cloud, "x");
   int32_t yi = findChannelIndex(cloud, "y");
@@ -87,45 +90,65 @@ bool PointCloud2Display::hasXYZChannels(
 }
 
 bool PointCloud2Display::cloudDataMatchesDimensions(
-  const sensor_msgs::msg::PointCloud2::ConstSharedPtr cloud) const
+  const sensor_msgs::msg::PointCloud2::ConstSharedPtr & cloud) const
 {
   return cloud->width * cloud->height * cloud->point_step == cloud->data.size();
 }
 
 sensor_msgs::msg::PointCloud2::ConstSharedPtr PointCloud2Display::filterOutInvalidPoints(
-  const sensor_msgs::msg::PointCloud2::ConstSharedPtr cloud) const
+  const sensor_msgs::msg::PointCloud2::ConstSharedPtr & cloud) const
 {
-  auto filtered = std::make_shared<sensor_msgs::msg::PointCloud2>();
-
-  if (cloud->width * cloud->height > 0) {
-    filtered->data = filterData(cloud);
+  if (cloud->width * cloud->height == 0 || cloud->point_step == 0) {
+    return cloud;
   }
 
+  const Offsets offsets = determineOffsets(cloud);
+  const auto point_step = static_cast<std::ptrdiff_t>(cloud->point_step);
+
+  auto first_invalid = cloud->data.begin();
+  for (; first_invalid < cloud->data.end(); first_invalid += point_step) {
+    if (!validateFloatsAtPosition(first_invalid, offsets)) {
+      break;
+    }
+  }
+
+  // Nothing to drop, which is by far the most common case: hand the message on untouched instead
+  // of allocating and memcpy-ing a byte-identical copy of it.
+  if (first_invalid >= cloud->data.end()) {
+    return cloud;
+  }
+
+  auto filtered = std::make_shared<sensor_msgs::msg::PointCloud2>();
+  filtered->data = filterData(cloud, offsets, first_invalid);
   filtered->header = cloud->header;
   filtered->fields = cloud->fields;
   filtered->height = 1;
-  if (cloud->point_step > 0) {
-    filtered->width = static_cast<uint32_t>(filtered->data.size() / cloud->point_step);
-  } else {
-    filtered->width = 0;
-  }
+  filtered->width = static_cast<uint32_t>(filtered->data.size() / cloud->point_step);
   filtered->is_bigendian = cloud->is_bigendian;
   filtered->point_step = cloud->point_step;
-  filtered->row_step = filtered->width;
+  filtered->row_step = filtered->width * filtered->point_step;
 
   return filtered;
 }
 
-sensor_msgs::msg::PointCloud2::_data_type
-PointCloud2Display::filterData(sensor_msgs::msg::PointCloud2::ConstSharedPtr cloud) const
+sensor_msgs::msg::PointCloud2::_data_type PointCloud2Display::filterData(
+  const sensor_msgs::msg::PointCloud2::ConstSharedPtr & cloud,
+  Offsets offsets,
+  sensor_msgs::msg::PointCloud2::_data_type::const_iterator first_invalid) const
 {
+  const auto data_end = cloud->data.end();
+  const auto point_step = static_cast<std::ptrdiff_t>(cloud->point_step);
+
   sensor_msgs::msg::PointCloud2::_data_type filteredData;
   filteredData.reserve(cloud->data.size());
 
-  Offsets offsets = determineOffsets(cloud);
+  // Everything before the first invalid point is known to be valid, so copy it in one go and
+  // resume scanning after it.  This keeps the whole filter to a single pass over the cloud.
+  filteredData.insert(filteredData.end(), cloud->data.begin(), first_invalid);
+
   size_t points_to_copy = 0;
-  sensor_msgs::msg::PointCloud2::_data_type::const_iterator copy_start_pos;
-  for (auto it = cloud->data.begin(); it < cloud->data.end(); it += cloud->point_step) {
+  sensor_msgs::msg::PointCloud2::_data_type::const_iterator copy_start_pos = data_end;
+  for (auto it = first_invalid + point_step; it < data_end; it += point_step) {
     if (validateFloatsAtPosition(it, offsets)) {
       if (points_to_copy == 0) {
         copy_start_pos = it;
@@ -135,7 +158,7 @@ PointCloud2Display::filterData(sensor_msgs::msg::PointCloud2::ConstSharedPtr clo
       filteredData.insert(
         filteredData.end(),
         copy_start_pos,
-        copy_start_pos + points_to_copy * cloud->point_step);
+        copy_start_pos + points_to_copy * point_step);
       points_to_copy = 0;
     }
   }
@@ -144,14 +167,14 @@ PointCloud2Display::filterData(sensor_msgs::msg::PointCloud2::ConstSharedPtr clo
     filteredData.insert(
       filteredData.end(),
       copy_start_pos,
-      copy_start_pos + points_to_copy * cloud->point_step);
+      copy_start_pos + points_to_copy * point_step);
   }
 
   return filteredData;
 }
 
 Offsets PointCloud2Display::determineOffsets(
-  const sensor_msgs::msg::PointCloud2::ConstSharedPtr cloud) const
+  const sensor_msgs::msg::PointCloud2::ConstSharedPtr & cloud) const
 {
   Offsets offsets{
     cloud->fields[findChannelIndex(cloud, "x")].offset,
@@ -174,20 +197,20 @@ bool PointCloud2Display::validateFloatsAtPosition(
          rviz_common::validateFloats(z);
 }
 
-void PointCloud2Display::update(float wall_dt, float ros_dt)
+void PointCloud2Display::update(std::chrono::nanoseconds wall_dt, std::chrono::nanoseconds ros_dt)
 {
   point_cloud_common_->update(wall_dt, ros_dt);
 }
 
 void PointCloud2Display::reset()
 {
-  MFDClass::reset();
+  PC2RDClass::reset();
   point_cloud_common_->reset();
 }
 
 void PointCloud2Display::onDisable()
 {
-  MFDClass::onDisable();
+  PC2RDClass::onDisable();
   point_cloud_common_->onDisable();
 }
 
