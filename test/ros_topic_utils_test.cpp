@@ -1,4 +1,4 @@
-// Copyright (c) 2018, Bosch Software Innovations GmbH.
+// Copyright (c) 2026, Open Source Robotics Foundation, Inc.
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -28,29 +28,29 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 
-#include "display_context_fixture.hpp"
+#include <gmock/gmock.h>
 
-#include <memory>
+#include "rviz_common/ros_topic_utils.hpp"
 
-#include <OgreSceneNode.h>
+using rviz_common::isTopicOrServiceHidden;
 
-#include "rclcpp/clock.hpp"
-
-void DisplayContextFixture::SetUp()
-{
-  testing_environment_ = std::make_shared<rviz_common::OgreTestingEnvironment>();
-  testing_environment_->setUpOgreTestEnvironment();
-
-  scene_manager_ = Ogre::Root::getSingletonPtr()->createSceneManager();
+TEST(IsTopicOrServiceHidden, regular_topics_are_not_hidden) {
+  EXPECT_FALSE(isTopicOrServiceHidden("/camera/image"));
+  EXPECT_FALSE(isTopicOrServiceHidden("/camera/image/compressed"));
+  EXPECT_FALSE(isTopicOrServiceHidden("relative/topic"));
+  EXPECT_FALSE(isTopicOrServiceHidden(""));
+  EXPECT_FALSE(isTopicOrServiceHidden("/"));
 }
 
-DisplayContextFixture::DisplayContextFixture()
-{
-  context_ = std::make_shared<testing::NiceMock<MockDisplayContext>>();
-  window_manager_ = std::make_shared<testing::NiceMock<MockWindowManagerInterface>>();
-  clock_ = std::make_shared<rclcpp::Clock>();
+TEST(IsTopicOrServiceHidden, underscore_inside_a_token_is_not_hidden) {
+  EXPECT_FALSE(isTopicOrServiceHidden("/foo_bar/baz"));
+  EXPECT_FALSE(isTopicOrServiceHidden("/foo/bar_baz"));
+}
 
-  EXPECT_CALL(*context_, getClock()).WillRepeatedly(testing::Return(clock_));
-  EXPECT_CALL(*context_, getWindowManager()).WillRepeatedly(testing::Return(window_manager_.get()));
-  EXPECT_CALL(*context_, getSceneManager()).WillRepeatedly([&]() {return scene_manager_;});
+TEST(IsTopicOrServiceHidden, token_starting_with_underscore_is_hidden) {
+  EXPECT_TRUE(isTopicOrServiceHidden("/camera/image/_buf_cpu"));
+  EXPECT_TRUE(isTopicOrServiceHidden("/_private/topic"));
+  EXPECT_TRUE(isTopicOrServiceHidden("/fibonacci/_action/feedback"));
+  EXPECT_TRUE(isTopicOrServiceHidden("relative/_hidden"));
+  EXPECT_TRUE(isTopicOrServiceHidden("_hidden"));
 }
