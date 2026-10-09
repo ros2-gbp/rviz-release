@@ -1,4 +1,4 @@
-From b950c655e5762f3a3e8a7fb5a4d0e24cfea7b4c4 Mon Sep 17 00:00:00 2001
+From b6d643b3bf29031ce69fb4fd4c8646b037e6e650 Mon Sep 17 00:00:00 2001
 From: Scott K Logan <logans@cottsay.net>
 Date: Mon, 27 Apr 2026 14:50:36 -0500
 Subject: [PATCH] Allow absolute RPATH to be set on rviz2 executable
@@ -11,7 +11,7 @@ bit of refactoring.
  1 file changed, 2 insertions(+)
 
 diff --git a/rpm/ros-rolling-rviz2.spec b/rpm/ros-rolling-rviz2.spec
-index 04baab3b7..212f2d365 100644
+index 1626aadbf..55d407284 100644
 --- a/rpm/ros-rolling-rviz2.spec
 +++ b/rpm/ros-rolling-rviz2.spec
 @@ -14,6 +14,8 @@ Source0:        %{name}-%{version}.tar.gz
@@ -24,5 +24,5 @@ index 04baab3b7..212f2d365 100644
  
  %description
 -- 
-2.43.0
+2.53.0
 
