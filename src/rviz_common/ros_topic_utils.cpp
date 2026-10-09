@@ -1,4 +1,4 @@
-// Copyright (c) 2018, Bosch Software Innovations GmbH.
+// Copyright (c) 2026, Open Source Robotics Foundation, Inc.
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,30 +27,27 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+#include "rviz_common/ros_topic_utils.hpp"
 
-#include "display_context_fixture.hpp"
+#include <string>
 
-#include <memory>
-
-#include <OgreSceneNode.h>
-
-#include "rclcpp/clock.hpp"
-
-void DisplayContextFixture::SetUp()
+namespace rviz_common
 {
-  testing_environment_ = std::make_shared<rviz_common::OgreTestingEnvironment>();
-  testing_environment_->setUpOgreTestEnvironment();
 
-  scene_manager_ = Ogre::Root::getSingletonPtr()->createSceneManager();
+bool isTopicOrServiceHidden(const std::string & name)
+{
+  size_t start = 0;
+  while (start < name.size()) {
+    size_t end = name.find('/', start);
+    if (end == std::string::npos) {
+      end = name.size();
+    }
+    if (end > start && name[start] == '_') {
+      return true;
+    }
+    start = end + 1;
+  }
+  return false;
 }
 
-DisplayContextFixture::DisplayContextFixture()
-{
-  context_ = std::make_shared<testing::NiceMock<MockDisplayContext>>();
-  window_manager_ = std::make_shared<testing::NiceMock<MockWindowManagerInterface>>();
-  clock_ = std::make_shared<rclcpp::Clock>();
-
-  EXPECT_CALL(*context_, getClock()).WillRepeatedly(testing::Return(clock_));
-  EXPECT_CALL(*context_, getWindowManager()).WillRepeatedly(testing::Return(window_manager_.get()));
-  EXPECT_CALL(*context_, getSceneManager()).WillRepeatedly([&]() {return scene_manager_;});
-}
+}  // namespace rviz_common

@@ -1,4 +1,4 @@
-// Copyright (c) 2018, Bosch Software Innovations GmbH.
+// Copyright (c) 2026, Open Source Robotics Foundation, Inc.
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,30 +27,28 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+#ifndef RVIZ_COMMON__ROS_TOPIC_UTILS_HPP_
+#define RVIZ_COMMON__ROS_TOPIC_UTILS_HPP_
 
-#include "display_context_fixture.hpp"
+#include <string>
 
-#include <memory>
+#include "rviz_common/visibility_control.hpp"
 
-#include <OgreSceneNode.h>
-
-#include "rclcpp/clock.hpp"
-
-void DisplayContextFixture::SetUp()
+namespace rviz_common
 {
-  testing_environment_ = std::make_shared<rviz_common::OgreTestingEnvironment>();
-  testing_environment_->setUpOgreTestEnvironment();
 
-  scene_manager_ = Ogre::Root::getSingletonPtr()->createSceneManager();
-}
+/// Return true if the given topic or service name is hidden.
+/**
+ * Following the ROS 2 naming conventions, a name is hidden if any of its
+ * '/'-separated tokens starts with an underscore, e.g. the internal
+ * "<topic>/_buf_cpu" channels created by buffer-aware rmw implementations or
+ * the "<action>/_action/feedback" topics used by actions.
+ * This mirrors rclpy's topic_or_service_is_hidden(), which is what
+ * "ros2 topic list" uses to hide such names by default.
+ */
+RVIZ_COMMON_PUBLIC
+bool isTopicOrServiceHidden(const std::string & name);
 
-DisplayContextFixture::DisplayContextFixture()
-{
-  context_ = std::make_shared<testing::NiceMock<MockDisplayContext>>();
-  window_manager_ = std::make_shared<testing::NiceMock<MockWindowManagerInterface>>();
-  clock_ = std::make_shared<rclcpp::Clock>();
+}  // namespace rviz_common
 
-  EXPECT_CALL(*context_, getClock()).WillRepeatedly(testing::Return(clock_));
-  EXPECT_CALL(*context_, getWindowManager()).WillRepeatedly(testing::Return(window_manager_.get()));
-  EXPECT_CALL(*context_, getSceneManager()).WillRepeatedly([&]() {return scene_manager_;});
-}
+#endif  // RVIZ_COMMON__ROS_TOPIC_UTILS_HPP_
