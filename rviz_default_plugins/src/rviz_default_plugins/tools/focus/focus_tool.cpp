@@ -28,6 +28,8 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 
+#include <sstream>
+
 #include <OgreCamera.h>
 #include <OgreRay.h>
 #include <OgreVector.h>
@@ -97,11 +99,11 @@ int FocusTool::processMouseEvent(rviz_common::ViewportMouseEvent & event)
 
 void FocusTool::setStatusFrom(const Ogre::Vector3 & position)
 {
-  setStatus(
-    QStringLiteral("<b>Left-Click:</b> Focus on this point. [%1,%2,%3]")
-    .arg(position.x, 0, 'g', 3)
-    .arg(position.y, 0, 'g', 3)
-    .arg(position.z, 0, 'g', 3));
+  std::ostringstream s;
+  s << "<b>Left-Click:</b> Focus on this point.";
+  s.precision(3);
+  s << " [" << position.x << "," << position.y << "," << position.z << "]";
+  setStatus(s.str().c_str());
 }
 
 void FocusTool::computePositionForDirection(

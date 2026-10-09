@@ -40,9 +40,10 @@
 #include <mutex>
 #include <utility>
 
-#include <OgreColourValue.h>
-#include <OgrePixelFormat.h>
-#include <OgreTexture.h>
+#include <OgreMaterialManager.h>
+#include <OgreRenderQueueListener.h>
+
+#include <QObject>  // NOLINT: cpplint is unable to handle the include order here
 
 #include "rviz_common/interaction/forwards.hpp"
 #include "rviz_common/interaction/handler_manager_iface.hpp"

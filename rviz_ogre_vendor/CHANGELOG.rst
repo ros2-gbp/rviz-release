@@ -2,27 +2,21 @@
 Changelog for package rviz_ogre_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-16.0.4 (2026-10-09)
--------------------
-* Use the SPDX identifier Apache-2.0 in package.xml license tags (`#1876 <https://github.com/ros2/rviz/issues/1876>`_)
-* Fix Ogre build failure on Xcode 26 (xcodebuild -n removed) (`#1751 <https://github.com/ros2/rviz/issues/1751>`_)
-* Contributors: Dhruv Patel, Michael Carroll
-
-16.0.3 (2026-09-02)
--------------------
-* Removed unused variable to supress warning (`#1812 <https://github.com/ros2/rviz/issues/1812>`_)
-* Contributors: Miguel Angel Gonzalez Rodriguez
-
-16.0.2 (2026-07-14)
+15.2.7 (2026-10-09)
 -------------------
 
-16.0.1 (2026-06-11)
+15.2.6 (2026-09-02)
 -------------------
-* Suppress the CMake unused variable warning (`#1772 <https://github.com/ros2/rviz/issues/1772>`_)
-* Removed warning rviz_ogre_vendor (`#1708 <https://github.com/ros2/rviz/issues/1708>`_)
-* Contributors: Alejandro Hernández Cordero, Michael Carroll
 
-16.0.0 (2026-05-06)
+15.2.5 (2026-07-14)
+-------------------
+
+15.2.4 (2026-06-12)
+-------------------
+* Removed warning rviz_ogre_vendor (`#1708 <https://github.com/ros2/rviz/issues/1708>`_) (`#1736 <https://github.com/ros2/rviz/issues/1736>`_)
+* Contributors: mergify[bot]
+
+15.2.3 (2026-05-16)
 -------------------
 
 15.2.2 (2026-04-24)

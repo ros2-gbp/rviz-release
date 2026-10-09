@@ -36,10 +36,7 @@
 #include <cmath>
 #include <string>
 
-#include "rclcpp/clock.hpp"
-#include "rclcpp/node.hpp"
-#include "rclcpp/publisher.hpp"
-#include "rclcpp/timer.hpp"
+#include "rclcpp/rclcpp.hpp"
 #include "sensor_msgs/msg/laser_scan.hpp"
 #include "std_msgs/msg/header.hpp"
 #include "tf2/LinearMath/Quaternion.hpp"

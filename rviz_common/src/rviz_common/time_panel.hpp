@@ -33,9 +33,8 @@
 
 #include <QString>
 
-#include "rclcpp/time.hpp"
-
 #include "rviz_common/panel.hpp"
+#include "rclcpp/rclcpp.hpp"
 
 class QLineEdit;
 class QComboBox;

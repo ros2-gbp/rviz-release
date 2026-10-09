@@ -33,7 +33,6 @@
 #include "add_display_dialog.hpp"
 
 #include <algorithm>
-#include <format>  // NOLINT(build/include_order) cpplint predates C++20 headers
 #include <iostream>
 #include <map>
 #include <memory>
@@ -154,9 +153,13 @@ void getPluginGroups(
   std::map<std::string, std::vector<std::string>> topic_names_and_types =
     rviz_ros_node.lock()->get_topic_names_and_types();
 
-  std::erase_if(
-    topic_names_and_types,
-    [](const auto & map_pair) {return isTopicOrServiceHidden(map_pair.first);});
+  for (auto it = topic_names_and_types.begin(); it != topic_names_and_types.end(); ) {
+    if (isTopicOrServiceHidden(it->first)) {
+      it = topic_names_and_types.erase(it);
+    } else {
+      ++it;
+    }
+  }
 
   for (const auto & map_pair : topic_names_and_types) {
     QString topic = QString::fromStdString(map_pair.first);
@@ -164,13 +167,14 @@ void getPluginGroups(
       throw std::runtime_error("topic '" + map_pair.first + "' unexpectedly has not types.");
     }
     if (map_pair.second.size() > 1) {
-      std::string warning = std::format(
-        "topic '{}' has more than one types associated, rviz will arbitrarily use the type "
-        "'{}' -- all types for the topic:", map_pair.first, map_pair.second[0]);
+      std::stringstream ss;
+      ss << "topic '" << map_pair.first <<
+        "' has more than one types associated, rviz will arbitrarily use the type '" <<
+        map_pair.second[0] << "' -- all types for the topic:";
       for (const auto & topic_type_name : map_pair.second) {
-        warning += std::format(" '{}'", topic_type_name);
+        ss << " '" << topic_type_name << "'";
       }
-      RVIZ_COMMON_LOG_WARNING(warning);
+      RVIZ_COMMON_LOG_WARNING(ss.str());
     }
     QString datatype = QString::fromStdString(map_pair.second[0]);
 
@@ -651,9 +655,7 @@ void TopicDisplayWidget::findPlugins(DisplayFactory * factory)
 
   for (const auto & plugin : plugins) {
     QSet<QString> topic_types = factory->getMessageTypes(plugin.id);
-    // topic_type is taken by value: it is rewritten below when the declared type is not
-    // fully qualified.
-    for (QString topic_type : topic_types) {
+    Q_FOREACH (QString topic_type, topic_types) {
       // Check if the type name is fully qualified (e.g. in 'msg' namespace).
       // If not, then insert 'msg' and log a warning.
       // For now, we assume that all types supported by plugins have the form

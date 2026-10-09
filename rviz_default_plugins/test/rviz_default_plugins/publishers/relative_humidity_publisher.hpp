@@ -35,10 +35,7 @@
 #include <string>
 #include <chrono>
 
-#include "rclcpp/clock.hpp"
-#include "rclcpp/node.hpp"
-#include "rclcpp/publisher.hpp"
-#include "rclcpp/timer.hpp"
+#include "rclcpp/rclcpp.hpp"
 
 #include "sensor_msgs/msg/relative_humidity.hpp"
 #include "std_msgs/msg/header.hpp"

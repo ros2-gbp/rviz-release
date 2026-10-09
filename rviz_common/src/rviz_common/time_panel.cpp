@@ -40,8 +40,6 @@
 #include <QString>
 #include <QComboBox>
 
-#include "rclcpp/time.hpp"
-
 #include "rviz_common/visualization_manager.hpp"
 #include "frame_manager.hpp"
 

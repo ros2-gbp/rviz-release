@@ -48,9 +48,8 @@
 #include "nav_msgs/msg/map_meta_data.hpp"
 #include "nav_msgs/msg/occupancy_grid.hpp"
 #include "map_msgs/msg/occupancy_grid_update.hpp"
-#include "rclcpp/qos.hpp"
-#include "rclcpp/subscription.hpp"
 #include "rclcpp/time.hpp"
+#include "rclcpp/qos.hpp"
 
 #include "rviz_common/message_filter_display.hpp"
 

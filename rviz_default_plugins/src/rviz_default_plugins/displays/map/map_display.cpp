@@ -44,11 +44,6 @@
 
 #include <QString>  // NOLINT: cpplint is unable to handle the include order here
 
-#include "rclcpp/event_handler.hpp"
-#include "rclcpp/exceptions/exceptions.hpp"
-#include "rclcpp/node.hpp"
-#include "rclcpp/qos.hpp"
-#include "rclcpp/subscription_options.hpp"
 #include "rclcpp/time.hpp"
 
 #include "rviz_rendering/material_manager.hpp"

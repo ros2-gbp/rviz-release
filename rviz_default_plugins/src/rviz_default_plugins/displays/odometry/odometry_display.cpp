@@ -34,8 +34,6 @@
 #include <memory>
 #include <string>
 
-#include <OgreSceneNode.h>
-
 #include "rviz_rendering/objects/arrow.hpp"
 #include "rviz_rendering/objects/axes.hpp"
 
@@ -250,7 +248,7 @@ void OdometryDisplay::updateShapeVisibility()
   }
 }
 
-bool validateFloats(const nav_msgs::msg::Odometry & msg)
+bool validateFloats(nav_msgs::msg::Odometry msg)
 {
   bool valid = true;
   valid = valid && rviz_common::validateFloats(msg.pose.pose);
@@ -259,7 +257,7 @@ bool validateFloats(const nav_msgs::msg::Odometry & msg)
   return valid;
 }
 
-bool validateQuaternion(const nav_msgs::msg::Odometry & msg)
+bool validateQuaternion(nav_msgs::msg::Odometry msg)
 {
   return std::abs(
     (msg.pose.pose.orientation.x * msg.pose.pose.orientation.x +

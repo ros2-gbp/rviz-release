@@ -35,10 +35,6 @@
 
 #include <QString>  // NOLINT: cpplint is unable to handle the include order here
 
-#include "rclcpp/event_handler.hpp"
-#include "rclcpp/exceptions/exceptions.hpp"
-#include "rclcpp/subscription_options.hpp"
-
 namespace rviz_default_plugins
 {
 namespace displays

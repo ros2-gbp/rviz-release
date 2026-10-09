@@ -39,8 +39,6 @@
 
 #include "rviz_rendering/objects/billboard_line.hpp"
 
-#include "rviz_common/logging.hpp"
-
 #include "rviz_default_plugins/displays/marker/marker_common.hpp"
 
 namespace rviz_default_plugins

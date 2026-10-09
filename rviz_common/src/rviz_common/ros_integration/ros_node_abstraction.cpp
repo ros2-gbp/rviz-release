@@ -33,11 +33,11 @@
 
 #include <map>
 #include <memory>
+#include <mutex>
 #include <string>
 #include <vector>
 
-#include "rclcpp/node.hpp"
-#include "rclcpp/node_options.hpp"
+#include "rclcpp/rclcpp.hpp"
 
 namespace rviz_common
 {

@@ -37,6 +37,7 @@
 #include <stdexcept>
 #include <exception>
 #include <memory>
+#include <mutex>
 #include <string>
 #include <vector>
 
@@ -44,6 +45,7 @@
 #include <sensor_msgs/msg/camera_info.hpp>
 #include <sensor_msgs/msg/point_cloud2.hpp>
 
+#include <rclcpp/rclcpp.hpp>
 
 #include "rviz_common/ros_integration/ros_node_abstraction_iface.hpp"
 #include "rviz_common/visibility_control.hpp"

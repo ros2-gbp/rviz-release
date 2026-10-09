@@ -36,21 +36,17 @@
 #include <vector>
 #include <utility>
 
-#include <OgreSceneManager.h>
 #include <OgreSceneNode.h>
 #include <OgreWireBoundingBox.h>
 
 #include <QString>  // NOLINT: cpplint is unable to handle the include order here
 
 #include "rclcpp/clock.hpp"
-#include "rclcpp/time.hpp"
 
 #include "rviz_default_plugins/displays/pointcloud/point_cloud_to_point_cloud2.hpp"
 #include "rviz_default_plugins/displays/pointcloud/point_cloud_helpers.hpp"
 #include "rviz_common/display.hpp"
 #include "rviz_common/display_context.hpp"
-#include "rviz_common/frame_manager_iface.hpp"
-#include "rviz_common/logging.hpp"
 #include "rviz_common/properties/enum_property.hpp"
 #include "rviz_common/properties/float_property.hpp"
 #include "rviz_common/properties/vector_property.hpp"
@@ -415,12 +411,12 @@ void PointCloudCommon::collectObsoleteCloudInfos(float point_decay_time, const r
 void PointCloudCommon::removeObsoleteCloudInfos()
 {
   auto it = obsolete_cloud_infos_.begin();
-  while (it != obsolete_cloud_infos_.end()) {
+  auto end = obsolete_cloud_infos_.end();
+  while (it != end) {
     if (!(*it)->selection_handler_.get() || !(*it)->selection_handler_->hasSelections()) {
-      // erase() already returns an iterator to the next element; advancing again here would
-      // skip it, so only step forward when nothing was removed.
       it = obsolete_cloud_infos_.erase(it);
-    } else {
+    }
+    if (it != end) {
       ++it;
     }
   }
@@ -582,7 +578,7 @@ void PointCloudCommon::retransform()
 
   for (auto const & cloud_info : cloud_infos_) {
     transformCloud(cloud_info, false);
-    cloud_info->cloud_->clearAndRemoveAllPoints();
+    cloud_info->cloud_->clear();
     cloud_info->cloud_->addPoints(
       cloud_info->transformed_points_.begin(), cloud_info->transformed_points_.end());
   }

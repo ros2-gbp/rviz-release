@@ -41,6 +41,7 @@
 
 #include "rviz_common/ros_integration/ros_node_abstraction_iface.hpp"
 #include "rviz_common/visibility_control.hpp"
+#include "frame_manager_iface.hpp"
 
 class QKeyEvent;
 
@@ -82,7 +83,6 @@ class BitAllocator;
 class DisplayFactory;
 class DisplayGroup;
 class FrameManager;
-class FrameManagerIface;
 class RenderPanel;
 class ToolManager;
 class ViewportMouseEvent;

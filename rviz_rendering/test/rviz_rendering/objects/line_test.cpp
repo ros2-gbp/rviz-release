@@ -34,9 +34,7 @@
 #include <memory>
 #include <vector>
 
-#include <OgreRoot.h>
-#include <OgreSceneNode.h>
-#include <OgreVector.h>
+#include <Ogre.h>
 
 #include "rviz_rendering/objects/line.hpp"
 #include "../ogre_testing_environment.hpp"

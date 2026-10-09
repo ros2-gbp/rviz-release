@@ -33,8 +33,6 @@
 #include <OgreSceneNode.h>
 #include <OgreSceneManager.h>
 
-#include "rclcpp/time.hpp"
-
 #include "rviz_common/display_context.hpp"
 #include "rviz_common/frame_manager_iface.hpp"
 #include "rviz_common/properties/color_property.hpp"
@@ -135,8 +133,7 @@ bool validateFloats(const geometry_msgs::msg::WrenchStamped & msg)
 
 void WrenchDisplay::processMessage(geometry_msgs::msg::WrenchStamped::ConstSharedPtr msg)
 {
-  // Only needed when NaNs are accepted, so do not allocate it on the common path.
-  geometry_msgs::msg::WrenchStamped::SharedPtr adjusted_msg;
+  auto adjusted_msg = std::make_shared<geometry_msgs::msg::WrenchStamped>();
   bool accept_nan = accept_nan_values_->getBool();
 
   if (!accept_nan) {
@@ -147,7 +144,6 @@ void WrenchDisplay::processMessage(geometry_msgs::msg::WrenchStamped::ConstShare
       return;
     }
   } else {
-    adjusted_msg = std::make_shared<geometry_msgs::msg::WrenchStamped>();
     adjusted_msg->wrench.force.x = (std::isnan(msg->wrench.force.x)) ? 0.0 : msg->wrench.force.x;
     adjusted_msg->wrench.force.y = (std::isnan(msg->wrench.force.y)) ? 0.0 : msg->wrench.force.y;
     adjusted_msg->wrench.force.z = (std::isnan(msg->wrench.force.z)) ? 0.0 : msg->wrench.force.z;

@@ -138,7 +138,11 @@ bool ToolManager::toKey(QString const & str, uint & key)
 
   // We should only working with a single key here
   if (seq.count() == 1) {
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
     key = seq[0].toCombined();
+#else
+    key = seq[0];
+#endif
     return true;
   } else {
     return false;
@@ -155,7 +159,7 @@ int ToolManager::handleChar(QKeyEvent * event, RenderPanel * panel)
 
   // check if the incoming key triggers the activation of another tool
   Tool * tool = nullptr;
-  if (shortkey_to_tool_map_.contains(event->key())) {
+  if (shortkey_to_tool_map_.find(event->key()) != shortkey_to_tool_map_.end()) {
     tool = shortkey_to_tool_map_[event->key()];
   }
 

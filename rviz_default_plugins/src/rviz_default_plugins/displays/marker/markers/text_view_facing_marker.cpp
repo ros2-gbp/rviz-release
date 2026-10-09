@@ -58,11 +58,6 @@ TextViewFacingMarker::~TextViewFacingMarker()
   delete text_;
 }
 
-void TextViewFacingMarker::setOrientation(const Ogre::Quaternion & orientation)
-{
-  (void) orientation;
-}
-
 void TextViewFacingMarker::onNewMessage(
   const MarkerConstSharedPtr & old_message, const MarkerConstSharedPtr & new_message)
 {

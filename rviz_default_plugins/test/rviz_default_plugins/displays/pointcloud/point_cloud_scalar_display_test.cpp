@@ -36,8 +36,6 @@
 #include <OgreEntity.h>
 #include <OgreSceneNode.h>
 
-#include "rclcpp/clock.hpp"
-
 #include "rviz_default_plugins/displays/pointcloud/point_cloud_scalar_display.hpp"
 #include "sensor_msgs/msg/illuminance.hpp"
 #include "../display_test_fixture.hpp"

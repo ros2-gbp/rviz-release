@@ -38,6 +38,7 @@
 #include "rviz_default_plugins/tools/measure/measure_tool.hpp"
 
 #include <memory>
+#include <sstream>
 
 #include <OgreSceneNode.h>
 
@@ -118,16 +119,13 @@ void MeasureTool::updateLineColor()
 
 void MeasureTool::setStatusMessage()
 {
-  // Called on every mouse event, so avoid building a stream and a temporary string each time.
+  std::stringstream ss;
   if (length_ > 0.0) {
-    setStatus(
-      QStringLiteral(
-        "[Length: %1m] Click on two points to measure their distance. "
-        "Right-click to reset.").arg(length_, 0, 'g', 6));
-  } else {
-    setStatus(
-      QStringLiteral("Click on two points to measure their distance. Right-click to reset."));
+    ss << "[Length: " << length_ << "m] ";
   }
+
+  ss << "Click on two points to measure their distance. Right-click to reset.";
+  setStatus(QString(ss.str().c_str()));
 }
 
 void MeasureTool::processLeftButton(const Ogre::Vector3 & pos)

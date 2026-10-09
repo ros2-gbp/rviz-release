@@ -36,10 +36,8 @@
 #include <cmath>
 #include <vector>
 
+#include "rclcpp/rclcpp.hpp"
 #include "rclcpp/clock.hpp"
-#include "rclcpp/node.hpp"
-#include "rclcpp/publisher.hpp"
-#include "rclcpp/timer.hpp"
 #include "std_msgs/msg/header.hpp"
 #include "sensor_msgs/msg/range.hpp"
 

@@ -32,11 +32,10 @@
 #include "rviz_common/ros_integration/ros_client_abstraction.hpp"
 
 #include <memory>
-#include <stdexcept>
+#include <mutex>
 #include <string>
 
-#include "rclcpp/node_options.hpp"
-#include "rclcpp/utilities.hpp"
+#include "rclcpp/rclcpp.hpp"
 
 #include "rviz_common/ros_integration/ros_node_abstraction.hpp"
 

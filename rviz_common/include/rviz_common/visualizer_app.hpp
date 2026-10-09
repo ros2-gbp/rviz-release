@@ -34,6 +34,7 @@
 
 #include <memory>
 
+#include <QApplication>  // NOLINT: cpplint is unable to handle the include order here
 #include <QObject>  // NOLINT: cpplint is unable to handle the include order here
 #include <QString>  // NOLINT: cpplint is unable to handle the include order here
 
@@ -42,7 +43,6 @@
 
 #include "rviz_rendering/render_window.hpp"
 
-class QApplication;
 class QTimer;
 
 namespace rviz_common

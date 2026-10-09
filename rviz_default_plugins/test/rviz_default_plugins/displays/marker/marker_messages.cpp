@@ -36,8 +36,7 @@
 #include <OgreVector.h>
 
 #include "geometry_msgs/msg/point.hpp"
-#include "rclcpp/clock.hpp"
-#include "rclcpp/time.hpp"
+#include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/color_rgba.hpp"
 #include "std_msgs/msg/header.hpp"
 #include "visualization_msgs/msg/marker.hpp"

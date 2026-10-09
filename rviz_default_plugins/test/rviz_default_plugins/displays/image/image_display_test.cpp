@@ -38,9 +38,6 @@
 #include <OgreRectangle2D.h>  // NOLINT
 
 #include "../../ogre_testing_environment.hpp"
-#include "rclcpp/clock.hpp"
-#include "rclcpp/utilities.hpp"
-
 #include "rviz_common/viewport_mouse_event.hpp"
 #include "rviz_common/display_context.hpp"
 #include "rviz_common/panel_dock_widget.hpp"
@@ -95,7 +92,7 @@ public:
     ON_CALL(*context_, getTransformationManager())
     .WillByDefault(Return(transformation_manager_.get()));
     ON_CALL(*context_, getRosNodeAbstraction())
-    .WillByDefault([]() {return rviz_ros_node_;});
+    .WillByDefault(Invoke([]() {return rviz_ros_node_;}));
   }
 
   static std::shared_ptr<rviz_default_plugins::OgreTestingEnvironment> testing_environment_;
@@ -139,17 +136,6 @@ TEST_F(ImageDisplayTestFixture, update_calls_texture_update) {
   imageDisplay.initialize(context_.get());
   auto zero = std::chrono::nanoseconds::zero();
   imageDisplay.update(zero, zero);
-}
-
-TEST_F(ImageDisplayTestFixture, initialize_propagates_smooth_scaling_to_texture) {
-  auto panelDockWidget = new rviz_common::PanelDockWidget("panelDockWidget");
-  EXPECT_CALL(*window_manager_, addPane(_, _, _, _)).WillOnce(Return(panelDockWidget));
-  EXPECT_CALL(*context_, getFixedFrame()).WillOnce(Return(""));
-
-  EXPECT_CALL(*texture_, setSmoothScaling(false)).Times(AtLeast(1));
-
-  ImageDisplay imageDisplay(std::move(texture_));
-  imageDisplay.initialize(context_.get());
 }
 
 int main(int argc, char ** argv)

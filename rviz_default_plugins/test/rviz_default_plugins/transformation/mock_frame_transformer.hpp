@@ -37,8 +37,6 @@
 #include <string>
 #include <vector>
 
-#include "rclcpp/clock.hpp"
-
 #include "rviz_common/transformation/frame_transformer.hpp"
 
 class MockFrameTransformer : public rviz_common::transformation::FrameTransformer

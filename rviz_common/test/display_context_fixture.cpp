@@ -34,8 +34,6 @@
 
 #include <OgreSceneNode.h>
 
-#include "rclcpp/clock.hpp"
-
 void DisplayContextFixture::SetUp()
 {
   testing_environment_ = std::make_shared<rviz_common::OgreTestingEnvironment>();
@@ -52,5 +50,6 @@ DisplayContextFixture::DisplayContextFixture()
 
   EXPECT_CALL(*context_, getClock()).WillRepeatedly(testing::Return(clock_));
   EXPECT_CALL(*context_, getWindowManager()).WillRepeatedly(testing::Return(window_manager_.get()));
-  EXPECT_CALL(*context_, getSceneManager()).WillRepeatedly([&]() {return scene_manager_;});
+  EXPECT_CALL(*context_, getSceneManager()).WillRepeatedly(
+    testing::Invoke([&]() {return scene_manager_;}));
 }

@@ -35,11 +35,6 @@
 #include <string>
 #include <vector>
 
-#include "rclcpp/clock.hpp"
-#include "rclcpp/exceptions/exceptions.hpp"
-#include "rclcpp/logging.hpp"
-#include "rclcpp/node.hpp"
-
 namespace rviz_default_plugins
 {
 namespace transformation

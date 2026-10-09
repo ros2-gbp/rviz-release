@@ -110,9 +110,7 @@ void AxesDisplay::update(std::chrono::nanoseconds dt, std::chrono::nanoseconds r
     axes_->getSceneNode()->setVisible(true);
     axes_->setPosition(position);
     axes_->setOrientation(orientation);
-    setStatus(
-      rviz_common::properties::StatusProperty::Ok,
-      QStringLiteral("Transform"), QStringLiteral("Transform OK"));
+    setStatus(rviz_common::properties::StatusProperty::Ok, "Transform", "Transform OK");
   } else {
     std::string error;
     if (context_->getFrameManager()->transformHasProblems(

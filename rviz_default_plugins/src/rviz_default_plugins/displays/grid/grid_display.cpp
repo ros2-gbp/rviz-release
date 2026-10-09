@@ -158,7 +158,7 @@ void GridDisplay::update(std::chrono::nanoseconds dt, std::chrono::nanoseconds r
     setTransformOk();
     grid_->getSceneNode()->setVisible(true);
   } else {
-    setMissingTransformToFixedFrame(frame);
+    setMissingTransformToFixedFrame(qframe.toStdString());
     grid_->getSceneNode()->setVisible(false);
   }
 }

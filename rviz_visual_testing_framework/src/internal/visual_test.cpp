@@ -30,8 +30,6 @@
 
 #include <gtest/gtest.h>
 
-#include <OgreMeshManager.h>
-
 #include <memory>
 #ifdef _WIN32
 #include <stdlib.h>

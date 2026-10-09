@@ -36,8 +36,6 @@
 
 #include <QString>  // NOLINT: cpplint is unable to handle the include order here
 
-#include "rclcpp/clock.hpp"
-
 #include "rviz_common/factory/pluginlib_factory.hpp"
 #include "./identity_frame_transformer.hpp"
 #include "rviz_common/logging.hpp"

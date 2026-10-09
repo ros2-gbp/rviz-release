@@ -37,8 +37,6 @@
 #include <string>
 #include <vector>
 
-#include "rclcpp/time.hpp"
-
 #include "rviz_common/frame_manager_iface.hpp"
 #include "rviz_common/transformation/frame_transformer.hpp"
 

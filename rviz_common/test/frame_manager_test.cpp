@@ -34,8 +34,7 @@
 #include <string>
 #include <vector>
 
-#include "rclcpp/clock.hpp"
-#include "rclcpp/time.hpp"
+#include "rclcpp/rclcpp.hpp"
 
 #include "../src/rviz_common/frame_manager.hpp"
 #include "mock_frame_transformer.hpp"

@@ -275,9 +275,4 @@ const Ogre::Quaternion & BillboardLine::getOrientation()
   return scene_node_->getOrientation();
 }
 
-void BillboardLine::setUserData(const Ogre::Any & data)
-{
-  (void) data;
-}
-
 }  // namespace rviz_rendering

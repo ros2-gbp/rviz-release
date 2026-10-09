@@ -34,7 +34,6 @@
 #include <memory>
 #include <vector>
 
-#include <QPushButton>  // NOLINT: cpplint is unable to handle the include order here
 #include <QString>  // NOLINT: cpplint is unable to handle the include order here
 
 #include "rviz_visual_testing_framework/page_objects/base_page_object.hpp"
@@ -45,13 +44,18 @@ class DisplayHandler
 public:
   DisplayHandler(
     std::shared_ptr<Executor> executor, std::shared_ptr<std::vector<int>> all_displays_ids);
-  void addDisplayHelper(std::shared_ptr<BasePageObject> page_object);
-
   template<typename T>
   std::shared_ptr<T> addDisplay()
   {
     auto page_object = std::make_shared<T>();
-    addDisplayHelper(page_object);
+    page_object->initialize(absolute_displays_number_, executor_, all_display_ids_vector_);
+
+    openAddDisplayDialog();
+    selectDisplayAndConfirm(page_object);
+
+    addDisplayToIdsVector();
+    absolute_displays_number_++;
+
     return page_object;
   }
 

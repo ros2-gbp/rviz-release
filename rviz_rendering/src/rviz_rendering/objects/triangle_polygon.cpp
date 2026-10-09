@@ -56,10 +56,8 @@ TrianglePolygon::TrianglePolygon(
     throw std::invalid_argument("SceneManager and SceneNode must not be null.");
   }
 
-  manager_ = manager;
-
   // uniq string is requred for name
-  manual_ = manager_->createManualObject();
+  manual_ = manager->createManualObject();
   manual_->clear();
   manual_->begin(
     name,
@@ -94,7 +92,6 @@ TrianglePolygon::TrianglePolygon(
 TrianglePolygon::~TrianglePolygon()
 {
   manual_->detachFromParent();
-  manager_->destroyManualObject(manual_);
 }
 
 Ogre::ManualObject * TrianglePolygon::getManualObject()

@@ -36,11 +36,9 @@
 # pragma warning(push)
 # pragma warning(disable : 4996)
 #endif
-#include <OgreCamera.h>
+#include <Ogre.h>
 #include <OgreSceneManager.h>
-#include <OgreSceneNode.h>
-#include <OgreString.h>
-#include <OgreVector.h>
+#include <OgreCamera.h>
 #ifdef _WIN32
 # pragma warning(pop)
 #endif
