@@ -1,11 +1,10 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.5)
 
 project(rviz_rendering_tests)
 
-# Default to C++17
+# Default to C++14
 if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 17)
-  set(CMAKE_CXX_STANDARD_REQUIRED ON)
+  set(CMAKE_CXX_STANDARD 14)
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
@@ -32,21 +31,7 @@ find_package(ament_cmake REQUIRED)
 if(BUILD_TESTING)
   # do find_package(rviz_ogre_vendor) first to make sure the custom OGRE is found
   find_package(rviz_ogre_vendor REQUIRED)
-  # Avoid find_package(QT NAMES Qt6 Qt5 ...) due to CMake's default ascending path resolution
-  find_package(Qt6 QUIET COMPONENTS Widgets)
-  if(Qt6_FOUND)
-    set(QT_VERSION_MAJOR 6)
-  else()
-    find_package(Qt5 REQUIRED COMPONENTS Widgets)
-    set(QT_VERSION_MAJOR 5)
-  endif()
-  set(QT_VERSION "${Qt${QT_VERSION_MAJOR}_VERSION}")
-  if(${QT_VERSION} VERSION_LESS 5.15.0)
-    function(qt_wrap_cpp out)
-      qt5_wrap_cpp(_sources ${ARGN})
-      set("${out}" ${_sources} PARENT_SCOPE)
-    endfunction()
-  endif()
+  find_package(Qt5 REQUIRED COMPONENTS Widgets)
   find_package(rviz_rendering REQUIRED)
   find_package(resource_retriever REQUIRED)
 

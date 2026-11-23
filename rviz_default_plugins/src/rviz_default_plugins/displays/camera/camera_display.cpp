@@ -1,34 +1,33 @@
-// Copyright (c) 2012, Willow Garage, Inc.
-// Copyright (c) 2018, Bosch Software Innovations GmbH.
-// Copyright (c) 2020, TNG Technology Consulting GmbH.
-// All rights reserved.
-//
-// Redistribution and use in source and binary forms, with or without
-// modification, are permitted provided that the following conditions are met:
-//
-//    * Redistributions of source code must retain the above copyright
-//      notice, this list of conditions and the following disclaimer.
-//
-//    * Redistributions in binary form must reproduce the above copyright
-//      notice, this list of conditions and the following disclaimer in the
-//      documentation and/or other materials provided with the distribution.
-//
-//    * Neither the name of the copyright holder nor the names of its
-//      contributors may be used to endorse or promote products derived from
-//      this software without specific prior written permission.
-//
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
-// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-// POSSIBILITY OF SUCH DAMAGE.
-
+/*
+ * Copyright (c) 2012, Willow Garage, Inc.
+ * Copyright (c) 2018, Bosch Software Innovations GmbH.
+ * Copyright (c) 2020, TNG Technology Consulting GmbH.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the Willow Garage, Inc. nor the names of its
+ *       contributors may be used to endorse or promote products derived from
+ *       this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #include "rviz_default_plugins/displays/camera/camera_display.hpp"
 
@@ -47,8 +46,6 @@
 #include <OgreViewport.h>
 #include <OgreTechnique.h>
 #include <OgreCamera.h>
-
-#include <QString>  // NOLINT: cpplint is unable to handle the include order here
 
 #include "image_transport/camera_common.hpp"
 
@@ -98,30 +95,9 @@ bool validateFloats(const sensor_msgs::msg::CameraInfo & msg)
   return valid;
 }
 
-static Ogre::Vector4 calculateScreenCorners(
-  const sensor_msgs::msg::CameraInfo::ConstSharedPtr info,
-  const Ogre::Vector2 & zoom)
-{
-  float x_corner_start, y_corner_start, x_corner_end, y_corner_end;
-
-  if (info->roi.height != 0 || info->roi.width != 0) {
-    // corners are computed according to roi
-    x_corner_start = (2.0 * info->roi.x_offset / info->width - 1.0) * zoom.x;
-    y_corner_start = (-2.0 * info->roi.y_offset / info->height + 1.0) * zoom.y;
-    x_corner_end = x_corner_start + (2.0 * info->roi.width / info->width) * zoom.x;
-    y_corner_end = y_corner_start - (2.0 * info->roi.height / info->height) * zoom.y;
-  } else {
-    x_corner_start = -1.0f * zoom.x;
-    y_corner_start = 1.0f * zoom.y;
-    x_corner_end = 1.0f * zoom.x;
-    y_corner_end = -1.0f * zoom.y;
-  }
-
-  return {x_corner_start, y_corner_start, x_corner_end, y_corner_end};
-}
-
 CameraDisplay::CameraDisplay()
 : tf_filter_(nullptr),
+  texture_(std::make_unique<ROSImageTexture>()),
   new_caminfo_(false),
   caminfo_ok_(false),
   force_render_(false)
@@ -167,7 +143,7 @@ CameraDisplay::~CameraDisplay()
 
 void CameraDisplay::onInitialize()
 {
-  ImageDisplay::onInitialize();
+  ITDClass::onInitialize();
 
   setupSceneNodes();
   setupRenderPanel();
@@ -259,7 +235,6 @@ Ogre::MaterialPtr CameraDisplay::createMaterial(std::string name) const
     material->getTechnique(0)->getPass(0)->createTextureUnitState();
   tu->setTextureName(texture_->getTexture()->getName());
   tu->setTextureFiltering(Ogre::TFO_NONE);
-  tu->setTextureAddressingMode(Ogre::TextureUnitState::TAM_CLAMP);
   tu->setAlphaOperation(Ogre::LBX_SOURCE1, Ogre::LBS_MANUAL, Ogre::LBS_CURRENT, 0.0);
 
   return material;
@@ -310,7 +285,7 @@ void CameraDisplay::fixedFrameChanged()
 
 void CameraDisplay::subscribe()
 {
-  ImageDisplay::subscribe();
+  ITDClass::subscribe();
 
   if (!subscription_) {
     return;
@@ -324,11 +299,11 @@ void CameraDisplay::subscribe()
     tf2_ros::MessageFilter<sensor_msgs::msg::Image,
     rviz_common::transformation::FrameTransformer>>(
     *context_->getFrameManager()->getTransformer(),
-    fixed_frame_.toStdString(), 10, *rviz_ros_node_.lock()->get_raw_node());
+    fixed_frame_.toStdString(), 10, rviz_ros_node_.lock()->get_raw_node());
 
   tf_filter_->connectInput(*subscription_);
   tf_filter_->registerCallback(
-    [this](const sensor_msgs::msg::Image::ConstSharedPtr msg) {
+    [ = ](const sensor_msgs::msg::Image::ConstSharedPtr msg) {
       this->incomingMessage(msg);
     });
 
@@ -379,7 +354,7 @@ void CameraDisplay::createCameraInfoSubscription()
 
 void CameraDisplay::unsubscribe()
 {
-  ImageDisplay::unsubscribe();
+  ITDClass::unsubscribe();
   caminfo_sub_.reset();
   tf_filter_.reset();
 }
@@ -418,16 +393,15 @@ void CameraDisplay::clear()
     "No CameraInfo received on [" + QString::fromStdString(camera_info_topic) + "]. "
     "Topic may not exist.");
 
-  rviz_rendering::RenderWindowOgreAdapter::setOgreCameraPosition(
-    render_panel_->getRenderWindow(),
-    rviz_common::RenderPanel::default_camera_pose_);
+  rviz_rendering::RenderWindowOgreAdapter::getOgreCamera(
+    render_panel_->getRenderWindow())->setPosition(rviz_common::RenderPanel::default_camera_pose_);
 
   if (tf_filter_) {
     tf_filter_->clear();
   }
 }
 
-void CameraDisplay::update(std::chrono::nanoseconds wall_dt, std::chrono::nanoseconds ros_dt)
+void CameraDisplay::update(float wall_dt, float ros_dt)
 {
   (void) wall_dt;
   (void) ros_dt;
@@ -500,9 +474,8 @@ bool CameraDisplay::updateCamera()
 
   Ogre::Vector3 position;
   Ogre::Quaternion orientation;
-  rclcpp::Time time_stamp(image->header.stamp, RCL_ROS_TIME);
   if (!context_->getFrameManager()->getTransform(
-      image->header.frame_id, time_stamp, position, orientation))
+      image->header.frame_id, image->header.stamp, position, orientation))
   {
     setMissingTransformToFixedFrame(image->header.frame_id);
     return false;
@@ -530,8 +503,9 @@ bool CameraDisplay::updateCamera()
   }
 
   auto render_window = render_panel_->getRenderWindow();
-  rviz_rendering::RenderWindowOgreAdapter::setOgreCameraPosition(render_window, position);
-  rviz_rendering::RenderWindowOgreAdapter::setOgreCameraOrientation(render_window, orientation);
+  rviz_rendering::RenderWindowOgreAdapter::getOgreCamera(render_window)->setPosition(position);
+  rviz_rendering::RenderWindowOgreAdapter::getOgreCamera(render_window)
+  ->setOrientation(orientation);
 
   Ogre::Vector2 zoom = getZoomFromInfo(info, dimensions);
   Ogre::Matrix4 proj_matrix = calculateProjectionMatrix(info, dimensions, zoom);
@@ -542,9 +516,8 @@ bool CameraDisplay::updateCamera()
   setStatus(StatusLevel::Ok, CAM_INFO_STATUS, "OK");
 
   // adjust the image rectangles to fit the zoom & aspect ratio
-  Ogre::Vector4 corners = calculateScreenCorners(info, zoom);
-  background_screen_rect_->setCorners(corners.x, corners.y, corners.z, corners.w);
-  overlay_screen_rect_->setCorners(corners.x, corners.y, corners.z, corners.w);
+  background_screen_rect_->setCorners(-1.0f * zoom.x, 1.0f * zoom.y, 1.0f * zoom.x, -1.0f * zoom.y);
+  overlay_screen_rect_->setCorners(-1.0f * zoom.x, 1.0f * zoom.y, 1.0f * zoom.x, -1.0f * zoom.y);
 
   Ogre::AxisAlignedBox aabInf;
   aabInf.setInfinite();
@@ -561,7 +534,7 @@ bool CameraDisplay::timeDifferenceInExactSyncMode(
   const sensor_msgs::msg::Image::ConstSharedPtr & image, rclcpp::Time & rviz_time) const
 {
   return context_->getFrameManager()->getSyncMode() == rviz_common::FrameManagerIface::SyncExact &&
-         rviz_time != rclcpp::Time(image->header.stamp, RCL_ROS_TIME);
+         rviz_time != image->header.stamp;
 }
 
 ImageDimensions CameraDisplay::getImageDimensions(
@@ -670,7 +643,7 @@ void CameraDisplay::processMessage(sensor_msgs::msg::Image::ConstSharedPtr msg)
 
 void CameraDisplay::reset()
 {
-  ImageDisplay::reset();
+  ITDClass::reset();
   clear();
 }
 

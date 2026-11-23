@@ -30,7 +30,7 @@
 #define RVIZ_COMMON__PROPERTIES__ROS_ACTION_PROPERTY_HPP_
 
 #include <QObject>
-#include <QRegularExpression>
+#include <QRegExp>
 #include <QString>
 
 #include <memory>
@@ -90,20 +90,20 @@ public:
     const QString & default_value = QString(),
     const QString & action_type = QString(),
     const QString & description = QString(),
-    const QRegularExpression & filter = QRegularExpression(),
+    const QRegExp & filter = QRegExp(),
     Property * parent = 0,
     const char * changed_slot = 0,
     QObject * receiver = 0);
 
   void enableFilter(bool enabled);
 
-  QRegularExpression filter() const;
+  QRegExp filter() const;
 
 protected Q_SLOTS:
   void fillActionList() override;
 
 private:
-  QRegularExpression filter_;
+  QRegExp filter_;
   bool filter_enabled_;
 };
 

@@ -1,56 +1,41 @@
-// Copyright (c) 2012, Willow Garage, Inc.
-// Copyright (c) 2017, Open Source Robotics Foundation, Inc.
-// All rights reserved.
-//
-// Redistribution and use in source and binary forms, with or without
-// modification, are permitted provided that the following conditions are met:
-//
-//    * Redistributions of source code must retain the above copyright
-//      notice, this list of conditions and the following disclaimer.
-//
-//    * Redistributions in binary form must reproduce the above copyright
-//      notice, this list of conditions and the following disclaimer in the
-//      documentation and/or other materials provided with the distribution.
-//
-//    * Neither the name of the copyright holder nor the names of its
-//      contributors may be used to endorse or promote products derived from
-//      this software without specific prior written permission.
-//
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
-// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-// POSSIBILITY OF SUCH DAMAGE.
-
+/*
+ * Copyright (c) 2012, Willow Garage, Inc.
+ * Copyright (c) 2017, Open Source Robotics Foundation, Inc.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the Willow Garage, Inc. nor the names of its
+ *       contributors may be used to endorse or promote products derived from
+ *       this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #include "rviz_common/properties/property_tree_model.hpp"
 
-#include <QIODevice>  // NOLINT: cpplint is unable to handle the include order here
-#include <QMimeData>  // NOLINT: cpplint is unable to handle the include order here
-#include <QString>  // NOLINT: cpplint is unable to handle the include order here
-#include <QStringList>  // NOLINT: cpplint is unable to handle the include order here
-#include <QtCore/qglobal.h>  // NOLINT: cpplint is unable to handle the include order here
+#include <cstdio>
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-#define QVARIANT_TYPE_ID(v) (v).typeId()
-#else
-#define QVARIANT_TYPE_ID(v) static_cast<int>((v).type())
-#endif
+#include <QMimeData>  // NOLINT: cpplint is unable to handle the include order here
+#include <QStringList>  // NOLINT: cpplint is unable to handle the include order here
 
 #include "rviz_common/properties/property.hpp"
-#include "rviz_common/logging.hpp"
-
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-#define QVARIANT_TYPE_ID(v) (v).typeId()
-#else
-#define QVARIANT_TYPE_ID(v) static_cast<int>((v).type())
-#endif
 
 namespace rviz_common
 {
@@ -165,7 +150,7 @@ bool PropertyTreeModel::setData(const QModelIndex & index, const QVariant & valu
 {
   Property * property = getProp(index);
 
-  if (QVARIANT_TYPE_ID(property->getValue()) == QMetaType::Bool && role == Qt::CheckStateRole) {
+  if (property->getValue().type() == QVariant::Bool && role == Qt::CheckStateRole) {
     if (property->setValue(value.toInt() != Qt::Unchecked)) {
       return true;
     }
@@ -243,7 +228,7 @@ bool PropertyTreeModel::dropMimeData(
   while (!stream.atEnd()) {
     void * pointer;
     if (sizeof(void *) != stream.readRawData(reinterpret_cast<char *>(&pointer), sizeof(void *))) {
-      RVIZ_COMMON_LOG_ERROR("dropped mime data has invalid pointer data.");
+      printf("ERROR: dropped mime data has invalid pointer data.\n");
       return false;
     }
     Property * prop = static_cast<Property *>(pointer);
@@ -343,13 +328,13 @@ void PropertyTreeModel::printPersistentIndices()
   QModelIndexList::ConstIterator it = indexes.begin();
   for (; it != indexes.end(); ++it) {
     if (!(*it).isValid()) {
-      RVIZ_COMMON_LOG_DEBUG("  invalid index");
+      printf("  invalid index\n");
     } else {
       Property * prop = getProp(*it);
       if (!prop) {
-        RVIZ_COMMON_LOG_DEBUG("  null property");
+        printf("  null property\n");
       } else {
-        RVIZ_COMMON_LOG_DEBUG_STREAM("  prop name '" << qPrintable(prop->getName()) << "'");
+        printf("  prop name '%s'\n", qPrintable(prop->getName()));
       }
     }
   }
