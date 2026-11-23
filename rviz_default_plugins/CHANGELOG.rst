@@ -2,6 +2,9 @@
 Changelog for package rviz_default_plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+11.2.30 (2026-11-23)
+--------------------
+
 11.2.29 (2026-09-02)
 --------------------
 * Fix memory leaks related to OdometryDisplay (`#1833 <https://github.com/ros2/rviz/issues/1833>`_) (`#1841 <https://github.com/ros2/rviz/issues/1841>`_)
