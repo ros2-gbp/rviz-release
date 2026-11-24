@@ -176,8 +176,10 @@ void SelectionManager::initialize()
 
   // create picking camera
   camera_ = scene_manager->createCamera(name + "_camera");
+  auto camera_node = scene_manager->getRootSceneNode()->createChildSceneNode();
+  camera_node->attachObject(camera_);
 
-  renderer_->initialize(camera_, scene_manager);
+  renderer_->initialize(camera_);
 
   handler_manager_ = context_->getHandlerManager();
   handler_manager_->addListener(this);
@@ -227,13 +229,6 @@ void SelectionManager::update()
   if (highlight_enabled_) {
     setHighlightRect(
       highlight_.viewport, highlight_.x1, highlight_.y1, highlight_.x2, highlight_.y2);
-
-#if 0
-    M_Picked results;
-    highlight_node_->setVisible(false);
-    pick(highlight_.viewport, highlight_.x1, highlight_.y1, highlight_.x2, highlight_.y2, results);
-    highlight_node_->setVisible(true);
-#endif
   }
 }
 

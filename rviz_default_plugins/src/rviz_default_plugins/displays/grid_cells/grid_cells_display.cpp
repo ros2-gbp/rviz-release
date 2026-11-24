@@ -32,6 +32,7 @@
 
 #include <memory>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include <OgreBillboardSet.h>
@@ -131,7 +132,8 @@ void GridCellsDisplay::processMessage(nav_msgs::msg::GridCells::ConstSharedPtr m
 
 bool GridCellsDisplay::setTransform(std_msgs::msg::Header const & header)
 {
-  if (!updateFrame(header.frame_id, header.stamp)) {
+  rclcpp::Time time_stamp(header.stamp, RCL_ROS_TIME);
+  if (!updateFrame(header.frame_id, time_stamp)) {
     setMissingTransformToFixedFrame(header.frame_id, getNameStd());
     return false;
   }
@@ -191,7 +193,7 @@ void GridCellsDisplay::convertMessageToCloud(nav_msgs::msg::GridCells::ConstShar
     points.push_back(rendering_point);
   }
 
-  cloud_->addPoints(points.begin(), points.end());
+  cloud_->addPoints(std::move(points));
 }
 
 }  // namespace displays

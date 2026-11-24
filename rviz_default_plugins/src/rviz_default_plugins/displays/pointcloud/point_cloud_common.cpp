@@ -159,6 +159,13 @@ PointCloudCommon::PointCloudCommon(rviz_common::Display * display)
     this, SLOT(setColorTransformerOptions(rviz_common::properties::EnumProperty*)));
 }
 
+PointCloudCommon::~PointCloudCommon()
+{
+  // The transformers must be destroyed before transformer_factory_, whose class loader
+  // may unload the plugin library that contains their code.
+  transformers_.clear();
+}
+
 void PointCloudCommon::initialize(
   rviz_common::DisplayContext * context,
   Ogre::SceneNode * scene_node)
@@ -510,9 +517,11 @@ void PointCloudCommon::processMessage(const sensor_msgs::msg::PointCloud2::Const
   info->receive_time_ = clock_->now();
 
   if (transformCloud(info, true)) {
+    rclcpp::Time time_stamp(cloud->header.stamp, RCL_ROS_TIME);
+
     std::unique_lock<std::mutex> lock(new_clouds_mutex_);
     new_cloud_infos_.push_back(info);
-    display_->emitTimeSignal(cloud->header.stamp);
+    display_->emitTimeSignal(time_stamp);
   }
 }
 

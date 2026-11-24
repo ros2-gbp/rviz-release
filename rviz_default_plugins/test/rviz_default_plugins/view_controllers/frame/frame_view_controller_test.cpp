@@ -200,8 +200,7 @@ TEST_F(FrameViewControllerTestFixture, setting_axis_to_positive_x_points_camera_
   checkCameraLooksAlong(Ogre::Vector3(1, 0, 0));
 }
 
-TEST_F(
-  FrameViewControllerTestFixture,
+TEST_F(FrameViewControllerTestFixture,
   setting_axis_to_negative_x_points_camera_along_negative_x_axis) {
   // -x axis = option 2
   setAxisPropertyOption(2);
@@ -218,8 +217,7 @@ TEST_F(FrameViewControllerTestFixture, setting_axis_to_positive_y_points_camera_
   checkCameraLooksAlong(Ogre::Vector3(0, 1, 0));
 }
 
-TEST_F(
-  FrameViewControllerTestFixture,
+TEST_F(FrameViewControllerTestFixture,
   setting_axis_to_negative_y_points_camera_along_negative_y_axis) {
   // -y axis = option 4
   setAxisPropertyOption(4);
@@ -236,8 +234,7 @@ TEST_F(FrameViewControllerTestFixture, setting_axis_to_positive_z_points_camera_
   checkCameraLooksAlong(Ogre::Vector3(0, 0, 1));
 }
 
-TEST_F(
-  FrameViewControllerTestFixture,
+TEST_F(FrameViewControllerTestFixture,
   setting_axis_to_negative_z_points_camera_along_negative_z_axis) {
   // -z axis = option 6
   setAxisPropertyOption(6);

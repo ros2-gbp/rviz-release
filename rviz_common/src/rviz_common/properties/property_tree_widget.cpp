@@ -121,8 +121,7 @@ void PropertyTreeWidget::propertyHiddenChanged(const Property * property)
     if (parent_index.isValid()) {
       setRowHidden(property->rowNumberInParent(), parent_index, property->getHidden());
     } else {
-      printf(
-        "Trying to hide property '%s' that is not part of the model.\n",
+      printf("Trying to hide property '%s' that is not part of the model.\n",
         qPrintable(property->getName()));
     }
   }

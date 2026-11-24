@@ -33,11 +33,12 @@
 #include <algorithm>
 #include <cassert>
 #include <sstream>
+#include <utility>
 #include <vector>
 
 #include <OgreSceneManager.h>
 #include <OgreSceneNode.h>
-#include <OgreVector3.h>
+#include <OgreVector.h>
 #include <OgreQuaternion.h>
 #include <OgreManualObject.h>
 #include <OgreMaterialManager.h>
@@ -318,7 +319,7 @@ void PointCloud::regenerateAll()
 
   clear();
 
-  addPoints(points.begin(), points.end());
+  addPoints(std::move(points));
 }
 
 void PointCloud::setColorByIndex(bool set)
@@ -472,8 +473,33 @@ void PointCloud::addPoints(
   if (stop_iterator - start_iterator <= 0) {
     return;
   }
-  auto num_points = static_cast<uint32_t>(std::distance(start_iterator, stop_iterator));
+  const size_t offset = points_.size();
   points_.insert(points_.cend(), start_iterator, stop_iterator);
+  createRenderablesForPointsFrom(offset);
+}
+
+void PointCloud::addPoints(std::vector<Point> && points)
+{
+  if (points.empty()) {
+    return;
+  }
+  const size_t offset = points_.size();
+  if (points_.empty()) {
+    points_ = std::move(points);
+  } else {
+    points_.insert(
+      points_.cend(),
+      std::make_move_iterator(points.begin()),
+      std::make_move_iterator(points.end()));
+  }
+  createRenderablesForPointsFrom(offset);
+}
+
+void PointCloud::createRenderablesForPointsFrom(size_t offset)
+{
+  const auto start_iterator = points_.begin() + static_cast<std::ptrdiff_t>(offset);
+  const auto stop_iterator = points_.end();
+  auto num_points = static_cast<uint32_t>(std::distance(start_iterator, stop_iterator));
 
   RenderableInternals internals = createNewRenderable(num_points);
 
@@ -555,7 +581,6 @@ uint32_t PointCloud::getColorForPoint(
   std::vector<PointCloud::Point>::iterator point) const
 {
   uint32_t color;
-  auto root = Ogre::Root::getSingletonPtr();
 
   if (color_by_index_) {
     // convert to ColourValue, so we can then convert to the rendersystem-specific color type
@@ -565,9 +590,9 @@ uint32_t PointCloud::getColorForPoint(
     c.r = ((color >> 16) & 0xff) / 255.0f;
     c.g = ((color >> 8) & 0xff) / 255.0f;
     c.b = (color & 0xff) / 255.0f;
-    root->convertColourValue(c, &color);
+    color = c.getAsBYTE();
   } else {
-    root->convertColourValue(point->color, &color);
+    color = point->color.getAsBYTE();
   }
   return color;
 }
