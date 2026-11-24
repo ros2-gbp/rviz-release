@@ -37,6 +37,7 @@
 
 #include "rviz_common/properties/ros_topic_property.hpp"
 #include "rviz_common/ros_integration/ros_node_abstraction_iface.hpp"
+#include "rviz_common/ros_topic_utils.hpp"
 
 namespace rviz_common
 {
@@ -80,6 +81,9 @@ void RosTopicProperty::fillTopicList()
     rviz_ros_node_.lock()->get_topic_names_and_types();
 
   for (const auto & topic : published_topics) {
+    if (isTopicOrServiceHidden(topic.first)) {
+      continue;
+    }
     // Only add topics whose type matches.
     for (const auto & type : topic.second) {
       if (type == std_message_type) {
@@ -96,7 +100,7 @@ RosFilteredTopicProperty::RosFilteredTopicProperty(
   const QString & default_value,
   const QString & message_type,
   const QString & description,
-  const QRegExp & filter,
+  const QRegularExpression & filter,
   Property * parent,
   const char * changed_slot,
   QObject * receiver)
@@ -112,15 +116,13 @@ void RosFilteredTopicProperty::enableFilter(bool enabled)
   fillTopicList();
 }
 
-QRegExp RosFilteredTopicProperty::filter() const
+QRegularExpression RosFilteredTopicProperty::filter() const
 {
   return filter_;
 }
 
 void RosFilteredTopicProperty::fillTopicList()
 {
-  QStringList filtered_strings_;
-
   // Obtain list of available topics
   RosTopicProperty::fillTopicList();
   // Apply filter

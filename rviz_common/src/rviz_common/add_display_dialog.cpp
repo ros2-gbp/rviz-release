@@ -33,6 +33,7 @@
 #include "add_display_dialog.hpp"
 
 #include <algorithm>
+#include <iostream>
 #include <map>
 #include <memory>
 #include <string>
@@ -47,6 +48,7 @@
 #include <QLabel>  // NOLINT: cpplint is unable to handle the include order here
 #include <QLineEdit>  // NOLINT: cpplint is unable to handle the include order here
 #include <QPushButton>  // NOLINT: cpplint is unable to handle the include order here
+#include <QRegularExpression>  // NOLINT: cpplint is unable to handle the include order here
 #include <QString>  // NOLINT: cpplint is unable to handle the include order here
 #include <QTabWidget>  // NOLINT: cpplint is unable to handle the include order here
 #include <QTextBrowser>  // NOLINT: cpplint is unable to handle the include order here
@@ -58,6 +60,7 @@
 #include "rviz_common/load_resource.hpp"
 #include "rviz_common/logging.hpp"
 #include "rviz_common/ros_integration/ros_node_abstraction.hpp"
+#include "rviz_common/ros_topic_utils.hpp"
 
 namespace rviz_common
 {
@@ -149,6 +152,14 @@ void getPluginGroups(
 {
   std::map<std::string, std::vector<std::string>> topic_names_and_types =
     rviz_ros_node.lock()->get_topic_names_and_types();
+
+  for (auto it = topic_names_and_types.begin(); it != topic_names_and_types.end(); ) {
+    if (isTopicOrServiceHidden(it->first)) {
+      it = topic_names_and_types.erase(it);
+    } else {
+      ++it;
+    }
+  }
 
   for (const auto & map_pair : topic_names_and_types) {
     QString topic = QString::fromStdString(map_pair.first);
@@ -650,7 +661,7 @@ void TopicDisplayWidget::findPlugins(DisplayFactory * factory)
       // For now, we assume that all types supported by plugins have the form
       // "<pkg_name>/msg/<type_name>", though in the future zero or more namespaces may be
       // permitted.
-      QRegExp delim("/");
+      QRegularExpression delim("/");
       QStringList topic_type_parts = topic_type.split(delim);
       if (topic_type_parts.size() == 2) {
         topic_type = topic_type_parts.at(0) + "/msg/" + topic_type_parts.at(1);

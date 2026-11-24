@@ -122,7 +122,6 @@ static Ogre::Vector4 calculateScreenCorners(
 
 CameraDisplay::CameraDisplay()
 : tf_filter_(nullptr),
-  texture_(std::make_unique<ROSImageTexture>()),
   new_caminfo_(false),
   caminfo_ok_(false),
   force_render_(false)
@@ -168,7 +167,7 @@ CameraDisplay::~CameraDisplay()
 
 void CameraDisplay::onInitialize()
 {
-  ITDClass::onInitialize();
+  ImageDisplay::onInitialize();
 
   setupSceneNodes();
   setupRenderPanel();
@@ -311,7 +310,7 @@ void CameraDisplay::fixedFrameChanged()
 
 void CameraDisplay::subscribe()
 {
-  ITDClass::subscribe();
+  ImageDisplay::subscribe();
 
   if (!subscription_) {
     return;
@@ -325,7 +324,7 @@ void CameraDisplay::subscribe()
     tf2_ros::MessageFilter<sensor_msgs::msg::Image,
     rviz_common::transformation::FrameTransformer>>(
     *context_->getFrameManager()->getTransformer(),
-    fixed_frame_.toStdString(), 10, rviz_ros_node_.lock()->get_raw_node());
+    fixed_frame_.toStdString(), 10, *rviz_ros_node_.lock()->get_raw_node());
 
   tf_filter_->connectInput(*subscription_);
   tf_filter_->registerCallback(
@@ -380,7 +379,7 @@ void CameraDisplay::createCameraInfoSubscription()
 
 void CameraDisplay::unsubscribe()
 {
-  ITDClass::unsubscribe();
+  ImageDisplay::unsubscribe();
   caminfo_sub_.reset();
   tf_filter_.reset();
 }
@@ -428,7 +427,7 @@ void CameraDisplay::clear()
   }
 }
 
-void CameraDisplay::update(float wall_dt, float ros_dt)
+void CameraDisplay::update(std::chrono::nanoseconds wall_dt, std::chrono::nanoseconds ros_dt)
 {
   (void) wall_dt;
   (void) ros_dt;
@@ -671,7 +670,7 @@ void CameraDisplay::processMessage(sensor_msgs::msg::Image::ConstSharedPtr msg)
 
 void CameraDisplay::reset()
 {
-  ITDClass::reset();
+  ImageDisplay::reset();
   clear();
 }
 
