@@ -1,3 +1,35 @@
+## rviz (kilted) - 15.0.16-1
+
+The packages in the `rviz` repository were released into the `kilted` distro by running `/usr/bin/bloom-release --ros-distro kilted rviz` on `Tue, 24 Nov 2026 18:20:03 -0000`
+
+These packages were released:
+- `rviz2`
+- `rviz_assimp_vendor`
+- `rviz_common`
+- `rviz_default_plugins`
+- `rviz_ogre_vendor`
+- `rviz_rendering`
+- `rviz_rendering_tests`
+- `rviz_resource_interfaces`
+- `rviz_visual_testing_framework`
+
+Version of package(s) in repository `rviz`:
+
+- upstream repository: https://github.com/ros2/rviz.git
+- release repository: https://github.com/ros2-gbp/rviz-release.git
+- rosdistro version: `15.0.15-1`
+- old version: `15.0.15-1`
+- new version: `15.0.16-1`
+
+Versions of tools used:
+
+- bloom version: `0.14.4`
+- catkin_pkg version: `1.1.1`
+- rosdep version: `0.27.0`
+- rosdistro version: `1.1.0`
+- vcstools version: `0.1.42`
+
+
 ## rviz (jazzy) - 14.1.25-1
 
 The packages in the `rviz` repository were released into the `jazzy` distro by running `/usr/bin/bloom-release --ros-distro jazzy rviz` on `Tue, 24 Nov 2026 18:16:21 -0000`
