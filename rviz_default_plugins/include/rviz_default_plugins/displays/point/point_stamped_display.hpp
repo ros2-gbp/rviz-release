@@ -35,12 +35,7 @@
 #include <deque>
 #include <memory>
 
-#include <QtCore>  // NOLINT cpplint cannot handle include order here
-
 #include "geometry_msgs/msg/point_stamped.hpp"
-
-// TODO(Martin-Idel-SI): Add again when available
-// #include <rviz/message_filter_display.h>
 
 #include "rviz_common/message_filter_display.hpp"
 

@@ -4,7 +4,7 @@
   schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="2">
   <name>rviz_visual_testing_framework</name>
-  <version>15.3.0</version>
+  <version>17.0.0</version>
   <description>
     3D testing framework for RViz.
   </description>
@@ -13,9 +13,9 @@
 
   <license>BSD</license>
 
-  <url type="website">http://ros.org/wiki/rviz2</url>
-  <url type="repository">https://github.com/ros-visualization/rviz</url>
-  <url type="bugtracker">https://github.com/ros-visualization/rviz/issues</url>
+  <url type="website">https://github.com/ros2/rviz/blob/ros2/README.md</url>
+  <url type="repository">https://github.com/ros2/rviz</url>
+  <url type="bugtracker">https://github.com/ros2/rviz/issues</url>
 
   <author>Alessandro Bottero</author>
   <author email="jacob@openrobotics.org">Jacob Perron</author>
@@ -23,8 +23,10 @@
   <author email="william@openrobotics.org">William Woodall</author>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
+  <buildtool_depend>ament_cmake_ros_core</buildtool_depend>
+  <buildtool_export_depend>ament_cmake_ros_core</buildtool_export_depend>
 
-  <build_depend>qt-base-dev</build_depend>
+  <build_depend>qt6-base-dev</build_depend>
 
   <depend>geometry_msgs</depend>
   <depend>rclcpp</depend>

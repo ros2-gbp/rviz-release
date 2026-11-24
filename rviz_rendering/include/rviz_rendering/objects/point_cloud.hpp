@@ -33,7 +33,6 @@
 #define RVIZ_RENDERING__OBJECTS__POINT_CLOUD_HPP_
 
 #include <cstdint>
-#include <deque>
 #include <memory>
 #include <string>
 #include <vector>
@@ -45,8 +44,6 @@
 #include <OgreVector.h>
 #include <OgreMaterial.h>
 #include <OgreColourValue.h>
-#include <OgreRoot.h>
-#include <OgreHardwareBufferManager.h>
 #include <OgreSharedPtr.h>
 
 #include "point_cloud_renderable.hpp"
@@ -65,6 +62,18 @@ class Matrix4;
 
 namespace rviz_rendering
 {
+
+/**
+ * \brief Load a point cloud material, keeping its geometry shader (gp) techniques only if
+ * all of them can be used.
+ *
+ * Ogre picks the technique of each scheme (default, Depth, Pick, Pick1) on its own, but they
+ * all draw the same vertex buffer, laid out for either the gp or the nogp techniques. So the
+ * gp techniques are removed if glsl_version is below 150 (before they are compiled), or if
+ * any of them is not supported.
+ */
+RVIZ_RENDERING_PUBLIC
+void loadPointCloudMaterial(const Ogre::MaterialPtr & material, int glsl_version);
 
 /**
  * \class PointCloud
@@ -208,7 +217,7 @@ public:
   void setHighlightColor(float r, float g, float b);
 
   RVIZ_RENDERING_PUBLIC
-  const Ogre::String & getMovableType() const override {return sm_Type;}
+  const Ogre::String & getMovableType() const override;
 
   RVIZ_RENDERING_PUBLIC
   const Ogre::AxisAlignedBox & getBoundingBox() const override;
@@ -220,7 +229,7 @@ public:
   virtual void getWorldTransforms(Ogre::Matrix4 * xform) const;
 
   RVIZ_RENDERING_PUBLIC
-  virtual uint16_t getNumWorldTransforms() const {return 1;}
+  virtual uint16_t getNumWorldTransforms() const;
 
   RVIZ_RENDERING_PUBLIC
   void _updateRenderQueue(Ogre::RenderQueue * queue) override;
@@ -235,7 +244,7 @@ public:
   void visitRenderables(Ogre::Renderable::Visitor * visitor, bool debugRenderables) override;
 
   RVIZ_RENDERING_PUBLIC
-  virtual void setName(const std::string & name) {mName = name;}
+  virtual void setName(const std::string & name);
 
   RVIZ_RENDERING_PUBLIC
   PointCloudRenderableQueue getRenderables();
@@ -301,6 +310,13 @@ private:
     uint32_t current_point,
     std::vector<PointCloud::Point>::iterator point) const;
 
+  RVIZ_RENDERING_PUBLIC
+  void addPointToHardwareBuffer(
+    RenderableInternals & internals,
+    std::vector<PointCloud::Point>::iterator point, uint32_t current_point,
+    const float * vertices, uint32_t vertices_per_point);
+
+  [[deprecated("Use the addPointToHardwareBuffer overload taking RenderableInternals &")]]
   RVIZ_RENDERING_PUBLIC
   RenderableInternals addPointToHardwareBuffer(
     RenderableInternals internals,

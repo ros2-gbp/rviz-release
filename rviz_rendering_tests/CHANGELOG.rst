@@ -2,26 +2,30 @@
 Changelog for package rviz_rendering_tests
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-15.3.0 (2026-11-24)
+17.0.0 (2026-11-24)
 -------------------
-* Fix index buffer overflow for meshes with more than 65535 faces and 16 bit indices (`#1914 <https://github.com/ros2/rviz/issues/1914>`_) (`#1918 <https://github.com/ros2/rviz/issues/1918>`_)
-* Contributors: mergify[bot]
+* Support embedded meshes in MESH_RESOURCE markers (`#1900 <https://github.com/ros2/rviz/issues/1900>`_)
+* Fix index buffer overflow for meshes with more than 65535 faces and 16 bit indices (`#1914 <https://github.com/ros2/rviz/issues/1914>`_)
+* Contributors: Akhmad, LucaKro
 
-15.2.7 (2026-10-09)
--------------------
-
-15.2.6 (2026-09-02)
--------------------
-* Support per-vertex mesh colors in the assimp loader (`#1811 <https://github.com/ros2/rviz/issues/1811>`_) (`#1813 <https://github.com/ros2/rviz/issues/1813>`_)
-* Contributors: mergify[bot]
-
-15.2.5 (2026-07-14)
+16.0.4 (2026-10-09)
 -------------------
 
-15.2.4 (2026-06-12)
+16.0.3 (2026-09-02)
+-------------------
+* Removed Qt5 dependency (`#1847 <https://github.com/ros2/rviz/issues/1847>`_)
+* Support per-vertex mesh colors in the assimp loader (`#1811 <https://github.com/ros2/rviz/issues/1811>`_)
+* Contributors: Alejandro Hernández Cordero, Iori Yanokura
+
+16.0.2 (2026-07-14)
+-------------------
+* use C++ 20 in default. (`#1810 <https://github.com/ros2/rviz/issues/1810>`_)
+* Contributors: Tomoya Fujita
+
+16.0.1 (2026-06-11)
 -------------------
 
-15.2.3 (2026-05-16)
+16.0.0 (2026-05-06)
 -------------------
 
 15.2.2 (2026-04-24)

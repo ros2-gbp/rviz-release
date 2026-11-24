@@ -41,7 +41,6 @@
 
 #include "rviz_common/ros_integration/ros_node_abstraction_iface.hpp"
 #include "rviz_common/visibility_control.hpp"
-#include "frame_manager_iface.hpp"
 
 class QKeyEvent;
 
@@ -54,11 +53,6 @@ namespace rclcpp
 {
 class Clock;
 }  // namespace rclcpp
-
-// namespace tf
-// {
-// class TransformListener;
-// }
 
 namespace rviz_common
 {
@@ -83,6 +77,7 @@ class BitAllocator;
 class DisplayFactory;
 class DisplayGroup;
 class FrameManager;
+class FrameManagerIface;
 class RenderPanel;
 class ToolManager;
 class ViewportMouseEvent;

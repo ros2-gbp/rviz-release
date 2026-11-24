@@ -32,14 +32,15 @@
 #ifndef RVIZ_COMMON__VISUALIZATION_MANAGER_HPP_
 #define RVIZ_COMMON__VISUALIZATION_MANAGER_HPP_
 
-#include <deque>
 #include <memory>
 
 #include <QString>  // NOLINT: cpplint is unable to handle the include order here
 
 #include "rclcpp/clock.hpp"
+#include "rclcpp/duration.hpp"
 #include "rclcpp/time.hpp"
-#include "tf2_ros/transform_listener.hpp"
+
+namespace rclcpp {namespace executors {class EventsCBGExecutor;}}
 
 #include "rviz_common/bit_allocator.hpp"
 #include "rviz_common/config.hpp"
@@ -98,9 +99,10 @@ public:
   /**
    * Creates managers and sets up global properties.
    * \param render_panel a pointer to the main render panel widget of the app.
+   * \param ros_node_abstraction a weak pointer to the ROS node abstraction used by rviz.
    * \param wm a pointer to the window manager (which is really just a
    *   VisualizationFrame, the top-level container widget of rviz).
-   * \param tf a pointer to tf::TransformListener which will be internally used by FrameManager.
+   * \param clock the clock used by rviz.
    */
   explicit VisualizationManager(
     RenderPanel * render_panel,
@@ -324,8 +326,8 @@ protected Q_SLOTS:
    * This is the central place where update() is called on most rviz objects.
    * Display objects, the FrameManager, the current ViewController, the
    * SelectionManager, PropertyManager.
-   * Also calls ros::spinOnce(), so any callbacks on the global CallbackQueue
-   * get called from here as well.
+   * Also spins the executor, so any pending ROS callbacks get called from
+   * here as well.
    *
    * It is called at 30Hz from the update timer.
    */
@@ -405,7 +407,7 @@ private:
   uint32_t default_visibility_bit_;
   BitAllocator visibility_bit_allocator_;
   QString help_path_;
-  rclcpp::executors::SingleThreadedExecutor::SharedPtr executor_;
+  std::shared_ptr<rclcpp::executors::EventsCBGExecutor> executor_;
   ros_integration::RosNodeAbstractionIface::WeakPtr rviz_ros_node_;
   rviz_common::transformation::TransformationManager * transformation_manager_;
 };

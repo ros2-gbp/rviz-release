@@ -33,6 +33,7 @@
 #include "rviz_common/interaction/selection_manager.hpp"
 
 #include <algorithm>
+#include <format>  // NOLINT(build/include_order) cpplint predates C++20 headers
 #include <memory>
 #include <mutex>
 #include <string>
@@ -59,6 +60,7 @@
 #include "rviz_common/logging.hpp"
 #include "rviz_common/render_panel.hpp"
 #include "rviz_common/view_manager.hpp"
+#include "rviz_common/interaction/color_conversion.hpp"
 #include "rviz_common/interaction/handler_manager_iface.hpp"
 #include "rviz_common/interaction/selection_renderer.hpp"
 #include "rviz_common/properties/property.hpp"
@@ -287,16 +289,12 @@ void SelectionManager::renderAndUnpack(
 {
   assert(pass < render_textures_.size());
 
-  std::stringstream scheme;
-  scheme << "Pick";
-  if (pass > 0) {
-    scheme << pass;
-  }
+  const std::string scheme = pass > 0 ? std::format("Pick{}", pass) : "Pick";
 
   auto tex = RenderTexture(
     render_textures_[pass],
     Dimensions(texture_size_, texture_size_),
-    scheme.str());
+    scheme);
 
   render(window, selection_rectangle, tex, pixel_boxes_[pass]);
   unpackColors(pixel_boxes_[pass]);
@@ -660,7 +658,7 @@ void SelectionManager::pick(
         extra_by_pixel[i] = 0;
       }
 
-      if (need_additional.find(handles_by_pixel[i]) != need_additional.end()) {
+      if (need_additional.contains(handles_by_pixel[i])) {
         auto extra_handle = pixel_buffer_[i];
         extra_by_pixel[i] |= extra_handle << (32 * (pass - 1));
       } else {

@@ -2,32 +2,49 @@
 Changelog for package rviz_rendering
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-15.3.0 (2026-11-24)
+17.0.0 (2026-11-24)
 -------------------
-* addPoints(vector&&) overload (`#1863 <https://github.com/ros2/rviz/issues/1863>`_) (`#1922 <https://github.com/ros2/rviz/issues/1922>`_)
-* Fix index buffer overflow for meshes with more than 65535 faces and 16 bit indices (`#1914 <https://github.com/ros2/rviz/issues/1914>`_) (`#1918 <https://github.com/ros2/rviz/issues/1918>`_)
-* Contributors: mergify[bot]
+* Do not attach point cloud renderables to the scene node (`#1902 <https://github.com/ros2/rviz/issues/1902>`_)
+* Expand point cloud billboards and boxes with geometry shaders (`#1901 <https://github.com/ros2/rviz/issues/1901>`_)
+* Support embedded meshes in MESH_RESOURCE markers (`#1900 <https://github.com/ros2/rviz/issues/1900>`_)
+* addPoints(vector&&) overload (`#1863 <https://github.com/ros2/rviz/issues/1863>`_)
+* Fix index buffer overflow for meshes with more than 65535 faces and 16 bit indices (`#1914 <https://github.com/ros2/rviz/issues/1914>`_)
+* Contributors: Akhmad, Alejandro Hernández Cordero, LucaKro, taeraemon
 
-15.2.7 (2026-10-09)
+16.0.4 (2026-10-09)
 -------------------
+* Avoid repeated Ogre resizes on macOS expose events (`#1893 <https://github.com/ros2/rviz/issues/1893>`_)
+* Reduce point cloud upload overhead (`#1883 <https://github.com/ros2/rviz/issues/1883>`_)
+* Remove old CMake export calls (`#1889 <https://github.com/ros2/rviz/issues/1889>`_)
+* Minor fixes (`#1864 <https://github.com/ros2/rviz/issues/1864>`_)
+* Minor cleanups (`#1848 <https://github.com/ros2/rviz/issues/1848>`_)
+* Contributors: Alejandro Hernández Cordero, John Cameron Furey, Maurice Alexander Purnawan, Tanish Jain
 
-15.2.6 (2026-09-02)
+16.0.3 (2026-09-02)
 -------------------
-* Fix memory leaks related to OdometryDisplay (`#1833 <https://github.com/ros2/rviz/issues/1833>`_) (`#1838 <https://github.com/ros2/rviz/issues/1838>`_)
-* Support per-vertex mesh colors in the assimp loader (`#1811 <https://github.com/ros2/rviz/issues/1811>`_) (`#1813 <https://github.com/ros2/rviz/issues/1813>`_)
-* Contributors: mergify[bot]
+* Removed Qt5 dependency (`#1847 <https://github.com/ros2/rviz/issues/1847>`_)
+* Fix memory leaks related to OdometryDisplay (`#1833 <https://github.com/ros2/rviz/issues/1833>`_)
+* Cleanup headers (`#1829 <https://github.com/ros2/rviz/issues/1829>`_)
+* Optimize ogre headers (`#1823 <https://github.com/ros2/rviz/issues/1823>`_)
+* splitStringIntoTrimmedItems Function Handling Carriage Return and Form Feed Characters (`#1709 <https://github.com/ros2/rviz/issues/1709>`_)
+* Moved implementation to cpp (`#1798 <https://github.com/ros2/rviz/issues/1798>`_)
+* Support per-vertex mesh colors in the assimp loader (`#1811 <https://github.com/ros2/rviz/issues/1811>`_)
+* Contributors: Alejandro Hernández Cordero, Iori Yanokura, Paul Erik Frivold
 
-15.2.5 (2026-07-14)
+16.0.2 (2026-07-14)
 -------------------
-* Add rendering guard for width and/or height being 0 (`#1800 <https://github.com/ros2/rviz/issues/1800>`_) (`#1801 <https://github.com/ros2/rviz/issues/1801>`_)
-* Contributors: mergify[bot]
+* use C++ 20 in default. (`#1810 <https://github.com/ros2/rviz/issues/1810>`_)
+* Add rendering guard for width and/or height being 0 (`#1800 <https://github.com/ros2/rviz/issues/1800>`_)
+* Contributors: Tomoya Fujita, Tony Najjar
 
-15.2.4 (2026-06-12)
+16.0.1 (2026-06-11)
 -------------------
-* Remove no-op upper_triangle conditional in TrianglePolygon UV mapping (`#1717 <https://github.com/ros2/rviz/issues/1717>`_) (`#1752 <https://github.com/ros2/rviz/issues/1752>`_)
-* Contributors: mergify[bot]
+* Support capsule geometry in robot links (`#1735 <https://github.com/ros2/rviz/issues/1735>`_)
+* Remove no-op upper_triangle conditional in TrianglePolygon UV mapping (`#1717 <https://github.com/ros2/rviz/issues/1717>`_)
+* Removed unused code in render_window.cpp (`#1722 <https://github.com/ros2/rviz/issues/1722>`_)
+* Contributors: Alejandro Hernández Cordero, Yixuan Xu
 
-15.2.3 (2026-05-16)
+16.0.0 (2026-05-06)
 -------------------
 
 15.2.2 (2026-04-24)

@@ -148,10 +148,6 @@ public:
   /// Call update() on all child Displays.
   void update(std::chrono::nanoseconds wall_dt, std::chrono::nanoseconds ros_dt) override;
 
-  /// Call update() on all child Displays.
-  [[deprecated("Use update(std::chrono::nanoseconds, std::chrono::nanoseconds)")]]
-  void update(float wall_dt, float ros_dt) override;
-
   /// Reset this and all child Displays.
   void reset() override;
 
@@ -167,6 +163,15 @@ protected:
 
 Q_SIGNALS:
   void displayAdded(Display * display);
+
+  /// Emitted when a Display is about to be removed from this group.
+  /**
+   * The signal is emitted before the display is taken out of the list of
+   * Displays and before the model is told about the removal, so slots may
+   * edit the model themselves.  While the slot runs, the display is still
+   * alive and still returned by numDisplays() and getDisplayAt(); slots must
+   * not keep a pointer to it, because it may be deleted right afterwards.
+   */
   void displayRemoved(Display * display);
 
 private:

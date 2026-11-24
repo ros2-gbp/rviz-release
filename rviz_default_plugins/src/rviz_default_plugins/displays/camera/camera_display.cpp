@@ -52,6 +52,12 @@
 
 #include "image_transport/camera_common.hpp"
 
+#include "rclcpp/event_handler.hpp"
+#include "rclcpp/exceptions/exceptions.hpp"
+#include "rclcpp/qos.hpp"
+#include "rclcpp/subscription_options.hpp"
+#include "rclcpp/time.hpp"
+
 #include "rviz_rendering/material_manager.hpp"
 #include "rviz_rendering/objects/axes.hpp"
 #include "rviz_rendering/render_window.hpp"
@@ -99,7 +105,7 @@ bool validateFloats(const sensor_msgs::msg::CameraInfo & msg)
 }
 
 static Ogre::Vector4 calculateScreenCorners(
-  const sensor_msgs::msg::CameraInfo::ConstSharedPtr info,
+  const sensor_msgs::msg::CameraInfo::ConstSharedPtr & info,
   const Ogre::Vector2 & zoom)
 {
   float x_corner_start, y_corner_start, x_corner_end, y_corner_end;
@@ -258,9 +264,9 @@ Ogre::MaterialPtr CameraDisplay::createMaterial(std::string name) const
   Ogre::TextureUnitState * tu =
     material->getTechnique(0)->getPass(0)->createTextureUnitState();
   tu->setTextureName(texture_->getTexture()->getName());
-  tu->setTextureFiltering(Ogre::TFO_NONE);
   tu->setTextureAddressingMode(Ogre::TextureUnitState::TAM_CLAMP);
   tu->setAlphaOperation(Ogre::LBX_SOURCE1, Ogre::LBS_MANUAL, Ogre::LBS_CURRENT, 0.0);
+  applySmoothScalingToMaterial(material);
 
   return material;
 }
@@ -382,6 +388,18 @@ void CameraDisplay::unsubscribe()
   ImageDisplay::unsubscribe();
   caminfo_sub_.reset();
   tf_filter_.reset();
+}
+
+void CameraDisplay::updateSmoothScaling()
+{
+  ImageDisplay::updateSmoothScaling();
+  // background_material_ and overlay_material_ may not exist yet on the very
+  // first call (which fires from ImageDisplay::onInitialize() before
+  // setupSceneNodes()); applySmoothScalingToMaterial no-ops on null.
+  applySmoothScalingToMaterial(background_material_);
+  applySmoothScalingToMaterial(overlay_material_);
+  force_render_ = true;
+  context_->queueRender();
 }
 
 void CameraDisplay::updateAlpha()
@@ -586,7 +604,7 @@ ImageDimensions CameraDisplay::getImageDimensions(
 }
 
 Ogre::Vector2 CameraDisplay::getZoomFromInfo(
-  sensor_msgs::msg::CameraInfo::ConstSharedPtr info, ImageDimensions dimensions) const
+  const sensor_msgs::msg::CameraInfo::ConstSharedPtr & info, ImageDimensions dimensions) const
 {
   Ogre::Vector2 zoom;
   zoom.x = zoom_property_->getFloat();
@@ -616,7 +634,7 @@ Ogre::Vector2 CameraDisplay::getZoomFromInfo(
 /// Add the camera's translation relative to the left camera (from P[3]);
 void CameraDisplay::translatePosition(
   Ogre::Vector3 & position,
-  sensor_msgs::msg::CameraInfo::ConstSharedPtr info,
+  const sensor_msgs::msg::CameraInfo::ConstSharedPtr & info,
   Ogre::Quaternion orientation)
 {
   double fx = info->p[0];
@@ -633,7 +651,7 @@ void CameraDisplay::translatePosition(
 
 /// calculate the projection matrix
 Ogre::Matrix4 CameraDisplay::calculateProjectionMatrix(
-  const sensor_msgs::msg::CameraInfo::ConstSharedPtr info,
+  const sensor_msgs::msg::CameraInfo::ConstSharedPtr & info,
   ImageDimensions dimensions,
   const Ogre::Vector2 & zoom) const
 {
@@ -665,6 +683,11 @@ Ogre::Matrix4 CameraDisplay::calculateProjectionMatrix(
 
 void CameraDisplay::processMessage(sensor_msgs::msg::Image::ConstSharedPtr msg)
 {
+  // Do not set last_msg_ here to disable the cursor-pixel readout inherited
+  // from ImageDisplay because it's broken for CameraDisplay because its mapping
+  // ignores the Zoom Factor and some more in calculateScreenCorners().
+  // With last_msg_ left unset, mapWidgetPosToImagePixel() returns false
+  // and the tooltip/status stay empty instead of reporting wrong pixel values.
   texture_->addMessage(msg);
 }
 

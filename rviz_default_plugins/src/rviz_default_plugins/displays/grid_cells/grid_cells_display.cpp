@@ -38,6 +38,10 @@
 
 #include <OgreBillboardSet.h>
 #include <OgreManualObject.h>
+#include <OgreSceneManager.h>
+#include <OgreSceneNode.h>
+
+#include "rclcpp/time.hpp"
 
 #include "rviz_rendering/objects/arrow.hpp"
 #include "rviz_rendering/objects/point_cloud.hpp"
@@ -185,6 +189,7 @@ void GridCellsDisplay::convertMessageToCloud(nav_msgs::msg::GridCells::ConstShar
   Ogre::ColourValue color_int = rviz_common::properties::qtToOgre(color_property_->getColor());
 
   std::vector<rviz_rendering::PointCloud::Point> points;
+  points.reserve(msg->cells.size());
   for (const auto & point : msg->cells) {
     rviz_rendering::PointCloud::Point rendering_point;
     rendering_point.position.x = point.x;

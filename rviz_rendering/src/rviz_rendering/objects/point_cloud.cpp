@@ -37,6 +37,7 @@
 #include <utility>
 #include <vector>
 
+#include <OgreHardwareBuffer.h>
 #include <OgreSceneManager.h>
 #include <OgreSceneNode.h>
 #include <OgreVector.h>
@@ -54,6 +55,7 @@
 #include "rviz_rendering/custom_parameter_indices.hpp"
 #include "rviz_rendering/logging.hpp"
 #include "rviz_rendering/material_manager.hpp"
+#include "rviz_rendering/render_system.hpp"
 
 // TODO(greimela): Add again after clearing up the module dependencies
 // #include "rviz_rendering/selection/forwards.hpp"
@@ -204,6 +206,39 @@ Ogre::MaterialPtr PointCloud::getMaterialForRenderMode(RenderMode mode)
   }
 }
 
+static bool isGeometryShaderTechnique(const Ogre::Technique * technique)
+{
+  const std::string & name = technique->getName();
+  return name == "gp" || name.rfind("gp_", 0) == 0;
+}
+
+static void removeGeometryShaderTechniques(const Ogre::MaterialPtr & material)
+{
+  for (auto i = material->getTechniques().size(); i-- > 0; ) {
+    if (isGeometryShaderTechnique(material->getTechniques()[i])) {
+      material->removeTechnique(static_cast<uint16_t>(i));
+    }
+  }
+}
+
+void loadPointCloudMaterial(const Ogre::MaterialPtr & material, int glsl_version)
+{
+  if (glsl_version < 150) {
+    removeGeometryShaderTechniques(material);
+  }
+  material->load();
+
+  const auto & techniques = material->getTechniques();
+  const bool all_gp_supported = std::all_of(
+    techniques.begin(), techniques.end(), [](const Ogre::Technique * technique) {
+      return !isGeometryShaderTechnique(technique) || technique->isSupported();
+    });
+  if (!all_gp_supported) {
+    removeGeometryShaderTechniques(material);
+    material->compile();
+  }
+}
+
 PointCloud::PointCloud()
 : point_count_(0),
   common_direction_(Ogre::Vector3::NEGATIVE_UNIT_Z),
@@ -229,12 +264,12 @@ PointCloud::PointCloud()
   tile_material_ = Ogre::MaterialPtr(tile_material_)->clone(ss.str() + "Tiles");
   box_material_ = Ogre::MaterialPtr(box_material_)->clone(ss.str() + "Box");
 
-  point_material_->load();
-  square_material_->load();
-  flat_square_material_->load();
-  sphere_material_->load();
-  tile_material_->load();
-  box_material_->load();
+  const int glsl_version = RenderSystem::get()->getGlslVersion();
+  for (const auto & material : {point_material_, square_material_, flat_square_material_,
+      sphere_material_, tile_material_, box_material_})
+  {
+    loadPointCloudMaterial(material, glsl_version);
+  }
 
   setAlpha(1.0f);
   setRenderMode(RM_SPHERES);
@@ -288,15 +323,27 @@ void PointCloud::getWorldTransforms(Ogre::Matrix4 * xform) const
   *xform = _getParentNodeFullTransform();
 }
 
+const Ogre::String & PointCloud::getMovableType() const
+{
+  return sm_Type;
+}
+
+uint16_t PointCloud::getNumWorldTransforms() const
+{
+  return 1;
+}
+
+void PointCloud::setName(const std::string & name)
+{
+  mName = name;
+}
+
 void PointCloud::clear()
 {
   point_count_ = 0;
   bounding_box_.setNull();
 
   if (getParentSceneNode()) {
-    for (auto const & renderable : renderables_) {
-      getParentSceneNode()->detachObject(renderable.get());
-    }
     getParentSceneNode()->needUpdate();
   }
 
@@ -502,6 +549,9 @@ void PointCloud::createRenderablesForPointsFrom(size_t offset)
   const auto stop_iterator = points_.end();
   auto num_points = static_cast<uint32_t>(std::distance(start_iterator, stop_iterator));
 
+  const float * vertices = getVertices();
+  const uint32_t vertices_per_point = getVerticesPerPoint();
+
   RenderableInternals internals = createNewRenderable(num_points);
 
   for (auto current_point = start_iterator; current_point < stop_iterator; ++current_point) {
@@ -515,9 +565,10 @@ void PointCloud::createRenderablesForPointsFrom(size_t offset)
       internals = createNewRenderable(static_cast<uint32_t>(stop_iterator - current_point));
     }
     internals.aabb.merge(current_point->position);
-    internals = addPointToHardwareBuffer(
+    addPointToHardwareBuffer(
       internals, current_point,
-      static_cast<uint32_t>(current_point - start_iterator));
+      static_cast<uint32_t>(current_point - start_iterator),
+      vertices, vertices_per_point);
   }
 
   finishRenderable(internals, internals.current_vertex_count);
@@ -598,20 +649,20 @@ uint32_t PointCloud::getColorForPoint(
   return color;
 }
 
-PointCloud::RenderableInternals
+void
 PointCloud::addPointToHardwareBuffer(
-  PointCloud::RenderableInternals internals,
-  std::vector<PointCloud::Point>::iterator point, uint32_t current_point)
+  PointCloud::RenderableInternals & internals,
+  std::vector<PointCloud::Point>::iterator point, uint32_t current_point,
+  const float * vertices, uint32_t vertices_per_point)
 {
   uint32_t color = getColorForPoint(current_point, point);
-  float * vertices = getVertices();
   float * float_buffer = internals.float_buffer;
 
   float x = point->position.x;
   float y = point->position.y;
   float z = point->position.z;
 
-  for (uint32_t j = 0; j < getVerticesPerPoint(); ++j, ++internals.current_vertex_count) {
+  for (uint32_t j = 0; j < vertices_per_point; ++j) {
     *float_buffer++ = x;
     *float_buffer++ = y;
     *float_buffer++ = z;
@@ -636,6 +687,15 @@ PointCloud::addPointToHardwareBuffer(
 #endif
 
   internals.float_buffer = float_buffer;
+  internals.current_vertex_count += vertices_per_point;
+}
+
+PointCloud::RenderableInternals
+PointCloud::addPointToHardwareBuffer(
+  PointCloud::RenderableInternals internals,
+  std::vector<PointCloud::Point>::iterator point, uint32_t current_point)
+{
+  addPointToHardwareBuffer(internals, point, current_point, getVertices(), getVerticesPerPoint());
   return internals;
 }
 
@@ -743,9 +803,8 @@ PointCloudRenderablePtr PointCloud::createRenderable(
   rend->setCustomParameter(RVIZ_RENDERING_PICK_COLOR_PARAMETER, pick_col);
   rend->setCustomParameter(RVIZ_RENDERING_NORMAL_PARAMETER, Ogre::Vector4(common_direction_));
   rend->setCustomParameter(RVIZ_RENDERING_UP_PARAMETER, Ogre::Vector4(common_up_vector_));
-  if (getParentSceneNode()) {
-    getParentSceneNode()->attachObject(rend.get());
-  }
+  // Not attached to the scene node: _updateRenderQueue() queues the renderables, attaching them
+  // as well would draw them twice.
   renderables_.push_back(rend);
 
   return rend;

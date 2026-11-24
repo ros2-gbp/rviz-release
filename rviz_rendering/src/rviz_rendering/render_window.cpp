@@ -52,10 +52,7 @@
 #include <QMouseEvent>  // NOLINT
 #include <QTimer>   // NOLINT
 #include <QWindow>   // NOLINT
-#include <QMetaEnum>   // NOLINT
-#include <QDebug>   // NOLINT
 #include <QString>  // NOLINT: cpplint cannot handle the include order here
-#include <QTime>   // NOLINT
 
 // Use the Ogre implementation for now.
 // This header will implement the RenderWindowImpl class.
@@ -137,23 +134,6 @@ RenderWindow::renderNow()
   impl_->renderNow();
 }
 
-template<typename EnumType>
-QString
-ToString(const EnumType & enumValue)
-{
-  const char * enumName = qt_getEnumName(enumValue);
-  const QMetaObject * metaObject = qt_getEnumMetaObject(enumValue);
-  if (metaObject) {
-    const int enumIndex = metaObject->indexOfEnumerator(enumName);
-    return QString("%1::%2::%3").arg(
-      metaObject->className(),
-      enumName,
-      metaObject->enumerator(enumIndex).valueToKey(enumValue));
-  }
-
-  return QString("%1::%2").arg(enumName).arg(static_cast<int>(enumValue));
-}
-
 bool
 RenderWindow::event(QEvent * event)
 {
@@ -179,8 +159,7 @@ RenderWindow::event(QEvent * event)
       }
       return QWindow::event(event);
     default:
-      QWindow::event(event);
-      return false;
+      return QWindow::event(event);
   }
 }
 

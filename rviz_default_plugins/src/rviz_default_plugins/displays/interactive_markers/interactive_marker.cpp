@@ -49,10 +49,14 @@
 
 #include "interactive_markers/tools.hpp"
 
-#include "rclcpp/rclcpp.hpp"
+#include "geometry_msgs/msg/transform_stamped.hpp"
+#include "rclcpp/clock.hpp"
+#include "rclcpp/time.hpp"
 
 #include "rviz_common/display_context.hpp"
+#include "rviz_common/frame_manager_iface.hpp"
 #include "rviz_common/interaction/view_picker_iface.hpp"
+#include "rviz_common/logging.hpp"
 #include "rviz_common/render_panel.hpp"
 #include "rviz_rendering/geometry.hpp"
 #include "rviz_rendering/render_window.hpp"
@@ -71,7 +75,6 @@ InteractiveMarker::InteractiveMarker(
   pose_changed_(false),
   dragging_(false),
   pose_update_requested_(false),
-  heart_beat_t_(0),
   show_visual_aids_(false)
 {
   reference_node_ = scene_node->createChildSceneNode();
