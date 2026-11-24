@@ -1,4 +1,4 @@
-From 262cadfbcdbff8ee1a4c4058fabda86e38c088c9 Mon Sep 17 00:00:00 2001
+From f2a3e90dff69307333bf41c7d73c091a4b53d972 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Steven!=20Ragnaro=CC=88k?= <steven@nuclearsandwich.com>
 Date: Sat, 9 Mar 2024 17:52:35 -0800
 Subject: [PATCH] Restore clobbered dh_shlibdeps patches to debian/rules.
